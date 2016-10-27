@@ -1,0 +1,16 @@
+@startuml
+
+left to right direction
+
+actor administrator as a
+actor documentalist as d
+
+d <|-- a
+
+rectangle document_io {
+  d -- (output document)
+  d -- (input document)
+  (output document) .> (select borrow) : include
+  (input document) .> (select borrow) : include
+}
+@enduml

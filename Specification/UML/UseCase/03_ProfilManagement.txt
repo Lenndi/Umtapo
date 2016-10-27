@@ -1,0 +1,16 @@
+
+@startuml
+
+left to right direction
+
+actor administrator as a
+actor documentalist as d
+
+
+d <|-- a
+
+rectangle profile_management {
+  d -- (change profile formation)
+  d -- (become temporary administrator)
+}
+@enduml

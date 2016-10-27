@@ -1,0 +1,10 @@
+
+@startuml
+left to right direction
+skinparam packageStyle rect
+actor administrator
+rectangle application_launcher {
+  administrator -- (library setup)
+  (library setup) .> (administrator sign-up) : include
+}
+@enduml

@@ -1,0 +1,16 @@
+
+@startuml
+
+actor administrator as a
+actor documentalist as d
+
+left to right direction
+
+d <|-- a
+
+rectangle login {
+  d -- (authentication)
+  d -- (restore password)
+  (restore password) .> (active SMTP) : include
+}
+@enduml
