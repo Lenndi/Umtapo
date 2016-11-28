@@ -1,0 +1,85 @@
+@startuml
+
+together {
+  class ExternalSource {
+    name : String
+  }
+  class OpeningHours {
+    day : Integer
+    isEnable : Boolean
+    morningOpening : Datetime
+    morningClosing : Datetime
+    afternoonOpening : Datetime
+    afternoonClosing : Datetime
+  }
+  class Configuration {
+    masterToken : String
+  }
+}
+
+class Library {
+  name : String
+  shelfMarkNb : Integer
+  useDeweyClassification : Boolean
+  subscriptionDuration : Boolean
+  borrowDuration : Integer
+  currency : String
+}
+
+class Librairian {
+  name : String
+  username : String
+  password : String
+}
+
+class Borrower {
+  name : String
+  address : Address
+  comment : String
+  birthday : Date
+  quota : Integer
+  emailOptin : Boolean
+}
+class Subscription {
+  start : Date
+  end : Date
+  contribution : Integer
+  borrower : Borrower
+}
+class Item {
+  name : String
+  type : String
+  internalId : String
+  purchasePrice : Integer
+  loanable : Boolean
+}
+
+class Loan {
+  date : Date
+
+}
+class Address {
+  address1 : String
+  address2 : String
+  zip : String
+  city : String
+  phone : String
+  email : String
+}
+
+enum ConditionEnum {
+  CONDITION 1
+  CONDITION 2
+  CONDITION 3
+}
+
+Librairian "0..1"  -down- "0..1" Address
+Borrower "0..1" - "0..1" Address
+Borrower "1" - "1" Subscription
+Item "1" - "1" ExternalSource
+Item "1" - "1" ConditionEnum
+ExternalSource "0..1" - "0..1" Address
+Loan "1" -down- "0..*" Borrower
+Loan "1" -down- "0..1" Item
+
+@enduml
