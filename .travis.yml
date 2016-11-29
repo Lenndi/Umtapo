@@ -10,7 +10,7 @@ env:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
   matrix:
     - NG_SCRIPT=lint
-    - NG_SCRIPT=test
+    - NG_SCRIPT="test --single-run"
     - NG_SCRIPT=e2e
 
 before_install:
@@ -18,6 +18,8 @@ before_install:
   - if [[ "$TRAVIS_BRANCH" =~ "back-" ]]; then IS_BACK=1; else IS_BACK=0; fi
   - if [[ "$NG_SCRIPT" || "$NG_NODE_SCRIPT" && "$IS_BACK" != 1 ]]; then export IS_NG=1; fi
   - if [[ "$IS_NG" ]]; then echo "Starting front tests..."; fi
+  - if [[ "$IS_NG" ]]; then ng build && ng serve; fi
+  - if [[ "$IS_NG" ]]; then sleep 20; fi
   - if [[ "$IS_NG" ]]; then cd front && echo "in `pwd`"; fi
   - if [[ "$IS_NG" ]]; then export DISPLAY=:99.0; fi
   - if [[ "$IS_NG" ]]; then sh -e /etc/init.d/xvfb start; fi
@@ -31,4 +33,4 @@ install:
   - if [[ "$IS_NG" ]]; then npm install --no-optional; fi
 
 script:
-  - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then ng $SCRIPT; fi
+  - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then ng $NG_SCRIPT; fi
