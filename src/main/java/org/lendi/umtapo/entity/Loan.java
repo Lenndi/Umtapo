@@ -11,10 +11,10 @@ import java.util.Date;
  * Created by axel on 29/11/16.
  */
 @Entity
-public class Load {
+public class Loan {
 
  @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
+ @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Integer id;
  private Date date;
 

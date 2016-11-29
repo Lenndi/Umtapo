@@ -34,7 +34,6 @@ class Librairian {
 
 class Borrower {
   name : String
-  address : Address
   comment : String
   birthday : Date
   quota : Integer
@@ -44,7 +43,6 @@ class Subscription {
   start : Date
   end : Date
   contribution : Integer
-  borrower : Borrower
 }
 class Item {
   name : String

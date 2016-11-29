@@ -1,9 +1,8 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.lendi.umtapo.enumeration.Condition;
+
+import javax.persistence.*;
 
 
 /**
@@ -13,13 +12,18 @@ import javax.persistence.Id;
 public class Item {
 
  @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
+ @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Integer id;
  private String type;
  private String internalId;
  private Integer purchasePrice;
  private Boolean loanable;
-
+ @OneToOne
+ private Loan loan;
+ @Enumerated(EnumType.STRING)
+ private Condition condition;
+ @OneToOne
+ private ExternalSource externalSource;
 
  public Integer getId() {
   return id;
@@ -28,6 +32,36 @@ public class Item {
 
  public void setId(Integer id) {
   this.id = id;
+ }
+
+
+ public ExternalSource getExternalSource() {
+  return externalSource;
+ }
+
+
+ public void setExternalSource(ExternalSource externalSource) {
+  this.externalSource = externalSource;
+ }
+
+
+ public Condition getCondition() {
+  return condition;
+ }
+
+
+ public void setCondition(Condition condition) {
+  this.condition = condition;
+ }
+
+
+ public Loan getLoan() {
+  return loan;
+ }
+
+
+ public void setLoan(Loan loan) {
+  this.loan = loan;
  }
 
 
