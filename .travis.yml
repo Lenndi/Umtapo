@@ -21,6 +21,7 @@ before_install:
   - if [[ "$IS_NG" ]]; then cd front && echo "in `pwd`"; fi
   - if [[ "$IS_NG" ]]; then npm install -g npm; fi
   - if [[ "$IS_NG" ]]; then npm install -g angular-cli; fi
+  - if [[ "$IS_NG" ]]; then npm install; fi
   - if [[ "$IS_NG" ]]; then ng build && ng serve; fi
   - if [[ "$IS_NG" ]]; then sleep 20; fi
   - if [[ "$IS_NG" ]]; then export DISPLAY=:99.0; fi
