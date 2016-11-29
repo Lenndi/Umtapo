@@ -1,0 +1,35 @@
+dist: trusty
+sudo: required
+language: node_js
+node_js:
+  - "4"
+os:
+  - linux
+env:
+  global:
+    - DBUS_SESSION_BUS_ADDRESS=/dev/null
+    - if [[ "$TRAVIS_BRANCH" =~ "front-" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
+    - if [[ "$TRAVIS_BRANCH" =~ "back-" ]]; then IS_BACK=1; else IS_BACK=0; fi
+  matrix:
+    - NG_SCRIPT=lint
+    - NG_SCRIPT=build
+    - NG_SCRIPT=test
+    - NG_NODE_SCRIPT=tests/e2e_runner.js
+    - NG_NODE_SCRIPT="tests/e2e_runner.js --nightly"
+
+before_install:
+  - if [[ "$NG_SCRIPT" || "$NG_NODE_SCRIPT" && "$IS_BACK" != 1 ]]; then export IS_NG=1; fi
+  - if [[ "$IS_NG" ]]; then export DISPLAY=:99.0; fi
+  - if [[ "$IS_NG" ]]; then sh -e /etc/init.d/xvfb start; fi
+  - if [[ "$IS_NG" ]]; then export CHROME_BIN=chromium-browser; fi
+  - if [[ "$IS_NG" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
+  - if [[ "$IS_NG" ]]; then npm install -g npm; fi
+  - if [[ "$IS_NG" ]]; then npm config set spin false; fi
+  - if [[ "$IS_NG" ]]; then npm config set progress false; fi
+
+install:
+  - if [[ "$IS_NG" ]]; then cd front && npm install --no-optional; fi
+
+script:
+  - if [[ "$SCRIPT" && "$IS_NG" ]]; then npm run-script $SCRIPT; fi
+  - if [[ "$NODE_SCRIPT" && "$IS_NG" ]]; then node $NODE_SCRIPT; fi
