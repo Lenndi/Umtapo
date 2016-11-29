@@ -5,4 +5,7 @@ package org.lendi.umtapo.enumeration;
  */
 public enum Condition {
 
+ CONDITION1,
+ CONDITION2,
+ CONDITION3
 }
