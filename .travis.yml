@@ -18,6 +18,7 @@ before_install:
   - if [[ "$TRAVIS_BRANCH" =~ "back-" ]]; then IS_BACK=1; else IS_BACK=0; fi
   - if [[ "$NG_SCRIPT" || "$NG_NODE_SCRIPT" && "$IS_BACK" != 1 ]]; then export IS_NG=1; fi
   - if [[ "$IS_NG" ]]; then echo "Starting front tests..."; fi
+  - if [[ "$IS_NG" ]]; then npm install -g angular-cli; fi
   - if [[ "$IS_NG" ]]; then ng build && ng serve; fi
   - if [[ "$IS_NG" ]]; then sleep 20; fi
   - if [[ "$IS_NG" ]]; then cd front && echo "in `pwd`"; fi
