@@ -10,10 +10,8 @@ env:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
   matrix:
     - NG_SCRIPT=lint
-    - NG_SCRIPT=build
     - NG_SCRIPT=test
-    - NG_NODE_SCRIPT=tests/e2e_runner.js
-    - NG_NODE_SCRIPT="tests/e2e_runner.js --nightly"
+    - NG_SCRIPT=e2e
 
 before_install:
   - if [[ "$TRAVIS_BRANCH" =~ "front-" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
@@ -33,5 +31,4 @@ install:
   - if [[ "$IS_NG" ]]; then npm install --no-optional; fi
 
 script:
-  - if [[ "$SCRIPT" && "$IS_NG" ]]; then npm run-script $SCRIPT; fi
-  - if [[ "$NODE_SCRIPT" && "$IS_NG" ]]; then node $NODE_SCRIPT; fi
+  - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then ng $SCRIPT; fi
