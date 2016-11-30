@@ -10,7 +10,8 @@ env:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
   matrix:
     - NG_SCRIPT=lint
-    - NG_SCRIPT="test --single-run"
+    - NG_SCRIPT=single-test
+    - NG_SCRIPT=style-lint
 
 before_install:
   - if [[ "$TRAVIS_BRANCH" =~ "front-" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
@@ -34,4 +35,4 @@ before_script:
   - sleep 3;
 
 script:
-  - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then ng $NG_SCRIPT; fi
+  - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then npm run $NG_SCRIPT; fi
