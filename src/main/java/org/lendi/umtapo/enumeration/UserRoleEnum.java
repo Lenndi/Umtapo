@@ -6,18 +6,18 @@ import java.io.Serializable;
 /**
  * Created by axel on 29/11/16.
  */
-public enum UserProfileType implements Serializable {
+public enum UserRoleEnum implements Serializable {
 
  USER("USER"),
  ADMIN("ADMIN");
 
  String userProfileType;
 
- private UserProfileType(String userProfileType){
+ private UserRoleEnum(String userProfileType){
   this.userProfileType = userProfileType;
  }
 
- public String getUserProfileType(){
+ public String getUserRoleEnum(){
   return userProfileType;
  }
 

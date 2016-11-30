@@ -1,6 +1,6 @@
 package org.lendi.umtapo.configuration.security;
 
-import org.lendi.umtapo.enumeration.UserProfileType;
+import org.lendi.umtapo.enumeration.UserRoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	  .csrf().disable()
 	  .authorizeRequests()
 	  .antMatchers("/**").permitAll()
-	  .antMatchers("/consoleh2/**").hasRole(UserProfileType.ADMIN.getUserProfileType())
+	  .antMatchers("/consoleh2/**").hasRole(UserRoleEnum.ADMIN.getUserRoleEnum())
 	  .anyRequest().authenticated()
 	  .and()
 	  .formLogin()
@@ -42,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
   auth
 	  .inMemoryAuthentication()
-	  .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
+	  .withUser("user").password("password").roles(UserRoleEnum.USER.getUserRoleEnum());
   auth
 	  .inMemoryAuthentication()
-	  .withUser("admin").password("password").roles(UserProfileType.ADMIN.getUserProfileType());
+	  .withUser("admin").password("password").roles(UserRoleEnum.ADMIN.getUserRoleEnum());
  }
 }

@@ -14,7 +14,7 @@ import java.util.Calendar;
 public class Subscription {
 
  @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
+ @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
  private Calendar start;
  private Calendar end;

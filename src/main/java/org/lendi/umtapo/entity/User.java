@@ -1,5 +1,7 @@
 package org.lendi.umtapo.entity;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -10,13 +12,20 @@ import javax.persistence.*;
 public class User{
 
  @Id
- @GeneratedValue(strategy= GenerationType.IDENTITY)
+ @GeneratedValue(strategy= GenerationType.AUTO)
  private Integer id;
  private String username;
  private String password;
  private String firstName;
  private String lastName;
  private String email;
+ private boolean enabled;
+ @ManyToMany
+ @JoinTable(
+     name = "users_roles",
+     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+ private List<Role> roles;
 
  public Integer getId() {
   return id;
@@ -25,6 +34,26 @@ public class User{
 
  public void setId(Integer id) {
   this.id = id;
+ }
+
+
+ public List<Role> getRoles() {
+  return roles;
+ }
+
+
+ public void setRoles(List<Role> roles) {
+  this.roles = roles;
+ }
+
+
+ public boolean isEnabled() {
+  return enabled;
+ }
+
+
+ public void setEnabled(boolean enabled) {
+  this.enabled = enabled;
  }
 
 

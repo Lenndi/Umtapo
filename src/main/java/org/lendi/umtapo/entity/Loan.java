@@ -14,7 +14,7 @@ import java.util.Date;
 public class Loan {
 
  @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
+ @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
  private Date date;
 

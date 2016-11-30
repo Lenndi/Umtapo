@@ -1,7 +1,7 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -11,8 +11,58 @@ import javax.persistence.Table;
 @Table
 public class Role {
 
+
+ @Id
+ @GeneratedValue(strategy = GenerationType.AUTO)
+ private Integer id;
  private String name;
- private String title;
+ @ManyToMany(mappedBy = "roles")
+ private List<User> users;
+ @ManyToMany
+ @JoinTable(
+     name = "roles_privileges",
+     joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+     inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+ private List<Privilege> privileges;
+
+
+ public Role(String name) {
+  this.name = name;
+ }
+
+
+ public Role() {
+ }
+
+
+ public Integer getId() {
+  return id;
+ }
+
+
+ public void setId(Integer id) {
+  this.id = id;
+ }
+
+
+ public List<User> getUsers() {
+  return users;
+ }
+
+
+ public void setUsers(List<User> users) {
+  this.users = users;
+ }
+
+
+ public List<Privilege> getPrivileges() {
+  return privileges;
+ }
+
+
+ public void setPrivileges(List<Privilege> privileges) {
+  this.privileges = privileges;
+ }
 
 
  public String getName() {
@@ -22,15 +72,5 @@ public class Role {
 
  public void setName(String name) {
   this.name = name;
- }
-
-
- public String getTitle() {
-  return title;
- }
-
-
- public void setTitle(String title) {
-  this.title = title;
  }
 }
