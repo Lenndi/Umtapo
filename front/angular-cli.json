@@ -21,7 +21,7 @@
         "styles.scss"
       ],
       "scripts": [
-        "../node_modules/materialize-css/node_modules/jquery/dist/jquery.js",
+        "../node_modules/jquery/dist/jquery.js",
         "../node_modules/materialize-css/dist/js/materialize.js"
       ],
       "environments": {
