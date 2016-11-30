@@ -21,11 +21,6 @@ before_install:
   - if [[ "$IS_NG" ]]; then cd front && echo "in `pwd`"; fi
   - if [[ "$IS_NG" ]]; then npm install -g npm; fi
   - if [[ "$IS_NG" ]]; then npm install -g angular-cli; fi
-  - if [[ "$IS_NG" ]]; then npm install; fi
-  - if [[ "$IS_NG" ]]; then ng build && ng serve; fi
-  - if [[ "$IS_NG" ]]; then sleep 20; fi
-  - if [[ "$IS_NG" ]]; then export DISPLAY=:99.0; fi
-  - if [[ "$IS_NG" ]]; then sh -e /etc/init.d/xvfb start; fi
   - if [[ "$IS_NG" ]]; then export CHROME_BIN=chromium-browser; fi
   - if [[ "$IS_NG" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
   - if [[ "$IS_NG" ]]; then npm config set spin false; fi
@@ -33,6 +28,8 @@ before_install:
 
 install:
   - if [[ "$IS_NG" ]]; then npm install --no-optional; fi
+  - if [[ "$IS_NG" ]]; then ng serve; fi
+  - if [[ "$IS_NG" ]]; then sleep 20; fi
 
 script:
   - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then ng $NG_SCRIPT; fi
