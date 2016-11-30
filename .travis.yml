@@ -32,8 +32,7 @@ install:
 before_script:
   - if [[ "$IS_NG" ]]; then export DISPLAY=:99.0; fi
   - if [[ "$IS_NG" ]]; then sh -e /etc/init.d/xvfb start; fi
-  - if [[ "$IS_NG" ]]; then sleep 3; fi
-  - if [[ "$IS_NG" ]]; then ng serve; fi
+  - if [[ "$IS_NG" ]]; then nohup ng serve&; fi
   - if [[ "$IS_NG" ]]; then sleep 20; fi
 
 script:
