@@ -86,10 +86,8 @@ gulp.task('i18n-xlf2ts', function () {
     .pipe(rename(function (path) {
       path.extname = ".ts"
     }))
-    .pipe(modifyFile(function (content, path) {
-      var filename = path.replace(/^.*[\\\/]/, '');
-      var language = filename.split(".")[1].toUpperCase();
-      return "export const TRANSLATION_" + language + " = `" + content + "`;";
+    .pipe(modifyFile(function (content) {
+      return "export const TRANSLATION = `" + content + "`;";
     }))
     .pipe(gulp.dest("./src/i18n"));
 });
