@@ -33,3 +33,8 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+#Translation generated files
+/src/**/*.metadata.json
+/src/i18n/messages.**.ts
+messages.xlf
