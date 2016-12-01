@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="045ed332fbb2645493d6955677247db0d1134c2d" datatype="html">
+        <source><x id="INTERPOLATION"/></source>
+        <target>Bienvenue dans Umtapo !</target>
+      </trans-unit>
+      <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
