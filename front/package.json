@@ -10,7 +10,8 @@
     "single-test": "ng test --single-run",
     "style-lint": "stylelint \"src/**/*.scss\" --syntax scss",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "i18n": "gulp i18n-build"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,11 @@
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.21",
     "codelyzer": "~1.0.0-beta.3",
+    "gulp": "^3.9.1",
+    "gulp-cheerio": "^0.6.2",
+    "gulp-modify-file": "^0.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-run": "^1.7.1",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
@@ -44,7 +50,9 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
+    "merge-stream": "^1.0.1",
     "protractor": "4.0.9",
+    "run-sequence": "^1.2.2",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
     "typescript": "~2.0.3",

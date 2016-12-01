@@ -24,5 +24,14 @@
       </div>
     </div>
   </app-root>
+  <script>
+    var languages = [];
+    if (navigator.languages != undefined) {
+        languages = navigator.languages;
+    } else {
+        languages[0] = navigator.language;
+    }
+    localStorage.setItem('languages', languages);
+  </script>
 </body>
 </html>
