@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2548bafdfebbf15ba4c88693c66e787df46cada6" datatype="html">
+        <source><x id="INTERPOLATION"/></source>
+        <target><x id="INTERPOLATION"/></target>
+        <note priority="1" from="description">Umtapo initialization</note>
+        <note priority="1" from="meaning">Translate example</note>
+      </trans-unit>
+      <trans-unit id="aa12c0ad95f97f11e038ebea32aedbeff5cb9181" datatype="html">
+        <source>Address</source>
+        <target>Address</target>
+        <note priority="1" from="description">Second test</note>
+        <note priority="1" from="meaning">Translate example</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
