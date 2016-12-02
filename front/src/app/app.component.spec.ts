@@ -18,16 +18,24 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'Umtapo init!'`, async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Umtapo init!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
+  it('should have a navbar', async(() => {
     let fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Umtapo init!');
+    expect(compiled.querySelector('nav').exist);
+  }));
+
+  it('should render logo in navbar', async(() => {
+    let fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    let compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('#top-bar .brand-logo img').src).toContain('logo.png');
+  }));
+
+  it('should have logo linked to home page', async(() => {
+    let fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    let compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('#top-bar .brand-logo').href).toContain('/home');
   }));
 });
