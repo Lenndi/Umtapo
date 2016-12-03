@@ -7,6 +7,15 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    var languages = [];
+    if (navigator.languages != undefined) {
+      languages = navigator.languages;
+    } else {
+      languages[0] = navigator.language;
+    }
+    localStorage.setItem('languages', languages);
+  </script>
 </head>
 <body>
   <app-root>
@@ -24,14 +33,5 @@
       </div>
     </div>
   </app-root>
-  <script>
-    var languages = [];
-    if (navigator.languages != undefined) {
-        languages = navigator.languages;
-    } else {
-        languages[0] = navigator.language;
-    }
-    localStorage.setItem('languages', languages);
-  </script>
 </body>
 </html>
