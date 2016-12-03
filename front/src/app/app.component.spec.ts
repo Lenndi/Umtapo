@@ -2,13 +2,17 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {MainComponent} from './main/main.component';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
-        AppComponent
-      ],
+        AppComponent,
+        MainComponent
+      ]
     });
   });
 
@@ -30,12 +34,5 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('#top-bar .brand-logo img').src).toContain('logo.png');
-  }));
-
-  it('should have logo linked to home page', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#top-bar .brand-logo').href).toContain('/home');
   }));
 });

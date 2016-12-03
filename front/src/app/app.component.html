@@ -1,5 +1,12 @@
-<nav id="top-bar">
-  <div class="nav-wrapper">
-    <a href="/home" class="brand-logo"><img src="../assets/logo.png"></a>
+<header id="header">
+  <div class="navbar-fixed">
+    <nav id="top-bar">
+      <div class="nav-wrapper">
+        <a routerLink="/" class="brand-logo"><img src="../assets/logo.png"></a>
+      </div>
+    </nav>
   </div>
-</nav>
+</header>
+<div id="main">
+  <router-outlet></router-outlet>
+</div>
