@@ -75,7 +75,7 @@ gulp.task('i18n-merge-to-translations', ['i18n-get-source'], function() {
 
 // run ng-xi18n
 gulp.task('i18n-extract-xlf', function() {
-  return run('ng-xi18n', {}).exec();
+  return run('ng-xi18n -p ./src', {}).exec();
 });
 
 
