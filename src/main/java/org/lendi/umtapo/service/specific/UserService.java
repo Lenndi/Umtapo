@@ -11,4 +11,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService extends GenericService<User,Integer> {
 
+ User findBySso(String sso);
 }

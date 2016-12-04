@@ -1,108 +1,151 @@
 package org.lendi.umtapo.entity;
 
-import java.util.List;
+import org.lendi.umtapo.enumeration.State;
 
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-/**
- * Created by axel on 29/11/16.
- */
 @Entity
-public class User{
+@Table(name="APP_USER")
+public class User {
 
- @Id
- @GeneratedValue(strategy= GenerationType.AUTO)
- private Integer id;
- private String username;
- private String password;
- private String firstName;
- private String lastName;
- private String email;
- private boolean enabled;
- @ManyToMany
- @JoinTable(
-     name = "users_roles",
-     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
- private List<Role> roles;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
- public Integer getId() {
-  return id;
- }
+	@Column(name="SSO_ID", unique=true, nullable=false)
+	private String ssoId;
+	
+	@Column(name="PASSWORD", nullable=false)
+	private String password;
+		
+	@Column(name="FIRST_NAME", nullable=false)
+	private String firstName;
 
+	@Column(name="LAST_NAME", nullable=false)
+	private String lastName;
 
- public void setId(Integer id) {
-  this.id = id;
- }
+	@Column(name="EMAIL", nullable=false)
+	private String email;
 
+	@Column(name="STATE", nullable=false)
+	private String state= State.ACTIVE.getState();
 
- public List<Role> getRoles() {
-  return roles;
- }
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "APP_USER_USER_PROFILE", 
+             joinColumns = { @JoinColumn(name = "USER_ID") }, 
+             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
+	public Integer getId() {
+		return id;
+	}
 
- public void setRoles(List<Role> roles) {
-  this.roles = roles;
- }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
+	public String getSsoId() {
+		return ssoId;
+	}
 
- public boolean isEnabled() {
-  return enabled;
- }
+	public void setSsoId(String ssoId) {
+		this.ssoId = ssoId;
+	}
 
+	public String getPassword() {
+		return password;
+	}
 
- public void setEnabled(boolean enabled) {
-  this.enabled = enabled;
- }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	public String getFirstName() {
+		return firstName;
+	}
 
- public String getUsername() {
-  return username;
- }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
+	public String getLastName() {
+		return lastName;
+	}
 
- public void setUsername(String username) {
-  this.username = username;
- }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
+	public String getEmail() {
+		return email;
+	}
 
- public String getPassword() {
-  return password;
- }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
+	public String getState() {
+		return state;
+	}
 
- public void setPassword(String password) {
-  this.password = password;
- }
+	public void setState(String state) {
+		this.state = state;
+	}
 
+	public Set<UserProfile> getUserProfiles() {
+		return userProfiles;
+	}
 
- public String getFirstName() {
-  return firstName;
- }
+	public void setUserProfiles(Set<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
+	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((ssoId == null) ? 0 : ssoId.hashCode());
+		return result;
+	}
 
- public void setFirstName(String firstName) {
-  this.firstName = firstName;
- }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof User))
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		if (ssoId == null) {
+			if (other.ssoId != null)
+				return false;
+		} else if (!ssoId.equals(other.ssoId))
+			return false;
+		return true;
+	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+				+ ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles +"]";
+	}
 
- public String getLastName() {
-  return lastName;
- }
-
-
- public void setLastName(String lastName) {
-  this.lastName = lastName;
- }
-
-
- public String getEmail() {
-  return email;
- }
-
-
- public void setEmail(String email) {
-  this.email = email;
- }
+	
 }
