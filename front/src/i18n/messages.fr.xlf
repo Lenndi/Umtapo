@@ -2,13 +2,33 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="045ed332fbb2645493d6955677247db0d1134c2d" datatype="html">
-        <source><x id="INTERPOLATION"/></source>
-        <target>Bienvenue dans Umtapo !</target>
+      <trans-unit id="15cea09b16eec4f8270e0d0eadcede90f1ffa771" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/>swap_horiz<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Circulation</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/>swap_horiz<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Entrées/Sorties</target>
       </trans-unit>
-      <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
-        <source>Address</source>
-        <target>Adresse</target>
+      <trans-unit id="9d070d56d37e8b8d633bfeeb4105fa3e0b89351e" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/>people<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Borrowers</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/>people<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Usagers</target>
+      </trans-unit>
+      <trans-unit id="28b3997839654874309d71e4b4e60846bf6978de" datatype="html">
+        <source>New borrower</source>
+        <target>Nouvel usager</target>
+      </trans-unit>
+      <trans-unit id="6dfd367799b36340e01805c73ab1b8c24f756c64" datatype="html">
+        <source>Borrowers management</source>
+        <target>Gestion des usagers</target>
+      </trans-unit>
+      <trans-unit id="3597b12f5e1da737b385fe3c8d1ec4b82d0e269b" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/>collections_bookmark<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Cataloging</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/>collections_bookmark<x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Fond documentaire</target>
+      </trans-unit>
+      <trans-unit id="4355481d750edb0775c02b6ce31a6f63c2383920" datatype="html">
+        <source>Item registration</source>
+        <target>Nouveau document</target>
+      </trans-unit>
+      <trans-unit id="01197e0aef3b3e18e987ca9ec031e1820d6d412b" datatype="html">
+        <source>Item management</source>
+        <target>Gestion des documents</target>
       </trans-unit>
     </body>
   </file>
