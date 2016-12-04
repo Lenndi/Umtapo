@@ -40,6 +40,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	  .formLogin()
 	  //		 .loginPage("/login")
 	  .usernameParameter("username").passwordParameter("password");
+
+  http.headers().frameOptions().disable();
+
  }
 
  @Autowired
