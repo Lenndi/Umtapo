@@ -1,8 +1,14 @@
 dist: trusty
 sudo: required
-language: node_js
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+language: node_js java
 node_js:
   - "4"
+jdk:
+  - oraclejdk8
 os:
   - linux
 env:
@@ -17,6 +23,7 @@ before_install:
   - if [[ "$TRAVIS_BRANCH" =~ "front-" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
   - if [[ "$TRAVIS_BRANCH" =~ "back-" ]]; then IS_BACK=1; else IS_BACK=0; fi
   - if [[ "$NG_SCRIPT" && "$IS_BACK" != 1 ]]; then IS_NG=1; fi
+  - if [[ "$NG_SCRIPT" && "$IS_FRONT" != 1 ]]; then IS_SB=1; fi
   - if [[ "$IS_NG" ]]; then echo "Starting front tests..."; fi
   - if [[ "$IS_NG" ]]; then cd front; fi
   - if [[ "$IS_NG" ]]; then npm install -g npm; fi
@@ -24,7 +31,9 @@ before_install:
   - if [[ "$IS_NG" ]]; then export CHROME_BIN=chromium-browser; fi
   - if [[ "$IS_NG" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
   - if [[ "$IS_NG" ]]; then npm config set spin false; fi
-  - if [[ "$IS_NG" ]]; then npm config set progress false; fi
+  - if [[ "$IS_SB" ]]; then npm config set progress false; fi
+  - if [[ "$IS_SB" ]]; then cd ../back; fi
+
 
 install:
   - if [[ "$IS_NG" ]]; then npm install --no-optional; fi
