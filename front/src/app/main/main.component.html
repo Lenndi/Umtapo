@@ -1,0 +1,59 @@
+<aside id="left-nav">
+  <ul id="slide-out" class="side-nav fixed">
+    <li>
+      <a class="waves-effect" routerLink="/circulation" routerLinkActive="current-route" (click)="hideMenu()" i18n><i class="material-icons">swap_horiz</i>Circulation</a>
+    </li>
+    <li class="no-padding">
+      <ul class="collapsible collapsible-accordion">
+        <li>
+          <a [class.collapsible-header]="!isOpen('borrowers')" class="collapsible-header waves-effect" i18n>
+            <i class="material-icons">people</i>Borrowers
+          </a>
+          <div [class.collapsible-body]="!isOpen('borrowers')" class="left-sub-menu">
+            <ul>
+              <li>
+                <a routerLink="/borrowers/new" routerLinkActive="current-route" (click)="hideMenu()" i18n>
+                  New borrower
+                </a>
+              </li>
+              <li>
+                <a routerLink="/borrowers/management" routerLinkActive="current-route" (click)="hideMenu()" i18n>
+                  Borrowers management
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li class="no-padding">
+      <ul class="collapsible collapsible-accordion">
+        <li>
+          <a [class.collapsible-header]="!isOpen('cataloging')" class="waves-effect" i18n>
+            <i class="material-icons">collections_bookmark</i>Cataloging
+          </a>
+          <div [class.collapsible-body]="!isOpen('cataloging')" class="left-sub-menu">
+            <ul>
+              <li>
+                <a routerLink="/cataloging/registration" routerLinkActive="current-route" (click)="hideMenu()" i18n>
+                  Item registration
+                </a>
+              </li>
+              <li>
+                <a routerLink="/cataloging/management" routerLinkActive="current-route" (click)="hideMenu()" i18n>
+                  Item management
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <a id="menu-btn" href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+</aside>
+<section id="content">
+  <div class="wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</section>

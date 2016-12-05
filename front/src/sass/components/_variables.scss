@@ -33,15 +33,16 @@
 // 1. Colors
 // ==========================================================================
 
-$primary-color: color("amber", "base") !default;
-$primary-color-light: color("amber", "lighten-4") !default;
-$primary-color-dark: color("amber", "darken-2") !default;
+$primary-color: #ffc107 !default; // amber base
+$primary-color-light: #ffecb3 !default; // amber lighten-4
+$primary-color-dark: #ffa000 !default; // amber darken-2
 
-$secondary-color: color("deep-orange", "base") !default;
-$success-color: color("deep-orange", "base") !default;
-$error-color: color("red", "base") !default;
-$link-color: color("light-blue", "darken-1") !default;
+$secondary-color: #ff5722 !default; // deep-orange base
+$success-color: #ff5722 !default; // deep-orange base
+$error-color: #F44336 !default; // red base
+$link-color: #039be5 !default; // light-blue darken-1
 
+$light-grey: #757575 !default;
 
 // 2. Badges
 // ==========================================================================
@@ -91,7 +92,7 @@ $button-floating-radius: 50% !default;
 
 $card-padding: 20px !default;
 $card-bg-color: #fff !default;
-$card-link-color: color("orange", "accent-2") !default;
+$card-link-color: #ffab40 !default; // orange accent-2
 $card-link-color-light: lighten($card-link-color, 20%) !default;
 
 
@@ -143,7 +144,7 @@ $roboto-font-path: "../node_modules/materialize-css/fonts/roboto/" !default;
 
 // Text Inputs + Textarea
 $input-height: 3rem !default;
-$input-border-color: color("grey", "base") !default;
+$input-border-color: #9e9e9e !default; // grey base
 $input-border: 1px solid $input-border-color !default;
 $input-background: #fff !default;
 $input-error-color: $error-color !default;
@@ -226,7 +227,7 @@ $navbar-brand-font-size: 2.1rem !default;
 // ==========================================================================
 
 $sidenav-font-size: 14px !default;
-$sidenav-font-color: rgba(0,0,0,.87) !default;
+$sidenav-font-color: #212121 !default;
 $sidenav-bg-color: #fff !default;
 $sidenav-padding: 16px !default;
 $sidenav-item-height: 48px !default;
@@ -235,9 +236,9 @@ $sidenav-item-height: 48px !default;
 // 15. Photo Slider
 // ==========================================================================
 
-$slider-bg-color: color('grey', 'base') !default;
-$slider-bg-color-light: color('grey', 'lighten-2') !default;
-$slider-indicator-color: color('green', 'base') !default;
+$slider-bg-color: #9e9e9e !default; // grey base
+$slider-bg-color-light: #e0e0e0 !default; // grey lighten-2
+$slider-indicator-color: #4CAF50 !default; // green base
 
 
 // 16. Spinners | Loaders
@@ -272,7 +273,7 @@ $toast-text-color: #fff !default;
 // 20. Typography
 // ==========================================================================
 
-$off-black: rgba(0, 0, 0, 0.87) !default;
+$off-black: #212121 !default;
 // Header Styles
 $h1-fontsize: 4.2rem !default;
 $h2-fontsize: 3.56rem !default;
