@@ -33,6 +33,7 @@ before_install:
   - if [[ "$IS_NG" ]]; then npm config set spin false; fi
   - if [[ "$IS_SB" ]]; then npm config set progress false; fi
   - if [[ "$IS_SB" ]]; then cd back; fi
+  - if [[ "$IS_SB" ]]; then mvn test; fi
 
 
 install:
