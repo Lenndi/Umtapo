@@ -3,12 +3,6 @@ package org.lendi.umtapo.dto;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.*;
-
-import org.lendi.umtapo.entity.Address;
-import org.lendi.umtapo.entity.Loan;
-import org.lendi.umtapo.entity.Subscription;
-
 
 /**
  * Dto borrower object
