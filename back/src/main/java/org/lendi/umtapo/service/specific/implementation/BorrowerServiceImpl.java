@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 
 /**
+ * Borrower service implementation.
+ *
  * Created by axel on 29/11/16.
  */
 @Service
@@ -31,7 +33,8 @@ public class BorrowerServiceImpl extends GenericServiceImpl<Borrower, Integer> i
      */
     public BorrowerDto save(BorrowerDto borrowerDto) {
         Borrower borrower = borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
-        return borrowerDto;
+        borrower = borrowerDao.save(borrower);
+        return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
     /**
@@ -46,32 +49,48 @@ public class BorrowerServiceImpl extends GenericServiceImpl<Borrower, Integer> i
     /**
      * {@inheritDoc}
      */
-    public List<BorrowerDto> findAlls() {
+    public List<BorrowerDto> finds() {
+        return mapBorrowersToBorrowerDtos(borrowerDao.findAll());
     }
 
     /**
      * {@inheritDoc}
      */
-    public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto){
+    public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
     }
 
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower){
+    public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Borrower mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos){
+    public Boolean exists(BorrowerDto borrowerDto) {
+        return borrowerDao.exists(borrowerDto.getId());
+    }
 
-        List<Borrower> borrowers;
+    /**
+     * {@inheritDoc}
+     */
+    public List<Borrower> mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos) {
+        List<Borrower> borrowers = new ArrayList<>();
 
-                borrowerDtos.stream().collect();
+        borrowerDtos.forEach(borrowerDto -> borrowers.add(mapBorrowerDtoToBorrower(borrowerDto)));
+        return borrowers;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public List<BorrowerDto> mapBorrowersToBorrowerDtos(List<Borrower> borrowers) {
+        List<BorrowerDto> borrowerDtos = new ArrayList<>();
 
+        borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
+        return borrowerDtos;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Borrower service.
- * <p>
+ *
  * Created by axel on 05/12/16.
  */
 @Service
@@ -18,8 +18,9 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
 
     /**
      * Save one borrower.
+     *
      * @param borrowerDto
-     * @return
+     * @return BorrowerDto
      */
     public BorrowerDto save(BorrowerDto borrowerDto);
 
@@ -27,12 +28,21 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * Find one borrower.
      *
      * @param id
-     * @return
+     * @return BorrowerDto
      */
     public BorrowerDto find(Integer id);
 
     /**
      * Find all borrower.
+     *
+     * @return List<BorrowerDto>
      */
-    public List<BorrowerDto> findAlls();
+    public List<BorrowerDto> finds();
+
+    /**
+     * Verify if borrower exist.
+     * @param borrowerDto
+     * @return true if exist.
+     */
+    public Boolean exists(BorrowerDto borrowerDto);
 }

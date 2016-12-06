@@ -20,6 +20,7 @@ public class BorrowerDto {
  private AddressDto address;
  private SubscriptionDto subscription;
  private List<LoanDto> loan;
+ private LibraryDto library;
 
 
  public Integer getId() {
@@ -30,6 +31,13 @@ public class BorrowerDto {
   this.id = id;
  }
 
+ public LibraryDto getLibrary() {
+  return library;
+ }
+
+ public void setLibrary(LibraryDto library) {
+  this.library = library;
+ }
 
  public AddressDto getAddress() {
   return address;

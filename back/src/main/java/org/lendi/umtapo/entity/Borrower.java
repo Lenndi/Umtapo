@@ -6,6 +6,8 @@ import java.util.List;
 
 
 /**
+ * Borrower entity.
+ *
  * Created by axel on 29/11/16.
  */
 @Entity
@@ -19,13 +21,14 @@ public class Borrower {
  private Calendar birthday;
  private Integer quota;
  private Boolean emailOptin;
- @OneToOne
+ @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
  private Address address;
- @OneToOne
+ @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
  private Subscription subscription;
- @OneToMany
+ @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
  private List<Loan> loan;
-
+ @ManyToOne(cascade = CascadeType.ALL)
+ private Library library;
 
  public Integer getId() {
   return id;
@@ -35,6 +38,13 @@ public class Borrower {
   this.id = id;
  }
 
+ public Library getLibrary() {
+  return library;
+ }
+
+ public void setLibrary(Library library) {
+  this.library = library;
+ }
 
  public List<Loan> getLoan() {
   return loan;

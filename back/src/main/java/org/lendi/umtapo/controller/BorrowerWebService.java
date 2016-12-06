@@ -1,5 +1,6 @@
 package org.lendi.umtapo.controller;
 
+import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,32 +9,52 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
+ * Borrower service.
+ *
  * Created by axel on 05/12/16.
  */
 @RestController
 public class BorrowerWebService {
 
- @Autowired
- private BorrowerService borrowerService;
+    final static Logger logger = Logger.getLogger(BorrowerWebService.class);
 
- @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.GET,produces = { MediaType.APPLICATION_JSON_VALUE})
- public ResponseEntity<BorrowerDto> getBorrower(@PathVariable Integer id){
+    @Autowired
+    private BorrowerService borrowerService;
 
-  return new ResponseEntity<>(borrowerService.find(id), HttpStatus.OK);
- }
+    @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<BorrowerDto> getBorrower(@PathVariable Integer id) {
 
- @RequestMapping(value = "/borrowers", method = RequestMethod.GET,produces = { MediaType.APPLICATION_JSON_VALUE})
- public ResponseEntity<BorrowerDto> getBorrowers(){
+        BorrowerDto borrowerDto = borrowerService.find(id);
+        if (borrowerDto == null) {
+            logger.info("Borrower with id " + id + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(borrowerDto, HttpStatus.OK);
+    }
 
-  return new ResponseEntity<>(borrowerService.find(id), HttpStatus.OK);
- }
+    @RequestMapping(value = "/borrowers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<BorrowerDto>> getBorrowers() {
 
- @RequestMapping(value = "/borrowers", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
-         produces = { MediaType.APPLICATION_JSON_VALUE})
- public ResponseEntity<BorrowerDto> setUser(@RequestBody BorrowerDto borrowerDto){
+        List<BorrowerDto> borrowerDtos = borrowerService.finds();
+        if (borrowerDtos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<>(borrowerDtos, HttpStatus.OK);
+    }
 
-  return new ResponseEntity<>(borrowerService.save(borrowerDto), HttpStatus.OK);
- }
+    @RequestMapping(value = "/borrowers", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<BorrowerDto> setUser(@RequestBody BorrowerDto borrowerDto) {
+
+//        if (borrowerService.exists(borrowerDto)) {
+//            logger.info("A User with id " + borrowerDto.getId() + " already exist");
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+        borrowerDto = borrowerService.save(borrowerDto);
+        return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
+    }
 }

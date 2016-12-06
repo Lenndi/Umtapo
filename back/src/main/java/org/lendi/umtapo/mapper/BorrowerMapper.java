@@ -31,13 +31,11 @@ public class BorrowerMapper extends ConfigurableMapper {
 
 
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        BorrowerDto borrowerDto = mapper.map(borrower, BorrowerDto.class);
-        return borrowerDto;
+        return mapper.map(borrower, BorrowerDto.class);
     }
 
 
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        Borrower borrower = mapper.map(borrowerDto, Borrower.class);
-        return borrower;
+        return mapper.map(borrowerDto, Borrower.class);
     }
 }
