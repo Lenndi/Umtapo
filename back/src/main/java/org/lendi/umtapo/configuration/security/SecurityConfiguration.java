@@ -15,43 +15,48 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+/**
+ * Spring security configuration class.
+ *
+ * Created by axel on 29/11/16.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
- @Autowired
- @Qualifier("customUserDetailsService")
- UserDetailsService userDetailsService;
+    @Autowired
+    @Qualifier("customUserDetailsService")
+    UserDetailsService userDetailsService;
 
- @Autowired
- public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-  auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
- }
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    }
 
- @Override
- protected void configure(HttpSecurity http) throws Exception {
-  http
-	  .csrf().disable()
-	  .authorizeRequests()
-	  .antMatchers("/**").permitAll() //Disable security
-	  .antMatchers("/consoleh2/**").hasRole(UserProfileType.ADMIN.getUserProfileType())
-	  .anyRequest().authenticated()
-	  .and()
-	  .formLogin()
-	  //		 .loginPage("/login")
-	  .usernameParameter("username").passwordParameter("password");
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/consoleh2/**").hasRole(UserProfileType.ADMIN.getUserProfileType())
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                //		 .loginPage("/login")
+                .usernameParameter("username").passwordParameter("password");
 
-  http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable();
 
- }
+    }
 
- @Autowired
- public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-  auth
-	  .inMemoryAuthentication()
-	  .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
-  auth
-	  .inMemoryAuthentication()
-	  .withUser("admin").password("password").roles(UserProfileType.ADMIN.getUserProfileType());
- }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin").password("password").roles(UserProfileType.ADMIN.getUserProfileType());
+    }
 }

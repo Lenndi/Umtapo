@@ -1,12 +1,12 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 
 /**
+ * Library entity.
+ *
  * Created by axel on 29/11/16.
  */
 @Entity
@@ -21,6 +21,8 @@ public class Library {
  private Boolean subscriptionDuration;
  private Integer borrowDuration;
  private String currency;
+ @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
+ private List<Borrower> borrowers;
 
 
  public Integer getId() {
@@ -32,6 +34,13 @@ public class Library {
   this.id = id;
  }
 
+ public List<Borrower> getBorrowers() {
+  return borrowers;
+ }
+
+ public void setBorrowers(List<Borrower> borrowers) {
+  this.borrowers = borrowers;
+ }
 
  public String getName() {
   return name;

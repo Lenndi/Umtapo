@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 
 /**
+ * User service.
+ *
  * Created by axel on 29/11/16.
  */
 @Service

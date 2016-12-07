@@ -1,34 +1,27 @@
-package org.lendi.umtapo.entity;
+package org.lendi.umtapo.dto;
 
-import javax.persistence.*;
 import java.util.Calendar;
 import java.util.List;
 
 
 /**
- * Borrower entity.
+ * Dto borrower object
  *
  * Created by axel on 29/11/16.
  */
-@Entity
-public class Borrower {
+public class BorrowerDto {
 
- @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
  private String name;
  private String comment;
  private Calendar birthday;
  private Integer quota;
  private Boolean emailOptin;
- @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
- private Address address;
- @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
- private Subscription subscription;
- @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
- private List<Loan> loan;
- @ManyToOne(cascade = CascadeType.ALL)
- private Library library;
+ private AddressDto address;
+ private SubscriptionDto subscription;
+ private List<LoanDto> loan;
+ private LibraryDto library;
+
 
  public Integer getId() {
   return id;
@@ -38,41 +31,41 @@ public class Borrower {
   this.id = id;
  }
 
- public Library getLibrary() {
+ public LibraryDto getLibrary() {
   return library;
  }
 
- public void setLibrary(Library library) {
+ public void setLibrary(LibraryDto library) {
   this.library = library;
  }
 
- public List<Loan> getLoan() {
-  return loan;
- }
-
-
- public void setLoan(List<Loan> loan) {
-  this.loan = loan;
- }
-
-
- public Subscription getSubscription() {
-  return subscription;
- }
-
-
- public void setSubscription(Subscription subscription) {
-  this.subscription = subscription;
- }
-
-
- public Address getAddress() {
+ public AddressDto getAddress() {
   return address;
  }
 
 
- public void setAddress(Address address) {
+ public void setAddress(AddressDto address) {
   this.address = address;
+ }
+
+
+ public SubscriptionDto getSubscription() {
+  return subscription;
+ }
+
+
+ public void setSubscription(SubscriptionDto subscription) {
+  this.subscription = subscription;
+ }
+
+
+ public List<LoanDto> getLoan() {
+  return loan;
+ }
+
+
+ public void setLoan(List<LoanDto> loan) {
+  this.loan = loan;
  }
 
 
