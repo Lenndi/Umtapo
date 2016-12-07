@@ -1,6 +1,6 @@
 package org.lendi.umtapo.dto;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +17,8 @@ public class SubscriptionDto {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
- private Calendar start;
- private Calendar end;
+ private DateTime start;
+ private DateTime end;
  private Integer contribution;
 
 
@@ -32,22 +32,22 @@ public class SubscriptionDto {
  }
 
 
- public Calendar getStart() {
+ public DateTime getStart() {
   return start;
  }
 
 
- public void setStart(Calendar start) {
+ public void setStart(DateTime start) {
   this.start = start;
  }
 
 
- public Calendar getEnd() {
+ public DateTime getEnd() {
   return end;
  }
 
 
- public void setEnd(Calendar end) {
+ public void setEnd(DateTime end) {
   this.end = end;
  }
 

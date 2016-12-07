@@ -1,6 +1,6 @@
 package org.lendi.umtapo.dto;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class LoanDto {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
- private Date date;
+ private DateTime date;
 
 
  public Integer getId() {
@@ -30,12 +30,11 @@ public class LoanDto {
  }
 
 
- public Date getDate() {
+ public DateTime getDate() {
   return date;
  }
 
-
- public void setDate(Date date) {
+ public void setDate(DateTime date) {
   this.date = date;
  }
 }

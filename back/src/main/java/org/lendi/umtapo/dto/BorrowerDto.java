@@ -1,6 +1,7 @@
 package org.lendi.umtapo.dto;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ public class BorrowerDto {
  private Integer id;
  private String name;
  private String comment;
- private Calendar birthday;
+ private DateTime birthday;
  private Integer quota;
  private Boolean emailOptin;
  private AddressDto address;
@@ -29,6 +30,14 @@ public class BorrowerDto {
 
  public void setId(Integer id) {
   this.id = id;
+ }
+
+ public DateTime getBirthday() {
+  return birthday;
+ }
+
+ public void setBirthday(DateTime birthday) {
+  this.birthday = birthday;
  }
 
  public LibraryDto getLibrary() {
@@ -86,16 +95,6 @@ public class BorrowerDto {
 
  public void setComment(String comment) {
   this.comment = comment;
- }
-
-
- public Calendar getBirthday() {
-  return birthday;
- }
-
-
- public void setBirthday(Calendar birthday) {
-  this.birthday = birthday;
  }
 
 

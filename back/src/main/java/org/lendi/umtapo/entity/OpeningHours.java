@@ -1,10 +1,11 @@
 package org.lendi.umtapo.entity;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Calendar;
 
 
 /**
@@ -18,78 +19,65 @@ public class OpeningHours {
  private Integer id;
  private Integer day;
  private Boolean isEnable;
- private Calendar morningOpening;
- private Calendar morningClosing;
- private Calendar afternoonOpening;
- private Calendar afternoonClosing;
+ private DateTime morningOpening;
+ private DateTime morningClosing;
+ private DateTime afternoonOpening;
+ private DateTime afternoonClosing;
 
 
  public Integer getId() {
   return id;
  }
 
-
  public void setId(Integer id) {
   this.id = id;
  }
-
 
  public Integer getDay() {
   return day;
  }
 
-
  public void setDay(Integer day) {
   this.day = day;
  }
-
 
  public Boolean getEnable() {
   return isEnable;
  }
 
-
  public void setEnable(Boolean enable) {
   isEnable = enable;
  }
 
-
- public Calendar getMorningOpening() {
+ public DateTime getMorningOpening() {
   return morningOpening;
  }
 
-
- public void setMorningOpening(Calendar morningOpening) {
+ public void setMorningOpening(DateTime morningOpening) {
   this.morningOpening = morningOpening;
  }
 
-
- public Calendar getMorningClosing() {
+ public DateTime getMorningClosing() {
   return morningClosing;
  }
 
-
- public void setMorningClosing(Calendar morningClosing) {
+ public void setMorningClosing(DateTime morningClosing) {
   this.morningClosing = morningClosing;
  }
 
-
- public Calendar getAfternoonOpening() {
+ public DateTime getAfternoonOpening() {
   return afternoonOpening;
  }
 
-
- public void setAfternoonOpening(Calendar afternoonOpening) {
+ public void setAfternoonOpening(DateTime afternoonOpening) {
   this.afternoonOpening = afternoonOpening;
  }
 
-
- public Calendar getAfternoonClosing() {
+ public DateTime getAfternoonClosing() {
   return afternoonClosing;
  }
 
-
- public void setAfternoonClosing(Calendar afternoonClosing) {
+ public void setAfternoonClosing(DateTime afternoonClosing) {
   this.afternoonClosing = afternoonClosing;
  }
 }

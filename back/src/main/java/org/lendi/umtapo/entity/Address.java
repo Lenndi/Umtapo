@@ -22,6 +22,17 @@ public class Address {
  private String phone;
  private String email;
 
+ public Address() {
+ }
+
+ public Address(String address1, String address2, String zip, String city, String phone, String email) {
+  this.address1 = address1;
+  this.address2 = address2;
+  this.zip = zip;
+  this.city = city;
+  this.phone = phone;
+  this.email = email;
+ }
 
  public Integer getId() {
   return id;
