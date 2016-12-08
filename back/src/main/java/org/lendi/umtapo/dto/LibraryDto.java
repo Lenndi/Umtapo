@@ -3,9 +3,6 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import java.util.List;
-
-
 /**
  * Library entity Dto.
  * <p>
@@ -21,8 +18,6 @@ public class LibraryDto {
     private Boolean subscriptionDuration;
     private Integer borrowDuration;
     private String currency;
-    private List<BorrowerDto> borrowers;
-
 
     public Integer getId() {
         return id;
@@ -78,13 +73,5 @@ public class LibraryDto {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public List<BorrowerDto> getBorrowers() {
-        return borrowers;
-    }
-
-    public void setBorrowers(List<BorrowerDto> borrowers) {
-        this.borrowers = borrowers;
     }
 }
