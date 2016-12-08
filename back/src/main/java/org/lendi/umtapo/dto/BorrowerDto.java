@@ -1,6 +1,12 @@
 package org.lendi.umtapo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 import org.joda.time.DateTime;
+import org.lendi.umtapo.configuration.CustomDateTimeSerializer;
 
 import java.util.List;
 
@@ -10,11 +16,13 @@ import java.util.List;
  *
  * Created by axel on 29/11/16.
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class BorrowerDto {
 
  private Integer id;
  private String name;
  private String comment;
+ @JsonSerialize(using = CustomDateTimeSerializer.class)
  private DateTime birthday;
  private Integer quota;
  private Boolean emailOptin;

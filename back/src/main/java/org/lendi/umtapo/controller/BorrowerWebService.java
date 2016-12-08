@@ -54,7 +54,7 @@ public class BorrowerWebService {
 //            logger.info("A User with id " + borrowerDto.getId() + " already exist");
 //            return new ResponseEntity<>(HttpStatus.CONFLICT);
 //        }
-        borrowerDto = borrowerService.save(borrowerDto);
+        borrowerDto = borrowerService.setBorrower(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
 }

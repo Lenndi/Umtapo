@@ -43,5 +43,6 @@ before_script:
 
 script:
   - if [[ "$NG_SCRIPT" && "$IS_NG" ]]; then npm run $NG_SCRIPT; fi
-  - if [[ "$IS_SB" ]]; then cd ../back; fi
+  - if [[ "$IS_NG" ]]; then cd ..; fi
+  - if [[ "$IS_SB" ]]; then cd back; fi
   - if [[ "$IS_SB" ]]; then mvn test; fi
