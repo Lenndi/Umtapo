@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 
 /**
+ * User servuce implementation.
+ *
  * Created by axel on 29/11/16.
  */
 @Service

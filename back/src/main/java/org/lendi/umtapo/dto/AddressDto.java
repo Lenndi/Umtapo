@@ -1,4 +1,4 @@
-package org.lendi.umtapo.entity;
+package org.lendi.umtapo.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
  * Created by axel on 29/11/16.
  */
 @Entity
-public class Address {
+public class AddressDto {
 
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,17 +22,6 @@ public class Address {
  private String phone;
  private String email;
 
- public Address() {
- }
-
- public Address(String address1, String address2, String zip, String city, String phone, String email) {
-  this.address1 = address1;
-  this.address2 = address2;
-  this.zip = zip;
-  this.city = city;
-  this.phone = phone;
-  this.email = email;
- }
 
  public Integer getId() {
   return id;

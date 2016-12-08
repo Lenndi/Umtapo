@@ -31,13 +31,6 @@ public class UserWebService {
   return new ResponseEntity(userService.save(user), HttpStatus.OK);
  }
 
- @RequestMapping(value = "/test", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
-     produces = { MediaType.APPLICATION_JSON_VALUE})
- public ResponseEntity test(){
-
-  return new ResponseEntity("cece", HttpStatus.OK);
- }
-
  public UserService getUserService() {
   return userService;
  }

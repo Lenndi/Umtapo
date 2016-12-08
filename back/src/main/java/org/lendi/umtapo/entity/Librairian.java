@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 
 /**
+ * Librairian entity.
+ *
  * Created by axel on 29/11/16.
  */
 @Entity

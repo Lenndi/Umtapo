@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { TestComponent } from './test/test.component';
+import {HttpLoggerService} from '../service/http-logger.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { TestComponent } from './test/test.component';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [HttpLoggerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

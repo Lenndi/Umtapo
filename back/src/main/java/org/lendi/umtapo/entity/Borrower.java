@@ -1,11 +1,14 @@
 package org.lendi.umtapo.entity;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.List;
 
 
 /**
+ * Borrower entity.
+ *
  * Created by axel on 29/11/16.
  */
 @Entity
@@ -16,16 +19,32 @@ public class Borrower {
  private Integer id;
  private String name;
  private String comment;
- private Calendar birthday;
+ private DateTime birthday;
  private Integer quota;
  private Boolean emailOptin;
- @OneToOne
+ @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
  private Address address;
- @OneToOne
+ @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
  private Subscription subscription;
- @OneToMany
+ @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
  private List<Loan> loan;
+ @ManyToOne(cascade = CascadeType.ALL)
+ private Library library;
 
+ public Borrower() {
+ }
+
+ public Borrower(String name, String comment, DateTime birthday, Integer quota, Boolean emailOptin, Address address, Subscription subscription, List<Loan> loan, Library library) {
+  this.name = name;
+  this.comment = comment;
+  this.birthday = birthday;
+  this.quota = quota;
+  this.emailOptin = emailOptin;
+  this.address = address;
+  this.subscription = subscription;
+  this.loan = loan;
+  this.library = library;
+ }
 
  public Integer getId() {
   return id;
@@ -35,6 +54,13 @@ public class Borrower {
   this.id = id;
  }
 
+ public Library getLibrary() {
+  return library;
+ }
+
+ public void setLibrary(Library library) {
+  this.library = library;
+ }
 
  public List<Loan> getLoan() {
   return loan;
@@ -86,15 +112,13 @@ public class Borrower {
  }
 
 
- public Calendar getBirthday() {
+ public DateTime getBirthday() {
   return birthday;
  }
 
-
- public void setBirthday(Calendar birthday) {
+ public void setBirthday(DateTime birthday) {
   this.birthday = birthday;
  }
-
 
  public Integer getQuota() {
   return quota;
