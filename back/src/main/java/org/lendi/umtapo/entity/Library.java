@@ -6,110 +6,109 @@ import java.util.List;
 
 /**
  * Library entity.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @Entity
 public class Library {
 
- @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
- private Integer id;
- private String name;
- private Integer shelfMarkNb;
- private Boolean useDeweyClassification;
- private Boolean subscriptionDuration;
- private Integer borrowDuration;
- private String currency;
- @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
- private List<Borrower> borrowers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String name;
+    private Integer shelfMarkNb;
+    private Boolean useDeweyClassification;
+    private Boolean subscriptionDuration;
+    private Integer borrowDuration;
+    private String currency;
+    private Integer defaultZ3950;
 
- public Library() {
- }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
+    private List<Borrower> borrowers;
 
- public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Boolean subscriptionDuration, Integer borrowDuration, String currency, List<Borrower> borrowers) {
-  this.name = name;
-  this.shelfMarkNb = shelfMarkNb;
-  this.useDeweyClassification = useDeweyClassification;
-  this.subscriptionDuration = subscriptionDuration;
-  this.borrowDuration = borrowDuration;
-  this.currency = currency;
-  this.borrowers = borrowers;
- }
+    public Library() {
+    }
 
- public Integer getId() {
-  return id;
- }
+    public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Boolean subscriptionDuration, Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+        this.name = name;
+        this.shelfMarkNb = shelfMarkNb;
+        this.useDeweyClassification = useDeweyClassification;
+        this.subscriptionDuration = subscriptionDuration;
+        this.borrowDuration = borrowDuration;
+        this.currency = currency;
+        this.defaultZ3950 = defaultZ3950;
+        this.borrowers = borrowers;
+    }
 
+    public Integer getId() {
+        return id;
+    }
 
- public void setId(Integer id) {
-  this.id = id;
- }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
- public List<Borrower> getBorrowers() {
-  return borrowers;
- }
+    public List<Borrower> getBorrowers() {
+        return borrowers;
+    }
 
- public void setBorrowers(List<Borrower> borrowers) {
-  this.borrowers = borrowers;
- }
+    public void setBorrowers(List<Borrower> borrowers) {
+        this.borrowers = borrowers;
+    }
 
- public String getName() {
-  return name;
- }
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
- public void setName(String name) {
-  this.name = name;
- }
+    public Integer getShelfMarkNb() {
+        return shelfMarkNb;
+    }
 
+    public void setShelfMarkNb(Integer shelfMarkNb) {
+        this.shelfMarkNb = shelfMarkNb;
+    }
 
- public Integer getShelfMarkNb() {
-  return shelfMarkNb;
- }
+    public Boolean getUseDeweyClassification() {
+        return useDeweyClassification;
+    }
 
+    public void setUseDeweyClassification(Boolean useDeweyClassification) {
+        this.useDeweyClassification = useDeweyClassification;
+    }
 
- public void setShelfMarkNb(Integer shelfMarkNb) {
-  this.shelfMarkNb = shelfMarkNb;
- }
+    public Boolean getSubscriptionDuration() {
+        return subscriptionDuration;
+    }
 
+    public void setSubscriptionDuration(Boolean subscriptionDuration) {
+        this.subscriptionDuration = subscriptionDuration;
+    }
 
- public Boolean getUseDeweyClassification() {
-  return useDeweyClassification;
- }
+    public Integer getBorrowDuration() {
+        return borrowDuration;
+    }
 
+    public void setBorrowDuration(Integer borrowDuration) {
+        this.borrowDuration = borrowDuration;
+    }
 
- public void setUseDeweyClassification(Boolean useDeweyClassification) {
-  this.useDeweyClassification = useDeweyClassification;
- }
+    public String getCurrency() {
+        return currency;
+    }
 
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
- public Boolean getSubscriptionDuration() {
-  return subscriptionDuration;
- }
+    public Integer getDefaultZ3950() {
+        return defaultZ3950;
+    }
 
-
- public void setSubscriptionDuration(Boolean subscriptionDuration) {
-  this.subscriptionDuration = subscriptionDuration;
- }
-
-
- public Integer getBorrowDuration() {
-  return borrowDuration;
- }
-
-
- public void setBorrowDuration(Integer borrowDuration) {
-  this.borrowDuration = borrowDuration;
- }
-
-
- public String getCurrency() {
-  return currency;
- }
-
-
- public void setCurrency(String currency) {
-  this.currency = currency;
- }
+    public void setDefaultZ3950(Integer defaultZ3950) {
+        this.defaultZ3950 = defaultZ3950;
+    }
 }

@@ -14,13 +14,10 @@ public class LibraryDto {
     private Boolean subscriptionDuration;
     private Integer borrowDuration;
     private String currency;
+    private Integer defaultZ3950;
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -69,5 +66,13 @@ public class LibraryDto {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Integer getDefaultZ3950() {
+        return defaultZ3950;
+    }
+
+    public void setDefaultZ3950(Integer defaultZ3950) {
+        this.defaultZ3950 = defaultZ3950;
     }
 }
