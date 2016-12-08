@@ -24,6 +24,18 @@ public class Library {
  @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
  private List<Borrower> borrowers;
 
+ public Library() {
+ }
+
+ public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Boolean subscriptionDuration, Integer borrowDuration, String currency, List<Borrower> borrowers) {
+  this.name = name;
+  this.shelfMarkNb = shelfMarkNb;
+  this.useDeweyClassification = useDeweyClassification;
+  this.subscriptionDuration = subscriptionDuration;
+  this.borrowDuration = borrowDuration;
+  this.currency = currency;
+  this.borrowers = borrowers;
+ }
 
  public Integer getId() {
   return id;

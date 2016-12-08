@@ -1,11 +1,5 @@
 package org.lendi.umtapo.configuration.init;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.transaction.Transactional;
-
 import org.lendi.umtapo.dao.UserDao;
 import org.lendi.umtapo.dao.UserProfileDao;
 import org.lendi.umtapo.entity.User;
@@ -18,6 +12,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
