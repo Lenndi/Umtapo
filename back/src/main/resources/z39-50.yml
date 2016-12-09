@@ -9,5 +9,4 @@ providers:
         password: Z3950_BNF
         username: Z3950
     options:
-      - key: elementSetName
-        value: f
+      elementSetName: f

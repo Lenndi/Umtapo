@@ -33,7 +33,7 @@ public class Z3950WebService {
     }
 
     @RequestMapping(value = "/z3950", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Map<Integer, String>> getZ3950() {
+    public ResponseEntity<Map<Integer, String>> getAllZ3950() {
 
         Map<Integer, Z3950> providers = this.z3950Service.findAll();
 

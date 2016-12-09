@@ -11,7 +11,7 @@ public class Z3950 {
     private int port;
     private String syntax;
     private Map<String, String> database;
-    private Map<String, String>[] options;
+    private Map<String, String> options;
 
     public String getName() {
         return name;
@@ -53,11 +53,11 @@ public class Z3950 {
         this.database = database;
     }
 
-    public Map<String, String>[] getOptions() {
+    public Map<String, String> getOptions() {
         return options;
     }
 
-    public void setOptions(Map<String, String>[] options) {
+    public void setOptions(Map<String, String> options) {
         this.options = options;
     }
 }

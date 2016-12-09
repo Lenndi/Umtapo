@@ -15,7 +15,7 @@ public class LibraryDto {
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
-    private Boolean subscriptionDuration;
+    private Integer subscriptionDuration;
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
@@ -48,11 +48,11 @@ public class LibraryDto {
         this.useDeweyClassification = useDeweyClassification;
     }
 
-    public Boolean getSubscriptionDuration() {
+    public Integer getSubscriptionDuration() {
         return subscriptionDuration;
     }
 
-    public void setSubscriptionDuration(Boolean subscriptionDuration) {
+    public void setSubscriptionDuration(Integer subscriptionDuration) {
         this.subscriptionDuration = subscriptionDuration;
     }
 

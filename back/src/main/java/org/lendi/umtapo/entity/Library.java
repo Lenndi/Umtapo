@@ -18,7 +18,7 @@ public class Library {
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
-    private Boolean subscriptionDuration;
+    private Integer subscriptionDuration;
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
@@ -29,7 +29,7 @@ public class Library {
     public Library() {
     }
 
-    public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Boolean subscriptionDuration, Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+    public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Integer subscriptionDuration, Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
         this.name = name;
         this.shelfMarkNb = shelfMarkNb;
         this.useDeweyClassification = useDeweyClassification;
@@ -42,10 +42,6 @@ public class Library {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public List<Borrower> getBorrowers() {
@@ -80,11 +76,11 @@ public class Library {
         this.useDeweyClassification = useDeweyClassification;
     }
 
-    public Boolean getSubscriptionDuration() {
+    public Integer getSubscriptionDuration() {
         return subscriptionDuration;
     }
 
-    public void setSubscriptionDuration(Boolean subscriptionDuration) {
+    public void setSubscriptionDuration(Integer subscriptionDuration) {
         this.subscriptionDuration = subscriptionDuration;
     }
 
