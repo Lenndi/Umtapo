@@ -1,20 +1,20 @@
 package org.lendi.umtapo.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.Z3950;
-import org.lendi.umtapo.entity.Z3950Configuration;
+import org.lendi.umtapo.service.configuration.Z3950Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,45 +22,41 @@ import java.util.Map;
  */
 @RestController
 public class Z3950WebService {
-
     private final static Logger logger = Logger.getLogger(Z3950WebService.class);
 
+    private final Z3950Service z3950Service;
+
+    @Autowired
+    public Z3950WebService(Z3950Service z3950Service) {
+        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
+        this.z3950Service = z3950Service;
+    }
 
     @RequestMapping(value = "/z3950", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Map<Integer, String>> getZ3950() {
 
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        Map<Integer, String> providers = new HashMap<>();
-        File file = new File("src/main/resources/z39-50.yml");
-        try {
-            Z3950Configuration z3950Providers = mapper.readValue(file, Z3950Configuration.class);
+        Map<Integer, Z3950> providers = this.z3950Service.findAll();
 
-            for (Z3950 provider : z3950Providers.getProviders()) {
-                providers.put(provider.getId(), provider.getName());
-            }
-
-            return new ResponseEntity<>(providers, HttpStatus.CONFLICT);
-        } catch (IOException e) {
-            logger.fatal(e.getMessage());
-        }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
-    }
-
-    /*@RequestMapping(value = "/libraries", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<LibraryDto>> getLibraries() {
-
-        List<LibraryDto> librariesDto = this.libraryService.findAll(true);
-        if (librariesDto.isEmpty()) {
+        if (providers == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(librariesDto, HttpStatus.OK);
+        Map<Integer, String> providersIndex = new HashMap<>();
+        for (Map.Entry<Integer, Z3950> provider : providers.entrySet()) {
+            Z3950 z3950 = provider.getValue();
+            providersIndex.put(provider.getKey(), z3950.getName());
+        }
+
+        return new ResponseEntity<>(providersIndex, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/libraries", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
+    @RequestMapping(value = "/z3950/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Z3950> getZ3950(@PathVariable Integer id) {
 
-        libraryDto = libraryService.save(libraryDto);
-        return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);
-    }*/
+        Z3950 z3950 = this.z3950Service.find(id);
+        if (z3950 == null) {
+            logger.info("Z39.50 provider with id " + id + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(z3950, HttpStatus.OK);
+    }
 }

@@ -1,5 +1,5 @@
 providers:
-  - id: 1
+  1:
     name: Bibliothèque Nationale de France
     url: z3950.bnf.fr
     port: 2211

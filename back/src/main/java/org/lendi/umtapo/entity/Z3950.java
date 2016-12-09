@@ -6,21 +6,12 @@ import java.util.Map;
  * Z39.50 entity.
  */
 public class Z3950 {
-    private int id;
     private String name;
     private String url;
     private int port;
     private String syntax;
     private Map<String, String> database;
     private Map<String, String>[] options;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
