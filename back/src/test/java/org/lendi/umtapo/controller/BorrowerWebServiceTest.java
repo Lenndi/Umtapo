@@ -1,11 +1,11 @@
 package org.lendi.umtapo.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.lendi.umtapo.configuration.security.SecurityConfiguration;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
@@ -14,15 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(BorrowerWebService.class)
+@WithMockUser(username = "test", roles = {"USER", "ADMIN"})
 public class BorrowerWebServiceTest {
 
 
@@ -42,32 +48,41 @@ public class BorrowerWebServiceTest {
     @MockBean
     private BorrowerService borrowerService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private DateTime dateTime;
+
     private BorrowerMapper borrowerMapper = new BorrowerMapper();
 
     private BorrowerDto borrowerDto = new BorrowerDto();
 
+    private BorrowerDto borrowerDto2 = new BorrowerDto();
 
     @Before
     public void setup() {
-        DateTime dateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0);
-        Borrower borrower = new Borrower("NameTest", "CommentTest", dateTime, 5,
+        dateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0);
+        Date date = dateTime.toDate();
+        Borrower borrower = new Borrower("NameTest", "CommentTest", date, 5,
                 true, null, null, null, null);
+        Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", date, 7,
+                false, null, null, null, null);
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
-
+        borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }
 
     @Test
     public void testGetBorrower() throws Exception {
 
         given(this.borrowerService.find(1)).willReturn(borrowerDto);
-
+        String date1 = dateTime.toDate().toString();
         this.mockMvc.perform(get("/borrowers/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("NameTest")))
                 .andExpect(jsonPath("$.comment", is("CommentTest")))
-                .andExpect(jsonPath("$.birthday", is(new DateTime(2000, 1, 1, 0, 0, 0, 0))))
-                .andExpect(jsonPath("$.quota", is("5")))
+//                .andExpect(jsonPath("$.birthday", is(dateTime)))
+                .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
                 .andExpect(jsonPath("$.subscription", nullValue()))
@@ -78,71 +93,60 @@ public class BorrowerWebServiceTest {
 
     }
 
-//    @Test
-//    public void testGetBorrowers() throws Exception {
-//
-//        List<Borrower> borrowers = Arrays.asList(
-//                new Borrower("CaptainCarot", "125", "8"),
-//                new Borrower("CaptainNavet", "78", "5"));
-//
-//        given(this.borrowerService.getBorrowers()).willReturn(borrowers);
-//
-//        this.mockMvc.perform(get("/borrower")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(2)))
-//                .andExpect(jsonPath("$[0].name", is("CaptainCarot")))
-//                .andExpect(jsonPath("$[0].height", is("125")))
-//                .andExpect(jsonPath("$[0].rank", is("8")))
-//                .andExpect(jsonPath("$[1].name", is("CaptainNavet")))
-//                .andExpect(jsonPath("$[1].height", is("78")))
-//                .andExpect(jsonPath("$[1].rank", is("5")));
-//        verify(borrowerService, times(1)).getBorrowers();
-//        verifyNoMoreInteractions(borrowerService);
-//    }
-//
-//    @Test
-//    public void testSetBorrower() throws Exception {
-//        given(this.borrowerService.setBorrower(any(Borrower.class))).willReturn(new Borrower
-//                ("MajorZerg", "160", "3"));
-//
-//        this.mockMvc.perform(post("/borrower")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsBytes(borrowerService.setBorrower(new Borrower())))
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.name", is("MajorZerg")))
-//                .andExpect(jsonPath("$.height", is("160")))
-//                .andExpect(jsonPath("$.rank", is("3")));
-//        verify(borrowerService, times(2)).setBorrower(any());
-//        verifyNoMoreInteractions(borrowerService);
-//    }
-//
-//    @Test
-//    public void testUpdateBorrower() throws Exception {
-//
-//        given(this.borrowerService.updateBorrower(any(Borrower.class))).willReturn(new Borrower
-//                ("MajorZerg", "160", "3"));
-//
-//        this.mockMvc.perform(put("/borrower")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsBytes(borrowerService.updateBorrower(new Borrower())))
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name", is("MajorZerg")))
-//                .andExpect(jsonPath("$.height", is("160")))
-//                .andExpect(jsonPath("$.rank", is("3")));
-//        verify(borrowerService, times(2)).updateBorrower(any());
-//        verifyNoMoreInteractions(borrowerService);
-//    }
-//
-//    @Test
-//    public void testDeleteBorrower() throws Exception {
-//
-//        mockMvc.perform(delete("/borrower/{id}", 1)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNoContent());
-//        verify(borrowerService, times(1)).deleteBorrower(any());
-//        verifyNoMoreInteractions(borrowerService);
-//    }
+    @Test
+    public void testGetBorrowers() throws Exception {
+
+        List<BorrowerDto> borrowerDtos = Arrays.asList(borrowerDto, borrowerDto2);
+
+        given(this.borrowerService.finds()).willReturn(borrowerDtos);
+
+        this.mockMvc.perform(get("/borrowers")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is("NameTest")))
+                .andExpect(jsonPath("$[0].comment", is("CommentTest")))
+//                .andExpect(jsonPath("$.birthday", is(dateTime)))
+                .andExpect(jsonPath("$[0].quota", is(5)))
+                .andExpect(jsonPath("$[0].emailOptin", is(true)))
+                .andExpect(jsonPath("$[0].address", nullValue()))
+                .andExpect(jsonPath("$[0].subscription", nullValue()))
+                .andExpect(jsonPath("$[0].loan", nullValue()))
+                .andExpect(jsonPath("$[0].library", nullValue()))
+                .andExpect(jsonPath("$[1].name", is("NameTest2")))
+                .andExpect(jsonPath("$[1].comment", is("CommentTest2")))
+//                .andExpect(jsonPath("$.birthday", is(dateTime)))
+                .andExpect(jsonPath("$[1].quota", is(7)))
+                .andExpect(jsonPath("$[1].emailOptin", is(false)))
+                .andExpect(jsonPath("$[1].address", nullValue()))
+                .andExpect(jsonPath("$[1].subscription", nullValue()))
+                .andExpect(jsonPath("$[1].loan", nullValue()))
+                .andExpect(jsonPath("$[1].library", nullValue()));
+        verify(borrowerService, times(1)).finds();
+        verifyNoMoreInteractions(borrowerService);
+    }
+
+    @Test
+    public void testSetBorrower() throws Exception {
+
+        given(this.borrowerService.setBorrower(any(BorrowerDto.class))).willReturn(borrowerDto);
+
+        this.mockMvc.perform(post("/borrowers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(borrowerService.setBorrower(new BorrowerDto())))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", is("NameTest")))
+                .andExpect(jsonPath("$.comment", is("CommentTest")))
+//                .andExpect(jsonPath("$.birthday", is(dateTime)))
+                .andExpect(jsonPath("$.quota", is(5)))
+                .andExpect(jsonPath("$.emailOptin", is(true)))
+                .andExpect(jsonPath("$.address", nullValue()))
+                .andExpect(jsonPath("$.subscription", nullValue()))
+                .andExpect(jsonPath("$.loan", nullValue()))
+                .andExpect(jsonPath("$.library", nullValue()));
+        verify(borrowerService, times(2)).setBorrower(any());
+        verifyNoMoreInteractions(borrowerService);
+    }
+
+
 }

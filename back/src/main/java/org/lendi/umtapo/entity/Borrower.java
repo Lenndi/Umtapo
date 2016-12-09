@@ -1,141 +1,140 @@
 package org.lendi.umtapo.entity;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
 /**
  * Borrower entity.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @Entity
 public class Borrower {
 
- @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
- private Integer id;
- private String name;
- private String comment;
- private DateTime birthday;
- private Integer quota;
- private Boolean emailOptin;
- @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
- private Address address;
- @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
- private Subscription subscription;
- @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
- private List<Loan> loan;
- @ManyToOne(cascade = CascadeType.ALL)
- private Library library;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String name;
+    private String comment;
+    private Date birthday;
+    private Integer quota;
+    private Boolean emailOptin;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Address address;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Subscription subscription;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Loan> loan;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Library library;
 
- public Borrower() {
- }
+    public Borrower() {
+    }
 
- public Borrower(String name, String comment, DateTime birthday, Integer quota, Boolean emailOptin, Address address, Subscription subscription, List<Loan> loan, Library library) {
-  this.name = name;
-  this.comment = comment;
-  this.birthday = birthday;
-  this.quota = quota;
-  this.emailOptin = emailOptin;
-  this.address = address;
-  this.subscription = subscription;
-  this.loan = loan;
-  this.library = library;
- }
+    public Borrower(String name, String comment, Date birthday, Integer quota, Boolean emailOptin, Address address, Subscription subscription, List<Loan> loan, Library library) {
+        this.name = name;
+        this.comment = comment;
+        this.birthday = birthday;
+        this.quota = quota;
+        this.emailOptin = emailOptin;
+        this.address = address;
+        this.subscription = subscription;
+        this.loan = loan;
+        this.library = library;
+    }
 
- public Integer getId() {
-  return id;
- }
+    public Integer getId() {
+        return id;
+    }
 
- public void setId(Integer id) {
-  this.id = id;
- }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
- public Library getLibrary() {
-  return library;
- }
+    public Library getLibrary() {
+        return library;
+    }
 
- public void setLibrary(Library library) {
-  this.library = library;
- }
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
 
- public List<Loan> getLoan() {
-  return loan;
- }
-
-
- public void setLoan(List<Loan> loan) {
-  this.loan = loan;
- }
+    public List<Loan> getLoan() {
+        return loan;
+    }
 
 
- public Subscription getSubscription() {
-  return subscription;
- }
+    public void setLoan(List<Loan> loan) {
+        this.loan = loan;
+    }
 
 
- public void setSubscription(Subscription subscription) {
-  this.subscription = subscription;
- }
+    public Subscription getSubscription() {
+        return subscription;
+    }
 
 
- public Address getAddress() {
-  return address;
- }
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
 
 
- public void setAddress(Address address) {
-  this.address = address;
- }
+    public Address getAddress() {
+        return address;
+    }
 
 
- public String getName() {
-  return name;
- }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
 
- public void setName(String name) {
-  this.name = name;
- }
+    public String getName() {
+        return name;
+    }
 
 
- public String getComment() {
-  return comment;
- }
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
- public void setComment(String comment) {
-  this.comment = comment;
- }
+    public String getComment() {
+        return comment;
+    }
 
 
- public DateTime getBirthday() {
-  return birthday;
- }
-
- public void setBirthday(DateTime birthday) {
-  this.birthday = birthday;
- }
-
- public Integer getQuota() {
-  return quota;
- }
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
 
- public void setQuota(Integer quota) {
-  this.quota = quota;
- }
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Integer getQuota() {
+        return quota;
+    }
 
 
- public Boolean getEmailOptin() {
-  return emailOptin;
- }
+    public void setQuota(Integer quota) {
+        this.quota = quota;
+    }
 
 
- public void setEmailOptin(Boolean emailOptin) {
-  this.emailOptin = emailOptin;
- }
+    public Boolean getEmailOptin() {
+        return emailOptin;
+    }
+
+
+    public void setEmailOptin(Boolean emailOptin) {
+        this.emailOptin = emailOptin;
+    }
 }

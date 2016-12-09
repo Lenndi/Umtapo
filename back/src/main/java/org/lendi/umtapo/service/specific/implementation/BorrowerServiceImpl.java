@@ -31,7 +31,7 @@ public class BorrowerServiceImpl extends GenericServiceImpl<Borrower, Integer> i
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto save(BorrowerDto borrowerDto) {
+    public BorrowerDto setBorrower(BorrowerDto borrowerDto) {
         Borrower borrower = borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = borrowerDao.save(borrower);
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);

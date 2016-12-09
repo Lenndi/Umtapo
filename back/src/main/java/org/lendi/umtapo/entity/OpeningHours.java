@@ -1,11 +1,10 @@
 package org.lendi.umtapo.entity;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 
 /**
@@ -19,10 +18,10 @@ public class OpeningHours {
  private Integer id;
  private Integer day;
  private Boolean isEnable;
- private DateTime morningOpening;
- private DateTime morningClosing;
- private DateTime afternoonOpening;
- private DateTime afternoonClosing;
+ private Date morningOpening;
+ private Date morningClosing;
+ private Date afternoonOpening;
+ private Date afternoonClosing;
 
 
  public Integer getId() {
@@ -49,35 +48,35 @@ public class OpeningHours {
   isEnable = enable;
  }
 
- public DateTime getMorningOpening() {
+ public Date getMorningOpening() {
   return morningOpening;
  }
 
- public void setMorningOpening(DateTime morningOpening) {
+ public void setMorningOpening(Date morningOpening) {
   this.morningOpening = morningOpening;
  }
 
- public DateTime getMorningClosing() {
+ public Date getMorningClosing() {
   return morningClosing;
  }
 
- public void setMorningClosing(DateTime morningClosing) {
+ public void setMorningClosing(Date morningClosing) {
   this.morningClosing = morningClosing;
  }
 
- public DateTime getAfternoonOpening() {
+ public Date getAfternoonOpening() {
   return afternoonOpening;
  }
 
- public void setAfternoonOpening(DateTime afternoonOpening) {
+ public void setAfternoonOpening(Date afternoonOpening) {
   this.afternoonOpening = afternoonOpening;
  }
 
- public DateTime getAfternoonClosing() {
+ public Date getAfternoonClosing() {
   return afternoonClosing;
  }
 
- public void setAfternoonClosing(DateTime afternoonClosing) {
+ public void setAfternoonClosing(Date afternoonClosing) {
   this.afternoonClosing = afternoonClosing;
  }
 }

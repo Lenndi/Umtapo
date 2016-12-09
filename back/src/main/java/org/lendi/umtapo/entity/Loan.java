@@ -1,7 +1,5 @@
 package org.lendi.umtapo.entity;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,33 +13,33 @@ import java.util.Date;
 @Entity
 public class Loan {
 
- @Id
- @GeneratedValue(strategy = GenerationType.AUTO)
- private Integer id;
- private DateTime date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private Date date;
 
- public Loan(DateTime date) {
-  this.date = date;
- }
+    public Loan(Date date) {
+        this.date = date;
+    }
 
- public Loan() {
- }
+    public Loan() {
+    }
 
- public Integer getId() {
-  return id;
- }
-
-
- public void setId(Integer id) {
-  this.id = id;
- }
+    public Integer getId() {
+        return id;
+    }
 
 
- public DateTime getDate() {
-  return date;
- }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
- public void setDate(DateTime date) {
-  this.date = date;
- }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

@@ -22,7 +22,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param borrowerDto
      * @return BorrowerDto
      */
-    public BorrowerDto save(BorrowerDto borrowerDto);
+    public BorrowerDto setBorrower(BorrowerDto borrowerDto);
 
     /**
      * Find one borrower.

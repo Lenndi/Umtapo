@@ -1,10 +1,14 @@
 package org.lendi.umtapo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * Library entity Dto.
  * <p>
  * Created by axel on 29/11/16.
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LibraryDto {
 
     private Integer id;
