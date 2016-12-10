@@ -1,7 +1,8 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent }          from './main/main.component';
-import {TestComponent} from './test/test.component';
+import { TestComponent } from './test/test.component';
+import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,9 @@ const routes: Routes = [
       {path: 'cataloging/registration', component: TestComponent},
       {path: 'cataloging/management', component: TestComponent}
     ]
-  }
+  },
+  {path: 'setup/1', component: SetupShelfmarkComponent},
+  {path: 'setup/2', component: SetupShelfmarkComponent}
 ];
 
 @NgModule({
