@@ -1,6 +1,6 @@
 package org.lendi.umtapo.service.configuration;
 
-import org.lendi.umtapo.entity.Z3950;
+import org.lendi.umtapo.entity.configuration.Z3950;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

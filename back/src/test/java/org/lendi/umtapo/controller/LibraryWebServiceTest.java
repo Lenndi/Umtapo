@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Library web service test.
  */
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 @RunWith(SpringRunner.class)
 @WebMvcTest(LibraryWebService.class)
 @WithMockUser(username = "test", roles = {"USER", "ADMIN"})
@@ -64,14 +65,14 @@ public class LibraryWebServiceTest {
                 false, null, null, null, null);
         this.borrowers.add(borrower);
         this.borrowers.add(borrower2);
-        Library library1 = new Library("Library of tests", 3, true, 365, 30, "$", 1, borrowers);
+        Library library1 = new Library("Library of tests", 3, true, 365, 30, "$", 1, this.borrowers);
         Library library2 = new Library("L'Îlot livres", 3, false, 365, 15, "€", 1, new ArrayList<>());
         this.libraryDto1 = this.libraryMapper.mapLibraryToLibraryDto(library1);
         this.libraryDto2 = this.libraryMapper.mapLibraryToLibraryDto(library2);
     }
 
     @Test
-    public void testGetBorrower() throws Exception {
+    public void testGetLibrary() throws Exception {
 
         given(this.libraryService.find(1, true)).willReturn(this.libraryDto1);
         this.mockMvc.perform(get("/libraries/1")
@@ -83,14 +84,13 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))
                 .andExpect(jsonPath("$.borrowDuration", is(30)))
                 .andExpect(jsonPath("$.currency", is("$")))
-                .andExpect(jsonPath("$.defaultZ3950", is(1)))
-                .andExpect(jsonPath("$.borrowers", is(this.borrowers)));
-        verify(libraryService, times(1)).find(1);
+                .andExpect(jsonPath("$.defaultZ3950", is(1)));
+        verify(libraryService, times(1)).find(1, true);
         verifyNoMoreInteractions(libraryService);
     }
 
     @Test
-    public void testGetBorrowers() throws Exception {
+    public void testGetLibraries() throws Exception {
 
         List<LibraryDto> libraryDtos = Arrays.asList(libraryDto1, libraryDto2);
         given(this.libraryService.findAll(true)).willReturn(libraryDtos);
@@ -105,25 +105,23 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$[0].borrowDuration", is(30)))
                 .andExpect(jsonPath("$[0].currency", is("$")))
                 .andExpect(jsonPath("$[0].defaultZ3950", is(1)))
-                .andExpect(jsonPath("$[0].borrowers", is(this.borrowers)))
                 .andExpect(jsonPath("$[1].name", is("L'Îlot livres")))
                 .andExpect(jsonPath("$[1].shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$[1].useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$[1].subscriptionDuration", is(365)))
                 .andExpect(jsonPath("$[1].borrowDuration", is(15)))
                 .andExpect(jsonPath("$[1].currency", is("€")))
-                .andExpect(jsonPath("$[1].defaultZ3950", is(1)))
-                .andExpect(jsonPath("$[1].borrowers", is(new ArrayList<>())));
+                .andExpect(jsonPath("$[1].defaultZ3950", is(1)));
         verify(libraryService, times(1)).findAll(true);
         verifyNoMoreInteractions(libraryService);
     }
 
     @Test
-    public void testSetBorrower() throws Exception {
+    public void testSetLibrary() throws Exception {
 
         given(this.libraryService.save(any(LibraryDto.class))).willReturn(libraryDto1);
 
-        this.mockMvc.perform(post("/borrowers")
+        this.mockMvc.perform(post("/libraries")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(this.libraryService.save(new LibraryDto())))
                 .accept(MediaType.APPLICATION_JSON))
@@ -134,8 +132,7 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))
                 .andExpect(jsonPath("$.borrowDuration", is(30)))
                 .andExpect(jsonPath("$.currency", is("$")))
-                .andExpect(jsonPath("$.defaultZ3950", is(1)))
-                .andExpect(jsonPath("$.borrowers", is(this.borrowers)));
+                .andExpect(jsonPath("$.defaultZ3950", is(1)));
         verify(libraryService, times(2)).save((LibraryDto) any());
         verifyNoMoreInteractions(libraryService);
     }

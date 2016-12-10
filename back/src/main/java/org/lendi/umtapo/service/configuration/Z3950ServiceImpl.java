@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.controller.Z3950WebService;
-import org.lendi.umtapo.entity.Z3950;
-import org.lendi.umtapo.entity.Z3950Configuration;
+import org.lendi.umtapo.entity.configuration.Z3950;
+import org.lendi.umtapo.entity.configuration.Z3950Configuration;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

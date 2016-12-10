@@ -1,4 +1,4 @@
-package org.lendi.umtapo.entity;
+package org.lendi.umtapo.entity.configuration;
 
 import java.util.Map;
 
