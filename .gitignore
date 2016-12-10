@@ -1,6 +1,9 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 lib/
+umtapo.mv.db
+umtapo.trace.db
+
 
 ### STS ###
 .classpath

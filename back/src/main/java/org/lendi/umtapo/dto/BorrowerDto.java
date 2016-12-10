@@ -2,12 +2,8 @@ package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
-import org.joda.time.DateTime;
-import org.lendi.umtapo.configuration.CustomDateTimeSerializer;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -22,8 +18,7 @@ public class BorrowerDto {
  private Integer id;
  private String name;
  private String comment;
- @JsonSerialize(using = CustomDateTimeSerializer.class)
- private DateTime birthday;
+ private LocalDateTime birthday;
  private Integer quota;
  private Boolean emailOptin;
  private AddressDto address;
@@ -40,11 +35,11 @@ public class BorrowerDto {
   this.id = id;
  }
 
- public DateTime getBirthday() {
+ public LocalDateTime getBirthday() {
   return birthday;
  }
 
- public void setBirthday(DateTime birthday) {
+ public void setBirthday(LocalDateTime birthday) {
   this.birthday = birthday;
  }
 

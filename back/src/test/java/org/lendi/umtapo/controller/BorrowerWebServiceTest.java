@@ -2,7 +2,6 @@ package org.lendi.umtapo.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +17,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -51,7 +50,7 @@ public class BorrowerWebServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private DateTime dateTime;
+    private LocalDateTime localDateTime;
 
     private BorrowerMapper borrowerMapper = new BorrowerMapper();
 
@@ -61,11 +60,10 @@ public class BorrowerWebServiceTest {
 
     @Before
     public void setup() {
-        dateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0);
-        Date date = dateTime.toDate();
-        Borrower borrower = new Borrower("NameTest", "CommentTest", date, 5,
+        localDateTime = LocalDateTime.of(2000, 5, 25, 21, 52, 35);
+        Borrower borrower = new Borrower("NameTest", "CommentTest", localDateTime, 5,
                 true, null, null, null, null);
-        Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", date, 7,
+        Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", localDateTime, 7,
                 false, null, null, null, null);
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
@@ -74,8 +72,7 @@ public class BorrowerWebServiceTest {
     @Test
     public void testGetBorrower() throws Exception {
 
-        given(this.borrowerService.find(1)).willReturn(borrowerDto);
-        String date1 = dateTime.toDate().toString();
+        given(this.borrowerService.find(1, true)).willReturn(borrowerDto);
         this.mockMvc.perform(get("/borrowers/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -88,7 +85,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.subscription", nullValue()))
                 .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
-        verify(borrowerService, times(1)).find(1);
+        verify(borrowerService, times(1)).find(1, true);
         verifyNoMoreInteractions(borrowerService);
 
     }
@@ -98,7 +95,7 @@ public class BorrowerWebServiceTest {
 
         List<BorrowerDto> borrowerDtos = Arrays.asList(borrowerDto, borrowerDto2);
 
-        given(this.borrowerService.finds()).willReturn(borrowerDtos);
+        given(this.borrowerService.findAll(true)).willReturn(borrowerDtos);
 
         this.mockMvc.perform(get("/borrowers")
                 .accept(MediaType.APPLICATION_JSON))
@@ -121,18 +118,18 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$[1].subscription", nullValue()))
                 .andExpect(jsonPath("$[1].loan", nullValue()))
                 .andExpect(jsonPath("$[1].library", nullValue()));
-        verify(borrowerService, times(1)).finds();
+        verify(borrowerService, times(1)).findAll(true);
         verifyNoMoreInteractions(borrowerService);
     }
 
     @Test
     public void testSetBorrower() throws Exception {
 
-        given(this.borrowerService.setBorrower(any(BorrowerDto.class))).willReturn(borrowerDto);
+        given(this.borrowerService.save(any(BorrowerDto.class))).willReturn(borrowerDto);
 
         this.mockMvc.perform(post("/borrowers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(borrowerService.setBorrower(new BorrowerDto())))
+                .content(objectMapper.writeValueAsBytes(borrowerService.save(new BorrowerDto())))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("NameTest")))
@@ -144,7 +141,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.subscription", nullValue()))
                 .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
-        verify(borrowerService, times(2)).setBorrower(any());
+        verify(borrowerService, times(2)).save(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);
     }
 

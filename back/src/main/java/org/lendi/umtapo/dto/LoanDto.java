@@ -2,15 +2,12 @@ package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.DateTime;
-import org.lendi.umtapo.configuration.CustomDateTimeSerializer;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 /**
@@ -25,8 +22,7 @@ public class LoanDto {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
- @JsonSerialize(using = CustomDateTimeSerializer.class)
- private DateTime date;
+ private LocalDateTime date;
 
 
  public Integer getId() {
@@ -39,11 +35,11 @@ public class LoanDto {
  }
 
 
- public DateTime getDate() {
+ public LocalDateTime getDate() {
   return date;
  }
 
- public void setDate(DateTime date) {
+ public void setDate(LocalDateTime date) {
   this.date = date;
  }
 }

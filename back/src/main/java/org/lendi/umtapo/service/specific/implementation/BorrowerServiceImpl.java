@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * Borrower service implementation.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @Service
@@ -31,53 +31,90 @@ public class BorrowerServiceImpl extends GenericServiceImpl<Borrower, Integer> i
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto setBorrower(BorrowerDto borrowerDto) {
-        Borrower borrower = borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
-        borrower = borrowerDao.save(borrower);
+    @Override
+    public Borrower save(Borrower borrower) {
+        return this.borrowerDao.save(borrower);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BorrowerDto save(BorrowerDto borrowerDto) {
+        Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
+        borrower = this.borrowerDao.save(borrower);
+        return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public BorrowerDto find(Integer id, boolean isDto) {
+        Borrower borrower = this.borrowerDao.findOne(id);
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public BorrowerDto find(Integer id) {
-        Borrower borrower = borrowerDao.findOne(id);
-        return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
 
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<BorrowerDto> finds() {
-        return mapBorrowersToBorrowerDtos(borrowerDao.findAll());
+    @Override
+    public Borrower find(Integer id) {
+        return this.borrowerDao.findOne(id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
+    @Override
+    public List<BorrowerDto> findAll(boolean isDto) {
+        List<Borrower> borrowers = this.borrowerDao.findAll();
+        return this.mapBorrowersToBorrowerDtos(borrowers);
     }
 
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    @Override
+    public List<Borrower> findAll() {
+        List<Borrower> borrowers = this.borrowerDao.findAll();
+        return borrowers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean exists(Borrower borrower) {
+        return this.borrowerDao.exists(borrower.getId());
+
     }
 
     /**
      * {@inheritDoc}
      */
     public Boolean exists(BorrowerDto borrowerDto) {
-        return borrowerDao.exists(borrowerDto.getId());
+        return this.borrowerDao.exists(borrowerDto.getId());
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<Borrower> mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos) {
+    private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
+        return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    private BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
+        return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    private List<Borrower> mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos) {
         List<Borrower> borrowers = new ArrayList<>();
 
         borrowerDtos.forEach(borrowerDto -> borrowers.add(mapBorrowerDtoToBorrower(borrowerDto)));
@@ -87,7 +124,7 @@ public class BorrowerServiceImpl extends GenericServiceImpl<Borrower, Integer> i
     /**
      * {@inheritDoc}
      */
-    public List<BorrowerDto> mapBorrowersToBorrowerDtos(List<Borrower> borrowers) {
+    private List<BorrowerDto> mapBorrowersToBorrowerDtos(List<Borrower> borrowers) {
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
 
         borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));

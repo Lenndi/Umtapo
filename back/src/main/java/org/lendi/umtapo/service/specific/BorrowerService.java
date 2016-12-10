@@ -17,32 +17,66 @@ import java.util.List;
 public interface BorrowerService extends GenericService<Borrower, Integer> {
 
     /**
-     * Save one borrower.
+     * Persist a Borrower.
      *
-     * @param borrowerDto
+     * @param borrower
      * @return BorrowerDto
      */
-    public BorrowerDto setBorrower(BorrowerDto borrowerDto);
+    Borrower save(Borrower borrower);
 
     /**
-     * Find one borrower.
+     * Persist a Borrower from a BorrowerDto.
+     *
+     * @param borrowerDto
+     * @return
+     */
+    BorrowerDto save(BorrowerDto borrowerDto);
+
+    /**
+     * Find a Borrower by id.
      *
      * @param id
      * @return BorrowerDto
      */
-    public BorrowerDto find(Integer id);
+    Borrower find(Integer id);
 
     /**
-     * Find all borrower.
+     * Find a Borrower by id.
+     *
+     * @param id
+     * @param isDto Return a BorrowerDto entity if true.
+     * @return BorrowerDto
+     */
+    BorrowerDto find(Integer id, boolean isDto);
+
+    /**
+     * Find all Libraries.
      *
      * @return List<BorrowerDto>
      */
-    public List<BorrowerDto> finds();
+    List<Borrower> findAll();
 
     /**
-     * Verify if borrower exist.
+     * Find all Libraries.
+     *
+     * @param isDto Return a BorrowerDto if true.
+     * @return
+     */
+    List<BorrowerDto> findAll(boolean isDto);
+
+    /**
+     * Check if Borrower exist.
+     *
+     * @param borrower
+     * @return true if exist.
+     */
+    Boolean exists(Borrower borrower);
+
+    /**
+     * Check if Borrower exist.
+     *
      * @param borrowerDto
      * @return true if exist.
      */
-    public Boolean exists(BorrowerDto borrowerDto);
+    Boolean exists(BorrowerDto borrowerDto);
 }

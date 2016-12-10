@@ -1,6 +1,7 @@
 package org.lendi.umtapo.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Borrower {
     private Integer id;
     private String name;
     private String comment;
-    private Date birthday;
+    private LocalDateTime birthday;
     private Integer quota;
     private Boolean emailOptin;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -33,7 +34,7 @@ public class Borrower {
     public Borrower() {
     }
 
-    public Borrower(String name, String comment, Date birthday, Integer quota, Boolean emailOptin, Address address, Subscription subscription, List<Loan> loan, Library library) {
+    public Borrower(String name, String comment, LocalDateTime birthday, Integer quota, Boolean emailOptin, Address address, Subscription subscription, List<Loan> loan, Library library) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -111,11 +112,11 @@ public class Borrower {
     }
 
 
-    public Date getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
     }
 

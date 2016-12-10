@@ -28,7 +28,7 @@ public class BorrowerWebService {
     @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BorrowerDto> getBorrower(@PathVariable Integer id) {
 
-        BorrowerDto borrowerDto = borrowerService.find(id);
+        BorrowerDto borrowerDto = borrowerService.find(id, true);
         if (borrowerDto == null) {
             logger.info("Borrower with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,7 +39,7 @@ public class BorrowerWebService {
     @RequestMapping(value = "/borrowers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<BorrowerDto>> getBorrowers() {
 
-        List<BorrowerDto> borrowerDtos = borrowerService.finds();
+        List<BorrowerDto> borrowerDtos = borrowerService.findAll(true);
         if (borrowerDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -54,7 +54,7 @@ public class BorrowerWebService {
 //            logger.info("A User with id " + borrowerDto.getId() + " already exist");
 //            return new ResponseEntity<>(HttpStatus.CONFLICT);
 //        }
-        borrowerDto = borrowerService.setBorrower(borrowerDto);
+        borrowerDto = borrowerService.save(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
 }

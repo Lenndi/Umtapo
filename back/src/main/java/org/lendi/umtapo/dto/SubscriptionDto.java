@@ -2,16 +2,12 @@ package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
-import org.joda.time.DateTime;
-import org.lendi.umtapo.configuration.CustomDateTimeSerializer;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 
 /**
@@ -24,10 +20,8 @@ public class SubscriptionDto {
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Integer id;
- @JsonSerialize(using = CustomDateTimeSerializer.class)
- private DateTime start;
- @JsonSerialize(using = CustomDateTimeSerializer.class)
- private DateTime end;
+ private LocalDateTime start;
+ private LocalDateTime end;
  private Integer contribution;
 
 
@@ -41,22 +35,22 @@ public class SubscriptionDto {
  }
 
 
- public DateTime getStart() {
+ public LocalDateTime getStart() {
   return start;
  }
 
 
- public void setStart(DateTime start) {
+ public void setStart(LocalDateTime start) {
   this.start = start;
  }
 
 
- public DateTime getEnd() {
+ public LocalDateTime getEnd() {
   return end;
  }
 
 
- public void setEnd(DateTime end) {
+ public void setEnd(LocalDateTime end) {
   this.end = end;
  }
 

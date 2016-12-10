@@ -6,10 +6,11 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import org.joda.time.DateTime;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * Borrower mapper générique
@@ -23,7 +24,7 @@ public class BorrowerMapper extends ConfigurableMapper {
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(DateTime.class));
+        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(LocalDateTime.class));
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).byDefault().register();
         mapper = mapperFactory.getMapperFacade();
     }
