@@ -6,7 +6,7 @@ import * as Winston from 'winston';
 
 export const environment = {
   production: false,
-  api_url: 'localhost/api'
+  api_url: 'localhost/'
 };
 
 export const logger: Winston.LoggerInstance = new (Winston.Logger)({

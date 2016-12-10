@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
-import {backend} from '../config/backend';
+import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 
@@ -12,7 +12,7 @@ export class LibraryService {
   private headers;
 
   constructor(private http: Http, private httpLogger: HttpLoggerService) {
-    this.libraryUrl = environment.api_url + backend.api.library;
+    this.libraryUrl = environment.api_url + api.library;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
 
