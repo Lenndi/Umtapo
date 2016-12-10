@@ -1,0 +1,26 @@
+@charset "UTF-8";
+@import "../../sass/components/_variables.scss";
+
+@media #{$medium-and-up} {
+  #setup-card {
+    margin-top: 50px;
+  }
+}
+
+.card-nav {
+  height: 50px;
+  line-height: 50px;
+}
+
+.center-card {
+  margin: 0 auto;
+}
+
+.card-nav-title {
+  font-size: large;
+}
+
+.card-bottom-btn {
+  margin-top: 50px;
+}
+

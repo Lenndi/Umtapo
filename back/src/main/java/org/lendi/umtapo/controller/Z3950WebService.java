@@ -1,19 +1,17 @@
 package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
-import org.lendi.umtapo.entity.Z3950;
+import org.javatuples.Pair;
+import org.lendi.umtapo.entity.configuration.Z3950;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +19,7 @@ import java.util.Map;
  * Z39.50 web service return all Z39.50 access configured in Umtapo.
  */
 @RestController
+@CrossOrigin
 public class Z3950WebService {
     private final static Logger logger = Logger.getLogger(Z3950WebService.class);
 
@@ -33,17 +32,17 @@ public class Z3950WebService {
     }
 
     @RequestMapping(value = "/z3950", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Map<Integer, String>> getAllZ3950() {
+    public ResponseEntity<List<Pair<Integer, String>>> getAllZ3950() {
 
         Map<Integer, Z3950> providers = this.z3950Service.findAll();
 
         if (providers == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        Map<Integer, String> providersIndex = new HashMap<>();
+        List<Pair<Integer, String>> providersIndex = new ArrayList<>();
         for (Map.Entry<Integer, Z3950> provider : providers.entrySet()) {
             Z3950 z3950 = provider.getValue();
-            providersIndex.put(provider.getKey(), z3950.getName());
+            providersIndex.add(new Pair<>(provider.getKey(), z3950.getName()));
         }
 
         return new ResponseEntity<>(providersIndex, HttpStatus.OK);

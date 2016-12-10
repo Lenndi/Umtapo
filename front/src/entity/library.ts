@@ -6,6 +6,7 @@ export class Library {
   private subscriptionDuration: number;
   private borrowDuration: number;
   private currency: string;
+  private defaultZ3950: number;
 
   getId(): number {
     return this.id;
@@ -57,5 +58,13 @@ export class Library {
 
   setCurrency(value: string) {
     this.currency = value;
+  }
+
+  getDefaultZ3950(): number {
+    return this.defaultZ3950;
+  }
+
+  setDefaultZ3950(value: number) {
+    this.defaultZ3950 = value;
   }
 }

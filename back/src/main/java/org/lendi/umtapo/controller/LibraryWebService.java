@@ -16,6 +16,7 @@ import java.util.List;
  * Library web service.
  */
 @RestController
+@CrossOrigin
 public class LibraryWebService {
 
     private final static Logger logger = Logger.getLogger(LibraryWebService.class);
@@ -53,10 +54,6 @@ public class LibraryWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
 
-        /*if (libraryService.exists(libraryDto)) {
-            logger.info("A library with id " + libraryDto.getId() + " already exist");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }*/
         libraryDto = libraryService.save(libraryDto);
         return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);
     }
