@@ -1,0 +1,42 @@
+<div class="card-action">
+  <div class="card-content">
+    <span class="card-title" i18n>Various</span>
+  </div>
+  <div class="row">
+    <form materialize class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="borrow-duration" type="number" [formControl]="form.controls['borrowDuration']"
+                 [class.invalid]="form.controls['borrowDuration'].dirty && !form.controls['borrowDuration'].valid">
+          <label for="borrow-duration" i18n>Default borrow duration (days)</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="subscription-duration" type="number" [formControl]="form.controls['subscriptionDuration']"
+                 [class.invalid]="form.controls['subscriptionDuration'].dirty && !form.controls['subscriptionDuration'].valid">
+          <label for="subscription-duration" i18n>Default subscription duration (days)</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="currency" type="text" [formControl]="form.controls['currency']"
+                 [class.invalid]="form.controls['currency'].dirty && !form.controls['currency'].valid">
+          <label for="currency" i18n>Currency</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="item-start-number" type="text" [formControl]="form.controls['itemStartNumber']"
+                 [class.invalid]="form.controls['itemStartNumber'].dirty && !form.controls['itemStartNumber'].valid">
+          <label for="item-start-number" i18n>Start number for automatic item id</label>
+        </div>
+      </div>
+      <div class="card-bottom-btn right-align">
+        <button type="submit" class="waves-effect btn right-align" i18n>Finish</button>
+      </div>
+    </form>
+  </div>
+  <div>
+  </div>
+</div>

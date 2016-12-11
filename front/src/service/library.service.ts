@@ -8,8 +8,8 @@ import {HttpLoggerService} from './http-logger.service';
 
 @Injectable()
 export class LibraryService {
-  private libraryUrl;
-  private headers;
+  private libraryUrl: string;
+  private headers: Headers;
 
   constructor(private http: Http, private httpLogger: HttpLoggerService) {
     this.libraryUrl = environment.api_url + api.library;
@@ -28,5 +28,18 @@ export class LibraryService {
       .toPromise()
       .then(response => response.json().data as Library)
       .catch(error => this.httpLogger.error(error));
+  }
+
+  saveLocally(library: Library): void {
+    localStorage.setItem('library', JSON.stringify(library));
+  }
+
+  findLocally(): Library {
+    let libraryStr: string = localStorage.getItem('library');
+    if (!libraryStr) {
+      throw {'name': 'StorageException', 'message': 'Library not found'};
+    }
+
+    return JSON.parse(libraryStr).data as Library;
   }
 }

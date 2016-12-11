@@ -12,6 +12,9 @@ import { SetupShelfmarkComponent } from './setup/shelfmark/setup-shelfmark.compo
 import {LibraryService} from '../service/library.service';
 import {Z3950Service} from '../service/z3950.service';
 import {MaterializeModule} from 'angular2-materialize';
+import { SetupVariousComponent } from './setup/various/setup-various.component';
+import { SetupComponent } from './setup/setup.component';
+import {SetupDataService} from '../service/data-binding/setup-data.service';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,8 @@ import {MaterializeModule} from 'angular2-materialize';
     MainComponent,
     TestComponent,
     SetupShelfmarkComponent,
+    SetupVariousComponent,
+    SetupComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,8 @@ import {MaterializeModule} from 'angular2-materialize';
   providers: [
     HttpLoggerService,
     LibraryService,
-    Z3950Service
+    Z3950Service,
+    SetupDataService
   ],
   bootstrap: [AppComponent]
 })
