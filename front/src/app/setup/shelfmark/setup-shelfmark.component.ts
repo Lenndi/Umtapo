@@ -17,7 +17,6 @@ export class SetupShelfmarkComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
   private z3950Sources: any;
-  step = 1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,6 +26,7 @@ export class SetupShelfmarkComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setupDataService.setStep(1);
     this.library = new Library();
 
     this.z3950Service.findAll()

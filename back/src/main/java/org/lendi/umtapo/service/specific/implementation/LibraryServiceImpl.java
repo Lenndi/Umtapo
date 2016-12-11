@@ -1,6 +1,5 @@
 package org.lendi.umtapo.service.specific.implementation;
 
-import org.lendi.umtapo.dao.LibraryDao;
 import org.lendi.umtapo.dto.LibraryDto;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.mapper.LibraryMapper;
@@ -19,41 +18,33 @@ import java.util.List;
 @Service
 public class LibraryServiceImpl extends AbstractGenericService<Library, Integer> implements LibraryService {
 
-    private final LibraryDao libraryDao;
     private final LibraryMapper libraryMapper;
 
     @Autowired
-    public LibraryServiceImpl(LibraryMapper libraryMapper, LibraryDao libraryDao) {
+    public LibraryServiceImpl(LibraryMapper libraryMapper) {
         Assert.notNull(libraryMapper, "Argument libraryMapper cannot be null");
-        Assert.notNull(libraryDao, "Argument libraryDao cannot be null");
 
         this.libraryMapper = libraryMapper;
-        this.libraryDao = libraryDao;
-    }
-
-    @Override
-    public Library save(Library library) {
-        return this.libraryDao.save(library);
     }
 
     @Override
     public LibraryDto saveDto(LibraryDto LibraryDto) {
         Library library = this.libraryMapper.mapLibraryDtoToLibrary(LibraryDto);
-        library = this.libraryDao.save(library);
+        library = this.save(library);
 
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
     @Override
     public LibraryDto findOneDto(Integer id) {
-        Library library = this.libraryDao.findOne(id);
+        Library library = this.findOne(id);
 
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
     @Override
     public List<LibraryDto> findAllDto() {
-        return mapLibrariesToLibrariesDTO(this.libraryDao.findAll());
+        return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
     /**
