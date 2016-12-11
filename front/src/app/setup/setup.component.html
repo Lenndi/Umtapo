@@ -4,11 +4,11 @@
       <nav class="card-nav">
         <div class="nav-wrapper">
           <div class="row card-nav-title">
-            <div class="col s2"></div><div class="col s8" i18n>Master installation</div><div class="col s2">{{setup.step}}/2</div>
+            <div class="col s2"></div><div class="col s8" i18n>Master installation</div><div class="col s2">{{setupDataService.getStep()}}/2</div>
           </div>
         </div>
       </nav>
-        <router-outlet #setup></router-outlet>
+        <router-outlet></router-outlet>
     </div>
   </div>
 </div>

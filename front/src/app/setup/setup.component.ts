@@ -7,11 +7,6 @@ import {SetupDataService} from '../../service/data-binding/setup-data.service';
   styleUrls: ['./setup.component.scss'],
   providers: [SetupDataService]
 })
-export class SetupComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class SetupComponent {
+  constructor(private setupDataService: SetupDataService) {}
 }

@@ -14,7 +14,7 @@ declare const Materialize: any;
   styleUrls: ['../setup.component.scss'],
   providers: [LibraryService]
 })
-export class SetupVariousComponent implements OnInit, OnDestroy {
+export class SetupVariousComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
   private subscription: Subscription;
@@ -28,6 +28,7 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setupDataService.setStep(2);
     this.library = this.setupDataService.getLibrary();
 
     this.form = this.formBuilder.group({
@@ -36,8 +37,6 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
       'currency': ['', Validators.required],
       'itemStartNumber': [1, Validators.required]
     });
-
-    console.log('Library', this.library);
   }
 
   onSubmit(value: any): void {
@@ -46,7 +45,10 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
       this.library.setSubscriptionDuration(value.subscriptionDuration);
       this.library.setCurrency(value.currency);
 
-      this.libraryService.saveLocally(this.library);
+      this.libraryService.save(this.library)
+        .then(library => {
+          this.libraryService.saveLocally(library);
+        });
 
       this.router.navigate(['circulation']);
     } else {
@@ -65,9 +67,5 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
         Materialize.toast('Item start number is empty', 4000);
       }
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
