@@ -7,7 +7,7 @@ public enum UserProfileType {
 	
 	String userProfileType;
 	
-	private UserProfileType(String userProfileType){
+	UserProfileType(String userProfileType){
 		this.userProfileType = userProfileType;
 	}
 	

@@ -71,7 +71,7 @@ public class LibraryWebServiceTest {
     @Test
     public void testGetLibrary() throws Exception {
 
-        given(this.libraryService.find(1, true)).willReturn(this.libraryDto1);
+        given(this.libraryService.findOneDto(1)).willReturn(this.libraryDto1);
         this.mockMvc.perform(get("/libraries/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$.borrowDuration", is(30)))
                 .andExpect(jsonPath("$.currency", is("$")))
                 .andExpect(jsonPath("$.defaultZ3950", is(1)));
-        verify(libraryService, times(1)).find(1, true);
+        verify(libraryService, times(1)).findOneDto(1);
         verifyNoMoreInteractions(libraryService);
     }
 
@@ -90,7 +90,7 @@ public class LibraryWebServiceTest {
     public void testGetLibraries() throws Exception {
 
         List<LibraryDto> libraryDtos = Arrays.asList(libraryDto1, libraryDto2);
-        given(this.libraryService.findAll(true)).willReturn(libraryDtos);
+        given(this.libraryService.findAllDto()).willReturn(libraryDtos);
 
         this.mockMvc.perform(get("/libraries")
                 .accept(MediaType.APPLICATION_JSON))
@@ -109,18 +109,18 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$[1].borrowDuration", is(15)))
                 .andExpect(jsonPath("$[1].currency", is("€")))
                 .andExpect(jsonPath("$[1].defaultZ3950", is(1)));
-        verify(libraryService, times(1)).findAll(true);
+        verify(libraryService, times(1)).findAllDto();
         verifyNoMoreInteractions(libraryService);
     }
 
     @Test
     public void testSetLibrary() throws Exception {
 
-        given(this.libraryService.save(any(LibraryDto.class))).willReturn(libraryDto1);
+        given(this.libraryService.saveDto(any(LibraryDto.class))).willReturn(libraryDto1);
 
         this.mockMvc.perform(post("/libraries")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(this.libraryService.save(new LibraryDto())))
+                .content(objectMapper.writeValueAsBytes(this.libraryService.saveDto(new LibraryDto())))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("Library of tests")))
@@ -130,7 +130,7 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$.borrowDuration", is(30)))
                 .andExpect(jsonPath("$.currency", is("$")))
                 .andExpect(jsonPath("$.defaultZ3950", is(1)));
-        verify(libraryService, times(2)).save((LibraryDto) any());
+        verify(libraryService, times(2)).saveDto(any());
         verifyNoMoreInteractions(libraryService);
     }
 }

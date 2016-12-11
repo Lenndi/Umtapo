@@ -65,7 +65,7 @@ public class UserProfile {
 		if (!(obj instanceof UserProfile))
 			return false;
 		UserProfile other = (UserProfile) obj;
-		if (id != other.id)
+		if (!id.equals(other.id))
 			return false;
 		if (type == null) {
 			if (other.type != null)

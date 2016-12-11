@@ -5,16 +5,18 @@ import java.util.List;
 
 /**
  * Generic service inteface.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
-public interface GenericService <T, ID extends Serializable> {
+public interface GenericService<T, ID extends Serializable> {
 
- <S extends T> S save(S entity);
+    T save(T entity);
 
- T findOne(ID id);
+    T findOne(ID id);
 
- List<T> findAll();
+    List<T> findAll();
 
- void delete(ID id);
+    void delete(ID id);
+
+    Boolean exists(ID id);
 }

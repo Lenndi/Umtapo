@@ -46,7 +46,7 @@ public class User {
 	@JoinTable(name = "APP_USER_USER_PROFILE", 
              joinColumns = { @JoinColumn(name = "USER_ID") }, 
              inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+	private Set<UserProfile> userProfiles = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -130,7 +130,7 @@ public class User {
 		if (!(obj instanceof User))
 			return false;
 		User other = (User) obj;
-		if (id != other.id)
+		if (!id.equals(other.id))
 			return false;
 		if (ssoId == null) {
 			if (other.ssoId != null)

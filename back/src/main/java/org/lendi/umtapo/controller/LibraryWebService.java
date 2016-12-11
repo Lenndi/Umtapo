@@ -32,7 +32,7 @@ public class LibraryWebService {
     @RequestMapping(value = "/libraries/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LibraryDto> getLibrary(@PathVariable Integer id) {
 
-        LibraryDto libraryDto = this.libraryService.find(id, true);
+        LibraryDto libraryDto = this.libraryService.findOneDto(id);
         if (libraryDto == null) {
             logger.info("Library with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -43,7 +43,7 @@ public class LibraryWebService {
     @RequestMapping(value = "/libraries", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<LibraryDto>> getLibraries() {
 
-        List<LibraryDto> librariesDto = this.libraryService.findAll(true);
+        List<LibraryDto> librariesDto = this.libraryService.findAllDto();
         if (librariesDto.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -54,7 +54,7 @@ public class LibraryWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
 
-        libraryDto = libraryService.save(libraryDto);
+        libraryDto = libraryService.saveDto(libraryDto);
         return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);
     }
 }

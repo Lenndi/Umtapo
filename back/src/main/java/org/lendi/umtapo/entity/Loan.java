@@ -6,8 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-
 /**
+ * Loan entity.
+ *
  * Created by axel on 29/11/16.
  */
 @Entity

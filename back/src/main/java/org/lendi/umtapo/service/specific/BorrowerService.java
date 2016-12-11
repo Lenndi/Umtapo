@@ -7,76 +7,43 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 /**
  * Borrower service.
- *
+ * <p>
  * Created by axel on 05/12/16.
  */
 @Service
 public interface BorrowerService extends GenericService<Borrower, Integer> {
 
-    /**
-     * Persist a Borrower.
-     *
-     * @param borrower
-     * @return BorrowerDto
-     */
-    Borrower save(Borrower borrower);
+    @Override
+    Borrower save(Borrower entity);
 
     /**
-     * Persist a Borrower from a BorrowerDto.
+     * Save Borrower based on DTO.
      *
-     * @param borrowerDto
+     * @param entity
      * @return
      */
-    BorrowerDto save(BorrowerDto borrowerDto);
+    BorrowerDto saveDto(BorrowerDto entity);
+
+    @Override
+    Borrower findOne(Integer integer);
 
     /**
-     * Find a Borrower by id.
+     * Return a Borrower DTO by id.
      *
-     * @param id
-     * @return BorrowerDto
+     * @param integer
+     * @return
      */
-    Borrower find(Integer id);
+    BorrowerDto findOneDto(Integer integer);
 
-    /**
-     * Find a Borrower by id.
-     *
-     * @param id
-     * @param isDto Return a BorrowerDto entity if true.
-     * @return BorrowerDto
-     */
-    BorrowerDto find(Integer id, boolean isDto);
-
-    /**
-     * Find all Libraries.
-     *
-     * @return List<BorrowerDto>
-     */
+    @Override
     List<Borrower> findAll();
 
     /**
-     * Find all Libraries.
+     * Retur all Borrower DTO.
      *
-     * @param isDto Return a BorrowerDto if true.
      * @return
      */
-    List<BorrowerDto> findAll(boolean isDto);
-
-    /**
-     * Check if Borrower exist.
-     *
-     * @param borrower
-     * @return true if exist.
-     */
-    Boolean exists(Borrower borrower);
-
-    /**
-     * Check if Borrower exist.
-     *
-     * @param borrowerDto
-     * @return true if exist.
-     */
-    Boolean exists(BorrowerDto borrowerDto);
+    List<BorrowerDto> findAllDto();
 }
