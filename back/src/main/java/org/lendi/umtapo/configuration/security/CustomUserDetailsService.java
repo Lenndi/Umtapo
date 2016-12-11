@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,13 @@ import java.util.List;
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public CustomUserDetailsService(UserService userService) {
+        Assert.notNull(userService);
+        this.userService = userService;
+    }
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String ssoId)
@@ -37,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
         for (UserProfile userProfile : user.getUserProfiles()) {
             System.out.println("UserProfile : " + userProfile);

@@ -4,7 +4,7 @@ import org.lendi.umtapo.dao.LibraryDao;
 import org.lendi.umtapo.dto.LibraryDto;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.mapper.LibraryMapper;
-import org.lendi.umtapo.service.generic.implementation.GenericServiceImpl;
+import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
  * Library service implementation.
  */
 @Service
-public class LibraryServiceImpl extends GenericServiceImpl<Library, Integer> implements LibraryService {
+public class LibraryServiceImpl extends AbstractGenericService<Library, Integer> implements LibraryService {
 
     private final LibraryDao libraryDao;
     private final LibraryMapper libraryMapper;
@@ -37,7 +37,7 @@ public class LibraryServiceImpl extends GenericServiceImpl<Library, Integer> imp
     }
 
     @Override
-    public LibraryDto save(LibraryDto LibraryDto) {
+    public LibraryDto saveDto(LibraryDto LibraryDto) {
         Library library = this.libraryMapper.mapLibraryDtoToLibrary(LibraryDto);
         library = this.libraryDao.save(library);
 
@@ -45,35 +45,15 @@ public class LibraryServiceImpl extends GenericServiceImpl<Library, Integer> imp
     }
 
     @Override
-    public Library find(Integer id) {
-        return this.libraryDao.findOne(id);
-    }
-
-    @Override
-    public LibraryDto find(Integer id, boolean isDto) {
+    public LibraryDto findOneDto(Integer id) {
         Library library = this.libraryDao.findOne(id);
 
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
     @Override
-    public List<Library> findAll() {
-        return this.libraryDao.findAll();
-    }
-
-    @Override
-    public List<LibraryDto> findAll(boolean isDto) {
+    public List<LibraryDto> findAllDto() {
         return mapLibrariesToLibrariesDTO(this.libraryDao.findAll());
-    }
-
-    @Override
-    public Boolean exists(Library library) {
-        return this.libraryDao.exists(library.getId());
-    }
-
-    @Override
-    public Boolean exists(LibraryDto LibraryDto) {
-        return this.libraryDao.exists(LibraryDto.getId());
     }
 
     /**

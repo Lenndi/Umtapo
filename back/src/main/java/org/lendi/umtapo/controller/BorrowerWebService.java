@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,15 +21,20 @@ import java.util.List;
 @RestController
 public class BorrowerWebService {
 
-    final static Logger logger = Logger.getLogger(BorrowerWebService.class);
+    private final static Logger logger = Logger.getLogger(BorrowerWebService.class);
+
+    private final BorrowerService borrowerService;
 
     @Autowired
-    private BorrowerService borrowerService;
+    public BorrowerWebService(BorrowerService borrowerService) {
+        Assert.notNull(borrowerService);
+        this.borrowerService = borrowerService;
+    }
 
     @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BorrowerDto> getBorrower(@PathVariable Integer id) {
 
-        BorrowerDto borrowerDto = borrowerService.find(id, true);
+        BorrowerDto borrowerDto = borrowerService.findOneDto(id);
         if (borrowerDto == null) {
             logger.info("Borrower with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,7 +45,7 @@ public class BorrowerWebService {
     @RequestMapping(value = "/borrowers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<BorrowerDto>> getBorrowers() {
 
-        List<BorrowerDto> borrowerDtos = borrowerService.findAll(true);
+        List<BorrowerDto> borrowerDtos = borrowerService.findAllDto();
         if (borrowerDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -54,7 +60,7 @@ public class BorrowerWebService {
 //            logger.info("A User with id " + borrowerDto.getId() + " already exist");
 //            return new ResponseEntity<>(HttpStatus.CONFLICT);
 //        }
-        borrowerDto = borrowerService.save(borrowerDto);
+        borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
 }
