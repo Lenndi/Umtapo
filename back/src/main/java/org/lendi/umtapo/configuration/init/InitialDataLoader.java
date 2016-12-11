@@ -12,7 +12,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
@@ -20,7 +19,7 @@ import java.util.Set;
 
 /**
  * InitialDataloader entity.
- *
+ * <p>
  * Created by axel on 30/11/16.
  */
 @Component
@@ -28,19 +27,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     boolean alreadySetup = false;
 
-    private final UserDao userDao;
-    private final UserProfileDao userProfileDao;
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
-    public InitialDataLoader(UserDao userDao, UserProfileDao userProfileDao, PasswordEncoder passwordEncoder) {
-        Assert.notNull(userDao);
-        Assert.notNull(userProfileDao);
-        Assert.notNull(passwordEncoder);
-        this.userDao = userDao;
-        this.userProfileDao = userProfileDao;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private UserDao userDao;
+    @Autowired
+    private UserProfileDao userProfileDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
