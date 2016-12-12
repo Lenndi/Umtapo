@@ -22,6 +22,7 @@ public class LibraryDto {
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
+    private List<Borrower> borrowers;
 
     public Integer getId() {
         return id;
@@ -85,5 +86,13 @@ public class LibraryDto {
 
     public void setDefaultZ3950(Integer defaultZ3950) {
         this.defaultZ3950 = defaultZ3950;
+    }
+
+    public List<Borrower> getBorrowers() {
+        return borrowers;
+    }
+
+    public void setBorrowers(List<Borrower> borrowers) {
+        this.borrowers = borrowers;
     }
 }
