@@ -1,0 +1,86 @@
+<div id="setup-card" class="row">
+  <div class="row">
+    <div class="col s12 m6 offset-m3 l8 offset-l2">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">New borrower</span>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="name" type="text" class="validate">
+                  <label for="name">Name</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="email" type="text" class="validate">
+                  <label for="email">Email</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="birthdate" type="datetime" class="validate">
+                  <label for="birthdate">Birth Date</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="phone" type="tel" class="validate">
+                  <label for="phone">Phone</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="address1" type="text" class="validate">
+                  <label for="address1">Address 1</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="address2" type="text" class="validate">
+                  <label for="address2">Address 2</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="zip" type="text" class="validate">
+                  <label for="zip">Zip</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="city" type="text" class="validate">
+                  <label for="city">City</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="subcription-date" type="datetime" class="datepicker">
+                  <label for="subcription-date">Date of subcription</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="quota" type="number" class="validate">
+                  <label for="quota">Quota</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="contribution" type="text" class="validate">
+                  <label for="contribution">Contribution</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="comment" class="materialize-textarea"></textarea>
+                  <label for="comment">Comment</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input type="checkbox" class="filled-in" id="emailOptin" />
+                  <label for="emailOptin">Accept Email Notification</label>
+                </div>
+                <div class="input-field col s6">
+                  <label>{{this.borrower.subscription.end}}</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

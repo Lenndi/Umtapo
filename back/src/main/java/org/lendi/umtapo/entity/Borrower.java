@@ -2,7 +2,6 @@ package org.lendi.umtapo.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 
@@ -28,7 +27,7 @@ public class Borrower {
     private Subscription subscription;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Loan> loan;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
 
     public Borrower() {
