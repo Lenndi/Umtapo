@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {SetupDataService} from '../../service/data-binding/setup-data.service';
 
 @Component({

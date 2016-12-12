@@ -49,16 +49,15 @@ export class SetupShelfmarkComponent implements OnInit {
 
       this.setupDataService.setLibrary(this.library);
 
-      this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
     } else {
       logger.info('Invalid form :', value);
 
-      if (value.shelfMarkNb == '') {
+      if (value.shelfMarkNb === '') {
         Materialize.toast('Number of fields is empty', 4000);
       } else if (!this.form.controls['shelfMarkNb'].valid) {
         Materialize.toast('Number of fields must be between 1 and 5', 4000);
       }
-      if (value.defaultZ3950 == '') {
+      if (value.defaultZ3950 === '') {
         Materialize.toast('Please select a favorite ISBN source', 4000);
       }
     }

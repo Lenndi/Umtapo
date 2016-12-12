@@ -1,9 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Library} from '../../../entity/library';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
-import {Subscription} from 'rxjs';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
 declare const Materialize: any;
@@ -17,7 +16,6 @@ declare const Materialize: any;
 export class SetupVariousComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
-  private subscription: Subscription;
   step = 2;
 
   constructor(
