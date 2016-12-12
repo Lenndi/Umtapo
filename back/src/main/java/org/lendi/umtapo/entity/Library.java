@@ -44,6 +44,10 @@ public class Library {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public List<Borrower> getBorrowers() {
         return borrowers;
     }
