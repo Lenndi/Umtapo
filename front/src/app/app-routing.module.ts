@@ -5,13 +5,17 @@ import { TestComponent } from './test/test.component';
 import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.component';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
+import {AppComponent} from './app.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: AppComponent
+  },
+  {
+    path: '',
     component: MainComponent,
     children: [
-      {path: '', redirectTo: 'circulation', pathMatch: 'full'},
       {path: 'circulation', component: TestComponent},
       {path: 'borrowers/new', component: TestComponent},
       {path: 'borrowers/management', component: TestComponent},

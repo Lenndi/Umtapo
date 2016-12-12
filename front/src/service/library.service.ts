@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
@@ -46,7 +46,7 @@ export class LibraryService {
   findLocally(): Library {
     let libraryStr: string = localStorage.getItem('library');
     if (!libraryStr) {
-      throw {'name': 'StorageException', 'message': 'Library not found'};
+      return null;
     }
 
     return JSON.parse(libraryStr) as Library;

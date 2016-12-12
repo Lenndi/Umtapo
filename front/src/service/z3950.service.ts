@@ -16,17 +16,10 @@ export class Z3950Service {
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
 
-  findAll(): Promise<any> {
+  findAll(): Promise<Z3950[]> {
     return this.http.get(this.z3950Url)
       .toPromise()
-      .then(response => response.json())
-      .catch(error => this.httpLogger.error(error));
-  }
-
-  find(id: number): Promise<Z3950> {
-    return this.http.get(`${this.z3950Url}/${id}`)
-      .toPromise()
-      .then(response => response.json().data as Z3950)
+      .then(response => response.json() as Z3950[])
       .catch(error => this.httpLogger.error(error));
   }
 }
