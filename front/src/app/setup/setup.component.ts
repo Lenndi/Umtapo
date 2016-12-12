@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {SetupDataService} from '../../service/data-binding/setup-data.service';
 
 @Component({
@@ -7,11 +7,6 @@ import {SetupDataService} from '../../service/data-binding/setup-data.service';
   styleUrls: ['./setup.component.scss'],
   providers: [SetupDataService]
 })
-export class SetupComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class SetupComponent {
+  constructor(private setupDataService: SetupDataService) {}
 }

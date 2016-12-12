@@ -1,9 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Library} from '../../../entity/library';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
-import {Subscription} from 'rxjs';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
 declare const Materialize: any;
@@ -14,10 +13,9 @@ declare const Materialize: any;
   styleUrls: ['../setup.component.scss'],
   providers: [LibraryService]
 })
-export class SetupVariousComponent implements OnInit, OnDestroy {
+export class SetupVariousComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
-  private subscription: Subscription;
   step = 2;
 
   constructor(
@@ -28,6 +26,7 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setupDataService.setStep(2);
     this.library = this.setupDataService.getLibrary();
 
     this.form = this.formBuilder.group({
@@ -36,8 +35,6 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
       'currency': ['', Validators.required],
       'itemStartNumber': [1, Validators.required]
     });
-
-    console.log('Library', this.library);
   }
 
   onSubmit(value: any): void {
@@ -46,7 +43,10 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
       this.library.setSubscriptionDuration(value.subscriptionDuration);
       this.library.setCurrency(value.currency);
 
-      this.libraryService.saveLocally(this.library);
+      this.libraryService.save(this.library)
+        .then(library => {
+          this.libraryService.saveLocally(library);
+        });
 
       this.router.navigate(['circulation']);
     } else {
@@ -65,9 +65,5 @@ export class SetupVariousComponent implements OnInit, OnDestroy {
         Materialize.toast('Item start number is empty', 4000);
       }
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

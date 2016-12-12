@@ -6,6 +6,7 @@ import {ShelfmarkValidator} from '../../../validator/shelfmark.validator';
 import {Router} from '@angular/router';
 import {Z3950Service} from '../../../service/z3950.service';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
+import {Z3950} from '../../../entity/z3950';
 declare const Materialize: any;
 
 @Component({
@@ -16,8 +17,7 @@ declare const Materialize: any;
 export class SetupShelfmarkComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
-  private z3950Sources: any;
-  step = 1;
+  private z3950Sources: Z3950[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,6 +27,8 @@ export class SetupShelfmarkComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setupDataService.setStep(1);
+    console.log('precedence', this.setupDataService.getPrecedence());
     this.library = new Library();
 
     this.z3950Service.findAll()
@@ -47,16 +49,15 @@ export class SetupShelfmarkComponent implements OnInit {
 
       this.setupDataService.setLibrary(this.library);
 
-      this.router.navigate(['setup/2']);
     } else {
       logger.info('Invalid form :', value);
 
-      if (value.shelfMarkNb == '') {
+      if (value.shelfMarkNb === '') {
         Materialize.toast('Number of fields is empty', 4000);
       } else if (!this.form.controls['shelfMarkNb'].valid) {
         Materialize.toast('Number of fields must be between 1 and 5', 4000);
       }
-      if (value.defaultZ3950 == '') {
+      if (value.defaultZ3950 === '') {
         Materialize.toast('Please select a favorite ISBN source', 4000);
       }
     }

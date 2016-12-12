@@ -4,6 +4,10 @@
 @media #{$medium-and-up} {
   #setup-card {
     margin-top: 50px;
+    i {
+      height: 50px;
+      line-height: 50px;
+    }
   }
 }
 

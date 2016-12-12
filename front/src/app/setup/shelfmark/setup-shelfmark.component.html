@@ -16,7 +16,7 @@
           <select materialize="material_select"
                   [materializeSelectOptions]="selectOptions" [formControl]="form.controls['defaultZ3950']">
             <option value="" disabled selected i18n>ISBN favorite source</option>
-            <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.value0">{{z3950Source.value1}}
+            <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.id">{{z3950Source.name}}
             </option>
           </select>
         </div>
