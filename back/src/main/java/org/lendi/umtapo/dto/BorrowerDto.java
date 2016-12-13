@@ -1,6 +1,7 @@
 package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDateTime;
@@ -22,10 +23,10 @@ public class BorrowerDto {
  private Integer quota;
  private Boolean emailOptin;
  private AddressDto address;
- private SubscriptionDto subscription;
+ private List<SubscriptionDto> subscription;
  private List<LoanDto> loan;
+ @JsonInclude(JsonInclude.Include.NON_NULL)
  private LibraryDto library;
-
 
  public Integer getId() {
   return id;
@@ -55,66 +56,53 @@ public class BorrowerDto {
   return address;
  }
 
-
  public void setAddress(AddressDto address) {
   this.address = address;
  }
 
-
- public SubscriptionDto getSubscription() {
+ public List<SubscriptionDto> getSubscription() {
   return subscription;
  }
 
-
- public void setSubscription(SubscriptionDto subscription) {
+ public void setSubscription(List<SubscriptionDto> subscription) {
   this.subscription = subscription;
  }
-
 
  public List<LoanDto> getLoan() {
   return loan;
  }
 
-
  public void setLoan(List<LoanDto> loan) {
   this.loan = loan;
  }
-
 
  public String getName() {
   return name;
  }
 
-
  public void setName(String name) {
   this.name = name;
  }
-
 
  public String getComment() {
   return comment;
  }
 
-
  public void setComment(String comment) {
   this.comment = comment;
  }
-
 
  public Integer getQuota() {
   return quota;
  }
 
-
  public void setQuota(Integer quota) {
   this.quota = quota;
  }
 
-
  public Boolean getEmailOptin() {
   return emailOptin;
  }
-
 
  public void setEmailOptin(Boolean emailOptin) {
   this.emailOptin = emailOptin;

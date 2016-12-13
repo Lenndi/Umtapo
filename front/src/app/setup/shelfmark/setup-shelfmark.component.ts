@@ -28,7 +28,6 @@ export class SetupShelfmarkComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupDataService.setStep(1);
-    console.log('precedence', this.setupDataService.getPrecedence());
     this.library = new Library();
 
     this.z3950Service.findAll()
@@ -49,6 +48,7 @@ export class SetupShelfmarkComponent implements OnInit {
 
       this.setupDataService.setLibrary(this.library);
 
+      this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
     } else {
       logger.info('Invalid form :', value);
 

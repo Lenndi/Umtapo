@@ -1,9 +1,6 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -20,6 +17,12 @@ public class Subscription {
     private Date start;
     private Date end;
     private Integer contribution;
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name="BORROWERID", referencedColumnName="ID")
+    private Borrower borrower;
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name="LIBRARYID", referencedColumnName="ID")
+    private Library library;
 
     public Subscription() {
     }
@@ -60,5 +63,21 @@ public class Subscription {
 
     public void setContribution(Integer contribution) {
         this.contribution = contribution;
+    }
+
+    public Borrower getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(Borrower borrower) {
+        this.borrower = borrower;
+    }
+
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
     }
 }

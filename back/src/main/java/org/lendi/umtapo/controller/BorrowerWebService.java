@@ -56,10 +56,6 @@ public class BorrowerWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BorrowerDto> setUser(@RequestBody BorrowerDto borrowerDto) {
 
-//        if (borrowerService.exists(borrowerDto)) {
-//            logger.info("A User with id " + borrowerDto.getId() + " already exist");
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//        }
         borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }

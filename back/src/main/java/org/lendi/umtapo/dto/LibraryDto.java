@@ -1,8 +1,8 @@
 package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.lendi.umtapo.entity.Borrower;
 
 import java.util.List;
 
@@ -22,7 +22,9 @@ public class LibraryDto {
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
-    private List<Borrower> borrowers;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<BorrowerDto> borrowers;
+    private List<SubscriptionDto> subscriptions;
 
     public Integer getId() {
         return id;
@@ -88,11 +90,19 @@ public class LibraryDto {
         this.defaultZ3950 = defaultZ3950;
     }
 
-    public List<Borrower> getBorrowers() {
+    public List<BorrowerDto> getBorrowers() {
         return borrowers;
     }
 
-    public void setBorrowers(List<Borrower> borrowers) {
+    public void setBorrowers(List<BorrowerDto> borrowers) {
         this.borrowers = borrowers;
+    }
+
+    public List<SubscriptionDto> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<SubscriptionDto> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

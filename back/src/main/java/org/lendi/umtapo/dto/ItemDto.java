@@ -1,28 +1,24 @@
-package org.lendi.umtapo.entity;
+package org.lendi.umtapo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.enumeration.Condition;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**
  * Item entity.
- *
- * Created by axel on 29/11/16.
  */
-@Entity
-public class Item {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class ItemDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String type;
     private String internalId;
     private Integer purchasePrice;
     private Boolean loanable;
-    @OneToMany(mappedBy = "item")
     private List<Loan> loan;
-    @Enumerated(EnumType.STRING)
     private Condition condition;
 
     public Integer getId() {
