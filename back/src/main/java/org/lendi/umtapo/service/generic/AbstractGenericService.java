@@ -1,6 +1,5 @@
 package org.lendi.umtapo.service.generic;
 
-import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 

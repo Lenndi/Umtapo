@@ -24,7 +24,6 @@ public class OpeningHours {
     private Date afternoonOpening;
     private Date afternoonClosing;
 
-
     public Integer getId() {
         return id;
     }

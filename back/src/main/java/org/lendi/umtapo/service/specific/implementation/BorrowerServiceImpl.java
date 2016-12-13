@@ -1,6 +1,5 @@
 package org.lendi.umtapo.service.specific.implementation;
 
-import org.lendi.umtapo.dao.BorrowerDao;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
@@ -21,35 +20,32 @@ import java.util.List;
 @Service
 public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Integer> implements BorrowerService {
 
-    private final BorrowerDao borrowerDao;
     private final BorrowerMapper borrowerMapper;
 
     @Autowired
-    public BorrowerServiceImpl(BorrowerDao borrowerDao, BorrowerMapper borrowerMapper) {
-        Assert.notNull(borrowerDao);
+    public BorrowerServiceImpl(BorrowerMapper borrowerMapper) {
         Assert.notNull(borrowerMapper);
-        this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
     }
 
     @Override
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
-        borrower = this.borrowerDao.save(borrower);
+        borrower = this.save(borrower);
 
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
     @Override
     public BorrowerDto findOneDto(Integer id) {
-        Borrower borrower = this.borrowerDao.findOne(id);
+        Borrower borrower = this.findOne(id);
 
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
     @Override
     public List<BorrowerDto> findAllDto() {
-        List<Borrower> borrowers = this.borrowerDao.findAll();
+        List<Borrower> borrowers = this.findAll();
 
         return this.mapBorrowersToBorrowerDtos(borrowers);
     }

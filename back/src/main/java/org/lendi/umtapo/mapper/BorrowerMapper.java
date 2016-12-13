@@ -1,6 +1,5 @@
 package org.lendi.umtapo.mapper;
 
-
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
@@ -25,18 +24,16 @@ public class BorrowerMapper extends ConfigurableMapper {
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(LocalDateTime.class));
-        mapperFactory.classMap(Borrower.class, BorrowerDto.class).byDefault().register();
+        mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
         mapper = mapperFactory.getMapperFacade();
     }
 
     public BorrowerMapper() {
     }
 
-
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
         return mapper.map(borrower, BorrowerDto.class);
     }
-
 
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return mapper.map(borrowerDto, Borrower.class);
