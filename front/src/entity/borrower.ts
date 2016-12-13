@@ -3,86 +3,86 @@ import {Address} from './address';
 import {Subscription} from './subscription';
 import {Loan} from './loan';
 export class Borrower {
-    private _id: number;
-    private _name: string;
-    private _birthday: string;
-    private _quota: number;
-    private _emailOptin: boolean;
-    private _address: Address;
-    private _subscription: Subscription;
-    private _loan: Loan;
-    private _library: Library;
+    private id: number;
+    private name: string;
+    private birthday: Date;
+    private quota: number;
+    private emailOptin: boolean;
+    private address: Address;
+    private subscription: Subscription;
+    private loan: Loan;
+    private library: Library;
 
 
-    get id(): number {
-        return this._id;
+    getId(): number {
+        return this.id;
     }
 
-    set id(value: number) {
-        this._id = value;
+    setId(value: number) {
+        this.id = value;
     }
 
-    get name(): string {
-        return this._name;
+    getName(): string {
+        return this.name;
     }
 
-    set name(value: string) {
-        this._name = value;
+    setName(value: string) {
+        this.name = value;
     }
 
-    get birthday(): string {
-        return this._birthday;
+    getBirthday(): Date {
+        return this.birthday;
     }
 
-    set birthday(value: string) {
-        this._birthday = value;
+    setBirthday(value: Date) {
+        this.birthday = value;
     }
 
-    get quota(): number {
-        return this._quota;
+    getQuota(): number {
+        return this.quota;
     }
 
-    set quota(value: number) {
-        this._quota = value;
+    setQuota(value: number) {
+        this.quota = value;
     }
 
-    get emailOptin(): boolean {
-        return this._emailOptin;
+    getEmailOptin(): boolean {
+        return this.emailOptin;
     }
 
-    set emailOptin(value: boolean) {
-        this._emailOptin = value;
+    setEmailOptin(value: boolean) {
+        this.emailOptin = value;
     }
 
-    get address(): Address {
-        return this._address;
+    getAddress(): Address {
+        return this.address;
     }
 
-    set address(value: Address) {
-        this._address = value;
+    setAddress(value: Address) {
+        this.address = value;
     }
 
-    get subscription(): Subscription {
-        return this._subscription;
+    getSubscription(): Subscription {
+        return this.subscription;
     }
 
-    set subscription(value: Subscription) {
-        this._subscription = value;
+    setSubscription(value: Subscription) {
+        this.subscription = value;
     }
 
-    get loan(): Loan {
-        return this._loan;
+    getLoan(): Loan {
+        return this.loan;
     }
 
-    set loan(value: Loan) {
-        this._loan = value;
+    setLoan(value: Loan) {
+        this.loan = value;
     }
 
-    get library(): Library {
-        return this._library;
+    getLibrary(): Library {
+        return this.library;
     }
 
-    set library(value: Library) {
-        this._library = value;
+    setLibrary(value: Library) {
+        this.library = value;
     }
 }

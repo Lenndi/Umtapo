@@ -19,6 +19,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
      * @param library
      * @return LibraryDto
      */
+    @Override
     Library save(Library library);
 
     /**
@@ -27,7 +28,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
      * @param libraryDto
      * @return
      */
-    LibraryDto save(LibraryDto libraryDto);
+    LibraryDto saveDto(LibraryDto libraryDto);
 
     /**
      * Find a Library by id.
@@ -35,45 +36,37 @@ public interface LibraryService extends GenericService<Library, Integer> {
      * @param id
      * @return LibraryDto
      */
-    Library find(Integer id);
+    @Override
+    Library findOne(Integer id);
 
     /**
      * Find a Library by id.
      *
      * @param id
-     * @param isDto Return a LibraryDto entity if true.
      * @return LibraryDto
      */
-    LibraryDto find(Integer id, boolean isDto);
+    LibraryDto findOneDto(Integer id);
 
     /**
      * Find all Libraries.
      *
      * @return List<LibraryDto>
      */
+    @Override
     List<Library> findAll();
 
     /**
      * Find all Libraries.
      *
-     * @param isDto Return a LibraryDto if true.
      * @return
      */
-    List<LibraryDto> findAll(boolean isDto);
+    List<LibraryDto> findAllDto();
 
     /**
      * Check if Library exist.
      *
-     * @param library
      * @return true if exist.
      */
-    Boolean exists(Library library);
-
-    /**
-     * Check if Library exist.
-     *
-     * @param libraryDto
-     * @return true if exist.
-     */
-    Boolean exists(LibraryDto libraryDto);
+    @Override
+    Boolean exists(Integer id);
 }

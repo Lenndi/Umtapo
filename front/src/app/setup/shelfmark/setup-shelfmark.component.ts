@@ -5,6 +5,8 @@ import {logger} from '../../../environments/environment';
 import {ShelfmarkValidator} from '../../../validator/shelfmark.validator';
 import {Router} from '@angular/router';
 import {Z3950Service} from '../../../service/z3950.service';
+import {SetupDataService} from '../../../service/data-binding/setup-data.service';
+import {Z3950} from '../../../entity/z3950';
 declare const Materialize: any;
 
 @Component({
@@ -15,16 +17,19 @@ declare const Materialize: any;
 export class SetupShelfmarkComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
-  private z3950Sources: any;
+  private z3950Sources: Z3950[];
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private z3950Service: Z3950Service
+    private z3950Service: Z3950Service,
+    private setupDataService: SetupDataService
   ) {}
 
   ngOnInit(): void {
+    this.setupDataService.setStep(1);
     this.library = new Library();
+
     this.z3950Service.findAll()
       .then(z3950Sources => this.z3950Sources = z3950Sources);
 
@@ -41,16 +46,18 @@ export class SetupShelfmarkComponent implements OnInit {
       this.library.setDefaultZ3950(value.defaultZ3950);
       this.library.setUseDeweyClassification(value.useDeweyClassification);
 
-      this.router.navigate(['setup/2']);
+      this.setupDataService.setLibrary(this.library);
+
+      this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
     } else {
       logger.info('Invalid form :', value);
 
-      if (value.shelfMarkNb == '') {
+      if (value.shelfMarkNb === '') {
         Materialize.toast('Number of fields is empty', 4000);
-      } else if (this.form.controls['shelfMarkNb']) {
+      } else if (!this.form.controls['shelfMarkNb'].valid) {
         Materialize.toast('Number of fields must be between 1 and 5', 4000);
       }
-      if (value.defaultZ3950 == '') {
+      if (value.defaultZ3950 === '') {
         Materialize.toast('Please select a favorite ISBN source', 4000);
       }
     }

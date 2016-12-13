@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Headers, RequestOptions} from '@angular/http';
 import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
@@ -8,8 +8,8 @@ import {HttpLoggerService} from './http-logger.service';
 
 @Injectable()
 export class LibraryService {
-  private libraryUrl;
-  private headers;
+  private libraryUrl: string;
+  private headers: Headers;
 
   constructor(private http: Http, private httpLogger: HttpLoggerService) {
     this.libraryUrl = environment.api_url + api.library;
@@ -19,14 +19,36 @@ export class LibraryService {
   findAll(): Promise<Library[]> {
     return this.http.get(this.libraryUrl)
       .toPromise()
-      .then(response => response.json().data as Library[])
+      .then(response => response.json() as Library[])
       .catch(error => this.httpLogger.error(error));
   }
 
   find(id: number): Promise<Library> {
     return this.http.get(`${this.libraryUrl}/${id}`)
       .toPromise()
-      .then(response => response.json().data as Library)
+      .then(response => response.json() as Library)
       .catch(error => this.httpLogger.error(error));
+  }
+
+  save(library: Library): Promise<Library> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .post(this.libraryUrl, JSON.stringify(library), options)
+      .toPromise()
+      .then(response => response.json() as Library)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  saveLocally(library: Library): void {
+    localStorage.setItem('library', JSON.stringify(library));
+  }
+
+  findLocally(): Library {
+    let libraryStr: string = localStorage.getItem('library');
+    if (!libraryStr) {
+      return null;
+    }
+
+    return JSON.parse(libraryStr) as Library;
   }
 }

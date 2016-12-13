@@ -22,8 +22,9 @@ public class Library {
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
+    @OneToMany(mappedBy = "library")
+    private List<Subscription> subscription;
+    @OneToMany(mappedBy = "library")
     private List<Borrower> borrowers;
 
     public Library() {
@@ -42,6 +43,10 @@ public class Library {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<Borrower> getBorrowers() {
@@ -106,5 +111,13 @@ public class Library {
 
     public void setDefaultZ3950(Integer defaultZ3950) {
         this.defaultZ3950 = defaultZ3950;
+    }
+
+    public List<Subscription> getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(List<Subscription> subscription) {
+        this.subscription = subscription;
     }
 }

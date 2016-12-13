@@ -1,40 +1,40 @@
 export class Subscription {
 
-    private _id: number;
-    private _start: string;
-    private _end: string;
-    private _contribution: number;
+    private id: number;
+    private start: Date;
+    private end: Date;
+    private contribution: number;
 
 
-    get id(): number {
-        return this._id;
+    getId(): number {
+        return this.id;
     }
 
-    set id(value: number) {
-        this._id = value;
+    setId(value: number) {
+        this.id = value;
     }
 
-    get start(): string {
-        return this._start;
+    getStart(): Date {
+        return this.start;
     }
 
-    set start(value: string) {
-        this._start = value;
+    setStart(value: Date) {
+        this.start = value;
     }
 
-    get end(): string {
-        return this._end;
+    getEnd(): Date {
+        return this.end;
     }
 
-    set end(value: string) {
-        this._end = value;
+    setEnd(value: Date) {
+        this.end = value;
     }
 
-    get contribution(): number {
-        return this._contribution;
+    getContribution(): number {
+        return this.contribution;
     }
 
-    set contribution(value: number) {
-        this._contribution = value;
+    setContribution(value: number) {
+        this.contribution = value;
     }
 }

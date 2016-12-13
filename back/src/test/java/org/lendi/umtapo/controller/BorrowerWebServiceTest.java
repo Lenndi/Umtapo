@@ -40,7 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "test", roles = {"USER", "ADMIN"})
 public class BorrowerWebServiceTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -72,7 +71,7 @@ public class BorrowerWebServiceTest {
     @Test
     public void testGetBorrower() throws Exception {
 
-        given(this.borrowerService.find(1, true)).willReturn(borrowerDto);
+        given(this.borrowerService.findOneDto(1)).willReturn(borrowerDto);
         this.mockMvc.perform(get("/borrowers/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -85,7 +84,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.subscription", nullValue()))
                 .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
-        verify(borrowerService, times(1)).find(1, true);
+        verify(borrowerService, times(1)).findOneDto(1);
         verifyNoMoreInteractions(borrowerService);
 
     }
@@ -95,7 +94,7 @@ public class BorrowerWebServiceTest {
 
         List<BorrowerDto> borrowerDtos = Arrays.asList(borrowerDto, borrowerDto2);
 
-        given(this.borrowerService.findAll(true)).willReturn(borrowerDtos);
+        given(this.borrowerService.findAllDto()).willReturn(borrowerDtos);
 
         this.mockMvc.perform(get("/borrowers")
                 .accept(MediaType.APPLICATION_JSON))
@@ -118,18 +117,18 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$[1].subscription", nullValue()))
                 .andExpect(jsonPath("$[1].loan", nullValue()))
                 .andExpect(jsonPath("$[1].library", nullValue()));
-        verify(borrowerService, times(1)).findAll(true);
+        verify(borrowerService, times(1)).findAllDto();
         verifyNoMoreInteractions(borrowerService);
     }
 
     @Test
     public void testSetBorrower() throws Exception {
 
-        given(this.borrowerService.save(any(BorrowerDto.class))).willReturn(borrowerDto);
+        given(this.borrowerService.saveDto(any(BorrowerDto.class))).willReturn(borrowerDto);
 
         this.mockMvc.perform(post("/borrowers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(borrowerService.save(new BorrowerDto())))
+                .content(objectMapper.writeValueAsBytes(borrowerService.saveDto(new BorrowerDto())))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("NameTest")))
@@ -141,7 +140,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.subscription", nullValue()))
                 .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
-        verify(borrowerService, times(2)).save(any(BorrowerDto.class));
+        verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);
     }
 

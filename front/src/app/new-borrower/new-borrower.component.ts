@@ -3,6 +3,8 @@ import {Borrower} from '../../entity/borrower';
 import {Subscription} from '../../entity/subscription';
 import {BorrowerService} from '../../service/borrower.service';
 import {ValidationService} from '../../service/ValidationService';
+import {Validators, FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-new-borrower',

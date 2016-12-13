@@ -1,74 +1,66 @@
 export class Address {
-    private _id: number;
-    private _address1: string;
-    private _address2: string;
-    private _zip: string;
-    private _city: string;
-    private _phone: string;
-    private _email: string;
+    private id: number;
+    private address1: string;
+    private address2: string;
+    private zip: string;
+    private city: string;
+    private phone: string;
+    private email: string;
 
 
-    get id(): number {
-        return this._id;
+    getId(): number {
+        return this.id;
     }
 
-    set id(value: number) {
-        this._id = value;
+    setId(value: number) {
+        this.id = value;
     }
 
-    get address1(): string {
-        return this._address1;
+    getAddress1(): string {
+        return this.address1;
     }
 
-    set address1(value: string) {
-        this._address1 = value;
+    setAddress1(value: string) {
+        this.address1 = value;
     }
 
-    get address2(): string {
-        return this._address2;
+    getAddress2(): string {
+        return this.address2;
     }
 
-    set address2(value: string) {
-        this._address2 = value;
+    setAddress2(value: string) {
+        this.address2 = value;
     }
 
-    get zip(): string {
-        return this._zip;
+    getZip(): string {
+        return this.zip;
     }
 
-    set zip(value: string) {
-        this._zip = value;
+    setZip(value: string) {
+        this.zip = value;
     }
 
-    get city(): string {
-        return this._city;
+    getCity(): string {
+        return this.city;
     }
 
-    set city(value: string) {
-        this._city = value;
+    setCity(value: string) {
+        this.city = value;
     }
 
-    get phone(): string {
-        return this._phone;
+    getPhone(): string {
+        return this.phone;
     }
 
-    set phone(value: string) {
-        this._phone = value;
+    setPhone(value: string) {
+        this.phone = value;
     }
 
-    get email() {
-        return this._email;
+    getEmail() {
+        return this.email;
     }
 
-    set email(value) {
-        this._email = value;
-    }
-
-    get string() {
-        return this._string;
-    }
-
-    set string(value) {
-        this._string = value;
+    setEmail(value) {
+        this.email = value;
     }
 }

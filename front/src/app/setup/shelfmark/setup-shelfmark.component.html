@@ -1,58 +1,44 @@
-<div id="setup-card" class="row">
-  <div class="col s12 m6 offset-m3 l4 offset-l4">
-    <div class="card">
-      <nav class="card-nav">
-        <div class="nav-wrapper">
-          <div class="row card-nav-title">
-            <div class="col s2"></div><div class="col s8" i18n>Master installation</div><div class="col s2">1/2</div>
-          </div>
-        </div>
-      </nav>
-      <div class="card-action">
-        <div class="card-content">
-          <span class="card-title" i18n>Shelf marks</span>
-        </div>
-        <div class="row">
-          <form materialize class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="shelfmark-nb" type="number" [formControl]="form.controls['shelfMarkNb']"
-                       [class.invalid]="form.controls['shelfMarkNb'].dirty && !form.controls['shelfMarkNb'].valid">
-                <label for="shelfmark-nb" i18n>Number of fields</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <select materialize="material_select"
-                        [materializeSelectOptions]="selectOptions" [formControl]="form.controls['defaultZ3950']">
-                  <option value="" disabled selected i18n>ISBN favorite source</option>
-                  <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.value0">{{z3950Source.value1}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="switch">
-                <div class="col s9">
-                  <span i18n>Use Dewey classsification</span>
-                </div>
-                <div class="col s3">
-                  <div class="right-align">
-                    <label>
-                      <input type="checkbox" [formControl]="form.controls['useDeweyClassification']">
-                      <span class="lever"></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-bottom-btn right-align">
-              <button type="submit" class="waves-effect btn white black-text right-align" i18n>Next</button>
-            </div>
-          </form>
-        </div>
-        <div>
+<div class="card-action">
+  <div class="card-content">
+    <span class="card-title" i18n>Shelf mark</span>
+  </div>
+  <div class="row">
+    <form materialize class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="shelfmark-nb" type="number" [formControl]="form.controls['shelfMarkNb']"
+                 [class.invalid]="form.controls['shelfMarkNb'].dirty && !form.controls['shelfMarkNb'].valid">
+          <label for="shelfmark-nb" i18n>Number of fields</label>
         </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <select materialize="material_select"
+                  [materializeSelectOptions]="selectOptions" [formControl]="form.controls['defaultZ3950']">
+            <option value="" disabled selected i18n>ISBN favorite source</option>
+            <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.id">{{z3950Source.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="switch">
+          <div class="col s9">
+            <span i18n>Use Dewey classsification</span>
+          </div>
+          <div class="col s3">
+            <div class="right-align">
+              <label>
+                <input type="checkbox" [formControl]="form.controls['useDeweyClassification']">
+                <span class="lever"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-bottom-btn right-align">
+        <button type="submit" class="waves-effect btn white black-text right-align" i18n>Next</button>
+      </div>
+    </form>
   </div>
 </div>

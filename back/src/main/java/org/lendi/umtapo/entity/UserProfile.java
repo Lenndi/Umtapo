@@ -2,12 +2,7 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.UserProfileType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="USER_PROFILE")
@@ -65,7 +60,7 @@ public class UserProfile {
 		if (!(obj instanceof UserProfile))
 			return false;
 		UserProfile other = (UserProfile) obj;
-		if (id != other.id)
+		if (!id.equals(other.id))
 			return false;
 		if (type == null) {
 			if (other.type != null)

@@ -1,19 +1,20 @@
+/* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {SetupShelfmarkComponent} from './setup-shelfmark.component';
+import {SetupVariousComponent} from './setup-various.component';
 
-describe('SetupShelfmarkComponent', () => {
-  let component: SetupShelfmarkComponent;
-  let fixture: ComponentFixture<SetupShelfmarkComponent>;
+describe('SetupVariousComponent', () => {
+  let component: SetupVariousComponent;
+  let fixture: ComponentFixture<SetupVariousComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetupShelfmarkComponent ]
+      declarations: [ SetupVariousComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SetupShelfmarkComponent);
+    fixture = TestBed.createComponent(SetupVariousComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

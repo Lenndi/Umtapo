@@ -12,6 +12,9 @@ import { SetupShelfmarkComponent } from './setup/shelfmark/setup-shelfmark.compo
 import {LibraryService} from '../service/library.service';
 import {Z3950Service} from '../service/z3950.service';
 import {MaterializeModule} from 'angular2-materialize';
+import { SetupVariousComponent } from './setup/various/setup-various.component';
+import { SetupComponent } from './setup/setup.component';
+import {SetupDataService} from '../service/data-binding/setup-data.service';
 import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
 import {BorrowerService} from '../service/borrower.service';
 
@@ -21,6 +24,8 @@ import {BorrowerService} from '../service/borrower.service';
     MainComponent,
     TestComponent,
     SetupShelfmarkComponent,
+    SetupVariousComponent,
+    SetupComponent,
     NewBorrowerComponent,
   ],
   imports: [
@@ -36,6 +41,7 @@ import {BorrowerService} from '../service/borrower.service';
     HttpLoggerService,
     LibraryService,
     Z3950Service,
+    SetupDataService,
     BorrowerService
   ],
   bootstrap: [AppComponent]

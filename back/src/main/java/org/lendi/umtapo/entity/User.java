@@ -2,19 +2,9 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.State;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="APP_USER")
@@ -46,7 +36,7 @@ public class User {
 	@JoinTable(name = "APP_USER_USER_PROFILE", 
              joinColumns = { @JoinColumn(name = "USER_ID") }, 
              inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+	private Set<UserProfile> userProfiles = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -130,7 +120,7 @@ public class User {
 		if (!(obj instanceof User))
 			return false;
 		User other = (User) obj;
-		if (id != other.id)
+		if (!id.equals(other.id))
 			return false;
 		if (ssoId == null) {
 			if (other.ssoId != null)

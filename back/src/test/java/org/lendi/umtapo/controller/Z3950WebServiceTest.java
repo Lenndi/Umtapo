@@ -15,7 +15,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
@@ -89,9 +90,8 @@ public class Z3950WebServiceTest {
         this.mockMvc.perform(get("/z3950")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].value0", is(1)))
-                .andExpect(jsonPath("$[0].value1", is("Bibliothèque Nationale de France")))
-                .andExpect(jsonPath("$[0].size", is(2)));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("Bibliothèque Nationale de France")));
         verify(this.z3950Service, times(1)).findAll();
         verifyNoMoreInteractions(this.z3950Service);
     }

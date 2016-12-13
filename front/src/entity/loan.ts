@@ -1,21 +1,21 @@
 export class Loan {
-    private _id: number;
-    private _date: string;
+    private id: number;
+    private date: Date;
 
 
-    get id(): number {
-        return this._id;
+    getId(): number {
+        return this.id;
     }
 
-    set id(value: number) {
-        this._id = value;
+    setId(value: number) {
+        this.id = value;
     }
 
-    get date(): string {
-        return this._date;
+    getDate(): Date {
+        return this.date;
     }
 
-    set date(value: string) {
-        this._date = value;
+    setDate(value: Date) {
+        this.date = value;
     }
 }

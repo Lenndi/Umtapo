@@ -17,56 +17,57 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
+ * InitialDataloader entity.
+ * <p>
  * Created by axel on 30/11/16.
  */
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
- boolean alreadySetup = false;
+    boolean alreadySetup = false;
 
- @Autowired
- private UserDao userDao;
- @Autowired
- private UserProfileDao userProfileDao;
- @Autowired
- private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private UserProfileDao userProfileDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
- @Bean
- public PasswordEncoder passwordEncoder() {
-  return new BCryptPasswordEncoder();
- }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
- @Override
- @Transactional
- public void onApplicationEvent(ContextRefreshedEvent event) {
-  if (alreadySetup)
-   return;
-  Set<UserProfile> userProfileSet = new HashSet<>();
-  userProfileSet.add(createRoleIfNotFound(UserProfileType.ADMIN.getUserProfileType()));
-  userProfileSet.add(createRoleIfNotFound(UserProfileType.USER.getUserProfileType()));
+    @Override
+    @Transactional
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        if (alreadySetup)
+            return;
+        Set<UserProfile> userProfileSet = new HashSet<>();
+        userProfileSet.add(createRoleIfNotFound(UserProfileType.ADMIN.getUserProfileType()));
+        userProfileSet.add(createRoleIfNotFound(UserProfileType.USER.getUserProfileType()));
 
-  UserProfile adminRole = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
-  User user = new User();
-  user.setFirstName("Test");
-  user.setSsoId("Test");
-  user.setLastName("Test");
-  user.setPassword(passwordEncoder.encode("test"));
-  user.setEmail("test@test.com");
-  user.setUserProfiles(userProfileSet);
-  userDao.save(user);
+        UserProfile adminRole = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
+        User user = new User();
+        user.setFirstName("Test");
+        user.setSsoId("Test");
+        user.setLastName("Test");
+        user.setPassword(passwordEncoder.encode("test"));
+        user.setEmail("test@test.com");
+        user.setUserProfiles(userProfileSet);
+        userDao.save(user);
 
-  alreadySetup = true;
- }
+        alreadySetup = true;
+    }
 
- @Transactional
- private UserProfile createRoleIfNotFound(String name) {
-  UserProfile userProfile = userProfileDao.findByType(name);
-  if (userProfile == null) {
-   userProfile = new UserProfile(name);
-   userProfileDao.save(userProfile);
-  }
-  return userProfile;
- }
+    @Transactional
+    private UserProfile createRoleIfNotFound(String name) {
+        UserProfile userProfile = userProfileDao.findByType(name);
+        if (userProfile == null) {
+            userProfile = new UserProfile(name);
+            userProfileDao.save(userProfile);
+        }
+        return userProfile;
+    }
 }
