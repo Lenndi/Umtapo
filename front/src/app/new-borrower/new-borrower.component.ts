@@ -5,6 +5,8 @@ import {BorrowerService} from '../../service/borrower.service';
 import {ValidationService} from '../../service/ValidationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
+import {LibraryService} from "../../service/library.service";
+declare const Materialize: any;
 
 @Component({
   selector: 'app-new-borrower',
@@ -13,29 +15,30 @@ import {Router} from '@angular/router';
 })
 export class NewBorrowerComponent implements OnInit {
   private form: FormGroup;
-  private borrower: Borrower;
-  private subscription: Subscription;
+  endSubscription: Date;
+  dateToday: Date;
 
   constructor(
       private formBuilder: FormBuilder,
-      private router: Router,
-      private borrowerService: BorrowerService
+      private libraryService: LibraryService
   ) {}
 
   ngOnInit() {
-    this.borrower = new Borrower();
-    this.subscription = new Subscription();
+    // this.onBirthdateChange();
+    this.endSubscription = new Date();
+    this.dateToday = new Date();
+    this.endSubscription.setDate(this.dateToday.getDate() + 6);
 
     this.form = this.formBuilder.group({
       'name': ['', Validators.required],
-      'email': ['', Validators.required, ValidationService.emailValidator],
-      'birthdate': ['', Validators.required, ValidationService.dateValidator],
+      'email': ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
+      'birthdate': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
+      'subscription': [this.dateToday.toDateString(), Validators.compose([Validators.required, ValidationService.dateValidator])],
       'phone': ['', Validators.required],
       'address1': ['', Validators.required],
       'address2': ['', Validators.required],
       'zip': ['', Validators.required],
       'city': ['', Validators.required],
-      'subcription-date': ['', Validators.required, ValidationService.dateValidator],
       'quota': ['', Validators.required],
       'contribution': ['', Validators.required],
       'comment': ['', Validators.required],
