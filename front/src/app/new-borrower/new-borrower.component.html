@@ -5,10 +5,11 @@
                 <div class="card-content">
                     <span class="card-title">New borrower</span>
                     <div class="row">
-                        <form class="col s12" [formGroup]="form">
+                        <form class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                             <div class="row">
                                 <div class="input-field col s6">
-                                    <input id="name" [formControl]="form.controls['name']" type="text" class="validate">
+                                    <input id="name" [formControl]="form.controls['name']" type="text" class="validate"
+                                           [class.invalid]="form.controls['name'].dirty && !form.controls['name'].valid">
                                     <label for="name">Name</label>
                                 </div>
                                 <div class="input-field col s6">
@@ -50,8 +51,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <input id="subscription"
-                                               [formControl]="form.controls['subscription']"
+                                        <input id="startSubscription"
+                                               formControlName="startSubscription"
+                                               [formControl]="form.controls['startSubscription']"
+                                               name="startSubscription"
                                                materialize="pickadate"
                                                [materializeParams]="[{selectMonths: true, selectYears: 15}]"
                                                type="text" />
@@ -76,10 +79,10 @@
                                 <div class="row">
                                     <div class="input-field col s6">
                                         <input [formControl]="form.controls['emailOptin']" type="checkbox" class="filled-in" id="emailOptin" />
-                                        <label for="emailOptin">Accept Email Notification</label>
+                                        <label class="black-text" for="emailOptin">Accept Email Notification</label>
                                     </div>
                                     <div class="col s6">
-                                        <p class="end-subscription">End of subscription : <span class="date-end">{{endSubscription | date}}</span></p>
+                                        <p class="black-text">End of subscription : <span class="date-end">{{endSubscription | date}}</span></p>
                                     </div>
                                 </div>
                                 <div class="row">
