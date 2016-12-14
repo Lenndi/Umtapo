@@ -22,11 +22,11 @@ export class NewBorrowerComponent implements OnInit {
   private form: FormGroup;
   private endSubscription: Date;
   private dateToday: Date;
-  private borrower: Borrower;
-  private address: Address;
-  private subscription: Subscription;
-  private loan: Loan;
-  private library: Library;
+  private borrower: Borrower = new Borrower();
+  private address: Address = new Address();
+  private subscription: Subscription = new Subscription();
+  private loan: Loan  = new Loan();
+  private library: Library = new Library();
 
   constructor(
       private formBuilder: FormBuilder,
@@ -37,6 +37,7 @@ export class NewBorrowerComponent implements OnInit {
   ngOnInit() {
     this.dateToday = new Date();
     this.endSubscription = new Date();
+    logger.info("azezae");
 
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -54,28 +55,30 @@ export class NewBorrowerComponent implements OnInit {
       emailOptin: ['', Validators.required],
     });
     this.endSubscription.setDate(this.dateToday.getDate() + 6);
+
   }
+
   onSubmit(value: any): void {
-    if (this.form.valid) {
-      this.borrower.setName(value.name);
-      this.borrower.setBirthday(value.birthday);
-      this.borrower.setQuota(value.quota);
-      this.borrower.setEmailOptin(value.emailOptin);
-      this.address.setAddress1(value.address1);
-      this.address.setAddress2(value.address2);
-      this.address.setZip(value.zip);
-      this.address.setCity(value.city);
-      this.address.setPhone(value.phone);
-      this.address.setEmail(value.email);
-      this.subscription.setStart(value.startSubscription);
-      this.subscription.setEnd(this.endSubscription);
-      this.subscription.setContribution(value.contribution);
-      this.borrower.setAddress(this.address);
-      this.borrower.setSubscription(this.subscription);
+    logger.info("submit");
 
-      logger.info("azezae");
+    this.borrower.setName(value.name);
+    this.borrower.setBirthday(value.birthday);
+    this.borrower.setQuota(value.quota);
+    this.borrower.setEmailOptin(value.emailOptin);
+    this.address.setAddress1(value.address1);
+    this.address.setAddress2(value.address2);
+    this.address.setZip(value.zip);
+    this.address.setCity(value.city);
+    this.address.setPhone(value.phone);
+    this.address.setEmail(value.email);
+    this.subscription.setStart(value.startSubscription);
+    this.subscription.setEnd(this.endSubscription);
+    this.subscription.setContribution(value.contribution);
+    this.borrower.setAddress(this.address);
+    this.borrower.setSubscription(this.subscription);
 
-      this.borrowerService.save(this.borrower);
+
+    this.borrowerService.save(this.borrower);
     //
     //
     //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
@@ -90,6 +93,6 @@ export class NewBorrowerComponent implements OnInit {
     //   if (value.defaultZ3950 === '') {
     //     Materialize.toast('Please select a favorite ISBN source', 4000);
     //   }
-    }
+
   }
 }
