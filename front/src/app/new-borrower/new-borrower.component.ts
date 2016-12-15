@@ -11,6 +11,9 @@ import {logger} from '../../environments/environment';
 import {Address} from "../../entity/address";
 import {Loan} from "../../entity/loan";
 import {Library} from "../../entity/library";
+import {MaterializeAction} from "angular2-materialize";
+import {EventEmitter} from "@angular/core"
+import {timeout} from "rxjs/operator/timeout";
 declare const Materialize: any;
 
 @Component({
@@ -25,6 +28,8 @@ export class NewBorrowerComponent implements OnInit {
   private borrower: Borrower = new Borrower();
   private address: Address = new Address();
   private subscription: Subscription = new Subscription();
+  modalActions1 = new EventEmitter<string|MaterializeAction>();
+
 
   constructor(
       private formBuilder: FormBuilder,
@@ -56,8 +61,15 @@ export class NewBorrowerComponent implements OnInit {
     // this.endSubscription.setDate(this.dateToday.getDate() + 6);
   }
 
-  onSubmit(value: any) {
 
+  openModalCreateUser() {
+    this.modalActions1.emit({action:"modal",params:['open']});
+  }
+  closeModalCreateUser() {
+    this.modalActions1.emit({action:"modal",params:['close']});
+  }
+
+  onSubmit(value: any) {
   // if (this.form.valid) {
   this.borrower.setName(value.name);
   this.borrower.setBirthday(value.birthday);
@@ -75,7 +87,10 @@ export class NewBorrowerComponent implements OnInit {
   this.borrower.setAddress(this.address);
   this.borrower.setSubscription(this.subscription[0]);
 
-  this.borrowerService.save(this.borrower);
+  this.borrowerService.save(this.borrower).then(result => {
+    this.openModalCreateUser();
+  });
+
   //
   //
   //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);

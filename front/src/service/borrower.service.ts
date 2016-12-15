@@ -25,5 +25,4 @@ export class BorrowerService {
         .then(response => response.json() as Borrower)
         .catch(error => this.httpLogger.error(error));
   }
-
 }
