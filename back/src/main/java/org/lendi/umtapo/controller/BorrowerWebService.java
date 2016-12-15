@@ -19,6 +19,7 @@ import java.util.List;
  * Created by axel on 05/12/16.
  */
 @RestController
+@CrossOrigin
 public class BorrowerWebService {
 
     private final static Logger logger = Logger.getLogger(BorrowerWebService.class);
@@ -54,7 +55,7 @@ public class BorrowerWebService {
 
     @RequestMapping(value = "/borrowers", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<BorrowerDto> setUser(@RequestBody BorrowerDto borrowerDto) {
+    public ResponseEntity<BorrowerDto> setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
         borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);

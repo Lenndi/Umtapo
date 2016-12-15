@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Borrower} from '../../entity/borrower';
 import {Subscription} from '../../entity/subscription';
 import {BorrowerService} from '../../service/borrower.service';
-import {ValidationService} from '../../service/ValidationService';
+import {ValidationService} from '../../service/validationService';
 import {Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LibraryService} from "../../service/library.service";
@@ -25,8 +25,6 @@ export class NewBorrowerComponent implements OnInit {
   private borrower: Borrower = new Borrower();
   private address: Address = new Address();
   private subscription: Subscription = new Subscription();
-  private loan: Loan  = new Loan();
-  private library: Library = new Library();
 
   constructor(
       private formBuilder: FormBuilder,
@@ -37,7 +35,7 @@ export class NewBorrowerComponent implements OnInit {
   ngOnInit() {
     this.dateToday = new Date();
     this.endSubscription = new Date();
-    logger.info("azezae");
+
 
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -54,45 +52,44 @@ export class NewBorrowerComponent implements OnInit {
       comment: ['', Validators.required],
       emailOptin: ['', Validators.required],
     });
-    this.endSubscription.setDate(this.dateToday.getDate() + 6);
-
+    //TODO - EndSubscriptionDate
+    // this.endSubscription.setDate(this.dateToday.getDate() + 6);
   }
 
-  onSubmit(value: any): void {
-    logger.info("submit");
+  onSubmit(value: any) {
 
-    this.borrower.setName(value.name);
-    this.borrower.setBirthday(value.birthday);
-    this.borrower.setQuota(value.quota);
-    this.borrower.setEmailOptin(value.emailOptin);
-    this.address.setAddress1(value.address1);
-    this.address.setAddress2(value.address2);
-    this.address.setZip(value.zip);
-    this.address.setCity(value.city);
-    this.address.setPhone(value.phone);
-    this.address.setEmail(value.email);
-    this.subscription.setStart(value.startSubscription);
-    this.subscription.setEnd(this.endSubscription);
-    this.subscription.setContribution(value.contribution);
-    this.borrower.setAddress(this.address);
-    this.borrower.setSubscription(this.subscription);
+  // if (this.form.valid) {
+  this.borrower.setName(value.name);
+  this.borrower.setBirthday(value.birthday);
+  this.borrower.setQuota(value.quota);
+  this.borrower.setEmailOptin(value.emailOptin);
+  this.address.setAddress1(value.address1);
+  this.address.setAddress2(value.address2);
+  this.address.setZip(value.zip);
+  this.address.setCity(value.city);
+  this.address.setPhone(value.phone);
+  this.address.setEmail(value.email);
+  this.subscription.setStart(value.startSubscription);
+  this.subscription.setEnd(this.endSubscription);
+  this.subscription.setContribution(value.contribution);
+  this.borrower.setAddress(this.address);
+  this.borrower.setSubscription(this.subscription[0]);
 
+  this.borrowerService.save(this.borrower);
+  //
+  //
+  //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
+  // } else {
+  //   logger.info('Invalid form :', value);
+  //
+  //   if (value.shelfMarkNb === '') {
+  //     Materialize.toast('Number of fields is empty', 4000);
+  //   } else if (!this.form.controls['shelfMarkNb'].valid) {
+  //     Materialize.toast('Number of fields must be between 1 and 5', 4000);
+  //   }
+  //   if (value.defaultZ3950 === '') {
+  //     Materialize.toast('Please select a favorite ISBN source', 4000);
+  //   }
 
-    this.borrowerService.save(this.borrower);
-    //
-    //
-    //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
-    // } else {
-    //   logger.info('Invalid form :', value);
-    //
-    //   if (value.shelfMarkNb === '') {
-    //     Materialize.toast('Number of fields is empty', 4000);
-    //   } else if (!this.form.controls['shelfMarkNb'].valid) {
-    //     Materialize.toast('Number of fields must be between 1 and 5', 4000);
-    //   }
-    //   if (value.defaultZ3950 === '') {
-    //     Materialize.toast('Please select a favorite ISBN source', 4000);
-    //   }
-
-  }
+}
 }
