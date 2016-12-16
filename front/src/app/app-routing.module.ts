@@ -6,7 +6,7 @@ import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.compone
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
 import {AppComponent} from './app.component';
-import {NewBorrowerComponent} from "./new-borrower/new-borrower.component";
+import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
 
 const routes: Routes = [
   {

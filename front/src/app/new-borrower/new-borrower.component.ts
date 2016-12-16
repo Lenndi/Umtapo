@@ -7,7 +7,7 @@ import {ValidationService} from '../../service/validationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Address} from '../../entity/address';
 import {MaterializeAction} from 'angular2-materialize';
-import {EventEmitter} from '@angular/core'
+import {EventEmitter} from '@angular/core';
 declare const Materialize: any;
 
 @Component({
