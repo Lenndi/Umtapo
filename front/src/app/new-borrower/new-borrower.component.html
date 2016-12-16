@@ -5,14 +5,14 @@
                 <div class="card-content">
                     <span class="card-title">New borrower</span>
                     <div class="row">
-                        <form class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                        <form materialize class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                             <div class="row">
                                 <div class="input-field col s6">
-                                    <input id="name" [formControl]="form.controls['name']" type="text" class="validate">
+                                    <input id="name" [formControl]="form.controls['name']" type="text" >
                                     <label for="name">Name</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input id="email" [formControl]="form.controls['email']" type="text" class="validate">
+                                    <input id="email" [formControl]="form.controls['email']" type="text" >
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="row">
@@ -30,21 +30,21 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['address1']" id="address1" type="text" class="validate">
+                                        <input [formControl]="form.controls['address1']" id="address1" type="text" >
                                         <label for="address1">Address 1</label>
                                     </div>
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['address2']" id="address2" type="text" class="validate">
+                                        <input [formControl]="form.controls['address2']" id="address2" type="text" >
                                         <label for="address2">Address 2</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['zip']" id="zip" type="text" class="validate">
+                                        <input [formControl]="form.controls['zip']" id="zip" type="text" >
                                         <label for="zip">Zip</label>
                                     </div>
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['city']" id="city" type="text" class="validate">
+                                        <input [formControl]="form.controls['city']" id="city" type="text" >
                                         <label for="city">City</label>
                                     </div>
                                 </div>
@@ -57,13 +57,13 @@
                                                type="text" />
                                     </div>
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['quota']" id="quota" type="number" class="validate">
+                                        <input [formControl]="form.controls['quota']" id="quota" type="number" >
                                         <label for="quota">Quota</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <input [formControl]="form.controls['contribution']" id="contribution" type="text" class="validate">
+                                        <input [formControl]="form.controls['contribution']" id="contribution" type="text" >
                                         <label for="contribution">Contribution</label>
                                     </div>
                                 </div>

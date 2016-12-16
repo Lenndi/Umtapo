@@ -37,19 +37,19 @@ export class NewBorrowerComponent implements OnInit {
 
 
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
-      birthdate: ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
-      startSubscription: [this.dateToday.toDateString(), Validators.compose([Validators.required, ValidationService.dateValidator])],
-      phone: ['', Validators.required],
-      address1: ['', Validators.required],
-      address2: ['', Validators.required],
-      zip: ['', Validators.required],
-      city: ['', Validators.required],
-      quota: ['', Validators.required],
-      contribution: ['', Validators.required],
-      comment: ['', Validators.required],
-      emailOptin: ['', Validators.required],
+      'name': ['', Validators.required],
+      'email': ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
+      'birthdate': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
+      'startSubscription': [this.dateToday.toDateString(), Validators.compose([Validators.required, ValidationService.dateValidator])],
+      'phone': ['', Validators.required],
+      'address1': ['', Validators.required],
+      'address2': ['', Validators.required],
+      'zip': ['', Validators.required],
+      'city': ['', Validators.required],
+      'quota': ['', Validators.required],
+      'contribution': ['', Validators.required],
+      'comment': ['', Validators.required],
+      'emailOptin': ['', Validators.required]
     });
     // TODO - EndSubscriptionDate
     // this.endSubscription.setDate(this.dateToday.getDate() + 6);
