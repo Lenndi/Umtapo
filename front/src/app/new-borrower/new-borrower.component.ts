@@ -70,41 +70,43 @@ export class NewBorrowerComponent implements OnInit {
   }
 
   onSubmit(value: any) {
-  // if (this.form.valid) {
-  this.borrower.setName(value.name);
-  this.borrower.setBirthday(value.birthday);
-  this.borrower.setQuota(value.quota);
-  this.borrower.setEmailOptin(value.emailOptin);
-  this.address.setAddress1(value.address1);
-  this.address.setAddress2(value.address2);
-  this.address.setZip(value.zip);
-  this.address.setCity(value.city);
-  this.address.setPhone(value.phone);
-  this.address.setEmail(value.email);
-  this.subscription.setStart(value.startSubscription);
-  this.subscription.setEnd(this.endSubscription);
-  this.subscription.setContribution(value.contribution);
-  this.borrower.setAddress(this.address);
-  this.borrower.setSubscription(this.subscription[0]);
+    // if (this.form.valid) {
+    this.borrower.setName(value.name);
+    this.borrower.setBirthday(value.birthday);
+    this.borrower.setQuota(value.quota);
+    this.borrower.setEmailOptin(value.emailOptin);
+    this.address.setAddress1(value.address1);
+    this.address.setAddress2(value.address2);
+    this.address.setZip(value.zip);
+    this.address.setCity(value.city);
+    this.address.setPhone(value.phone);
+    this.address.setEmail(value.email);
+    this.subscription.setStart(value.startSubscription);
+    this.subscription.setEnd(this.endSubscription);
+    this.subscription.setContribution(value.contribution);
+    this.borrower.setAddress(this.address);
+    this.borrower.setSubscription(this.subscription[0]);
 
-  this.borrowerService.save(this.borrower).then(result => {
-    this.openModalCreateUser();
-  });
+    this.borrowerService
+        .save(this.borrower)
+        .then(result => {
+          this.openModalCreateUser();
+        });
 
-  //
-  //
-  //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
-  // } else {
-  //   logger.info('Invalid form :', value);
-  //
-  //   if (value.shelfMarkNb === '') {
-  //     Materialize.toast('Number of fields is empty', 4000);
-  //   } else if (!this.form.controls['shelfMarkNb'].valid) {
-  //     Materialize.toast('Number of fields must be between 1 and 5', 4000);
-  //   }
-  //   if (value.defaultZ3950 === '') {
-  //     Materialize.toast('Please select a favorite ISBN source', 4000);
-  //   }
+    //
+    //
+    //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
+    // } else {
+    //   logger.info('Invalid form :', value);
+    //
+    //   if (value.shelfMarkNb === '') {
+    //     Materialize.toast('Number of fields is empty', 4000);
+    //   } else if (!this.form.controls['shelfMarkNb'].valid) {
+    //     Materialize.toast('Number of fields must be between 1 and 5', 4000);
+    //   }
+    //   if (value.defaultZ3950 === '') {
+    //     Materialize.toast('Please select a favorite ISBN source', 4000);
+    //   }
 
-}
+  }
 }
