@@ -22,29 +22,28 @@ env:
 
 
 before_install:
-  - if [[ "$TRAVIS_BRANCH" =~ "front-" && "NG_SCRIPT" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
-  - if [[ "$TRAVIS_BRANCH" =~ "back-" && "BK_SCRIPT" ]]; then IS_BACK=1; else IS_BACK=0; fi
-  - if [[ "$NG_SCRIPT" && "$IS_BACK" != 1 && "NG_SCRIPT" ]]; then IS_NG=1; fi
-  - if [[ "$NG_SCRIPT" && "$IS_FRONT" != 1  && "BK_SCRIPT" ]]; then IS_SB=1; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then echo "Starting front tests..."; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then cd front; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm install -g npm; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm install -g angular-cli; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then export CHROME_BIN=chromium-browser; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm config set spin false; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm config set progress false; fi
+  - if [[ "$TRAVIS_BRANCH" =~ "front-" && "$NG_SCRIPT" ]]; then IS_FRONT=1; else IS_FRONT=0; fi
+  - if [[ "$TRAVIS_BRANCH" =~ "back-"  && "$BK_SCRIPT" ]]; then IS_BACK=1; else IS_BACK=0; fi
+  - if [[ "$NG_SCRIPT" && "$IS_BACK" != 1 && "$NG_SCRIPT" ]]; then IS_NG=1; fi
+  - if [[ "$NG_SCRIPT" && "$IS_FRONT" != 1 && "$BK_SCRIPT" ]]; then IS_SB=1; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then echo "Starting front tests..."; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then cd front; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm install -g npm; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm install -g angular-cli; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then export CHROME_BIN=chromium-browser; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm config set spin false; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm config set progress false; fi
 
 install:
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm install --no-optional; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm install --no-optional; fi
 
 before_script:
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then export DISPLAY=:99.0; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then sh -e /etc/init.d/xvfb start; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then export DISPLAY=:99.0; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then sh -e /etc/init.d/xvfb start; fi
   - sleep 3;
 
 script:
-  - if [[ "$IS_NG" && "NG_SCRIPT" ]]; then npm run $NG_SCRIPT; fi
-  - if [[ "$IS_NG" && "NG_SCRIPT"  ]]; then cd ../; fi
-  - if [[ "$IS_SB" && BK_SCRIPT ]]; then cd back; fi
-  - if [[ "$IS_SB" && BK_SCRIPT ]]; then mvn test; fi
+  - if [[ "$NG_SCRIPT"  && "$IS_NG" ]]; then npm run $NG_SCRIPT; fi
+  - if [[ "$IS_SB" && "$BK_SCRIPT"]]; then cd back; fi
+  - if [[ "$IS_SB" && "$BK_SCRIPT" ]]; then mvn test; fi
