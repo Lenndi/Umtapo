@@ -44,6 +44,6 @@ before_script:
   - sleep 3;
 
 script:
-  - if [[ "$NG_SCRIPT"  && "$IS_NG" ]]; then npm run $NG_SCRIPT; fi
-  - if [[ "$IS_SB" && "$BK_SCRIPT"]]; then cd back; fi
+  - if [[ "$IS_NG" && "$NG_SCRIPT" ]]; then npm run $NG_SCRIPT; fi
+  - if [[ "$IS_SB" && "$BK_SCRIPT" ]]; then cd back; fi
   - if [[ "$IS_SB" && "$BK_SCRIPT" ]]; then mvn test; fi
