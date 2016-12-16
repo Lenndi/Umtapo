@@ -24,7 +24,10 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -57,6 +60,9 @@ public class BorrowerWebServiceTest {
 
     private BorrowerDto borrowerDto2 = new BorrowerDto();
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup() {
         localDateTime = LocalDateTime.of(2000, 5, 25, 21, 52, 35);
@@ -68,6 +74,11 @@ public class BorrowerWebServiceTest {
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }
 
+    /**
+     * Test get borrower.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetBorrower() throws Exception {
 
@@ -89,6 +100,11 @@ public class BorrowerWebServiceTest {
 
     }
 
+    /**
+     * Test get borrowers.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetBorrowers() throws Exception {
 
@@ -121,6 +137,11 @@ public class BorrowerWebServiceTest {
         verifyNoMoreInteractions(borrowerService);
     }
 
+    /**
+     * Test set borrower.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testSetBorrower() throws Exception {
 
@@ -143,6 +164,4 @@ public class BorrowerWebServiceTest {
         verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);
     }
-
-
 }

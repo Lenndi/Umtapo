@@ -2,140 +2,243 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.State;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type User.
+ */
 @Entity
-@Table(name="APP_USER")
+@Table(name = "APP_USER")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name="SSO_ID", unique=true, nullable=false)
-	private String ssoId;
-	
-	@Column(name="PASSWORD", nullable=false)
-	private String password;
-		
-	@Column(name="FIRST_NAME", nullable=false)
-	private String firstName;
+    @Column(name = "SSO_ID", unique = true, nullable = false)
+    private String ssoId;
 
-	@Column(name="LAST_NAME", nullable=false)
-	private String lastName;
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
 
-	@Column(name="EMAIL", nullable=false)
-	private String email;
+    @Column(name = "FIRST_NAME", nullable = false)
+    private String firstName;
 
-	@Column(name="STATE", nullable=false)
-	private String state= State.ACTIVE.getState();
+    @Column(name = "LAST_NAME", nullable = false)
+    private String lastName;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "APP_USER_USER_PROFILE", 
-             joinColumns = { @JoinColumn(name = "USER_ID") }, 
-             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<>();
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
 
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = "STATE", nullable = false)
+    private String state = State.ACTIVE.getState();
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "APP_USER_USER_PROFILE",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_PROFILE_ID")})
+    private Set<UserProfile> userProfiles = new HashSet<>();
 
-	public String getSsoId() {
-		return ssoId;
-	}
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setSsoId(String ssoId) {
-		this.ssoId = ssoId;
-	}
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * Gets sso id.
+     *
+     * @return the sso id
+     */
+    public String getSsoId() {
+        return ssoId;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * Sets sso id.
+     *
+     * @param ssoId the sso id
+     */
+    public void setSsoId(String ssoId) {
+        this.ssoId = ssoId;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * Gets first name.
+     *
+     * @return the first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * Sets first name.
+     *
+     * @param firstName the first name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * Gets last name.
+     *
+     * @return the last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * Sets last name.
+     *
+     * @param lastName the last name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getState() {
-		return state;
-	}
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Set<UserProfile> getUserProfiles() {
-		return userProfiles;
-	}
+    /**
+     * Gets state.
+     *
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
 
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
-	}
+    /**
+     * Sets state.
+     *
+     * @param state the state
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((ssoId == null) ? 0 : ssoId.hashCode());
-		return result;
-	}
+    /**
+     * Gets user profiles.
+     *
+     * @return the user profiles
+     */
+    public Set<UserProfile> getUserProfiles() {
+        return userProfiles;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof User))
-			return false;
-		User other = (User) obj;
-		if (!id.equals(other.id))
-			return false;
-		if (ssoId == null) {
-			if (other.ssoId != null)
-				return false;
-		} else if (!ssoId.equals(other.ssoId))
-			return false;
-		return true;
-	}
+    /**
+     * Sets user profiles.
+     *
+     * @param userProfiles the user profiles
+     */
+    public void setUserProfiles(Set<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
+    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles +"]";
-	}
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result + id) * prime;
+        if (ssoId != null) {
+            result += ssoId.hashCode();
+        }
+        return result;
+    }
 
-	
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User other = (User) obj;
+        if (!id.equals(other.id)) {
+            return false;
+        }
+        if (ssoId == null) {
+            if (other.ssoId != null) {
+                return false;
+            }
+        } else if (!ssoId.equals(other.ssoId)) {
+            return false;
+        }
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
+                + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", email=" + email + ", state=" + state + ", userProfiles=" + userProfiles + "]";
+    }
+
+
 }

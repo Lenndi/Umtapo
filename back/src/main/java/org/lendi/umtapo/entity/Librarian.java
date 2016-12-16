@@ -1,11 +1,15 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * Librarian entity.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @Entity
@@ -20,43 +24,93 @@ public class Librarian {
  @OneToOne
  private Address address;
 
- public Integer getId() {
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
   return id;
  }
 
- public void setId(Integer id) {
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
   this.id = id;
  }
 
- public Address getAddress() {
+    /**
+     * Gets address.
+     *
+     * @return the address
+     */
+    public Address getAddress() {
   return address;
  }
 
- public void setAddress(Address address) {
+    /**
+     * Sets address.
+     *
+     * @param address the address
+     */
+    public void setAddress(Address address) {
   this.address = address;
  }
 
- public String getName() {
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
   return name;
  }
 
- public void setName(String name) {
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
   this.name = name;
  }
 
- public String getUsername() {
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    public String getUsername() {
   return username;
  }
 
- public void setUsername(String username) {
+    /**
+     * Sets username.
+     *
+     * @param username the username
+     */
+    public void setUsername(String username) {
   this.username = username;
  }
 
- public String getPassword() {
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
+    public String getPassword() {
   return password;
  }
 
- public void setPassword(String password) {
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
+    public void setPassword(String password) {
   this.password = password;
  }
 }

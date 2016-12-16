@@ -18,12 +18,20 @@ public class UserServiceImpl extends AbstractGenericService<User, Integer> imple
 
     private final UserDao userDao;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userDao the user dao
+     */
     @Autowired
     public UserServiceImpl(UserDao userDao) {
         Assert.notNull(userDao);
         this.userDao = userDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User findBySso(String sso) {
         return userDao.findBySsoId(sso);

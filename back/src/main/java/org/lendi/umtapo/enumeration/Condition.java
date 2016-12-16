@@ -7,7 +7,16 @@ package org.lendi.umtapo.enumeration;
  */
 public enum Condition {
 
+    /**
+     * Condition 1 condition.
+     */
     CONDITION1,
+    /**
+     * Condition 2 condition.
+     */
     CONDITION2,
+    /**
+     * Condition 3 condition.
+     */
     CONDITION3
 }

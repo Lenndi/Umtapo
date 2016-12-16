@@ -17,21 +17,30 @@ import java.util.Map;
  */
 @Service
 public class Z3950ServiceImpl implements Z3950Service {
-    private final static Logger logger = Logger.getLogger(Z3950WebService.class);
+    private static final Logger LOGGER = Logger.getLogger(Z3950WebService.class);
 
     private Map<Integer, Z3950> providers;
     private File configurationFile;
 
+    /**
+     * Instantiates a new Z 3950 service.
+     */
     public Z3950ServiceImpl() {
         this.configurationFile = new File("src/main/resources/z39-50.yml");
         this.loadProviders();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<Integer, Z3950> findAll() {
         return this.providers;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Z3950 find(int providerId) {
         return this.providers.get(providerId);
@@ -46,8 +55,8 @@ public class Z3950ServiceImpl implements Z3950Service {
             Z3950Configuration z3950Configuration = mapper.readValue(this.configurationFile, Z3950Configuration.class);
             this.providers = z3950Configuration.getProviders();
 
-        } catch (IOException e) {
-            logger.fatal(e.getMessage());
+        } catch (final IOException e) {
+            LOGGER.fatal(e.getMessage());
         }
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * Loan dto.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -18,35 +18,75 @@ public class LoanDto {
  private BorrowerDto borrowerDto;
  private ItemDto itemDto;
 
- public Integer getId() {
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
   return id;
  }
 
- public void setId(Integer id) {
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
   this.id = id;
  }
 
- public LocalDateTime getDate() {
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
+    public LocalDateTime getDate() {
   return date;
  }
 
- public void setDate(LocalDateTime date) {
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
+    public void setDate(LocalDateTime date) {
   this.date = date;
  }
 
- public BorrowerDto getBorrowerDto() {
+    /**
+     * Gets borrower dto.
+     *
+     * @return the borrower dto
+     */
+    public BorrowerDto getBorrowerDto() {
   return borrowerDto;
  }
 
- public void setBorrowerDto(BorrowerDto borrowerDto) {
+    /**
+     * Sets borrower dto.
+     *
+     * @param borrowerDto the borrower dto
+     */
+    public void setBorrowerDto(BorrowerDto borrowerDto) {
   this.borrowerDto = borrowerDto;
  }
 
- public ItemDto getItemDto() {
+    /**
+     * Gets item dto.
+     *
+     * @return the item dto
+     */
+    public ItemDto getItemDto() {
   return itemDto;
  }
 
- public void setItemDto(ItemDto itemDto) {
+    /**
+     * Sets item dto.
+     *
+     * @param itemDto the item dto
+     */
+    public void setItemDto(ItemDto itemDto) {
   this.itemDto = itemDto;
  }
 }

@@ -24,7 +24,10 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,6 +56,9 @@ public class LibraryWebServiceTest {
     private LibraryDto libraryDto2;
     private List<Borrower> borrowers = new ArrayList<>();
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup() {
         LocalDateTime localDateTime = LocalDateTime.of(2000, 1, 1, 0, 0, 0, 0);
@@ -68,6 +74,11 @@ public class LibraryWebServiceTest {
         this.libraryDto2 = this.libraryMapper.mapLibraryToLibraryDto(library2);
     }
 
+    /**
+     * Test get library.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetLibrary() throws Exception {
 
@@ -86,6 +97,11 @@ public class LibraryWebServiceTest {
         verifyNoMoreInteractions(libraryService);
     }
 
+    /**
+     * Test get libraries.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetLibraries() throws Exception {
 
@@ -113,6 +129,11 @@ public class LibraryWebServiceTest {
         verifyNoMoreInteractions(libraryService);
     }
 
+    /**
+     * Test set library.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testSetLibrary() throws Exception {
 

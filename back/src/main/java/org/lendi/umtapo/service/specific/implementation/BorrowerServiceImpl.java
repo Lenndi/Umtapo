@@ -22,12 +22,18 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
     private final BorrowerMapper borrowerMapper;
 
+    /**
+     * Instantiates a new Borrower service.
+     *
+     * @param borrowerMapper the borrower mapper
+     */
     @Autowired
     public BorrowerServiceImpl(BorrowerMapper borrowerMapper) {
         Assert.notNull(borrowerMapper);
         this.borrowerMapper = borrowerMapper;
     }
 
+    /** {@inheritDoc} */
     @Override
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
@@ -36,6 +42,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
+    /** {@inheritDoc} */
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
@@ -43,12 +50,14 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<BorrowerDto> findAllDto() {
         List<Borrower> borrowers = this.findAll();
 
         return this.mapBorrowersToBorrowerDtos(borrowers);
     }
+
 
     private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);

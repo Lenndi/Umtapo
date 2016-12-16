@@ -19,23 +19,38 @@ import java.time.LocalDateTime;
 @Component
 public class BorrowerMapper extends ConfigurableMapper {
 
-    private final static MapperFacade mapper;
+    private static final MapperFacade MAPPER;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(LocalDateTime.class));
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
-        mapper = mapperFactory.getMapperFacade();
+        MAPPER = mapperFactory.getMapperFacade();
     }
 
+    /**
+     * Instantiates a new Borrower mapper.
+     */
     public BorrowerMapper() {
     }
 
+    /**
+     * Map borrower to borrower dto borrower dto.
+     *
+     * @param borrower the borrower
+     * @return the borrower dto
+     */
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        return mapper.map(borrower, BorrowerDto.class);
+        return MAPPER.map(borrower, BorrowerDto.class);
     }
 
+    /**
+     * Map borrower dto to borrower borrower.
+     *
+     * @param borrowerDto the borrower dto
+     * @return the borrower
+     */
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return mapper.map(borrowerDto, Borrower.class);
+        return MAPPER.map(borrowerDto, Borrower.class);
     }
 }

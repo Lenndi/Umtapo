@@ -20,7 +20,9 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,6 +47,9 @@ public class Z3950WebServiceTest {
 
     private Z3950Configuration z3950Configuration = new Z3950Configuration();
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup() {
         Map<Integer, Z3950> providers = new HashMap<>();
@@ -65,6 +70,11 @@ public class Z3950WebServiceTest {
         this.z3950Configuration.setProviders(providers);
     }
 
+    /**
+     * Test get z 3950.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetZ3950() throws Exception {
 
@@ -82,6 +92,11 @@ public class Z3950WebServiceTest {
         verifyNoMoreInteractions(this.z3950Service);
     }
 
+    /**
+     * Test get all z 3950.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetAllZ3950() throws Exception {
         Map<Integer, Z3950> providers = this.z3950Configuration.getProviders();

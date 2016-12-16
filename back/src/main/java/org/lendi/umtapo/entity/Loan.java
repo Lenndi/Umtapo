@@ -1,11 +1,16 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Date;
 
 /**
  * Loan entity.
- *
+ * <p>
  * Created by axel on 29/11/16.
  */
 @Entity
@@ -16,47 +21,95 @@ public class Loan {
     private Integer id;
     private Date date;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="BORROWERID", referencedColumnName="ID")
+    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="ITEMID", referencedColumnName="ID")
+    @PrimaryKeyJoinColumn(name = "ITEMID", referencedColumnName = "ID")
     private Item item;
 
+    /**
+     * Instantiates a new Loan.
+     *
+     * @param date the date
+     */
     public Loan(Date date) {
         this.date = date;
     }
 
+    /**
+     * Instantiates a new Loan.
+     */
     public Loan() {
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
+    /**
+     * Gets borrower.
+     *
+     * @return the borrower
+     */
     public Borrower getBorrower() {
         return borrower;
     }
 
+    /**
+     * Sets borrower.
+     *
+     * @param borrower the borrower
+     */
     public void setBorrower(Borrower borrower) {
         this.borrower = borrower;
     }
 
+    /**
+     * Gets item.
+     *
+     * @return the item
+     */
     public Item getItem() {
         return item;
     }
 
+    /**
+     * Sets item.
+     *
+     * @param item the item
+     */
     public void setItem(Item item) {
         this.item = item;
     }

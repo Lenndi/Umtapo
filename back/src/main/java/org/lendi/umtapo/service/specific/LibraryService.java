@@ -25,8 +25,8 @@ public interface LibraryService extends GenericService<Library, Integer> {
     /**
      * Persist a Library from a LibraryDto.
      *
-     * @param libraryDto
-     * @return
+     * @param libraryDto the library dto
+     * @return library dto
      */
     LibraryDto saveDto(LibraryDto libraryDto);
 
@@ -42,8 +42,8 @@ public interface LibraryService extends GenericService<Library, Integer> {
     /**
      * Find a Library by id.
      *
-     * @param id
-     * @return LibraryDto
+     * @param id the id
+     * @return LibraryDto library dto
      */
     LibraryDto findOneDto(Integer id);
 
@@ -58,7 +58,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     /**
      * Find all Libraries.
      *
-     * @return
+     * @return list list
      */
     List<LibraryDto> findAllDto();
 

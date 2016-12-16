@@ -25,7 +25,10 @@ import java.util.Set;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = false;
+    /**
+     * The Already setup.
+     */
+    private boolean alreadySetup = false;
 
     @Autowired
     private UserDao userDao;
@@ -34,16 +37,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Password encoder password encoder.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /** {@inheritDoc} */
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (alreadySetup)
+        if (alreadySetup) {
             return;
+        }
         Set<UserProfile> userProfileSet = new HashSet<>();
         userProfileSet.add(createRoleIfNotFound(UserProfileType.ADMIN.getUserProfileType()));
         userProfileSet.add(createRoleIfNotFound(UserProfileType.USER.getUserProfileType()));
@@ -69,5 +79,77 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             userProfileDao.save(userProfile);
         }
         return userProfile;
+    }
+
+    /**
+     * Is already setup boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isAlreadySetup() {
+        return alreadySetup;
+    }
+
+    /**
+     * Sets already setup.
+     *
+     * @param alreadySetup the already setup
+     */
+    public void setAlreadySetup(boolean alreadySetup) {
+        this.alreadySetup = alreadySetup;
+    }
+
+    /**
+     * Gets user dao.
+     *
+     * @return the user dao
+     */
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    /**
+     * Sets user dao.
+     *
+     * @param userDao the user dao
+     */
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    /**
+     * Gets user profile dao.
+     *
+     * @return the user profile dao
+     */
+    public UserProfileDao getUserProfileDao() {
+        return userProfileDao;
+    }
+
+    /**
+     * Sets user profile dao.
+     *
+     * @param userProfileDao the user profile dao
+     */
+    public void setUserProfileDao(UserProfileDao userProfileDao) {
+        this.userProfileDao = userProfileDao;
+    }
+
+    /**
+     * Gets password encoder.
+     *
+     * @return the password encoder
+     */
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    /**
+     * Sets password encoder.
+     *
+     * @param passwordEncoder the password encoder
+     */
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

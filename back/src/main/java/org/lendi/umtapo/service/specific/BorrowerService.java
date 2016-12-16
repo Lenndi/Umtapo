@@ -21,8 +21,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     /**
      * Save Borrower based on DTO.
      *
-     * @param entity
-     * @return
+     * @param entity the entity
+     * @return borrower dto
      */
     BorrowerDto saveDto(BorrowerDto entity);
 
@@ -32,8 +32,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     /**
      * Return a Borrower DTO by id.
      *
-     * @param integer
-     * @return
+     * @param integer the integer
+     * @return borrower dto
      */
     BorrowerDto findOneDto(Integer integer);
 
@@ -43,7 +43,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     /**
      * Retur all Borrower DTO.
      *
-     * @return
+     * @return list list
      */
     List<BorrowerDto> findAllDto();
 }

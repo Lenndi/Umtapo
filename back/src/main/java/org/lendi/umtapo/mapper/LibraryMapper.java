@@ -14,22 +14,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class LibraryMapper extends ConfigurableMapper {
 
-    private final static MapperFacade mapper;
+    private static final MapperFacade MAPPER;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.classMap(Library.class, LibraryDto.class).exclude("borrowers").byDefault().register();
-        mapper = mapperFactory.getMapperFacade();
+        MAPPER = mapperFactory.getMapperFacade();
     }
 
+    /**
+     * Instantiates a new Library mapper.
+     */
     public LibraryMapper() {
     }
 
-    public LibraryDto mapLibraryToLibraryDto(Library Library) {
-        return mapper.map(Library, LibraryDto.class);
+    /**
+     * Map library to library dto library dto.
+     *
+     * @param library the library
+     * @return the library dto
+     */
+    public LibraryDto mapLibraryToLibraryDto(Library library) {
+        return MAPPER.map(library, LibraryDto.class);
     }
 
-    public Library mapLibraryDtoToLibrary(LibraryDto LibraryDto) {
-        return mapper.map(LibraryDto, Library.class);
+    /**
+     * Map library dto to library library.
+     *
+     * @param libraryDto the library dto
+     * @return the library
+     */
+    public Library mapLibraryDtoToLibrary(LibraryDto libraryDto) {
+        return MAPPER.map(libraryDto, Library.class);
     }
 }

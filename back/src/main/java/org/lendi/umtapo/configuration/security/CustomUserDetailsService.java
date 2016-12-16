@@ -17,18 +17,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The type Custom user details service.
+ */
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
+    /**
+     * Instantiates a new Custom user details service.
+     *
+     * @param userService the user service
+     */
     @Autowired
     public CustomUserDetailsService(UserService userService) {
         Assert.notNull(userService);
         this.userService = userService;
     }
 
+
+    /** {@inheritDoc} */
     @Transactional(readOnly = true)
+    @Override
     public UserDetails loadUserByUsername(String ssoId)
             throws UsernameNotFoundException {
         User user = userService.findBySso(ssoId);
@@ -45,7 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        for (UserProfile userProfile : user.getUserProfiles()) {
+        for (final UserProfile userProfile : user.getUserProfiles()) {
             System.out.println("UserProfile : " + userProfile);
             authorities.add(new SimpleGrantedAuthority("ROLE_" + userProfile.getType()));
         }

@@ -1,30 +1,55 @@
 package org.lendi.umtapo.enumeration;
 
+/**
+ * The enum State.
+ */
 public enum State {
 
-	ACTIVE("Active"),
-	INACTIVE("Inactive"),
-	DELETED("Deleted"),
-	LOCKED("Locked");
-	
-	private String state;
-	
-	State(final String state){
-		this.state = state;
-	}
-	
-	public String getState(){
-		return this.state;
-	}
+    /**
+     * Active state.
+     */
+    ACTIVE("Active"),
+    /**
+     * Inactive state.
+     */
+    INACTIVE("Inactive"),
+    /**
+     * Deleted state.
+     */
+    DELETED("Deleted"),
+    /**
+     * Locked state.
+     */
+    LOCKED("Locked");
 
-	@Override
-	public String toString(){
-		return this.state;
-	}
+    private String state;
 
-	public String getName(){
-		return this.name();
-	}
+    State(final String state) {
+        this.state = state;
+    }
+
+    /**
+     * Get state string.
+     *
+     * @return the string
+     */
+    public String getState() {
+        return this.state;
+    }
+
+    @Override
+    public String toString() {
+        return this.state;
+    }
+
+    /**
+     * Get name string.
+     *
+     * @return the string
+     */
+    public String getName() {
+        return this.name();
+    }
 
 
 }

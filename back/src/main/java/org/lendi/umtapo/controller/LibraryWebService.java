@@ -8,7 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,27 +24,44 @@ import java.util.List;
 @CrossOrigin
 public class LibraryWebService {
 
-    private final static Logger logger = Logger.getLogger(LibraryWebService.class);
+    private static final Logger LOGGER = Logger.getLogger(LibraryWebService.class);
 
     private final LibraryService libraryService;
 
+    /**
+     * Instantiates a new Library web service.
+     *
+     * @param libraryService the library service
+     */
     @Autowired
     public LibraryWebService(LibraryService libraryService) {
         Assert.notNull(libraryService, "Argument libraryService cannot be null.");
         this.libraryService = libraryService;
     }
 
-    @RequestMapping(value = "/libraries/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    /**
+     * Gets library.
+     *
+     * @param id the id
+     * @return the library
+     */
+    @RequestMapping(value = "/libraries/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
+    })
     public ResponseEntity<LibraryDto> getLibrary(@PathVariable Integer id) {
 
         LibraryDto libraryDto = this.libraryService.findOneDto(id);
         if (libraryDto == null) {
-            logger.info("Library with id " + id + " not found");
+            LOGGER.info("Library with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(libraryDto, HttpStatus.OK);
     }
 
+    /**
+     * Gets libraries.
+     *
+     * @return the libraries
+     */
     @RequestMapping(value = "/libraries", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<LibraryDto>> getLibraries() {
 
@@ -50,6 +72,12 @@ public class LibraryWebService {
         return new ResponseEntity<>(librariesDto, HttpStatus.OK);
     }
 
+    /**
+     * Sets library.
+     *
+     * @param libraryDto the library dto
+     * @return the library
+     */
     @RequestMapping(value = "/libraries", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
