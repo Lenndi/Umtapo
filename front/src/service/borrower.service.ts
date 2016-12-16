@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
-import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
-import {Borrower} from "../entity/borrower";
+import {Borrower} from '../entity/borrower';
 
 @Injectable()
 export class BorrowerService {
-  private borrowerUrl :string;
+  private borrowerUrl: string;
   private headers: Headers;
 
   constructor(private http: Http, private httpLogger: HttpLoggerService) {
@@ -24,5 +23,5 @@ export class BorrowerService {
         .toPromise()
         .then(response => response.json() as Borrower)
         .catch(error => this.httpLogger.error(error));
-  } 
+  }
 }

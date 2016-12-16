@@ -4,16 +4,10 @@ import {Borrower} from '../../entity/borrower';
 import {Subscription} from '../../entity/subscription';
 import {BorrowerService} from '../../service/borrower.service';
 import {ValidationService} from '../../service/validationService';
-import {Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
-import {LibraryService} from "../../service/library.service";
-import {logger} from '../../environments/environment';
-import {Address} from "../../entity/address";
-import {Loan} from "../../entity/loan";
-import {Library} from "../../entity/library";
-import {MaterializeAction} from "angular2-materialize";
-import {EventEmitter} from "@angular/core"
-import {timeout} from "rxjs/operator/timeout";
+import {Validators, FormBuilder, FormGroup} from '@angular/forms';
+import {Address} from '../../entity/address';
+import {MaterializeAction} from 'angular2-materialize';
+import {EventEmitter} from '@angular/core'
 declare const Materialize: any;
 
 @Component({
@@ -57,16 +51,16 @@ export class NewBorrowerComponent implements OnInit {
       comment: ['', Validators.required],
       emailOptin: ['', Validators.required],
     });
-    //TODO - EndSubscriptionDate
+    // TODO - EndSubscriptionDate
     // this.endSubscription.setDate(this.dateToday.getDate() + 6);
   }
 
 
   openModalCreateUser() {
-    this.modalActions1.emit({action:"modal",params:['open']});
+    this.modalActions1.emit({action: 'modal', params: ['open']});
   }
   closeModalCreateUser() {
-    this.modalActions1.emit({action:"modal",params:['close']});
+    this.modalActions1.emit({action: 'modal', params: ['close']});
   }
 
   onSubmit(value: any) {
