@@ -25,7 +25,6 @@ public class BorrowerDto {
  private AddressDto address;
  private List<SubscriptionDto> subscription;
  private List<LoanDto> loan;
- @JsonInclude(JsonInclude.Include.NON_NULL)
  private LibraryDto library;
 
  public Integer getId() {
