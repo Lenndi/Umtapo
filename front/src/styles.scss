@@ -37,10 +37,14 @@
   font-feature-settings: 'liga';
 }
 
-// Materialize-css integration
-@import "sass/materialize";
+// Material2 color theme
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+// Avalanche grid system
+@import '~avalanche-css/_avalanche.scss';
 
 // Start custom
+@import "sass/variables.scss";
 #app-loading {
   position: absolute;
   margin: auto;
@@ -50,6 +54,18 @@
   left: 0;
 }
 
-.wrapper {
-  padding: 20px;
+#content {
+  padding: 32px;
+}
+
+.umt-full-size {
+  width: 100%;
+}
+
+.umt-input-wrapper {
+  padding-bottom: 20px;
+}
+
+.umt-warn-color {
+  color: $warn;
 }

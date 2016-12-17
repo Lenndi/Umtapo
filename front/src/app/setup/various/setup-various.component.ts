@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Library} from '../../../entity/library';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
-declare const Materialize: any;
+import {MdSnackBar} from '@angular/material';
+import {VariousValidator} from '../../../validator/VariousValidator';
 
 @Component({
   selector: 'app-setup-various',
@@ -16,24 +17,43 @@ declare const Materialize: any;
 export class SetupVariousComponent implements OnInit {
   private library: Library;
   private form: FormGroup;
-  step = 2;
+
+  private borrowDuration: FormControl;
+  private borrowDurationMsg: string;
+  private subscriptionDuration: FormControl;
+  private subscriptionDurationMsg: string;
+  private currency: FormControl;
+  private currencyMsg: string;
+  private itemStartNumber: FormControl;
+  private itemStartNumberMsg: string;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
-    private setupDataService: SetupDataService
-  ) {}
+    private setupDataService: SetupDataService,
+    private snackBar: MdSnackBar
+  ) {
+    this.borrowDuration = new FormControl('', [Validators.required, VariousValidator.positive]);
+    this.borrowDurationMsg = 'Merci d\'indiquer une durée d\'emprunt par défaut';
+    this.subscriptionDuration = new FormControl('', [Validators.required, VariousValidator.positive]);
+    this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
+    this.currency = new FormControl('', Validators.required);
+    this.currencyMsg = 'Merci d\'indiquer une monnaie';
+    this.itemStartNumber = new FormControl('', [Validators.required, VariousValidator.positive]);
+    this.itemStartNumberMsg = `Merci d\'indiquer l\'identifiant à partir duquel seront créé la numérotation automatique
+      des documents`;
+  }
 
   ngOnInit(): void {
     this.setupDataService.setStep(2);
     this.library = this.setupDataService.getLibrary();
 
     this.form = this.formBuilder.group({
-      'borrowDuration': ['', Validators.compose([Validators.required])],
-      'subscriptionDuration': ['', Validators.required],
-      'currency': ['', Validators.required],
-      'itemStartNumber': [1, Validators.required]
+      'borrowDuration': this.borrowDuration,
+      'subscriptionDuration': this.subscriptionDuration,
+      'currency': this.currency,
+      'itemStartNumber': this.itemStartNumber
     });
   }
 
@@ -52,17 +72,17 @@ export class SetupVariousComponent implements OnInit {
     } else {
       logger.info('Invalid form :', value);
 
-      if (!this.form.controls['borrowDuration'].valid) {
-        Materialize.toast('Borrow duration is empty', 4000);
+      if (this.form.controls['borrowDuration'].invalid) {
+        this.snackBar.open(this.borrowDurationMsg, 'OK', null);
       }
-      if (!this.form.controls['subscriptionDuration'].valid) {
-        Materialize.toast('Subscription duration is empty', 4000);
+      if (this.form.controls['subscriptionDuration'].invalid) {
+        this.snackBar.open(this.subscriptionDurationMsg, 'OK', null);
       }
-      if (!this.form.controls['currency'].valid) {
-        Materialize.toast('Currency is empty', 4000);
+      if (this.form.controls['currency'].invalid) {
+        this.snackBar.open(this.currencyMsg, 'OK', null);
       }
-      if (!this.form.controls['itemStartNumber'].valid) {
-        Materialize.toast('Item start number is empty', 4000);
+      if (this.form.controls['itemStartNumber'].invalid) {
+        this.snackBar.open(this.itemStartNumberMsg, 'OK', null);
       }
     }
   }
