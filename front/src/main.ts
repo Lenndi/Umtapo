@@ -9,9 +9,4 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(
-  AppModule,
-  {
-    providers: []
-  }
-);
+platformBrowserDynamic().bootstrapModule(AppModule);
