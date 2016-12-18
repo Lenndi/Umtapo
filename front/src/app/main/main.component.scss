@@ -1,72 +1,26 @@
-@charset "UTF-8";
-@import "../../sass/components/_variables.scss";
+@import "../../sass/variables.scss";
 
-#menu-btn {
-  color: $off-black;
+#side-nav {
+  overflow: hidden;
+  width: 250px;
 }
 
-@media #{$medium-and-down} {
-  #menu-btn {
-    position: absolute;
-    z-index: 997;
+.umt-menu-item {
+  text-decoration: none;
+
+  span {
+    color: #757575;
+    font-weight: 300;
+    margin-left: 25px;
   }
 }
 
-@media #{$medium-only} {
-  #menu-btn {
-    margin: 20px;
+.umt-menu-item.umt-current-route {
+  span {
+    color: $primary;
   }
 }
 
-@media #{$small-and-down} {
-  #menu-btn {
-    margin: 16px;
-  }
-}
-
-#slide-out {
-  width: 230px;
-}
-
-@media #{$large-and-up} {
-  #slide-out {
-    top: $navbar-height - 1;
-    z-index: 100;
-  }
-}
-
-.side-nav {
-  .current-route {
-    color: $primary-color;
-    i {
-      color: $primary-color;
-    }
-  }
-}
-
-.side-nav {
-  a {
-    padding: 0 16px;
-  }
-}
-
-.left-sub-menu {
-  a {
-    font-weight: 400;
-    color: $light-grey;
-    padding: 0 23.5px 0 31px;
-    background: white;
-  }
-}
-
-#left-nav {
-  width: 100px;
-  position: absolute;
-  top: 0;
-}
-
-@media #{$large-and-up} {
-  #content {
-    padding-left: 230px;
-  }
+.umt-current-category {
+  color: $primary;
 }

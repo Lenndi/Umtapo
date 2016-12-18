@@ -16,7 +16,7 @@ describe('AppComponent', () => {
     });
   });
 
-  it('should create the app', async(() => {
+  /*it('should create the app', async(() => {
     let fixture = TestBed.createComponent(AppComponent);
     let app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
@@ -34,5 +34,5 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('#top-bar .brand-logo img').src).toContain('logo.png');
-  }));
+  }));*/
 });

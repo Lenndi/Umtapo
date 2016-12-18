@@ -1,12 +1,4 @@
-<header id="header">
-  <div class="navbar-fixed">
-    <nav id="top-bar">
-      <div class="nav-wrapper">
-        <a routerLink="/" class="brand-logo"><img src="../assets/logo.png"></a>
-      </div>
-    </nav>
-  </div>
-</header>
-<div id="main">
-  <router-outlet></router-outlet>
-</div>
+<md-toolbar color="primary" id="top-bar">Umtapo</md-toolbar>
+<md-sidenav-layout id="main-layout">
+  <router-outlet #sidenav></router-outlet>
+</md-sidenav-layout>

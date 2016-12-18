@@ -1,14 +1,18 @@
-<div id="setup-card" class="row">
-  <div class="col s12 m6 offset-m3 l4 offset-l4">
-    <div class="card">
-      <nav class="card-nav">
-        <div class="nav-wrapper">
-          <div class="row card-nav-title">
-            <div class="col s2"><a routerLink="{{setupDataService.getStep() - 1}}" *ngIf="setupDataService.getPrecedence()"><i class="material-icons">arrow_back</i></a></div><div class="col s8" i18n>Master installation</div><div class="col s2">{{setupDataService.getStep()}}/2</div>
-          </div>
-        </div>
-      </nav>
-        <router-outlet></router-outlet>
-    </div>
+<div id="content" class="grid grid--center">
+  <div class="1/3--desk 1/2--lap 11/12 grid__cell">
+    <md-card class="umt-setup-card">
+      <md-toolbar color="primary">
+        <a class="umt-back-arrow" routerLink="{{setupDataService.getStep() - 1}}" *ngIf="setupDataService.getPrecedence()">
+          <md-icon style="line-height: 1.5">arrow_back</md-icon>
+        </a>
+        <span>Installation</span>
+        <span class="umt-fill-remaining"></span>
+        <span>{{setupDataService.getStep()}}/2</span>
+      </md-toolbar>
+      <div class="umt-setup-card-title">
+        <span>{{setupDataService.getTitle()}}</span>
+      </div>
+      <router-outlet></router-outlet>
+    </md-card>
   </div>
 </div>

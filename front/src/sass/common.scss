@@ -1,0 +1,31 @@
+@import "variables.scss";
+
+// Index spinner
+#app-loading {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#content {
+  padding: 32px;
+}
+
+.umt-full-size {
+  width: 100%;
+}
+
+.umt-input-wrapper {
+  padding-bottom: 20px;
+}
+
+.umt-warn-color {
+  color: $warn;
+}
+
+.umt-toggle-prefix {
+  margin: 16px 0;
+}
