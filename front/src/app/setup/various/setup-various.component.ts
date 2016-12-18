@@ -34,19 +34,30 @@ export class SetupVariousComponent implements OnInit {
     private setupDataService: SetupDataService,
     private snackBar: MdSnackBar
   ) {
-    this.borrowDuration = new FormControl('', [Validators.required, VariousValidator.positive]);
+    let library = this.setupDataService.getLibrary();
+
+    this.borrowDuration = new FormControl(
+      library != null ? library.getBorrowDuration() : '',
+      [Validators.required, VariousValidator.positive]);
     this.borrowDurationMsg = 'Merci d\'indiquer une durée d\'emprunt par défaut';
-    this.subscriptionDuration = new FormControl('', [Validators.required, VariousValidator.positive]);
+    this.subscriptionDuration = new FormControl(
+      library != null ? library.getSubscriptionDuration() : '',
+      [Validators.required, VariousValidator.positive]);
     this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
-    this.currency = new FormControl('', Validators.required);
+    this.currency = new FormControl(
+      library != null ? library.getCurrency() : '',
+      Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
-    this.itemStartNumber = new FormControl('', [Validators.required, VariousValidator.positive]);
+    this.itemStartNumber = new FormControl(
+      this.setupDataService.getItemStartNumber() != null ? this.setupDataService.getItemStartNumber() : '',
+      [Validators.required, VariousValidator.positive]);
     this.itemStartNumberMsg = `Merci d\'indiquer l\'identifiant à partir duquel seront créé la numérotation automatique
       des documents`;
   }
 
   ngOnInit(): void {
     this.setupDataService.setStep(2);
+    this.setupDataService.setTitle('Divers');
     this.library = this.setupDataService.getLibrary();
 
     this.form = this.formBuilder.group({
@@ -59,6 +70,7 @@ export class SetupVariousComponent implements OnInit {
 
   onSubmit(value: any): void {
     if (this.form.valid) {
+      this.setupDataService.setItemStartNumber(value.itemStartNumber);
       this.library.setBorrowDuration(value.borrowDuration);
       this.library.setSubscriptionDuration(value.subscriptionDuration);
       this.library.setCurrency(value.currency);

@@ -6,6 +6,8 @@ export class SetupDataService {
   private library: Library;
   private step: number;
   private precedence: boolean;
+  private itemStartNumber: number;
+  private title: string;
 
   getLibrary(): Library {
     return this.library;
@@ -30,5 +32,21 @@ export class SetupDataService {
 
   setPrecedence(value: boolean) {
     this.precedence = value;
+  }
+
+  getItemStartNumber(): number {
+    return this.itemStartNumber;
+  }
+
+  setItemStartNumber(value: number) {
+    this.itemStartNumber = value;
+  }
+
+  getTitle(): string {
+    return this.title;
+  }
+
+  setTitle(value: string) {
+    this.title = value;
   }
 }

@@ -10,8 +10,7 @@
     "single-test": "ng test --single-run",
     "style-lint": "stylelint \"src/**/*.scss\" --syntax scss",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor",
-    "i18n": "gulp i18n-build"
+    "e2e": "protractor"
   },
   "private": true,
   "dependencies": {
@@ -44,11 +43,6 @@
     "@types/winston": "0.0.32",
     "angular-cli": "1.0.0-beta.21",
     "codelyzer": "~1.0.0-beta.3",
-    "gulp": "^3.9.1",
-    "gulp-cheerio": "^0.6.2",
-    "gulp-modify-file": "^0.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-run": "^1.7.1",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",

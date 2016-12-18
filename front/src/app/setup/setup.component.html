@@ -9,7 +9,9 @@
         <span class="umt-fill-remaining"></span>
         <span>{{setupDataService.getStep()}}/2</span>
       </md-toolbar>
-      <div class="umt-setup-card-title">Shelf mark</div>
+      <div class="umt-setup-card-title">
+        <span>{{setupDataService.getTitle()}}</span>
+      </div>
       <router-outlet></router-outlet>
     </md-card>
   </div>

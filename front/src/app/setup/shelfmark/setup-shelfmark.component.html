@@ -9,16 +9,20 @@
       </md-input>
     </p>
     <p>
-      <md-select placeholder="Source ISBN préférée" class="umt-full-size" formControlName="defaultZ3950">
-        <md-option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.id">
+      <select placeholder="Source ISBN préférée" class="umt-full-size" formControlName="defaultZ3950">
+        <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.id">
           {{z3950Source.name}}
-        </md-option>
-      </md-select>
+        </option>
+      </select>
     </p>
-    <p>
-      <md-slide-toggle formControlName="useDeweyClassification">Utiliser la classification Dewey
-      </md-slide-toggle>
-    </p>
+    <div class="grid">
+      <div class="3/4 grid__cell umt-toggle-prefix">
+        <span>Utiliser la classification Dewey</span>
+      </div>
+      <div class="1/4 grid__cell">
+        <md-slide-toggle formControlName="useDeweyClassification"></md-slide-toggle>
+      </div>
+    </div>
   </form>
 </md-card-content>
 <md-card-actions class="umt-setup-card-actions" align="end">

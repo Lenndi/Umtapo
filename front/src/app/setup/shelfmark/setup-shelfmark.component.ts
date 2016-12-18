@@ -32,15 +32,23 @@ export class SetupShelfmarkComponent implements OnInit {
     private setupDataService: SetupDataService,
     private snackBar: MdSnackBar
   ) {
-    this.shelfMarkNb = new FormControl('', [Validators.required, ShelfmarkValidator.nbFields]);
+    let library = this.setupDataService.getLibrary();
+    this.shelfMarkNb = new FormControl(
+      library != null ? library.getShelfMarkNb() : '',
+      [Validators.required, ShelfmarkValidator.nbFields]);
     this.shelfMarkNbMsg = 'Le nombre de champs pour la cote doit être compris entre 1 et 5';
-    this.defaultZ3950 = new FormControl('', Validators.required);
+    this.defaultZ3950 = new FormControl(
+      library != null ? library.getDefaultZ3950() : '',
+      Validators.required);
     this.defaultZ3950Msg = 'Merci de sélectionner votre source ISBN favorite';
-    this.useDeweyClassification = new FormControl(false, Validators.required);
+    this.useDeweyClassification = new FormControl(
+      library != null ? library.getUseDeweyClassification() : false,
+      Validators.required);
   }
 
   ngOnInit(): void {
     this.setupDataService.setStep(1);
+    this.setupDataService.setTitle('Cotation');
     this.library = new Library();
 
     this.z3950Service.findAll()
