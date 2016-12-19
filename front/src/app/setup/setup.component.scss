@@ -1,30 +1,27 @@
-@charset "UTF-8";
-@import "../../sass/components/_variables.scss";
-
-@media #{$medium-and-up} {
-  #setup-card {
-    margin-top: 50px;
-    i {
-      height: 50px;
-      line-height: 50px;
-    }
-  }
+.umt-setup-card {
+  padding: 0;
+  width: 99%;
 }
 
-.card-nav {
-  height: 50px;
-  line-height: 50px;
+#content {
+  text-align: center;
 }
 
-.center-card {
-  margin: 0 auto;
+.umt-setup-card-title, .umt-setup-card-content {
+  padding: 16px 16px 0 16px;
+  text-align: left;
+  font-size: 22px;
 }
 
-.card-nav-title {
-  font-size: large;
+.umt-fill-remaining {
+  flex: 1 1 auto;
 }
 
-.card-bottom-btn {
-  margin-top: 50px;
+.umt-setup-card-actions {
+  margin: 0 16px 16px 16px;
 }
 
+.umt-back-arrow {
+  color: #ffffff;
+  padding-right: 10px;
+}

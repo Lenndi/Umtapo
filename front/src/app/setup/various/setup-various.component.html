@@ -1,42 +1,40 @@
-<div class="card-action">
-  <div class="card-content">
-    <span class="card-title" i18n>Various</span>
-  </div>
-  <div class="row">
-    <form materialize class="col s12" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="borrow-duration" type="number" [formControl]="form.controls['borrowDuration']"
-                 [class.invalid]="form.controls['borrowDuration'].dirty && !form.controls['borrowDuration'].valid">
-          <label for="borrow-duration" i18n>Default borrow duration (days)</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="subscription-duration" type="number" [formControl]="form.controls['subscriptionDuration']"
-                 [class.invalid]="form.controls['subscriptionDuration'].dirty && !form.controls['subscriptionDuration'].valid">
-          <label for="subscription-duration" i18n>Default subscription duration (days)</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="currency" type="text" [formControl]="form.controls['currency']"
-                 [class.invalid]="form.controls['currency'].dirty && !form.controls['currency'].valid">
-          <label for="currency" i18n>Currency</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="item-start-number" type="text" [formControl]="form.controls['itemStartNumber']"
-                 [class.invalid]="form.controls['itemStartNumber'].dirty && !form.controls['itemStartNumber'].valid">
-          <label for="item-start-number" i18n>Start number for automatic item id</label>
-        </div>
-      </div>
-      <div class="card-bottom-btn right-align">
-        <button type="submit" class="waves-effect btn right-align" i18n>Finish</button>
-      </div>
-    </form>
-  </div>
-  <div>
-  </div>
-</div>
+<md-card-content class="umt-setup-card-content">
+  <form [formGroup]="form">
+    <p>
+      <md-input type="number" placeholder="Durée d'emprunt par défaut (jours)"  class="umt-full-size" required
+                formControlName="borrowDuration">
+        <md-hint *ngIf="borrowDuration.invalid && borrowDuration.dirty" align="start" class="umt-warn-color">
+          {{borrowDurationMsg}}
+        </md-hint>
+      </md-input>
+    </p>
+    <p>
+      <md-input type="number" placeholder="Durée d'abonnement par défaut (jours)" class="umt-full-size"
+                 formControlName="subscriptionDuration" required>
+        <md-hint *ngIf="subscriptionDuration.invalid && subscriptionDuration.dirty"
+                 align="start" class="umt-warn-color">
+          {{subscriptionDurationMsg}}
+        </md-hint>
+      </md-input>
+    </p>
+    <p>
+      <md-input type="text" placeholder="Monnaie" class="umt-full-size"
+                formControlName="currency" required>
+        <md-hint *ngIf="currency.invalid && currency.dirty" align="start" class="umt-warn-color">
+          {{currencyMsg}}
+        </md-hint>
+      </md-input>
+    </p>
+    <p>
+      <md-input type="number" placeholder="Numéro d'identifiant de départ" class="umt-full-size"
+                formControlName="itemStartNumber" required>
+        <md-hint *ngIf="itemStartNumber.invalid && itemStartNumber.dirty" align="start" class="umt-warn-color">
+          {{itemStartNumberMsg}}
+        </md-hint>
+      </md-input>
+    </p>
+  </form>
+</md-card-content>
+<md-card-actions class="umt-setup-card-actions" align="end">
+  <button md-raised-button md-ripple color="accent" (click)="onSubmit(form.value)">FINISH</button>
+</md-card-actions>
