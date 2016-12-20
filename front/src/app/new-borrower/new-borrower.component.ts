@@ -6,15 +6,14 @@ import {BorrowerService} from '../../service/borrower.service';
 import {ValidationService} from '../../service/validationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Address} from '../../entity/address';
-import {MaterializeAction} from 'angular2-materialize';
-import {EventEmitter} from '@angular/core';
-declare const Materialize: any;
 
 @Component({
   selector: 'app-new-borrower',
   templateUrl: './new-borrower.component.html',
   styleUrls: ['./new-borrower.component.scss']
 })
+
+
 export class NewBorrowerComponent implements OnInit {
   private form: FormGroup;
   private endSubscription: Date;
@@ -22,8 +21,6 @@ export class NewBorrowerComponent implements OnInit {
   private borrower: Borrower = new Borrower();
   private address: Address = new Address();
   private subscription: Subscription = new Subscription();
-  modalActions1 = new EventEmitter<string|MaterializeAction>();
-
 
   constructor(
       private formBuilder: FormBuilder,
@@ -31,10 +28,22 @@ export class NewBorrowerComponent implements OnInit {
   ) {
   }
 
+  addSubscriptionDurationToDate() {
+    let date = new Date(this.form.controls['startSubscription'].value);
+    // TODO add library duration time
+    this.endSubscription = this.addDays(date, 365);
+  }
+
+  addDays(date: Date, days: number): Date {
+    console.log('adding ' + days + ' days');
+    console.log(date);
+    date.setDate(date.getDate() + days);
+    console.log(date);
+    return date;
+  }
+
   ngOnInit() {
     this.dateToday = new Date();
-    this.endSubscription = new Date();
-
 
     this.form = this.formBuilder.group({
       'name': ['', Validators.required],
@@ -51,16 +60,6 @@ export class NewBorrowerComponent implements OnInit {
       'comment': ['', Validators.required],
       'emailOptin': ['', Validators.required]
     });
-    // TODO - EndSubscriptionDate
-    // this.endSubscription.setDate(this.dateToday.getDate() + 6);
-  }
-
-
-  openModalCreateUser() {
-    this.modalActions1.emit({action: 'modal', params: ['open']});
-  }
-  closeModalCreateUser() {
-    this.modalActions1.emit({action: 'modal', params: ['close']});
   }
 
   onSubmit(value: any) {
@@ -82,11 +81,7 @@ export class NewBorrowerComponent implements OnInit {
     this.borrower.setSubscription(this.subscription[0]);
 
     this.borrowerService
-        .save(this.borrower)
-        .then(result => {
-          this.openModalCreateUser();
-        });
-
+        .save(this.borrower);
     //
     //
     //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);

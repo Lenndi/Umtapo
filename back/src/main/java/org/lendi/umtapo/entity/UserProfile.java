@@ -16,12 +16,12 @@ import javax.persistence.Table;
 @Table(name = "USER_PROFILE")
 public class UserProfile {
 
+    private static final int LENGTH = 15;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private final Integer length = 15;
 
-    @Column(name = "TYPE", length = length, unique = true, nullable = false)
+    @Column(name = "TYPE", length = LENGTH, unique = true, nullable = false)
     private String type = UserProfileType.USER.getUserProfileType();
 
 

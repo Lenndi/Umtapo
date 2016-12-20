@@ -1,27 +1,31 @@
-.row{
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 0px;
+.umt-setup-card {
+  padding: 0;
+  width: 150%;
 }
 
-.input-field {
-  position: relative;
-  margin: 0 0 0 0;
+#content {
+  text-align: center;
 }
 
-.card .card-content {
-  padding: 20px;
-  padding-bottom: 50px;
-  border-radius: 0 0 20px 25px;
+.umt-setup-card-title, .umt-setup-card-content {
+  padding: 16px 16px 0 16px;
+  text-align: left;
+  font-size: 22px;
 }
 
-.black-text {
-  color: #9d9790;
+.umt-fill-remaining {
+  flex: 1 1 auto;
 }
-.card .card-content p {
-  margin: 13px 0 0 0;
-  color: inherit;
+
+.umt-setup-card-actions {
+  margin: 0 16px 16px 16px;
 }
-.card-bottom-btn{
-  margin: 20px 0 0 0;
+
+.umt-back-arrow {
+  color: #ffffff;
+  padding-right: 10px;
+}
+
+.form{
+  padding-bottom: 10px;
 }
