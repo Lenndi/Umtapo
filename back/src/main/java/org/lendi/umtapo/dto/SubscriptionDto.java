@@ -3,7 +3,7 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * Subscription DTO.
@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 public class SubscriptionDto {
 
     private Integer id;
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private Integer contribution;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
+    private String contribution;
     private BorrowerDto borrower;
     private LibraryDto library;
 
@@ -43,7 +43,7 @@ public class SubscriptionDto {
      *
      * @return the start
      */
-    public LocalDateTime getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
@@ -52,7 +52,7 @@ public class SubscriptionDto {
      *
      * @param start the start
      */
-    public void setStart(LocalDateTime start) {
+    public void setStart(ZonedDateTime start) {
         this.start = start;
     }
 
@@ -61,7 +61,7 @@ public class SubscriptionDto {
      *
      * @return the end
      */
-    public LocalDateTime getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 
@@ -70,7 +70,7 @@ public class SubscriptionDto {
      *
      * @param end the end
      */
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(ZonedDateTime end) {
         this.end = end;
     }
 
@@ -79,7 +79,7 @@ public class SubscriptionDto {
      *
      * @return the contribution
      */
-    public Integer getContribution() {
+    public String getContribution() {
         return contribution;
     }
 
@@ -88,7 +88,7 @@ public class SubscriptionDto {
      *
      * @param contribution the contribution
      */
-    public void setContribution(Integer contribution) {
+    public void setContribution(String contribution) {
         this.contribution = contribution;
     }
 

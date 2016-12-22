@@ -1,11 +1,14 @@
 ///<reference path="../../service/borrower.service.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {Borrower} from '../../entity/borrower';
-import {Subscription} from '../../entity/subscription';
 import {BorrowerService} from '../../service/borrower.service';
 import {ValidationService} from '../../service/validationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Address} from '../../entity/address';
+import {logger} from '../../environments/environment';
+import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {Subscription} from '../../entity/subscription';
+
 
 @Component({
   selector: 'app-new-borrower',
@@ -20,11 +23,14 @@ export class NewBorrowerComponent implements OnInit {
   private dateToday: Date;
   private borrower: Borrower = new Borrower();
   private address: Address = new Address();
+  private subscriptionArray: Subscription[] = [];
   private subscription: Subscription = new Subscription();
 
+
   constructor(
-      private formBuilder: FormBuilder,
-      private borrowerService: BorrowerService
+    private formBuilder: FormBuilder,
+    private borrowerService: BorrowerService,
+    private snackBar: MdSnackBar
   ) {
   }
 
@@ -43,13 +49,13 @@ export class NewBorrowerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.endSubscription = new Date();
     this.dateToday = new Date();
-
     this.form = this.formBuilder.group({
       'name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
-      'birthdate': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
-      'startSubscription': [this.dateToday.toDateString(), Validators.compose([Validators.required, ValidationService.dateValidator])],
+      'birthday': [''],
+      'startSubscription': [''],
       'phone': ['', Validators.required],
       'address1': ['', Validators.required],
       'address2': ['', Validators.required],
@@ -57,45 +63,56 @@ export class NewBorrowerComponent implements OnInit {
       'city': ['', Validators.required],
       'quota': ['', Validators.required],
       'contribution': ['', Validators.required],
-      'comment': ['', Validators.required],
-      'emailOptin': ['', Validators.required]
+      'comment': [''],
+      'emailOptin': ['']
     });
   }
 
-  onSubmit(value: any) {
-    // if (this.form.valid) {
-    this.borrower.setName(value.name);
-    this.borrower.setBirthday(value.birthday);
-    this.borrower.setQuota(value.quota);
-    this.borrower.setEmailOptin(value.emailOptin);
-    this.address.setAddress1(value.address1);
-    this.address.setAddress2(value.address2);
-    this.address.setZip(value.zip);
-    this.address.setCity(value.city);
-    this.address.setPhone(value.phone);
-    this.address.setEmail(value.email);
-    this.subscription.setStart(value.startSubscription);
-    this.subscription.setEnd(this.endSubscription);
-    this.subscription.setContribution(value.contribution);
-    this.borrower.setAddress(this.address);
-    this.borrower.setSubscription(this.subscription[0]);
+  onSubmit(value: any): void {
+    if (this.form.dirty && this.form.valid) {
+      alert(`Name: ${this.form.value.name} Email: ${this.form.value.email}`);
+    }
+    if (this.form.valid) {
+      this.borrower.setName(value.name);
+      this.borrower.setBirthday(new Date(value.birthday));
+      this.borrower.setQuota(value.quota);
+      this.borrower.setEmailOptin(value.emailOptin);
+      this.address.setAddress1(value.address1);
+      this.address.setAddress2(value.address2);
+      this.address.setZip(value.zip);
+      this.address.setCity(value.city);
+      this.address.setPhone(value.phone);
+      this.address.setEmail(value.email);
+      this.subscription.setStart(new Date(value.startSubscription));
+      this.subscription.setEnd(this.endSubscription);
+      this.subscription.setContribution(value.contribution);
+      this.subscriptionArray = [];
+      this.subscriptionArray.push(this.subscription);
+      this.borrower.setAddress(this.address);
+      this.borrower.setSubscription(this.subscriptionArray);
 
-    this.borrowerService
+      this.borrowerService
         .save(this.borrower);
-    //
-    //
-    //   this.router.navigate(['setup/' + (this.setupDataService.getStep() + 1)]);
-    // } else {
-    //   logger.info('Invalid form :', value);
-    //
-    //   if (value.shelfMarkNb === '') {
-    //     Materialize.toast('Number of fields is empty', 4000);
-    //   } else if (!this.form.controls['shelfMarkNb'].valid) {
-    //     Materialize.toast('Number of fields must be between 1 and 5', 4000);
-    //   }
-    //   if (value.defaultZ3950 === '') {
-    //     Materialize.toast('Please select a favorite ISBN source', 4000);
-    //   }
 
+    } else {
+      let config = new MdSnackBarConfig();
+      config.duration = 1000;
+      logger.info('Invalid form :', value);
+      if (this.form.controls['email'].invalid) {
+        logger.info('email invalid');
+        logger.info(this.form.controls['email'].value);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidEmailAddress', true) + ' Email', 'OK', config);
+      }
+      if (this.form.controls['startSubscription'].invalid) {
+        logger.info('startSubscription invalid');
+        logger.info(this.form.controls['startSubscription'].value);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'OK', config);
+      }
+      if (this.form.controls['birthday'].invalid) {
+        logger.info('birthday invalid');
+        logger.info(this.form.controls['birthday'].value);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'OK', config);
+      }
+    }
   }
 }

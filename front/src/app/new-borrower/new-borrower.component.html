@@ -20,7 +20,7 @@
                 </table>
                 <table cellspacing="0" style="width: 100%">
                     <td>
-                        <md-input placeholder="Date de naissance" type="date" formControlName="birthdate" required>
+                        <md-input placeholder="Date de naissance" type="date" formControlName="birthday" required>
                             <label>Date de naissance</label>
                         </md-input>
                     </td>
@@ -93,98 +93,9 @@
                     </td>
                 </table>
                 <md-card-actions class="umt-setup-card-actions" align="end">
-                    <button _ngcontent-qqo-25="" class="md-raised md-warn" md-raised-button=""><span class="md-button-wrapper">Warn</span></button>
+                    <button (click)="onSubmit(form.value)" class="md-raised md-warn" md-raised-button=""><span class="md-button-wrapper">Création</span></button>
                 </md-card-actions>
-
             </form>
         </md-card>
     </div>
 </div>
-<!--<div class="input-field col s6">-->
-<!--<input id="birthdate"-->
-<!--[formControl]="form.controls['birthdate']"-->
-<!--materialize="pickadate"-->
-<!--[materializeParams]="[{selectMonths: true, selectYears: 15}]"-->
-<!--type="text" />-->
-<!--</div>-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['phone']" id="phone" type="tel">-->
-<!--<label for="phone">Phone</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['address1']" id="address1" type="text" >-->
-<!--<label for="address1">Address 1</label>-->
-<!--</div>-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['address2']" id="address2" type="text" >-->
-<!--<label for="address2">Address 2</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['zip']" id="zip" type="text" >-->
-<!--<label for="zip">Zip</label>-->
-<!--</div>-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['city']" id="city" type="text" >-->
-<!--<label for="city">City</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s6">-->
-<!--<input id="startSubscription"-->
-<!--[formControl]="form.controls['startSubscription']"-->
-<!--materialize="pickadate"-->
-<!--[materializeParams]="[{selectMonths: true, selectYears: 15}]"-->
-<!--type="text" />-->
-<!--</div>-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['quota']" id="quota" type="number" >-->
-<!--<label for="quota">Quota</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['contribution']" id="contribution" type="text" >-->
-<!--<label for="contribution">Contribution</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s12">-->
-<!--<textarea [formControl]="form.controls['comment']" id="comment" class="materialize-textarea"></textarea>-->
-<!--<label for="comment">Comment</label>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="input-field col s6">-->
-<!--<input [formControl]="form.controls['emailOptin']" type="checkbox" class="filled-in" id="emailOptin" />-->
-<!--<label for="emailOptin">Accept Email Notification</label>-->
-<!--</div>-->
-<!--<div class="col s6">-->
-<!--<p class="end-subscription">End of subscription : <span class="date-end">{{form.controls['startSubscription'].value}}</span></p>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="card-bottom-btn right-align">-->
-<!--<button type="submit" class="waves-effect btn right-align" i18n>Next</button>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</form>-->
-<!--<div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions1">-->
-<!--<div class="modal-content">-->
-<!--<h4>Modal Header 1</h4>-->
-<!--<p>A bunch of text</p>-->
-<!--</div>-->
-<!--<div class="modal-footer">-->
-<!--<a class="waves-effect waves-green btn-flat" (click)="closeModalCreateUser()">Close</a>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->

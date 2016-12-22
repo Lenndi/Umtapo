@@ -77,7 +77,7 @@ public class BorrowerWebService {
 
     /**
      * Sets borrower.
-     *
+     *Validators.required
      * @param borrowerDto the borrower dto
      * @return the borrower
      */

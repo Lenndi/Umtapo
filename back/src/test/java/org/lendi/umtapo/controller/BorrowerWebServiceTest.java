@@ -17,7 +17,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class BorrowerWebServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private LocalDateTime localDateTime;
+    private ZonedDateTime zonedDateTime;
 
     private BorrowerMapper borrowerMapper = new BorrowerMapper();
 
@@ -65,10 +66,10 @@ public class BorrowerWebServiceTest {
      */
     @Before
     public void setup() {
-        localDateTime = LocalDateTime.of(2000, 5, 25, 21, 52, 35);
-        Borrower borrower = new Borrower("NameTest", "CommentTest", localDateTime, 5,
+        zonedDateTime = ZonedDateTime.of(2000, 5, 25, 21, 52, 35, 0, ZoneId.systemDefault());
+        Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
                 true, null, null, null, null);
-        Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", localDateTime, 7,
+        Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
                 false, null, null, null, null);
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);

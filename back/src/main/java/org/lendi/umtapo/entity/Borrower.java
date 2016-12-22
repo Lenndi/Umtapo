@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class Borrower {
     private Integer id;
     private String name;
     private String comment;
-    private LocalDateTime birthday;
+    private ZonedDateTime birthday;
     private Integer quota;
     private Boolean emailOptin;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -55,7 +55,7 @@ public class Borrower {
      * @param loan         the loan
      * @param library      the library
      */
-    public Borrower(String name, String comment, LocalDateTime birthday, Integer quota, Boolean emailOptin,
+    public Borrower(String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin,
                     Address address, List<Subscription> subscription, List<Loan> loan, Library library) {
         this.name = name;
         this.comment = comment;
@@ -199,7 +199,7 @@ public class Borrower {
      *
      * @return the birthday
      */
-    public LocalDateTime getBirthday() {
+    public ZonedDateTime getBirthday() {
         return birthday;
     }
 
@@ -208,7 +208,7 @@ public class Borrower {
      *
      * @param birthday the birthday
      */
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(ZonedDateTime birthday) {
         this.birthday = birthday;
     }
 

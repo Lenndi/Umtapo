@@ -3,7 +3,7 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -18,7 +18,7 @@ public class BorrowerDto {
  private Integer id;
  private String name;
  private String comment;
- private LocalDateTime birthday;
+ private ZonedDateTime birthday;
  private Integer quota;
  private Boolean emailOptin;
  private AddressDto address;
@@ -49,7 +49,7 @@ public class BorrowerDto {
   *
   * @return the birthday
   */
- public LocalDateTime getBirthday() {
+ public ZonedDateTime getBirthday() {
   return birthday;
  }
 
@@ -58,7 +58,7 @@ public class BorrowerDto {
   *
   * @param birthday the birthday
   */
- public void setBirthday(LocalDateTime birthday) {
+ public void setBirthday(ZonedDateTime birthday) {
   this.birthday = birthday;
  }
 

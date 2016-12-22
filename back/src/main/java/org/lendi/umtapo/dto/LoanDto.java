@@ -3,7 +3,8 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 
 /**
  * Loan dto.
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class LoanDto {
 
  private Integer id;
- private LocalDateTime date;
+ private ZonedDateTime date;
  private BorrowerDto borrowerDto;
  private ItemDto itemDto;
 
@@ -41,7 +42,7 @@ public class LoanDto {
      *
      * @return the date
      */
-    public LocalDateTime getDate() {
+    public ZonedDateTime getDate() {
   return date;
  }
 
@@ -50,7 +51,7 @@ public class LoanDto {
      *
      * @param date the date
      */
-    public void setDate(LocalDateTime date) {
+    public void setDate(ZonedDateTime date) {
   this.date = date;
  }
 

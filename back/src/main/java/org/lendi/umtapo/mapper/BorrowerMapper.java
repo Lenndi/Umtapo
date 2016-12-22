@@ -9,7 +9,7 @@ import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * Borrower mapper générique
@@ -23,7 +23,7 @@ public class BorrowerMapper extends ConfigurableMapper {
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(LocalDateTime.class));
+        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
         MAPPER = mapperFactory.getMapperFacade();
     }
