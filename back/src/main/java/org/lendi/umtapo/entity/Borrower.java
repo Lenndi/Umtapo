@@ -29,10 +29,10 @@ public class Borrower {
     private Boolean emailOptin;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
-    @OneToMany(mappedBy = "borrower")
-    private List<Subscription> subscription;
-    @OneToMany(mappedBy = "borrower")
-    private List<Loan> loan;
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    private List<Subscription> subscriptions;
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    private List<Loan> loans;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
 
@@ -45,26 +45,25 @@ public class Borrower {
     /**
      * Instantiates a new Borrower.
      *
-     * @param name         the name
-     * @param comment      the comment
-     * @param birthday     the birthday
-     * @param quota        the quota
-     * @param emailOptin   the email optin
-     * @param address      the address
-     * @param subscription the subscription
-     * @param loan         the loan
-     * @param library      the library
+     * @param name          the name
+     * @param comment       the comment
+     * @param birthday      the birthday
+     * @param quota         the quota
+     * @param emailOptin    the email optin
+     * @param address       the address
+     * @param subscriptions the subscriptions
+     * @param loans         the loans
+     * @param library       the library
      */
-    public Borrower(String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin,
-                    Address address, List<Subscription> subscription, List<Loan> loan, Library library) {
+    public Borrower(String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address, List<Subscription> subscriptions, List<Loan> loans, Library library) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
         this.quota = quota;
         this.emailOptin = emailOptin;
         this.address = address;
-        this.subscription = subscription;
-        this.loan = loan;
+        this.subscriptions = subscriptions;
+        this.loans = loans;
         this.library = library;
     }
 
@@ -105,39 +104,39 @@ public class Borrower {
     }
 
     /**
-     * Gets loan.
+     * Gets subscriptions.
      *
-     * @return the loan
+     * @return the subscriptions
      */
-    public List<Loan> getLoan() {
-        return loan;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
     /**
-     * Sets loan.
+     * Sets subscriptions.
      *
-     * @param loan the loan
+     * @param subscriptions the subscriptions
      */
-    public void setLoan(List<Loan> loan) {
-        this.loan = loan;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     /**
-     * Gets subscription.
+     * Gets loans.
      *
-     * @return the subscription
+     * @return the loans
      */
-    public List<Subscription> getSubscription() {
-        return subscription;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
     /**
-     * Sets subscription.
+     * Sets loans.
      *
-     * @param subscription the subscription
+     * @param loans the loans
      */
-    public void setSubscription(List<Subscription> subscription) {
-        this.subscription = subscription;
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     /**

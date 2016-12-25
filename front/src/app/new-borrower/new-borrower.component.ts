@@ -25,6 +25,7 @@ export class NewBorrowerComponent implements OnInit {
   private address: Address = new Address();
   private subscriptionArray: Subscription[] = [];
   private subscription: Subscription = new Subscription();
+  private config = new MdSnackBarConfig();
 
 
   constructor(
@@ -49,6 +50,7 @@ export class NewBorrowerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.config.duration = 1000;
     this.endSubscription = new Date();
     this.dateToday = new Date();
     this.form = this.formBuilder.group({
@@ -66,6 +68,13 @@ export class NewBorrowerComponent implements OnInit {
       'comment': [''],
       'emailOptin': ['']
     });
+  }
+
+  saveOk() {
+    this.form.reset();
+    this.snackBar.open('Emprunteur crée', 'OK', this.config)
+    this.active = false;
+    setTimeout(() => this.active = true, 0);
   }
 
   onSubmit(value: any): void {
@@ -89,29 +98,35 @@ export class NewBorrowerComponent implements OnInit {
       this.subscriptionArray = [];
       this.subscriptionArray.push(this.subscription);
       this.borrower.setAddress(this.address);
-      this.borrower.setSubscription(this.subscriptionArray);
-
-      this.borrowerService
-        .save(this.borrower);
-
-    } else {
+      this.borrower.setSubscriptions(this.subscriptionArray);
       let config = new MdSnackBarConfig();
       config.duration = 1000;
+
+      this.borrowerService
+        .save(this.borrower).then(borrower => saveOk()).catch(borrower =>
+        this.snackBar.open('Problème création emprunteur', 'OK', this.config));
+      this.form.reset();
+
+
+    } else {
       logger.info('Invalid form :', value);
       if (this.form.controls['email'].invalid) {
         logger.info('email invalid');
         logger.info(this.form.controls['email'].value);
-        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidEmailAddress', true) + ' Email', 'OK', config);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidEmailAddress', true) + ' Email', 'OK',
+          this.config);
       }
       if (this.form.controls['startSubscription'].invalid) {
         logger.info('startSubscription invalid');
         logger.info(this.form.controls['startSubscription'].value);
-        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'OK', config);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'OK',
+          this.config);
       }
       if (this.form.controls['birthday'].invalid) {
         logger.info('birthday invalid');
         logger.info(this.form.controls['birthday'].value);
-        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'OK', config);
+        this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'OK',
+          this.config);
       }
     }
   }

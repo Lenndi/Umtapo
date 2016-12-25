@@ -22,8 +22,8 @@ public class BorrowerDto {
  private Integer quota;
  private Boolean emailOptin;
  private AddressDto address;
- private List<SubscriptionDto> subscription;
- private List<LoanDto> loan;
+ private List<SubscriptionDto> subscriptions;
+ private List<LoanDto> loans;
  private LibraryDto library;
 
  /**
@@ -99,39 +99,39 @@ public class BorrowerDto {
  }
 
  /**
-  * Gets subscription.
+  * Gets subscriptions.
   *
-  * @return the subscription
+  * @return the subscriptions
   */
- public List<SubscriptionDto> getSubscription() {
-  return subscription;
+ public List<SubscriptionDto> getSubscriptions() {
+  return subscriptions;
  }
 
  /**
-  * Sets subscription.
+  * Sets subscriptions.
   *
-  * @param subscription the subscription
+  * @param subscriptions the subscriptions
   */
- public void setSubscription(List<SubscriptionDto> subscription) {
-  this.subscription = subscription;
+ public void setSubscriptions(List<SubscriptionDto> subscriptions) {
+  this.subscriptions = subscriptions;
  }
 
  /**
-  * Gets loan.
+  * Gets loans.
   *
-  * @return the loan
+  * @return the loans
   */
- public List<LoanDto> getLoan() {
-  return loan;
+ public List<LoanDto> getLoans() {
+  return loans;
  }
 
  /**
-  * Sets loan.
+  * Sets loans.
   *
-  * @param loan the loan
+  * @param loans the loans
   */
- public void setLoan(List<LoanDto> loan) {
-  this.loan = loan;
+ public void setLoans(List<LoanDto> loans) {
+  this.loans = loans;
  }
 
  /**

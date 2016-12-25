@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.time.ZonedDateTime;
@@ -23,7 +24,7 @@ public class Subscription {
     private ZonedDateTime end;
     private String contribution;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
+    @JoinColumn(name = "id", insertable = false, updatable = false)
     private Borrower borrower;
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "ID")

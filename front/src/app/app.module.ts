@@ -44,6 +44,6 @@ import 'hammerjs';
     SetupDataService,
     BorrowerService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -10,8 +10,8 @@ export class Borrower {
   private quota: number;
   private emailOptin: boolean;
   private address: Address;
-  private subscription: Array<Subscription>;
-  private loan: Array<Loan>;
+  private subscriptions: Array<Subscription>;
+  private loans: Array<Loan>;
   private library: Library;
 
 
@@ -64,20 +64,20 @@ export class Borrower {
   }
 
 
-  getSubscription(): Array<Subscription> {
-    return this.subscription;
+  getSubscriptions(): Array<Subscription> {
+    return this.subscriptions;
   }
 
-  setSubscription(value: Array<Subscription>) {
-    this.subscription = value;
+  setSubscriptions(value: Array<Subscription>) {
+    this.subscriptions = value;
   }
 
-  getLoan(): Array<Loan> {
-    return this.loan;
+  getLoans(): Array<Loan> {
+    return this.loans;
   }
 
-  setLoan(value: Array<Loan>) {
-    this.loan = value;
+  setLoans(value: Array<Loan>) {
+    this.loans = value;
   }
 
   getLibrary(): Library {
