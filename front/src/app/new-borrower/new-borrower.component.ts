@@ -35,29 +35,19 @@ export class NewBorrowerComponent implements OnInit {
   ) {
   }
 
-  addSubscriptionDurationToDate() {
-    let date = new Date(this.form.controls['startSubscription'].value);
-    // TODO add library duration time
-    this.endSubscription = this.addDays(date, 365);
-  }
+  // ########################################################
+  // ################### INTERNAL FUNCTION ##################
+  // ########################################################
 
-  addDays(date: Date, days: number): Date {
-    console.log('adding ' + days + ' days');
-    console.log(date);
-    date.setDate(date.getDate() + days);
-    console.log(date);
-    return date;
-  }
-
-  ngOnInit() {
-    this.config.duration = 1000;
-    this.endSubscription = new Date();
-    this.dateToday = new Date();
+  /**
+   *
+   */
+  initializeForm() {
     this.form = this.formBuilder.group({
       'name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
-      'birthday': [''],
-      'startSubscription': [''],
+      'birthday': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
+      'startSubscription': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
       'phone': ['', Validators.required],
       'address1': ['', Validators.required],
       'address2': ['', Validators.required],
@@ -70,18 +60,53 @@ export class NewBorrowerComponent implements OnInit {
     });
   }
 
+
+  // TODO Add Real Time.
+  /**
+   *
+   */
+  addSubscriptionDurationToDate() {
+    let date = new Date(this.form.controls['startSubscription'].value);
+    this.endSubscription = this.addDays(date, 365);
+  }
+
+  /**
+   *
+   * @param date
+   * @param days
+   * @returns {Date}
+     */
+  addDays(date: Date, days: number): Date {
+    console.log('adding ' + days + ' days');
+    console.log(date);
+    date.setDate(date.getDate() + days);
+    console.log(date);
+    return date;
+  }
+
+  ngOnInit() {
+    this.config.duration = 1000;
+    this.endSubscription = new Date();
+    this.dateToday = new Date();
+
+    this.initializeForm();
+
+  }
+
   saveOk() {
-    this.form.reset();
-    this.snackBar.open('Emprunteur crée', 'OK', this.config)
-    this.active = false;
-    setTimeout(() => this.active = true, 0);
+    this.snackBar.open('Emprunteur crée', 'OK', this.config);
+    this.initializeForm();
   }
 
   onSubmit(value: any): void {
+
     if (this.form.dirty && this.form.valid) {
       alert(`Name: ${this.form.value.name} Email: ${this.form.value.email}`);
     }
+
     if (this.form.valid) {
+
+      logger.info('valid form :', value);
       this.borrower.setName(value.name);
       this.borrower.setBirthday(new Date(value.birthday));
       this.borrower.setQuota(value.quota);
@@ -99,14 +124,10 @@ export class NewBorrowerComponent implements OnInit {
       this.subscriptionArray.push(this.subscription);
       this.borrower.setAddress(this.address);
       this.borrower.setSubscriptions(this.subscriptionArray);
-      let config = new MdSnackBarConfig();
-      config.duration = 1000;
 
       this.borrowerService
-        .save(this.borrower).then(borrower => saveOk()).catch(borrower =>
+        .save(this.borrower).then(borrower => this.saveOk()).catch(borrower =>
         this.snackBar.open('Problème création emprunteur', 'OK', this.config));
-      this.form.reset();
-
 
     } else {
       logger.info('Invalid form :', value);
