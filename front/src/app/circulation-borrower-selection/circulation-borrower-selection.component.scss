@@ -1,0 +1,41 @@
+.umt-setup-card {
+  padding: 0;
+  width: 200%;
+}
+
+#content {
+  margin-top: -45px;
+  text-align: center;
+}
+
+.umt-setup-card-title, .umt-setup-card-content {
+  padding: 16px 16px 0 16px;
+  text-align: left;
+  font-size: 22px;
+}
+
+.umt-fill-remaining {
+  flex: 1 1 auto;
+}
+
+.umt-setup-card-actions {
+  margin: 0 16px 16px 16px;
+}
+
+.umt-back-arrow {
+  color: #ffffff;
+  padding-right: 10px;
+}
+
+.form{
+  padding-bottom: 10px;
+}
+
+#md-input-underline {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  margin-top: 4px;
+  border-top-width: 1px;
+  border-top-style: solid;
+}

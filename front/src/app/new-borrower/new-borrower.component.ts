@@ -4,7 +4,7 @@ import {Borrower} from '../../entity/borrower';
 import {Library} from '../../entity/library';
 import {BorrowerService} from '../../service/borrower.service';
 import {LibraryService} from '../../service/library.service';
-import {ValidationService} from '../../service/validationService';
+import {ValidationService} from '../../validator/validationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Address} from '../../entity/address';
 import {logger} from '../../environments/environment';

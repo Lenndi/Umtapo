@@ -19,9 +19,16 @@ export class BorrowerService {
   save(borrower: Borrower): Promise<Borrower> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-        .post(this.borrowerUrl, JSON.stringify(borrower), options)
-        .toPromise()
-        .then(response => response.json() as Borrower)
-        .catch(error => this.httpLogger.error(error));
+      .post(this.borrowerUrl, JSON.stringify(borrower), options)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  findAll(): Promise<Borrower[]> {
+    return this.http.get(this.borrowerUrl)
+      .toPromise()
+      .then(response => response.json() as Borrower[])
+      .catch(error => this.httpLogger.error(error));
   }
 }

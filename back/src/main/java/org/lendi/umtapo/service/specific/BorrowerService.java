@@ -3,6 +3,8 @@ package org.lendi.umtapo.service.specific;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.service.generic.GenericService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,8 +39,20 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      */
     BorrowerDto findOneDto(Integer integer);
 
+
+
     @Override
     List<Borrower> findAll();
+
+    Page<Borrower> findAllPageable(Pageable pageable);
+
+    /**
+     * Return a page of Borrower.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable);
 
     /**
      * Retur all Borrower DTO.

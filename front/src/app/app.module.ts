@@ -17,6 +17,7 @@ import {BorrowerService} from '../service/borrower.service';
 import {SetupDataService} from '../service/data-binding/setup-data.service';
 import {MaterialModule} from '@angular/material';
 import 'hammerjs';
+import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection/circulation-borrower-selection.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import 'hammerjs';
     SetupVariousComponent,
     SetupComponent,
     NewBorrowerComponent,
+    CirculationBorrowerSelectionComponent,
   ],
   imports: [
     BrowserModule,
