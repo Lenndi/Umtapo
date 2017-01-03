@@ -1,6 +1,8 @@
 package org.lendi.umtapo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.log4j.Logger;
+import org.lendi.umtapo.configuration.Profile;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,13 +95,23 @@ public class BorrowerWebService {
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<BorrowerDto>> getBorrowers() {
+    public ResponseEntity getBorrowers(@RequestParam(required = false) String view) {
 
         List<BorrowerDto> borrowerDtos = borrowerService.findAllDto();
+
         if (borrowerDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<>(borrowerDtos, HttpStatus.OK);
+
+        if (view != null) {
+            MappingJacksonValue results = dynamicMapping(view, borrowerDtos);
+            if (results == null) {
+                return new ResponseEntity("The view does not exist", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity(results, HttpStatus.OK);
+        }
+
+        return new ResponseEntity(borrowerDtos, HttpStatus.OK);
     }
 
     /**
@@ -114,5 +127,17 @@ public class BorrowerWebService {
 
         borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
+    }
+
+    private MappingJacksonValue dynamicMapping(String jsonView, Object object) {
+
+        MappingJacksonValue wrapper = new MappingJacksonValue(object);
+
+        if (jsonView.equals("BorrowerSearchView")) {
+            wrapper.setSerializationView(Profile.BorrowerSearchView.class);
+        } else {
+            wrapper = null;
+        }
+        return wrapper;
     }
 }

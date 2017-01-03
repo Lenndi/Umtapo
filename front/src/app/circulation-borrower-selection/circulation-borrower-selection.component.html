@@ -7,20 +7,19 @@
       </div>
       <div class="grid">
         <form [formGroup]="form">
-        <md-input class="1/4 grid__cell" placeholder="Id emprunteur" type="text" formControlName="idBorrower" required>
-          <label>Id emprunteur</label>
-        </md-input>
+          <md-input class="1/4 grid__cell" placeholder="Id emprunteur" type="text" formControlName="idBorrower">
+            <label>Id emprunteur</label>
+          </md-input>
         <span class="1/4 grid__cell">
           <label>ou</label>
         </span>
-        <input list="borrowerNames">
-        <datalist placeholder="Nom emprunteur" class="1/4 grid__cell" formControlName="borrowerNames" id="borrowerNames" ngDefaultControl>
-          <option *ngFor="let borrower of borrowers" [value]="borrower.name">
-          </option>
-        </datalist>
-        <button md-fab class="1/4 grid__cell">
-          <i class="fa fa-check fa-1x" aria-hidden="true"></i>
-        </button>
+          <input list="borrowerNames">
+          <datalist placeholder="Nom emprunteur" class="1/4 grid__cell" formControlName="borrowerNames" id="borrowerNames" ngDefaultControl>
+            <option *ngFor="let borrower of borrowers" [value]="borrower.name"><span>{{borrower.address.email}}</span></option>
+          </datalist>
+          <button md-fab class="1/4 grid__cell">
+            <i class="fa fa-check fa-1x" aria-hidden="true"></i>
+          </button>
         </form>
       </div>
     </md-card>
