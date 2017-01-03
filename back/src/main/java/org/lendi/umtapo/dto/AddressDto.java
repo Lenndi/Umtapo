@@ -3,7 +3,7 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.lendi.umtapo.configuration.Profile;
+import org.lendi.umtapo.util.JsonViewResolver;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +28,7 @@ public class AddressDto {
     private String zip;
     private String city;
     private String phone;
-    @JsonView(Profile.BorrowerSearchView.class)
+    @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private String email;
 
 

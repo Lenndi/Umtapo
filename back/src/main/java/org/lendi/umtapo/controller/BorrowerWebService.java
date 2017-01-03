@@ -1,8 +1,7 @@
 package org.lendi.umtapo.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.log4j.Logger;
-import org.lendi.umtapo.configuration.Profile;
+import org.lendi.umtapo.util.JsonViewResolver;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +38,17 @@ public class BorrowerWebService {
 
     private final BorrowerService borrowerService;
 
+    private final JsonViewResolver jsonViewResolver;
+
     /**
      * Instantiates a new Borrower web service.
      *
-     * @param borrowerService the borrower service
+     * @param borrowerService  the borrower service
+     * @param jsonViewResolver
      */
     @Autowired
-    public BorrowerWebService(BorrowerService borrowerService) {
+    public BorrowerWebService(BorrowerService borrowerService, JsonViewResolver jsonViewResolver) {
+        this.jsonViewResolver = jsonViewResolver;
         Assert.notNull(borrowerService);
         this.borrowerService = borrowerService;
     }
@@ -90,7 +93,7 @@ public class BorrowerWebService {
     }
 
     /**
-     * Gets borrowers.
+     * Get borrowers.
      *
      * @return the borrowers
      */
@@ -104,7 +107,7 @@ public class BorrowerWebService {
         }
 
         if (view != null) {
-            MappingJacksonValue results = dynamicMapping(view, borrowerDtos);
+            MappingJacksonValue results = jsonViewResolver.dynamicMapping(view, borrowerDtos);
             if (results == null) {
                 return new ResponseEntity("The view does not exist", HttpStatus.NOT_FOUND);
             }
@@ -127,17 +130,5 @@ public class BorrowerWebService {
 
         borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
-    }
-
-    private MappingJacksonValue dynamicMapping(String jsonView, Object object) {
-
-        MappingJacksonValue wrapper = new MappingJacksonValue(object);
-
-        if (jsonView.equals("BorrowerSearchView")) {
-            wrapper.setSerializationView(Profile.BorrowerSearchView.class);
-        } else {
-            wrapper = null;
-        }
-        return wrapper;
     }
 }
