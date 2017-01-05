@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity.record;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,12 +14,16 @@ public class SimpleRecord {
     private Publisher publisher;
     private List<Creator> contributors;
     private SimpleRecordDate date;
-    private List<String> type;
+    private Type type;
     private Identifier identifier;
     private Source source;
     private Language language;
     private Coverage coverage;
-    private Right rights;
+    private Right right;
+
+    public SimpleRecord() {
+        this.contributors = new ArrayList<>();
+    }
 
     public Title getTitle() {
         return title;
@@ -68,6 +73,10 @@ public class SimpleRecord {
         this.contributors = contributors;
     }
 
+    public void addContributor(Creator contributor) {
+        this.contributors.add(contributor);
+    }
+
     public SimpleRecordDate getDate() {
         return date;
     }
@@ -76,11 +85,11 @@ public class SimpleRecord {
         this.date = date;
     }
 
-    public List<String> getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(List<String> type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -116,11 +125,11 @@ public class SimpleRecord {
         this.coverage = coverage;
     }
 
-    public Right getRights() {
-        return rights;
+    public Right getRight() {
+        return right;
     }
 
-    public void setRights(Right rights) {
-        this.rights = rights;
+    public void setRight(Right right) {
+        this.right = right;
     }
 }

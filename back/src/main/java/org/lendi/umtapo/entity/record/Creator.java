@@ -1,14 +1,12 @@
 package org.lendi.umtapo.entity.record;
 
-import java.util.Date;
-
 /**
  * Creator entity.
  */
 public class Creator {
     private String name;
     private String secondName;
-    private Date date;
+    private String date;
     private String titles;
 
     public String getName() {
@@ -27,11 +25,11 @@ public class Creator {
         this.secondName = secondName;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
