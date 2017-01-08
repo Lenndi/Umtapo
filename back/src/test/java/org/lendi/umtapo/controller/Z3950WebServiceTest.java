@@ -59,6 +59,9 @@ public class Z3950WebServiceTest {
         database.put("username", "Z3950");
         Map<String, String> options = new HashMap<>();
         options.put("elementSetName", "f");
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("title", "4");
+        attributes.put("isbn", "0");
         Z3950 z3950 = new Z3950();
         z3950.setName("Bibliothèque Nationale de France");
         z3950.setUrl("z3950.bnf.fr");
@@ -66,6 +69,7 @@ public class Z3950WebServiceTest {
         z3950.setSyntax("1.2.840.10003.5.1");
         z3950.setDatabase(database);
         z3950.setOptions(options);
+        z3950.setAttributes(attributes);
         providers.put(1, z3950);
         this.z3950Configuration.setProviders(providers);
     }
@@ -87,7 +91,8 @@ public class Z3950WebServiceTest {
                 .andExpect(jsonPath("$.port", is(2211)))
                 .andExpect(jsonPath("$.syntax", is("1.2.840.10003.5.1")))
                 .andExpect(jsonPath("$.database", is(this.z3950Configuration.getProviders().get(1).getDatabase())))
-                .andExpect(jsonPath("$.options", is(this.z3950Configuration.getProviders().get(1).getOptions())));
+                .andExpect(jsonPath("$.options", is(this.z3950Configuration.getProviders().get(1).getOptions())))
+                .andExpect(jsonPath("$.attributes", is(this.z3950Configuration.getProviders().get(1).getAttributes())));
         verify(this.z3950Service, times(1)).find(1);
         verifyNoMoreInteractions(this.z3950Service);
     }
