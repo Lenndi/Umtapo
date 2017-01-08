@@ -14,6 +14,10 @@ Return a bibliographic record based on ISBN number.
 
   `title=[string]` Search based on item title.
 
+#### Optional
+
+  `z3950=[number]` Z39.50 provider id.
+
 ### Filters
 
   `result_size=[number]` Number of records to return (10 by default).
