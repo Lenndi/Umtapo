@@ -1,18 +1,18 @@
 package org.lendi.umtapo.marc.transformer.impl;
 
-import org.lendi.umtapo.entity.record.Coverage;
-import org.lendi.umtapo.entity.record.Creator;
-import org.lendi.umtapo.entity.record.Description;
-import org.lendi.umtapo.entity.record.Identifier;
-import org.lendi.umtapo.entity.record.Language;
-import org.lendi.umtapo.entity.record.Publisher;
-import org.lendi.umtapo.entity.record.Right;
-import org.lendi.umtapo.entity.record.SimpleRecord;
-import org.lendi.umtapo.entity.record.SimpleRecordDate;
-import org.lendi.umtapo.entity.record.Source;
-import org.lendi.umtapo.entity.record.Subject;
-import org.lendi.umtapo.entity.record.Title;
-import org.lendi.umtapo.entity.record.Type;
+import org.lendi.umtapo.entity.record.simple.Coverage;
+import org.lendi.umtapo.entity.record.simple.Creator;
+import org.lendi.umtapo.entity.record.simple.Description;
+import org.lendi.umtapo.entity.record.simple.Identifier;
+import org.lendi.umtapo.entity.record.simple.Language;
+import org.lendi.umtapo.entity.record.simple.Publisher;
+import org.lendi.umtapo.entity.record.simple.Right;
+import org.lendi.umtapo.entity.record.simple.SimpleRecord;
+import org.lendi.umtapo.entity.record.simple.SimpleRecordDate;
+import org.lendi.umtapo.entity.record.simple.Source;
+import org.lendi.umtapo.entity.record.simple.Subject;
+import org.lendi.umtapo.entity.record.simple.Title;
+import org.lendi.umtapo.entity.record.simple.Type;
 import org.lendi.umtapo.marc.transformer.RecordTransformer;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -62,7 +62,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get title information from record to create a Title.
      *
-     * @return
+     * @return Simple record title.
      */
     private Title processTitle() {
         Title title = new Title();
@@ -88,7 +88,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get creator information from record to create a Creator.
      *
-     * @return
+     * @return Simple record creator
      */
     private Creator processCreator() {
         Creator creator = new Creator();
@@ -123,7 +123,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get subject information from record to create a Subject.
      *
-     * @return
+     * @return Simple record subject
      */
     private Subject processSubject() {
         Subject subject = new Subject();
@@ -162,7 +162,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get description information from record to create a Description.
      *
-     * @return
+     * @return Simple record description
      */
     private Description processDescription() {
         Description description = new Description();
@@ -192,7 +192,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get publisher information from record to create a Publisher.
      *
-     * @return
+     * @return Simple record publisher
      */
     private Publisher processPublisher() {
         Publisher publisher = new Publisher();
@@ -213,7 +213,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get contributors information from record to create List<Creator>.
      *
-     * @return
+     * @return Simple record contributors
      */
     private List<Creator> processContributors() {
         List<Creator> contributors = new ArrayList<>();
@@ -249,7 +249,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get dates from record to create SimpleRecordDate.
      *
-     * @return
+     * @return Simple record date
      */
     private SimpleRecordDate processDate() {
         SimpleRecordDate date = new SimpleRecordDate();
@@ -267,7 +267,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get types from record to create Type.
      *
-     * @return
+     * @return Simple record type
      */
     private Type processType() {
         Type type = new Type();
@@ -286,7 +286,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get identifiers from record to create Identifier.
      *
-     * @return
+     * @return Simple record identifier
      */
     private Identifier processIdentifier() {
         Identifier identifier = new Identifier();
@@ -330,7 +330,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get source from record to create a Source.
      *
-     * @return
+     * @return Simple record source
      */
     private Source processSource() {
         Source source = new Source();
@@ -346,7 +346,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get language from record to create a Language.
      *
-     * @return
+     * @return Simple record language
      */
     private Language processLanguage() {
         Language language = new Language();
@@ -368,7 +368,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
     /**
      * Get coverage from record to create Coverage.
      *
-     * @return
+     * @return Simple record coverage
      */
     private Coverage processCoverage() {
         Coverage coverage = new Coverage();
@@ -383,7 +383,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
 
     /**
      * Get rights from record to create Right.
-     * @return
+     * @return Simple record right
      */
     private Right processRight() {
         Right right = new Right();

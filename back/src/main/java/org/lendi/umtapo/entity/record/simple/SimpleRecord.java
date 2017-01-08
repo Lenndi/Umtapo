@@ -1,4 +1,4 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
 
 import java.util.ArrayList;
 import java.util.List;

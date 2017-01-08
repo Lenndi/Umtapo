@@ -11,9 +11,12 @@ public class Z3950 {
     private String url;
     private int port;
     private String syntax;
+    /**
+     * Time to live connection in ms.
+     */
+    private long ttl;
     private Map<String, String> database;
     private Map<String, String> options;
-    private Map<String, String> attributes;
 
     /**
      * Gets id.
@@ -110,6 +113,14 @@ public class Z3950 {
      *
      * @return the database
      */
+    public long getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(long ttl) {
+        this.ttl = ttl;
+    }
+
     public Map<String, String> getDatabase() {
         return database;
     }
@@ -139,13 +150,5 @@ public class Z3950 {
      */
     public void setOptions(Map<String, String> options) {
         this.options = options;
-    }
-
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
     }
 }

@@ -2,6 +2,7 @@ package org.lendi.umtapo.service.specific.implementation;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.configuration.Z3950;
+import org.lendi.umtapo.entity.record.RecordListWrapper;
 import org.lendi.umtapo.marc.Connection;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
@@ -18,14 +19,9 @@ import org.yaz4j.exception.ZoomException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Math.toIntExact;
 
 /**
  * RecordService implementation.
@@ -37,6 +33,7 @@ public class RecordServiceImpl implements RecordService {
     private Z3950 defaultLibrary;
     private Map<Integer, Z3950> libraries;
     private Connection connection;
+    private long connectionStartTime;
 
     @Autowired
     public RecordServiceImpl(Z3950Service z3950Service) {
@@ -49,13 +46,12 @@ public class RecordServiceImpl implements RecordService {
         this.createConnection();
         Record record = null;
 
-        String isbnAttr = this.defaultLibrary.getAttributes().get("isbn");
-        Query query = new PrefixQuery("@attr 1=" + isbnAttr + " " + isbn);
+        Query query = new PrefixQuery("@attr 1=7 " + isbn);
         ResultSet set = this.connection.search(query);
 
         if (set.getHitCount() > 0) {
             InputStream input = new ByteArrayInputStream(set.getRecord(0).getContent());
-            MarcReader reader = new MarcStreamReader(input);
+            MarcReader reader = new MarcStreamReader(input, "UTF-8");
             record = reader.next();
         }
 
@@ -63,32 +59,39 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<Record> findByTitle(String title, Integer start, Integer end) throws ZoomException {
+    public RecordListWrapper<Record> findByTitle(String title, Integer start, Integer count) throws ZoomException {
         this.createConnection();
+        RecordListWrapper<Record> recordListWrapper = new RecordListWrapper<>();
 
-        String titleAttr = this.defaultLibrary.getAttributes().get("title");
-        Query query = new PrefixQuery("@attr 1=" + titleAttr + " \"" + title + "\"");
-        ResultSet set = this.connection.search(query);
+        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
+        ResultSet set;
+        try {
+            set = this.connection.search(query);
+        } catch (ZoomException e) {
+            this.connection.close();
+            this.createConnection();
+            set = this.connection.search(query);
+        }
         logger.info("Search hits " + set.getHitCount() + " records with title " + title);
 
-        return this.getRecordsFromSet(set, start, end);
+        recordListWrapper.setRecord(this.getRecordsFromSet(set, start, count));
+        recordListWrapper.setHitCount((int) set.getHitCount());
+
+        return recordListWrapper;
     }
 
     @Override
-    public List<Record> findByTitle(String title) throws ZoomException {
+    public RecordListWrapper<Record> findByTitle(String title) throws ZoomException {
         return this.findByTitle(title, 0, -1);
     }
 
-    /**
-     * Define the default library based on Z39.50 configuration number.
-     *
-     * @param libraryNumber Z39.50 id in z39-50.yml file
-     */
-    public void setDefaultLibrary(Integer libraryNumber) {
-        this.defaultLibrary = this.libraries.get(libraryNumber);
-
-        if (this.connection != null && !this.connection.isClose()) {
-            this.connection.close();
+    @Override
+    public void setDefaultLibrary(int libraryNumber) {
+        if (this.defaultLibrary == null || this.defaultLibrary.getId() != libraryNumber) {
+            this.defaultLibrary = this.libraries.get(libraryNumber);
+            if (this.connection != null && !this.connection.isClose()) {
+                this.connection.close();
+            }
         }
     }
 
@@ -100,7 +103,11 @@ public class RecordServiceImpl implements RecordService {
             this.setDefaultLibrary(1);
         }
 
-        if (this.connection == null || this.connection.isClose()) {
+        if (!this.isConnectionAlive()) {
+            if (this.connection != null && !this.connection.isClose()) {
+                this.connection.close();
+            }
+            this.connectionStartTime = System.currentTimeMillis();
             Connection connection = new Connection(this.defaultLibrary.getUrl(), this.defaultLibrary.getPort());
             connection.setDatabaseName(this.defaultLibrary.getDatabase().get("name"));
             connection.setUsername(this.defaultLibrary.getDatabase().get("username"));
@@ -113,22 +120,24 @@ public class RecordServiceImpl implements RecordService {
         }
     }
 
-    private List<Record> getRecordsFromSet(ResultSet set, Integer start, Integer end) throws ZoomException {
-        if (end == -1 && set.getHitCount() < 50) {
+    private List<Record> getRecordsFromSet(ResultSet set, Integer start, Integer count) throws ZoomException {
+        logger.info("getRecordsFromSet: entering, start=" + start + ", count=" + count);
+        if (count == -1 && set.getHitCount() < 50) {
             if (set.getHitCount() < 50) {
-                end = toIntExact(set.getHitCount());
+                count = (int) set.getHitCount();
             } else {
-                end = 50;
+                count = 50;
             }
         }
         if (start > set.getHitCount()) {
             return new ArrayList<>();
-        } else if (end > set.getHitCount()) {
-            end = toIntExact(set.getHitCount());
+        } else if ((start + count) > set.getHitCount()) {
+            count = (int) set.getHitCount() - start;
         }
+        logger.info("getRecordsFromSet: after treatment, start=" + start + ", count=" + count);
 
         List<Record> marcRecords = new ArrayList<>();
-        List<org.yaz4j.Record> yazRecords = set.getRecords(start.longValue(), end);
+        List<org.yaz4j.Record> yazRecords = set.getRecords(start.longValue(), count);
 
         yazRecords.forEach(record -> {
             InputStream input = new ByteArrayInputStream(record.getContent());
@@ -137,5 +146,11 @@ public class RecordServiceImpl implements RecordService {
         });
 
         return marcRecords;
+    }
+
+    private boolean isConnectionAlive() {
+        boolean isOverTtl = (System.currentTimeMillis() - this.connectionStartTime) > this.defaultLibrary.getTtl();
+
+        return ((this.connection != null) && !this.connection.isClose() && !isOverTtl);
     }
 }

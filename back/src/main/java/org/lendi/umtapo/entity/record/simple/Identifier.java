@@ -1,8 +1,11 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Identifier entity.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Identifier {
     public static final String ISBN = "ISBN";
     public static final String ISSN = "ISSN";

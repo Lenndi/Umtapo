@@ -1,10 +1,11 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Record date entity.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimpleRecordDate {
     private String publicationDate;
     private String manufactureDate;

@@ -24,7 +24,7 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-    <repositories>
+	<repositories>
         <repository>
             <id>in-project</id>
             <name>In Project Repository</name>
