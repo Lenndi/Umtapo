@@ -23,7 +23,6 @@ export class RecordService {
    * @returns Promise<records: Record[], page: number, totalPage: number>
    */
   findByTitle(title: string, resultSize: number, page: number): Promise<[Record[], number, number]> {
-    let options: RequestOptionsArgs = new RequestOptions();
     return this.http.get(`${this.recordUrl}?title=${title}&result-size=${resultSize}&page=${page}`)
       .toPromise()
       .then(response => {

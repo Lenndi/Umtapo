@@ -17,6 +17,8 @@ import {BorrowerService} from '../service/borrower.service';
 import {SetupDataService} from '../service/data-binding/setup-data.service';
 import {MaterialModule} from '@angular/material';
 import 'hammerjs';
+import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
+import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import 'hammerjs';
     SetupVariousComponent,
     SetupComponent,
     NewBorrowerComponent,
+    ItemRegistrationComponent,
+    ItemSearchComponent
   ],
   imports: [
     BrowserModule,

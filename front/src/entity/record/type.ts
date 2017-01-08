@@ -1,5 +1,5 @@
 export class Type {
-  private types: string[];
+  private types: string[];
 
   getTypes(): string[] {
     return this.types;
