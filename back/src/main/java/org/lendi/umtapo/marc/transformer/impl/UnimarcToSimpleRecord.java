@@ -28,12 +28,12 @@ import java.util.List;
  * Transform Record with UNIMARC format to a SimpleRecord.
  */
 @Service
-public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
+public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
     private Record record;
 
     @Override
-    public SimpleRecord transform(Record record) {
-        this.record = record;
+    public SimpleRecord transform(Record baseRecord) {
+        this.record = baseRecord;
         SimpleRecord simpleRecord;
 
         if (this.record == null) {
@@ -75,7 +75,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer <SimpleRecord> {
         }
 
         List<VariableField> variableFields = record.getVariableFields("517");
-        if(variableFields != null) {
+        if (variableFields != null) {
             variableFields.forEach(variableField -> {
                 DataField dataField1 = (DataField) variableField;
                 title.addAlternateTitle(dataField1.getSubfieldsAsString("a"));

@@ -28,13 +28,18 @@ import java.util.Map;
  */
 @Service
 public class RecordServiceImpl implements RecordService {
-    private final static Logger logger = Logger.getLogger(RecordServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(RecordServiceImpl.class);
 
     private Z3950 defaultLibrary;
     private Map<Integer, Z3950> libraries;
     private Connection connection;
     private long connectionStartTime;
 
+    /**
+     * Instantiates a new Record service.
+     *
+     * @param z3950Service the z 3950 service
+     */
     @Autowired
     public RecordServiceImpl(Z3950Service z3950Service) {
         Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
@@ -67,12 +72,12 @@ public class RecordServiceImpl implements RecordService {
         ResultSet set;
         try {
             set = this.connection.search(query);
-        } catch (ZoomException e) {
+        } catch (final ZoomException e) {
             this.connection.close();
             this.createConnection();
             set = this.connection.search(query);
         }
-        logger.info("Search hits " + set.getHitCount() + " records with title " + title);
+        LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 
         recordListWrapper.setRecord(this.getRecordsFromSet(set, start, count));
         recordListWrapper.setHitCount((int) set.getHitCount());
@@ -108,25 +113,26 @@ public class RecordServiceImpl implements RecordService {
                 this.connection.close();
             }
             this.connectionStartTime = System.currentTimeMillis();
-            Connection connection = new Connection(this.defaultLibrary.getUrl(), this.defaultLibrary.getPort());
-            connection.setDatabaseName(this.defaultLibrary.getDatabase().get("name"));
-            connection.setUsername(this.defaultLibrary.getDatabase().get("username"));
-            connection.setPassword(this.defaultLibrary.getDatabase().get("password"));
-            connection.setSyntax(this.defaultLibrary.getSyntax());
+            this.connection = new Connection(this.defaultLibrary.getUrl(), this.defaultLibrary.getPort());
+            this.connection.setDatabaseName(this.defaultLibrary.getDatabase().get("name"));
+            this.connection.setUsername(this.defaultLibrary.getDatabase().get("username"));
+            this.connection.setPassword(this.defaultLibrary.getDatabase().get("password"));
+            this.connection.setSyntax(this.defaultLibrary.getSyntax());
             this.defaultLibrary.getOptions().forEach(connection::option);
 
-            this.connection = connection;
             this.connection.connect();
         }
     }
 
     private List<Record> getRecordsFromSet(ResultSet set, Integer start, Integer count) throws ZoomException {
-        logger.info("getRecordsFromSet: entering, start=" + start + ", count=" + count);
-        if (count == -1 && set.getHitCount() < 50) {
-            if (set.getHitCount() < 50) {
+        LOGGER.info("getRecordsFromSet: entering, start=" + start + ", count=" + count);
+
+        final int maxCount = 50;
+        if (count == -1 && set.getHitCount() < maxCount) {
+            if (set.getHitCount() < maxCount) {
                 count = (int) set.getHitCount();
             } else {
-                count = 50;
+                count = maxCount;
             }
         }
         if (start > set.getHitCount()) {
@@ -134,7 +140,7 @@ public class RecordServiceImpl implements RecordService {
         } else if ((start + count) > set.getHitCount()) {
             count = (int) set.getHitCount() - start;
         }
-        logger.info("getRecordsFromSet: after treatment, start=" + start + ", count=" + count);
+        LOGGER.info("getRecordsFromSet: after treatment, start=" + start + ", count=" + count);
 
         List<Record> marcRecords = new ArrayList<>();
         List<org.yaz4j.Record> yazRecords = set.getRecords(start.longValue(), count);

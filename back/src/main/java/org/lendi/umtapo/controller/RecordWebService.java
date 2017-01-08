@@ -32,11 +32,17 @@ import java.util.List;
 @CrossOrigin
 @ControllerAdvice
 public class RecordWebService extends ResponseEntityExceptionHandler {
-    private final static Logger logger = Logger.getLogger(RecordWebService.class);
+    private static final Logger LOGGER = Logger.getLogger(RecordWebService.class);
 
     private final RecordService recordService;
     private final UnimarcToSimpleRecord unimarcToSimpleRecord;
 
+    /**
+     * Instantiates a new Record web service.
+     *
+     * @param recordService         the record service
+     * @param unimarcToSimpleRecord the unimarc to simple record
+     */
     @Autowired
     public RecordWebService(RecordService recordService, UnimarcToSimpleRecord unimarcToSimpleRecord) {
         Assert.notNull(recordService, "Argument libraryService cannot be null.");
@@ -45,6 +51,12 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         this.unimarcToSimpleRecord = unimarcToSimpleRecord;
     }
 
+    /**
+     * Gets records.
+     *
+     * @param webRequest the web request
+     * @return the records
+     */
     @RequestMapping(
             value = "/records",
             method = RequestMethod.GET,
@@ -52,15 +64,17 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
     public ResponseEntity getRecords(WebRequest webRequest) {
         String title = webRequest.getParameter("title");
         String isbn = webRequest.getParameter("isbn");
-        int resultSize = webRequest.getParameter("result-size") != null ?
-                Integer.parseInt(webRequest.getParameter("result-size")) : 10;
-        int page = webRequest.getParameter("page") != null ?
-                Integer.parseInt(webRequest.getParameter("page")) : 1;
-        int z3950 = webRequest.getParameter("z3950") != null ?
-                Integer.parseInt(webRequest.getParameter("z3950")) : -1;
+        int resultSize = 10;
+        int page = 1;
 
-        if (z3950 != -1) {
-            this.recordService.setDefaultLibrary(z3950);
+        if (webRequest.getParameter("result-size") != null) {
+            resultSize = Integer.parseInt(webRequest.getParameter("result-size"));
+        }
+        if (webRequest.getParameter("page") != null) {
+            page = Integer.parseInt(webRequest.getParameter("page"));
+        }
+        if (webRequest.getParameter("z3950") != null) {
+            this.recordService.setDefaultLibrary(Integer.parseInt(webRequest.getParameter("z3950")));
         }
 
         List<Record> records = new ArrayList<>();
@@ -72,7 +86,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         if (isbn != null) {
             try {
                 records.add(this.recordService.findByISBN(isbn));
-            } catch (ZoomException e) {
+            } catch (final ZoomException e) {
                 return this.zoomExceptionHandling(e);
             }
         } else if (title != null) {
@@ -80,13 +94,13 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
                 int start = resultSize * (page - 1);
                 RecordListWrapper<Record> recordListWrapper = this.recordService.findByTitle(title, start, resultSize);
                 records.addAll(recordListWrapper.getRecord());
-                int totalPage = (int) Math.ceil(recordListWrapper.getHitCount() /resultSize);
+                int totalPage = (int) Math.ceil(recordListWrapper.getHitCount() / resultSize);
                 recordWrapper.setTotalPage(totalPage);
-            } catch (ZoomException e) {
+            } catch (final ZoomException e) {
                 return this.zoomExceptionHandling(e);
             }
         } else {
-            logger.warn("Missing parameter: isbn or title is required");
+            LOGGER.warn("Missing parameter: isbn or title is required");
             ApiError apiError = new ApiError(
                     HttpStatus.BAD_REQUEST,
                     "'title' or 'isbn' argument is required",
@@ -109,7 +123,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity zoomExceptionHandling(ZoomException e) {
-        logger.fatal(e.getMessage());
+        LOGGER.fatal(e.getMessage());
         ApiError apiError = new ApiError(
                 HttpStatus.SERVICE_UNAVAILABLE,
                 e.getLocalizedMessage(),

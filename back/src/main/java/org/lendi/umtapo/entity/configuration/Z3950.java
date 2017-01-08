@@ -117,10 +117,20 @@ public class Z3950 {
         return ttl;
     }
 
+    /**
+     * Sets ttl.
+     *
+     * @param ttl the ttl
+     */
     public void setTtl(long ttl) {
         this.ttl = ttl;
     }
 
+    /**
+     * Gets database.
+     *
+     * @return the database
+     */
     public Map<String, String> getDatabase() {
         return database;
     }

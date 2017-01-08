@@ -15,6 +15,7 @@ public interface RecordService {
      *
      * @param isbn ISBN number. ISBN-10 and ISBN-13 are allowed.
      * @return Marc4j record. Null if no record.
+     * @throws ZoomException the zoom exception
      */
     Record findByISBN(String isbn) throws ZoomException;
 
@@ -23,8 +24,9 @@ public interface RecordService {
      *
      * @param title Record's title.
      * @param start Index beginning from records results.
-     * @param end Index ending from records results.
+     * @param end   Index ending from records results.
      * @return Marc4j records. Empty list if no record.
+     * @throws ZoomException the zoom exception
      */
     RecordListWrapper<Record> findByTitle(String title, Integer start, Integer end) throws ZoomException;
 
@@ -33,6 +35,7 @@ public interface RecordService {
      *
      * @param title Record's title.
      * @return Marc4j records. Empty list if no record.
+     * @throws ZoomException the zoom exception
      */
     RecordListWrapper<Record> findByTitle(String title) throws ZoomException;
 

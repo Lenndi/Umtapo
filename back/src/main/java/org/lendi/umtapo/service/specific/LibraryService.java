@@ -16,7 +16,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     /**
      * Persist a Library.
      *
-     * @param library
+     * @param library library
      * @return LibraryDto
      */
     @Override
@@ -33,7 +33,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     /**
      * Find a Library by id.
      *
-     * @param id
+     * @param id library id
      * @return LibraryDto
      */
     @Override

@@ -55,7 +55,9 @@ public class Borrower {
      * @param loans         the loans
      * @param library       the library
      */
-    public Borrower(String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address, List<Subscription> subscriptions, List<Loan> loans, Library library) {
+    public Borrower(
+            String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
+            List<Subscription> subscriptions, List<Loan> loans, Library library) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
