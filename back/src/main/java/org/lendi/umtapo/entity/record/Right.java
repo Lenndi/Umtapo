@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Right {
     private String recordOrigin;
-    private Date transactionDate;
+    private String transactionDate;
     private boolean isModified;
 
     public String getRecordOrigin() {
@@ -18,11 +18,11 @@ public class Right {
         this.recordOrigin = recordOrigin;
     }
 
-    public Date getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Date transactionDate) {
+    public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
 

@@ -13,6 +13,7 @@ public class Z3950 {
     private String syntax;
     private Map<String, String> database;
     private Map<String, String> options;
+    private Map<String, String> attributes;
 
     /**
      * Gets id.
@@ -138,5 +139,13 @@ public class Z3950 {
      */
     public void setOptions(Map<String, String> options) {
         this.options = options;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 }

@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity.record;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +11,20 @@ public class Subject {
     private String dewey;
     private String universal;
 
+    public Subject() {
+        this.terms = new ArrayList<>();
+    }
+
     public List<String> getTerms() {
         return terms;
     }
 
     public void setTerms(List<String> terms) {
         this.terms = terms;
+    }
+
+    public void addTerm(String term) {
+        this.terms.add(term);
     }
 
     public String getDewey() {

@@ -7,6 +7,7 @@ public class Publisher {
     private String publicationPlace;
     private String editorName;
     private String editorAddress;
+    private String manufacturerName;
     private String manufacturerPlace;
     private String manufacturerAddress;
 
@@ -48,5 +49,13 @@ public class Publisher {
 
     public void setManufacturerAddress(String manufacturerAddress) {
         this.manufacturerAddress = manufacturerAddress;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
     }
 }

@@ -6,8 +6,11 @@ providers:
     port: 2211
     syntax: 1.2.840.10003.5.1
     database:
-        name: TOUT-UTF8
-        password: Z3950_BNF
-        username: Z3950
+      name: TOUT-UTF8
+      password: Z3950_BNF
+      username: Z3950
     options:
-      elementSetName: f
+      elementSetName: F
+    attributes:
+      isbn: 7
+      title: 4

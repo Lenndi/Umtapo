@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity.record;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,10 @@ public class Title {
     private String subTitle;
     private List<String> alternateTitles;
     private String uniformTitle;
+
+    public Title () {
+        this.alternateTitles = new ArrayList<>();
+    }
 
     public String getTitle() {
         return title;
@@ -33,6 +38,10 @@ public class Title {
 
     public void setAlternateTitles(List<String> alternateTitles) {
         this.alternateTitles = alternateTitles;
+    }
+
+    public void addAlternateTitle(String alternateTitle) {
+        this.alternateTitles.add(alternateTitle);
     }
 
     public String getUniformTitle() {
