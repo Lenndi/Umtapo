@@ -1,4 +1,6 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +8,7 @@ import java.util.List;
 /**
  * Record's title element.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Title {
     private String title;
     private String subTitle;

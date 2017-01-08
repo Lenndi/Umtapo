@@ -1,8 +1,11 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Publisher entity.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Publisher {
     private String publicationPlace;
     private String editorName;

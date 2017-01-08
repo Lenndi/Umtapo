@@ -1,10 +1,11 @@
-package org.lendi.umtapo.entity.record;
+package org.lendi.umtapo.entity.record.simple;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Right entity.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Right {
     private String recordOrigin;
     private String transactionDate;

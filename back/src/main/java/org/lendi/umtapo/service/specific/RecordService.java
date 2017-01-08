@@ -1,10 +1,9 @@
 package org.lendi.umtapo.service.specific;
 
+import org.lendi.umtapo.entity.record.RecordListWrapper;
 import org.marc4j.marc.Record;
 import org.springframework.stereotype.Service;
 import org.yaz4j.exception.ZoomException;
-
-import java.util.List;
 
 /**
  * Service to find bibliographic records.
@@ -27,7 +26,7 @@ public interface RecordService {
      * @param end Index ending from records results.
      * @return Marc4j records. Empty list if no record.
      */
-    List<Record> findByTitle(String title, Integer start, Integer end) throws ZoomException;
+    RecordListWrapper<Record> findByTitle(String title, Integer start, Integer end) throws ZoomException;
 
     /**
      * Find records by title.
@@ -35,5 +34,12 @@ public interface RecordService {
      * @param title Record's title.
      * @return Marc4j records. Empty list if no record.
      */
-    List<Record> findByTitle(String title) throws ZoomException;
+    RecordListWrapper<Record> findByTitle(String title) throws ZoomException;
+
+    /**
+     * Define the default library based on Z39.50 configuration number.
+     *
+     * @param libraryId Z39.50 id in z39-50.yml file
+     */
+    void setDefaultLibrary(int libraryId);
 }
