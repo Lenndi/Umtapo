@@ -4,6 +4,10 @@ import {Router} from '@angular/router';
 import {BorrowerService} from '../../service/borrower.service';
 import {Borrower} from '../../entity/borrower';
 import {logger} from '../../environments/environment';
+import {jsonViewResolver} from '../../config/jsonViewResolver';
+import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {plainToClass} from 'class-transformer';
+
 
 @Component({
   selector: 'app-circulation-borrower-selection',
@@ -15,20 +19,26 @@ export class CirculationBorrowerSelectionComponent implements OnInit {
   private borrowerNames: FormControl;
   private idBorrower: FormControl;
   private borrowers: Borrower[];
+  private borrower: Borrower = new Borrower();
+  private config = new MdSnackBarConfig();
+  private showDetails: boolean = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private borrowerService: BorrowerService,
-    private router: Router
+    private router: Router,
+    private snackBar: MdSnackBar
+
   ) {
     this.idBorrower =  new FormControl('');
     this.borrowerNames = new FormControl('');
   }
 
   ngOnInit() {
-    this.borrowerService.findAll()
+    // TODO Dynamic search borrower
+    this.borrowerService.findAll(jsonViewResolver.BorrowerSearchView)
       .then(borrowers => this.borrowers = borrowers);
-
 
     this.form = this.formBuilder.group({
       'idBorrower': this.idBorrower,
@@ -36,4 +46,18 @@ export class CirculationBorrowerSelectionComponent implements OnInit {
     });
   }
 
+  onSubmit(value: any): void {
+    if (value.idBorrower !== '') {
+    } else if (value.borrowerNames !== '') {
+      this.borrowerService.find(value.borrowerNames).then(borrower => this.borrower = plainToClass(Borrower, borrower as Borrower));
+      this.showDetails = true;
+      // TODO Asynchrone Problem
+      // let subscirt: Subscription[] = this.borrower.getSubscriptions();
+      // console.log(subscirt[0]);
+    } else {
+      this.config.duration = 1000;
+      this.snackBar.open('Les champs du formulaire sont vides', 'OK', this.config);
+    }
+
+  }
 }

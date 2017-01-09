@@ -5,22 +5,69 @@
       <div class="umt-setup-card-title">
         <span>Emprunteur</span>
       </div>
-      <div class="grid">
+      <div class="grid form-grid">
         <form [formGroup]="form">
+          <!--TODO Auto Focus idBorrower for scan device-->
           <md-input class="1/4 grid__cell" placeholder="Id emprunteur" type="text" formControlName="idBorrower">
             <label>Id emprunteur</label>
           </md-input>
         <span class="1/4 grid__cell">
           <label>ou</label>
         </span>
-          <input list="borrowerNames">
-          <datalist placeholder="Nom emprunteur" class="1/4 grid__cell" formControlName="borrowerNames" id="borrowerNames" ngDefaultControl>
-            <option *ngFor="let borrower of borrowers" [value]="borrower.name"><span>{{borrower.address.email}}</span></option>
-          </datalist>
-          <button md-fab class="1/4 grid__cell">
+          <select placeholder="Nom emprunteur" class="1/4 grid__cell" formControlName="borrowerNames">
+            <option *ngFor="let borrower of borrowers" [value]="borrower.id">
+              {{borrower.name}}    {{borrower.address.email}}
+            </option>
+          </select>
+          <button (click)="onSubmit(form.value)" md-fab class="md-warn 1/4 grid__cell">
             <i class="fa fa-check fa-1x" aria-hidden="true"></i>
           </button>
         </form>
+      </div>
+      <div *ngIf="showDetails" class="borrower-description">
+        <md-card-content>
+          <div class="grid">
+            <div class="borrower-name 1/4 grid__cell">{{borrower.name}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Id</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.id}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Email</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.address?.email}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Adresse 1</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.address?.address1}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Adresse 2</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.address?.address2}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Code Postal</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.address?.zip}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Ville</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.address?.city}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Quota</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrower.quota}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Fin de l'abonnement</div>
+            <div class="borrower-result 1/3 grid__cell">{{borrowerSubscription?.end}}</div>
+          </div>
+          <div class="grid">
+            <div class="borrower-info 1/3 grid__cell">Commentaire</div>
+          </div>
+          <div class="grid grid-comment">
+            <div class="borrower-result 1/3 grid__cell">{{borrower?.comment}}</div>
+          </div>
+        </md-card-content>
       </div>
     </md-card>
   </div>

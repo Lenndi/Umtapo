@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Subscription {
     private ZonedDateTime start;
     private ZonedDateTime end;
     private String contribution;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", insertable = false, updatable = false)
     private Borrower borrower;
     @ManyToOne

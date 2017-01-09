@@ -3,9 +3,47 @@
   width: 200%;
 }
 
+.form-grid{
+  height: 80px
+}
+
+.borrower-description{
+  text-align: left;
+}
+
+.grid {
+  display: block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0rem;
+}
+
+.borrower-result{
+  color: grey;
+}
+
+.borrower-info{
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.borrower-name{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 #content {
   margin-top: -45px;
   text-align: center;
+}
+
+.grid-comment {
+  display: block;
+  width: 1500px;
+  word-wrap: break-word;
+  padding-bottom: 30px;
 }
 
 .umt-setup-card-title, .umt-setup-card-content {

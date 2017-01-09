@@ -25,10 +25,29 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findAll(): Promise<Borrower[]> {
-    return this.http.get(this.borrowerUrl)
+  findAll(jsonViewResolver?: string): Promise<Borrower[]> {
+    let uri;
+    if (jsonViewResolver != null) {
+      uri = this.borrowerUrl + jsonViewResolver;
+    } else {
+      uri = this.borrowerUrl;
+    }
+    return this.http.get(uri)
       .toPromise()
       .then(response => response.json() as Borrower[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  find(id: number, jsonViewResolver?: string): Promise<Borrower> {
+    let uri;
+    if (jsonViewResolver != null) {
+      uri = `${this.borrowerUrl}/${id}` + jsonViewResolver;
+    } else {
+      uri = `${this.borrowerUrl}/${id}`;
+    }
+    return this.http.get(uri)
+      .toPromise()
+      .then(response => response.json() as Borrower)
       .catch(error => this.httpLogger.error(error));
   }
 }
