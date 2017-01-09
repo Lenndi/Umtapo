@@ -7,5 +7,5 @@ import {ItemRegistrationDataService} from '../../../../../service/data-binding/i
   styleUrls: ['./search-result.component.scss']
 })
 export class SearchResultComponent {
-  constructor(private dataService: ItemRegistrationDataService) { }
+  constructor(public dataService: ItemRegistrationDataService) { }
 }

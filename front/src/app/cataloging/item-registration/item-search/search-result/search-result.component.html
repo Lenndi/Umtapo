@@ -1,1 +1,4 @@
-<p id="search-message">{{dataService.getSearchMessage()}}</p>
+<p id="search-message" *ngIf="!dataService.isSearching()">{{dataService.getSearchMessage()}}</p>
+<p id="searching-records" *ngIf="dataService.isSearching()">
+  <md-progress-spinner mode="indeterminate" color="primary"></md-progress-spinner>
+</p>

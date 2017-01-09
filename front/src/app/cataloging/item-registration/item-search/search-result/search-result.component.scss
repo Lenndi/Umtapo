@@ -5,3 +5,11 @@
   text-align: center;
   margin: 30px 0;
 }
+
+#searching-records {
+  md-progress-spinner {
+    margin: auto;
+    width: 50px;
+    height: 50px;
+  }
+}
