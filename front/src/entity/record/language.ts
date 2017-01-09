@@ -1,8 +1,8 @@
 export class Language {
-  private mainLanguage: string;
-  private originalLanguage: string;
-  private subtitles: string[];
-  private others: string[];
+  mainLanguage: string;
+  originalLanguage: string;
+  subtitles: string[];
+  others: string[];
 
   constructor () {
     this.subtitles = [];

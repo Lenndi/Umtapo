@@ -1,0 +1,24 @@
+<div class="1/3--desk 1/3--lap 11/12 grid__cell">
+  <md-card class="umt-setup-card">
+    <form [formGroup]="form">
+      <md-card-title>Recherche de document</md-card-title>
+      <md-card-content>
+        <md-input placeholder="ISBN" formControlName="isbn" style="width: 100%" autofocus></md-input>
+        <md-input placeholder="Titre" formControlName="title" style="width: 100%"></md-input>
+      </md-card-content>
+      <md-card-actions align="end">
+        <button md-fab color="accent" (click)="onSearch()">
+          <md-icon class="md-24">search</md-icon>
+        </button>
+      </md-card-actions>
+    </form>
+  </md-card>
+</div>
+<div class="2/3--desk 2/3--desk 11/12 grid__cell">
+  <md-card class="umt-setup-card">
+      <md-card-title>Résultat de la recherche</md-card-title>
+      <md-card-content>
+        <app-search-result></app-search-result>
+      </md-card-content>
+  </md-card>
+</div>

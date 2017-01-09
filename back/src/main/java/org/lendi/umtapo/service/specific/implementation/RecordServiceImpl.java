@@ -52,7 +52,7 @@ public class RecordServiceImpl implements RecordService {
         Record record = null;
 
         Query query = new PrefixQuery("@attr 1=7 " + isbn);
-        ResultSet set = this.connection.search(query);
+        ResultSet set = this.safeSearch(query);
 
         if (set.getHitCount() > 0) {
             InputStream input = new ByteArrayInputStream(set.getRecord(0).getContent());
@@ -69,14 +69,8 @@ public class RecordServiceImpl implements RecordService {
         RecordListWrapper<Record> recordListWrapper = new RecordListWrapper<>();
 
         Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
-        ResultSet set;
-        try {
-            set = this.connection.search(query);
-        } catch (final ZoomException e) {
-            this.connection.close();
-            this.createConnection();
-            set = this.connection.search(query);
-        }
+        ResultSet set = this.safeSearch(query);
+
         LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 
         recordListWrapper.setRecord(this.getRecordsFromSet(set, start, count));
@@ -158,5 +152,15 @@ public class RecordServiceImpl implements RecordService {
         boolean isOverTtl = (System.currentTimeMillis() - this.connectionStartTime) > this.defaultLibrary.getTtl();
 
         return ((this.connection != null) && !this.connection.isClose() && !isOverTtl);
+    }
+
+    private ResultSet safeSearch(Query query) throws ZoomException {
+        try {
+            return this.connection.search(query);
+        } catch (final ZoomException e) {
+            this.connection.close();
+            this.createConnection();
+            return this.connection.search(query);
+        }
     }
 }

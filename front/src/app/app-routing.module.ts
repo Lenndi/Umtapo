@@ -7,6 +7,8 @@ import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
 import {AppComponent} from './app.component';
 import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
+import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
+import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 
 const routes: Routes = [
   {
@@ -21,7 +23,14 @@ const routes: Routes = [
       {path: 'circulation', component: TestComponent},
       {path: 'borrowers/new', component: NewBorrowerComponent},
       {path: 'borrowers/management', component: TestComponent},
-      {path: 'cataloging/registration', component: TestComponent},
+      {
+        path: 'cataloging/registration',
+        component: ItemRegistrationComponent,
+        children: [
+          {path: '', redirectTo: 'search', pathMatch: 'full'},
+          {path: 'search', component: ItemSearchComponent}
+        ]
+      },
       {path: 'cataloging/management', component: TestComponent}
     ]
   },

@@ -1,8 +1,8 @@
 export class Identifier {
-  private recordIdentifier: string;
-  private serialNumber: string;
-  private serialType: string;
-  private barCode: string;
+  recordIdentifier: string;
+  serialNumber: string;
+  serialType: string;
+  barCode: string;
 
   getRecordIdentifier(): string {
     return this.recordIdentifier;

@@ -11,7 +11,7 @@ import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-setup-shelfmark',
-  templateUrl: 'setup-shelfmark.component.html',
+  templateUrl: './setup-shelfmark.component.html',
   styleUrls: ['../setup.component.scss']
 })
 export class SetupShelfmarkComponent implements OnInit {

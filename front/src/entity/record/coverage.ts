@@ -1,5 +1,5 @@
 export class Coverage {
-  private generalNote: string;
+  generalNote: string;
 
   getGeneralNote(): string {
     return this.generalNote;

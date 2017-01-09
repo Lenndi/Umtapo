@@ -1,17 +1,19 @@
 package org.lendi.umtapo.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 
 import java.util.List;
 
 /**
- * Record response wrapper.
+ * Generic response wrapper.
+ *
+ * @param <T> the type parameter
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class GenericRestWrapper {
-    private List<SimpleRecord> data;
+public class GenericRestWrapper<T> {
+    private List<T> data;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer page;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer totalPage;
 
     /**
@@ -19,7 +21,7 @@ public class GenericRestWrapper {
      *
      * @return the data
      */
-    public List<SimpleRecord> getData() {
+    public List<T> getData() {
         return data;
     }
 
@@ -28,7 +30,7 @@ public class GenericRestWrapper {
      *
      * @param data the data
      */
-    public void setData(List<SimpleRecord> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 
