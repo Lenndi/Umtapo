@@ -4,3 +4,4 @@ declare var describe: any;
 declare var expect: any;
 declare var beforeEach: any;
 declare var it: any;
+declare module 'isbn-utils';

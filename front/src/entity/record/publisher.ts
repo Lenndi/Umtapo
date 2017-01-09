@@ -1,10 +1,10 @@
 export class Publisher {
-  private publicationPlace: string;
-  private editorName: string;
-  private editorAddress: string;
-  private manufacturerName: string;
-  private manufacturerPlace: string;
-  private manufacturerAddress: string;
+  publicationPlace: string;
+  editorName: string;
+  editorAddress: string;
+  manufacturerName: string;
+  manufacturerPlace: string;
+  manufacturerAddress: string;
 
   getPublicationPlace(): string {
     return this.publicationPlace;

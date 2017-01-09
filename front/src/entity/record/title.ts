@@ -1,19 +1,19 @@
 export class Title {
-  private title: string;
-  private subTitle: string;
-  private alternateTitles: string[];
-  private uniformTitle: string;
+  mainTitle: string;
+  subTitle: string;
+  alternateTitles: string[];
+  uniformTitle: string;
 
   constructor () {
     this.alternateTitles = [];
   }
 
-  getTitle(): string {
-    return this.title;
+  getMainTitle(): string {
+    return this.mainTitle;
   }
 
-  setTitle(value: string) {
-    this.title = value;
+  setMainTitle(value: string) {
+    this.mainTitle = value;
   }
 
   getSubTitle(): string {

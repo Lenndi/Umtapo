@@ -1,8 +1,8 @@
 export class Creator {
-  private name: string;
-  private secondName: string;
-  private date: string;
-  private titles: string;
+  name: string;
+  secondName: string;
+  date: string;
+  titles: string;
 
   getName(): string {
     return this.name;

@@ -1,7 +1,7 @@
 export class Subject {
-  private terms: string[];
-  private dewey: string;
-  private universal: string;
+  terms: string[];
+  dewey: string;
+  universal: string;
 
   constructor () {
     this.terms = [];
