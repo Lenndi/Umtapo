@@ -1,5 +1,5 @@
 export class Right {
-  private generalNote: string;
+  generalNote: string;
 
   getGeneralNote(): string {
     return this.generalNote;

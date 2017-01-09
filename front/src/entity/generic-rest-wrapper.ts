@@ -2,9 +2,9 @@
  * Generic response wrapper.
  */
 export class GenericRestWrapper<T> {
-  private data: T[];
-  private page: number;
-  private totalPage: number;
+  data: T[];
+  page: number;
+  totalPage: number;
 
   getData(): T[] {
     return this.data;

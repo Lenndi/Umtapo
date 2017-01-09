@@ -10,7 +10,7 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Title {
-    private String title;
+    private String mainTitle;
     private String subTitle;
     private List<String> alternateTitles;
     private String uniformTitle;
@@ -23,36 +23,36 @@ public class Title {
     }
 
     /**
-     * Gets title.
+     * Gets mainTitle.
      *
-     * @return the title
+     * @return the mainTitle
      */
-    public String getTitle() {
-        return title;
+    public String getMainTitle() {
+        return mainTitle;
     }
 
     /**
-     * Sets title.
+     * Sets mainTitle.
      *
-     * @param title the title
+     * @param mainTitle the mainTitle
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMainTitle(String mainTitle) {
+        this.mainTitle = mainTitle;
     }
 
     /**
-     * Gets sub title.
+     * Gets sub mainTitle.
      *
-     * @return the sub title
+     * @return the sub mainTitle
      */
     public String getSubTitle() {
         return subTitle;
     }
 
     /**
-     * Sets sub title.
+     * Sets sub mainTitle.
      *
-     * @param subTitle the sub title
+     * @param subTitle the sub mainTitle
      */
     public void setSubTitle(String subTitle) {
         this.subTitle = subTitle;
@@ -77,27 +77,27 @@ public class Title {
     }
 
     /**
-     * Add alternate title.
+     * Add alternate mainTitle.
      *
-     * @param alternateTitle the alternate title
+     * @param alternateTitle the alternate mainTitle
      */
     public void addAlternateTitle(String alternateTitle) {
         this.alternateTitles.add(alternateTitle);
     }
 
     /**
-     * Gets uniform title.
+     * Gets uniform mainTitle.
      *
-     * @return the uniform title
+     * @return the uniform mainTitle
      */
     public String getUniformTitle() {
         return uniformTitle;
     }
 
     /**
-     * Sets uniform title.
+     * Sets uniform mainTitle.
      *
-     * @param uniformTitle the uniform title
+     * @param uniformTitle the uniform mainTitle
      */
     public void setUniformTitle(String uniformTitle) {
         this.uniformTitle = uniformTitle;

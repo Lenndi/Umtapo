@@ -1,6 +1,6 @@
 export class Source {
-  private library: string;
-  private url: string;
+  library: string;
+  url: string;
 
   getLibrary(): string {
     return this.library;

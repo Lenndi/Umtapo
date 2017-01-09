@@ -70,7 +70,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
 
         dataField = (DataField) record.getVariableField("200");
         if (dataField != null) {
-            title.setTitle(dataField.getSubfieldsAsString("a"));
+            title.setMainTitle(dataField.getSubfieldsAsString("a"));
             title.setSubTitle(dataField.getSubfieldsAsString("e"));
         }
 

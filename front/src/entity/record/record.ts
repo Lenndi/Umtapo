@@ -12,19 +12,19 @@ import {Coverage} from './coverage';
 import {Right} from './right';
 
 export class Record {
-  private title: Title;
-  private creator: Creator;
-  private subject: Subject;
-  private description: Description;
-  private publisher: Publisher;
-  private contributors: Creator[];
-  private date: RecordDate;
-  private type: Type;
-  private identifier: Identifier;
-  private source: Source;
-  private language: Language;
-  private coverage: Coverage;
-  private right: Right;
+  title: Title;
+  creator: Creator;
+  subject: Subject;
+  description: Description;
+  publisher: Publisher;
+  contributors: Creator[];
+  date: RecordDate;
+  type: Type;
+  identifier: Identifier;
+  source: Source;
+  language: Language;
+  coverage: Coverage;
+  right: Right;
 
   constructor () {
     this.contributors = [];

@@ -1,6 +1,6 @@
 export class RecordDate {
-  private publicationDate: string;
-  private manufactureDate: string;
+  publicationDate: string;
+  manufactureDate: string;
 
   getPublicationDate(): string {
     return this.publicationDate;

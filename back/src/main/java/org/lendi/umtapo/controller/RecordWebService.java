@@ -79,13 +79,18 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
 
         List<Record> records = new ArrayList<>();
         List<SimpleRecord> simpleRecords = new ArrayList<>();
-        GenericRestWrapper recordWrapper = new GenericRestWrapper();
+        GenericRestWrapper<SimpleRecord> recordWrapper = new GenericRestWrapper<>();
         recordWrapper.setData(simpleRecords);
         recordWrapper.setPage(page);
 
         if (isbn != null) {
             try {
-                records.add(this.recordService.findByISBN(isbn));
+                Record record = this.recordService.findByISBN(isbn);
+                if (record != null) {
+                    records.add(record);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             } catch (final ZoomException e) {
                 return this.zoomExceptionHandling(e);
             }
@@ -93,7 +98,9 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             try {
                 int start = resultSize * (page - 1);
                 RecordListWrapper<Record> recordListWrapper = this.recordService.findByTitle(title, start, resultSize);
-                records.addAll(recordListWrapper.getRecord());
+                if (recordListWrapper.getRecord() != null) {
+                    records.addAll(recordListWrapper.getRecord());
+                }
                 int totalPage = (int) Math.ceil(recordListWrapper.getHitCount() / resultSize);
                 recordWrapper.setTotalPage(totalPage);
             } catch (final ZoomException e) {
@@ -110,7 +117,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         }
 
         if (records.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             records.forEach(record -> {
                 SimpleRecord simpleRecord = this.unimarcToSimpleRecord.transform(record);

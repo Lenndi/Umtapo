@@ -5,6 +5,8 @@ import {Record} from '../../entity/record/record';
 export class ItemRegistrationDataService {
   private record: Record;
   private searchMessage: string;
+  private searchResults: Record[];
+  private searching: boolean;
 
   getRecord(): Record {
     return this.record;
@@ -20,5 +22,21 @@ export class ItemRegistrationDataService {
 
   setSearchMessage(value: string) {
     this.searchMessage = value;
+  }
+
+  getSearchResults(): Record[] {
+    return this.searchResults;
+  }
+
+  setSearchResults(value: Record[]) {
+    this.searchResults = value;
+  }
+
+  isSearching(): boolean {
+    return this.searching;
+  }
+
+  setIsSearching(value: boolean) {
+    this.searching = value;
   }
 }
