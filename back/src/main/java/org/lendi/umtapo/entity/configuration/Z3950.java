@@ -11,6 +11,10 @@ public class Z3950 {
     private String url;
     private int port;
     private String syntax;
+    /**
+     * Time to live connection in ms.
+     */
+    private long ttl;
     private Map<String, String> database;
     private Map<String, String> options;
 
@@ -102,6 +106,24 @@ public class Z3950 {
      */
     public void setSyntax(String syntax) {
         this.syntax = syntax;
+    }
+
+    /**
+     * Gets database.
+     *
+     * @return the database
+     */
+    public long getTtl() {
+        return ttl;
+    }
+
+    /**
+     * Sets ttl.
+     *
+     * @param ttl the ttl
+     */
+    public void setTtl(long ttl) {
+        this.ttl = ttl;
     }
 
     /**

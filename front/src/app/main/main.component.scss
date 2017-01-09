@@ -1,15 +1,21 @@
 @import "../../sass/variables.scss";
 
+$side-nav-width: 250px;
+
 #side-nav {
   overflow: hidden;
-  width: 250px;
+  width: $side-nav-width;
+}
+
+#content {
+  padding: 32px 32px 32px ($side-nav-width + 32px);
 }
 
 .umt-menu-item {
   text-decoration: none;
 
   span {
-    color: #757575;
+    color: $disable;
     font-weight: 300;
     margin-left: 25px;
   }

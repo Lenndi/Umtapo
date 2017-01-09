@@ -59,6 +59,9 @@ public class Z3950WebServiceTest {
         database.put("username", "Z3950");
         Map<String, String> options = new HashMap<>();
         options.put("elementSetName", "f");
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("title", "4");
+        attributes.put("isbn", "0");
         Z3950 z3950 = new Z3950();
         z3950.setName("Bibliothèque Nationale de France");
         z3950.setUrl("z3950.bnf.fr");
