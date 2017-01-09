@@ -85,16 +85,16 @@ export class SetupVariousComponent implements OnInit {
       logger.info('Invalid form :', value);
 
       if (this.form.controls['borrowDuration'].invalid) {
-        this.snackBar.open(this.borrowDurationMsg, 'OK', null);
+        this.snackBar.open(this.borrowDurationMsg, 'OK');
       }
       if (this.form.controls['subscriptionDuration'].invalid) {
-        this.snackBar.open(this.subscriptionDurationMsg, 'OK', null);
+        this.snackBar.open(this.subscriptionDurationMsg, 'OK');
       }
       if (this.form.controls['currency'].invalid) {
-        this.snackBar.open(this.currencyMsg, 'OK', null);
+        this.snackBar.open(this.currencyMsg, 'OK');
       }
       if (this.form.controls['itemStartNumber'].invalid) {
-        this.snackBar.open(this.itemStartNumberMsg, 'OK', null);
+        this.snackBar.open(this.itemStartNumberMsg, 'OK');
       }
     }
   }
