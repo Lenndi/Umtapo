@@ -1,10 +1,9 @@
-///<reference path="../../service/borrower.service.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {Borrower} from '../../entity/borrower';
 import {Library} from '../../entity/library';
 import {BorrowerService} from '../../service/borrower.service';
 import {LibraryService} from '../../service/library.service';
-import {ValidationService} from '../../service/validationService';
+import {ValidationService} from '../../validator/validationService';
 import {Validators, FormBuilder, FormGroup} from '@angular/forms';
 import {Address} from '../../entity/address';
 import {logger} from '../../environments/environment';
@@ -44,12 +43,8 @@ export class NewBorrowerComponent implements OnInit {
   }
 
   onSubmit(value: any): void {
-    if (this.form.dirty && this.form.valid) {
-      alert(`Name: ${this.form.value.name} Email: ${this.form.value.email}`);
-    }
 
     if (this.form.valid) {
-
       logger.info('valid form :', value);
       this.borrower.setName(value.name);
       this.borrower.setBirthday(new Date(value.birthday));

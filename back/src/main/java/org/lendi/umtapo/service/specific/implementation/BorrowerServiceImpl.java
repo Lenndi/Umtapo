@@ -6,6 +6,10 @@ import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -33,7 +37,9 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         this.borrowerMapper = borrowerMapper;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
@@ -42,7 +48,9 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
@@ -50,12 +58,33 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<BorrowerDto> findAllDto() {
         List<Borrower> borrowers = this.findAll();
 
         return this.mapBorrowersToBorrowerDtos(borrowers);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable) {
+
+        Page<Borrower> borrowers = this.findAll(pageable);
+
+        return this.mapBorrowersToBorrowerDtosPage(borrowers);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<Borrower> findAllPageable(Pageable pageable) {
+
+        return this.findAll(pageable);
     }
 
 
@@ -68,18 +97,27 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     private List<Borrower> mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos) {
-        List<Borrower> borrowers = new ArrayList<>();
 
+        List<Borrower> borrowers = new ArrayList<>();
         borrowerDtos.forEach(borrowerDto -> borrowers.add(mapBorrowerDtoToBorrower(borrowerDto)));
 
         return borrowers;
     }
 
     private List<BorrowerDto> mapBorrowersToBorrowerDtos(List<Borrower> borrowers) {
-        List<BorrowerDto> borrowerDtos = new ArrayList<>();
 
+        List<BorrowerDto> borrowerDtos = new ArrayList<>();
         borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
 
         return borrowerDtos;
+    }
+
+    private Page<BorrowerDto> mapBorrowersToBorrowerDtosPage(Page<Borrower> borrowers) {
+
+        List<BorrowerDto> borrowerDtos = new ArrayList<>();
+        borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
+        Page<BorrowerDto> page = new PageImpl(borrowerDtos);
+
+        return page;
     }
 }

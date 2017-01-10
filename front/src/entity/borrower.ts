@@ -9,8 +9,9 @@ export class Borrower {
   private birthday: Date;
   private quota: number;
   private emailOptin: boolean;
+  private comment: string;
   private address: Address;
-  private subscriptions: Array<Subscription>;
+  private subscriptions: Subscription[];
   private loans: Array<Loan>;
   private library: Library;
 
@@ -64,11 +65,11 @@ export class Borrower {
   }
 
 
-  getSubscriptions(): Array<Subscription> {
+  getSubscriptions(): Subscription[] {
     return this.subscriptions;
   }
 
-  setSubscriptions(value: Array<Subscription>) {
+  setSubscriptions(value: Subscription[]) {
     this.subscriptions = value;
   }
 
@@ -86,5 +87,13 @@ export class Borrower {
 
   setLibrary(value: Library) {
     this.library = value;
+  }
+
+  getComment(): string {
+    return this.comment;
+  }
+
+  setComment(value: string) {
+    this.comment = value;
   }
 }

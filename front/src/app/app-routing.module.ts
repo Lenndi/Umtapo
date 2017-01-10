@@ -1,7 +1,7 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MainComponent }          from './main/main.component';
-import { TestComponent } from './test/test.component';
+import {NgModule }             from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MainComponent}          from './main/main.component';
+import {TestComponent} from './test/test.component';
 import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.component';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
+import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: '', redirectTo: 'circulation', pathMatch: 'full'},
-      {path: 'circulation', component: TestComponent},
+      {path: 'circulation', component: CirculationBorrowerSelectionComponent},
       {path: 'borrowers/new', component: NewBorrowerComponent},
       {path: 'borrowers/management', component: TestComponent},
       {

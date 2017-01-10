@@ -1,6 +1,9 @@
 package org.lendi.umtapo.service.generic;
 
+import javafx.scene.control.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
@@ -41,6 +44,13 @@ public abstract class AbstractGenericService<T, ID extends Serializable> impleme
     @Override
     public List<T> findAll() {
         return this.repository.findAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<T> findAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 
     /**

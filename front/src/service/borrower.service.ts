@@ -19,9 +19,35 @@ export class BorrowerService {
   save(borrower: Borrower): Promise<Borrower> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-        .post(this.borrowerUrl, JSON.stringify(borrower), options)
-        .toPromise()
-        .then(response => response.json() as Borrower)
-        .catch(error => this.httpLogger.error(error));
+      .post(this.borrowerUrl, JSON.stringify(borrower), options)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  findAll(jsonViewResolver?: string): Promise<Borrower[]> {
+    let uri;
+    if (jsonViewResolver != null) {
+      uri = this.borrowerUrl + jsonViewResolver;
+    } else {
+      uri = this.borrowerUrl;
+    }
+    return this.http.get(uri)
+      .toPromise()
+      .then(response => response.json() as Borrower[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  find(id: number, jsonViewResolver?: string): Promise<Borrower> {
+    let uri;
+    if (jsonViewResolver != null) {
+      uri = `${this.borrowerUrl}/${id}` + jsonViewResolver;
+    } else {
+      uri = `${this.borrowerUrl}/${id}`;
+    }
+    return this.http.get(uri)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
   }
 }
