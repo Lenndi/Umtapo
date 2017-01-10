@@ -40,11 +40,12 @@ public class BorrowerWebService {
 
     private final JsonViewResolver jsonViewResolver;
 
+
     /**
      * Instantiates a new Borrower web service.
      *
      * @param borrowerService  the borrower service
-     * @param jsonViewResolver
+     * @param jsonViewResolver the json view resolver
      */
     @Autowired
     public BorrowerWebService(BorrowerService borrowerService, JsonViewResolver jsonViewResolver) {
@@ -95,6 +96,7 @@ public class BorrowerWebService {
     /**
      * Get borrowers.
      *
+     * @param view the view
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

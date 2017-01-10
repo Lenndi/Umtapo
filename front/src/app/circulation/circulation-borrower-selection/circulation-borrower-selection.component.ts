@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {BorrowerService} from '../../service/borrower.service';
-import {Borrower} from '../../entity/borrower';
-import {logger} from '../../environments/environment';
-import {jsonViewResolver} from '../../config/jsonViewResolver';
+import {BorrowerService} from '../../../service/borrower.service';
+import {Borrower} from '../../../entity/borrower';
+import {logger} from '../../../environments/environment';
+import {jsonViewResolver} from '../../../config/jsonViewResolver';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {plainToClass} from 'class-transformer';
+import {Subscription} from "../../../entity/subscription";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class CirculationBorrowerSelectionComponent implements OnInit {
   private borrower: Borrower = new Borrower();
   private config = new MdSnackBarConfig();
   private showDetails: boolean = false;
+  private subscription: Subscription;
 
 
   constructor(
@@ -49,7 +51,10 @@ export class CirculationBorrowerSelectionComponent implements OnInit {
   onSubmit(value: any): void {
     if (value.idBorrower !== '') {
     } else if (value.borrowerNames !== '') {
-      this.borrowerService.find(value.borrowerNames).then(borrower => this.borrower = plainToClass(Borrower, borrower as Borrower));
+      this.borrowerService.find(value.borrowerNames)
+        .then(borrower => {
+          this.borrower = borrower;
+        });
       this.showDetails = true;
       // TODO Asynchrone Problem
       // let subscirt: Subscription[] = this.borrower.getSubscriptions();

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import java.time.ZonedDateTime;
 
 /**
- * Borrower mapper générique
- * <p>
+ * Borrower mapper generic.
+ *
  * Created by axel on 05/12/16.
  */
 @Component
@@ -35,7 +35,7 @@ public class BorrowerMapper extends ConfigurableMapper {
     }
 
     /**
-     * Map borrower to borrower dto borrower dto.
+     * Map borrower to borrower dto.
      *
      * @param borrower the borrower
      * @return the borrower dto
@@ -45,7 +45,7 @@ public class BorrowerMapper extends ConfigurableMapper {
     }
 
     /**
-     * Map borrower dto to borrower borrower.
+     * Map borrower dto to borrower.
      *
      * @param borrowerDto the borrower dto
      * @return the borrower

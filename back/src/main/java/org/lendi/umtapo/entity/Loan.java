@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Date date;
+    private ZonedDateTime date;
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
@@ -30,10 +31,14 @@ public class Loan {
     /**
      * Instantiates a new Loan.
      *
-     * @param date the date
+     * @param date     the date
+     * @param borrower the borrower
+     * @param item     the item
      */
-    public Loan(Date date) {
+    public Loan(ZonedDateTime date, Borrower borrower, Item item) {
         this.date = date;
+        this.borrower = borrower;
+        this.item = item;
     }
 
     /**
@@ -65,7 +70,7 @@ public class Loan {
      *
      * @return the date
      */
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
@@ -74,7 +79,7 @@ public class Loan {
      *
      * @param date the date
      */
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

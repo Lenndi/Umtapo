@@ -14,10 +14,7 @@ import java.util.List;
 public interface LibraryService extends GenericService<Library, Integer> {
 
     /**
-     * Persist a Library.
-     *
-     * @param library library
-     * @return LibraryDto
+     * {@inheritDoc}
      */
     @Override
     Library save(Library library);
@@ -31,10 +28,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     LibraryDto saveDto(LibraryDto libraryDto);
 
     /**
-     * Find a Library by id.
-     *
-     * @param id library id
-     * @return LibraryDto
+     * {@inheritDoc}
      */
     @Override
     Library findOne(Integer id);
@@ -48,9 +42,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     LibraryDto findOneDto(Integer id);
 
     /**
-     * Find all Libraries.
-     *
-     * @return List<LibraryDto>
+     * {@inheritDoc}
      */
     @Override
     List<Library> findAll();
@@ -63,9 +55,7 @@ public interface LibraryService extends GenericService<Library, Integer> {
     List<LibraryDto> findAllDto();
 
     /**
-     * Check if Library exist.
-     *
-     * @return true if exist.
+     * {@inheritDoc}
      */
     @Override
     Boolean exists(Integer id);

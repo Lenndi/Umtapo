@@ -17,6 +17,9 @@ import java.util.List;
 @Service
 public interface BorrowerService extends GenericService<Borrower, Integer> {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     Borrower save(Borrower entity);
 
@@ -28,6 +31,9 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      */
     BorrowerDto saveDto(BorrowerDto entity);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     Borrower findOne(Integer integer);
 
@@ -40,10 +46,18 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     BorrowerDto findOneDto(Integer integer);
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     List<Borrower> findAll();
 
+    /**
+     * Find all pageable page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
     Page<Borrower> findAllPageable(Pageable pageable);
 
     /**
@@ -52,7 +66,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param pageable the pageable
      * @return the page
      */
-    public Page<BorrowerDto> findAllPageableDto(Pageable pageable);
+    Page<BorrowerDto> findAllPageableDto(Pageable pageable);
 
     /**
      * Retur all Borrower DTO.

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection.component';
+import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection.component.ts';
 
 describe('CirculationBorrowerSelectionComponent', () => {
   let component: CirculationBorrowerSelectionComponent;

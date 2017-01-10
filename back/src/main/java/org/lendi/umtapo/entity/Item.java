@@ -23,13 +23,42 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String type;
+    private String title;
     private String internalId;
     private Integer purchasePrice;
     private Boolean loanable;
     @OneToMany(mappedBy = "item")
-    private List<Loan> loan;
+    private List<Loan> loans;
     @Enumerated(EnumType.STRING)
     private Condition condition;
+
+    /**
+     * Instantiates a new Item.
+     */
+    public Item() {
+    }
+
+    /**
+     * Instantiates a new Item.
+     *
+     * @param type          the type
+     * @param title         the title
+     * @param internalId    the internal id
+     * @param purchasePrice the purchase price
+     * @param loanable      the loanable
+     * @param loans         the loans
+     * @param condition     the condition
+     */
+    public Item(String type, String title, String internalId, Integer purchasePrice, Boolean loanable, List<Loan> loans,
+                Condition condition) {
+        this.type = type;
+        this.title = title;
+        this.internalId = internalId;
+        this.purchasePrice = purchasePrice;
+        this.loanable = loanable;
+        this.loans = loans;
+        this.condition = condition;
+    }
 
     /**
      * Gets id.
@@ -68,21 +97,21 @@ public class Item {
     }
 
     /**
-     * Gets loan.
+     * Gets loans.
      *
-     * @return the loan
+     * @return the loans
      */
-    public List<Loan> getLoan() {
-        return loan;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
     /**
-     * Sets loan.
+     * Sets loans.
      *
-     * @param loan the loan
+     * @param loans the loans
      */
-    public void setLoan(List<Loan> loan) {
-        this.loan = loan;
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     /**
@@ -155,5 +184,23 @@ public class Item {
      */
     public void setLoanable(Boolean loanable) {
         this.loanable = loanable;
+    }
+
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -16,8 +16,8 @@ public class LoanDto {
 
  private Integer id;
  private ZonedDateTime date;
- private BorrowerDto borrowerDto;
- private ItemDto itemDto;
+ private BorrowerDto borrower;
+ private ItemDto item;
 
     /**
      * Gets id.
@@ -56,38 +56,38 @@ public class LoanDto {
  }
 
     /**
-     * Gets borrower dto.
+     * Gets borrower.
      *
-     * @return the borrower dto
+     * @return the borrower
      */
-    public BorrowerDto getBorrowerDto() {
-  return borrowerDto;
- }
+    public BorrowerDto getBorrower() {
+        return borrower;
+    }
 
     /**
-     * Sets borrower dto.
+     * Sets borrower.
      *
-     * @param borrowerDto the borrower dto
+     * @param borrower the borrower
      */
-    public void setBorrowerDto(BorrowerDto borrowerDto) {
-  this.borrowerDto = borrowerDto;
- }
+    public void setBorrower(BorrowerDto borrower) {
+        this.borrower = borrower;
+    }
 
     /**
-     * Gets item dto.
+     * Gets item.
      *
-     * @return the item dto
+     * @return the item
      */
-    public ItemDto getItemDto() {
-  return itemDto;
- }
+    public ItemDto getItem() {
+        return item;
+    }
 
     /**
-     * Sets item dto.
+     * Sets item.
      *
-     * @param itemDto the item dto
+     * @param item the item
      */
-    public void setItemDto(ItemDto itemDto) {
-  this.itemDto = itemDto;
- }
+    public void setItem(ItemDto item) {
+        this.item = item;
+    }
 }

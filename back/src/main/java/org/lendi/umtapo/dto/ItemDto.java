@@ -15,10 +15,11 @@ public class ItemDto {
 
     private Integer id;
     private String type;
+    private String title;
     private String internalId;
     private Integer purchasePrice;
     private Boolean loanable;
-    private List<Loan> loan;
+    private List<LoanDto> loans;
     private Condition condition;
 
     /**
@@ -58,21 +59,21 @@ public class ItemDto {
     }
 
     /**
-     * Gets loan.
+     * Gets loans.
      *
-     * @return the loan
+     * @return the loans
      */
-    public List<Loan> getLoan() {
-        return loan;
+    public List<LoanDto> getLoans() {
+        return loans;
     }
 
     /**
-     * Sets loan.
+     * Sets loans.
      *
-     * @param loan the loan
+     * @param loans the loans
      */
-    public void setLoan(List<Loan> loan) {
-        this.loan = loan;
+    public void setLoans(List<LoanDto> loans) {
+        this.loans = loans;
     }
 
     /**
@@ -145,5 +146,23 @@ public class ItemDto {
      */
     public void setLoanable(Boolean loanable) {
         this.loanable = loanable;
+    }
+
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -9,7 +9,8 @@ import {AppComponent} from './app.component';
 import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
-import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {CirculationBorrowerSelectionComponent} from './circulation/circulation-borrower-selection/circulation-borrower-selection.component';
+import {CirculationComponent} from './circulation/circulation.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,14 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: '', redirectTo: 'circulation', pathMatch: 'full'},
-      {path: 'circulation', component: CirculationBorrowerSelectionComponent},
+      {
+        path: 'circulation',
+        component: CirculationComponent,
+        children: [
+          {path: '', redirectTo: 'circulation', pathMatch: 'full'},
+          {path: 'circulation', component: CirculationBorrowerSelectionComponent}
+        ]
+      },
       {path: 'borrowers/new', component: NewBorrowerComponent},
       {path: 'borrowers/management', component: TestComponent},
       {
