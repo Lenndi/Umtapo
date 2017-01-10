@@ -1,4 +1,4 @@
-<div class="1/3--desk 1/3--lap 11/12 grid__cell">
+<div class="1/3--lap-and-up 11/12 grid__cell">
   <md-card class="umt-setup-card">
     <form [formGroup]="form">
       <md-card-title>Recherche de document</md-card-title>
@@ -14,10 +14,10 @@
     </form>
   </md-card>
 </div>
-<div class="2/3--desk 2/3--desk 11/12 grid__cell">
+<div class="2/3--lap-and-up 11/12 grid__cell">
   <md-card class="umt-setup-card">
       <md-card-title>Résultat de la recherche</md-card-title>
-      <md-card-content>
+      <md-card-content id="search-result-content" [style.max-height.px]="cardContentHeight">
         <app-search-result></app-search-result>
       </md-card-content>
   </md-card>
