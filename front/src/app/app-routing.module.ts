@@ -37,7 +37,8 @@ const routes: Routes = [
         component: ItemRegistrationComponent,
         children: [
           {path: '', redirectTo: 'search', pathMatch: 'full'},
-          {path: 'search', component: ItemSearchComponent}
+          {path: 'search', component: ItemSearchComponent},
+          {path: 'save', component: TestComponent}
         ]
       },
       {path: 'cataloging/management', component: TestComponent}
