@@ -18,7 +18,11 @@ public class LibraryMapper extends ConfigurableMapper {
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(Library.class, LibraryDto.class).exclude("borrowers").byDefault().register();
+        mapperFactory.classMap(Library.class, LibraryDto.class)
+                .exclude("borrowers")
+                .exclude("items")
+                .byDefault()
+                .register();
         MAPPER = mapperFactory.getMapperFacade();
     }
 
