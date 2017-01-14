@@ -24,6 +24,7 @@ public class Item {
     private Integer id;
     private String type;
     private String title;
+    private String barcode;
     private String internalId;
     private Integer purchasePrice;
     private Boolean loanable;
@@ -76,6 +77,24 @@ public class Item {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * Gets barcode.
+     *
+     * @return the barcode
+     */
+    public String getBarcode() {
+        return barcode;
+    }
+
+    /**
+     * Sets barcode.
+     *
+     * @param barcode the barcode
+     */
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     /**

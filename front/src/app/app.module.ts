@@ -23,6 +23,7 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {CirculationBorrowerSelectionComponent} from './circulation/circulation-borrower-selection/circulation-borrower-selection.component';
 import {CirculationComponent} from './circulation/circulation.component';
 import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
+import {CirculationCheckDetailsComponent} from './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
 import {CirculationCheckInComponent} from './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
 
 @NgModule({
@@ -40,7 +41,8 @@ import {CirculationCheckInComponent} from './circulation/circulation-check/circu
     CirculationBorrowerSelectionComponent,
     CirculationComponent,
     CirculationCheckComponent,
-    CirculationCheckInComponent
+    CirculationCheckDetailsComponent,
+    CirculationCheckInComponent,
   ],
   imports: [
     BrowserModule,

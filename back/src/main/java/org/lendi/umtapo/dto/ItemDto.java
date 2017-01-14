@@ -18,6 +18,7 @@ public class ItemDto {
     private String title;
     private String internalId;
     private Integer purchasePrice;
+    private String barcode;
     private Boolean loanable;
     private List<LoanDto> loans;
     private Condition condition;
@@ -38,6 +39,24 @@ public class ItemDto {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * Gets barcode.
+     *
+     * @return the barcode
+     */
+    public String getBarcode() {
+        return barcode;
+    }
+
+    /**
+     * Sets barcode.
+     *
+     * @param barcode the barcode
+     */
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     /**
