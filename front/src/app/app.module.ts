@@ -21,6 +21,9 @@ import {ItemRegistrationComponent} from './cataloging/item-registration/item-reg
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {SearchResultComponent} from './cataloging/item-registration/item-search/search-result/search-result.component';
 import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {InternalInformationsComponent} from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
+import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { CirculationBorrowerSelectionComponent } from './circulation-borrower-se
     ItemSearchComponent,
     SearchResultComponent,
     CirculationBorrowerSelectionComponent,
+    ItemSaveComponent,
+    InternalInformationsComponent,
+    ItemDetailsComponent
   ],
   imports: [
     BrowserModule,

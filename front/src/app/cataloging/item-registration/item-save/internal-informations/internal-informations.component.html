@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <md-card-title>Informations internes</md-card-title>
+  <md-card-content>
+    <md-input type="number" placeholder="Identifiant interne" class="umt-full-size" formControlName="internalId">
+    </md-input>
+    <md-input type="text" placeholder="Champ 1" formControlName="shelfmark1"></md-input>
+    <md-input type="text" placeholder="Champ 2" formControlName="shelfmark2"></md-input>
+    <md-input type="text" placeholder="Champ 3" formControlName="shelfmark3"></md-input>
+    <md-input type="text" placeholder="Champ 4" formControlName="shelfmark4"></md-input>
+    <md-input type="text" placeholder="Champ 5" formControlName="shelfmark5"></md-input>
+    <md-input type="number" placeholder="Prix d'achat" class="umt-full-size" formControlName="purchasePrice"></md-input>
+    <md-select placeholder="État" formControlName="condition" class="umt-full-size">
+      <md-option [value]="test">test</md-option>
+    </md-select>
+    <div class="grid">
+      <div class="9/12 grid__cell">test</div>
+      <md-checkbox formControlName="loanable" align="end" class="1/12 grid__cell"></md-checkbox>
+    </div>
+
+  </md-card-content>
+  <md-card-actions align="end">
+    <button md-raised-button md-ripple (click)="cancel()">ANNULER</button>
+    <button md-raised-button md-ripple color="accent" (click)="onSubmit(form.value)">ENREGISTRER</button>
+  </md-card-actions>
+</form>

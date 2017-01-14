@@ -10,6 +10,7 @@ import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
         children: [
           {path: '', redirectTo: 'search', pathMatch: 'full'},
           {path: 'search', component: ItemSearchComponent},
-          {path: 'save', component: TestComponent}
+          {path: 'save', component: ItemSaveComponent}
         ]
       },
       {path: 'cataloging/management', component: TestComponent}
