@@ -27,6 +27,9 @@ import {CollapseModule} from 'ng2-bootstrap';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {CirculationComponent} from './circulation/circulation.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {InternalInformationsComponent} from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
+import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import {CirculationComponent} from './circulation/circulation.component';
     SearchFormComponent,
     BorrowerInternalComponent,
     BorrowerPersonalComponent,
-    CirculationComponent
+    CirculationComponent,
+    ItemSaveComponent,
+    InternalInformationsComponent,
+    ItemDetailsComponent
   ],
   imports: [
     BrowserModule,
