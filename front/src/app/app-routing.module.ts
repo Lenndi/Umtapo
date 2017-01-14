@@ -11,6 +11,7 @@ import {ItemSearchComponent} from './cataloging/item-registration/item-search/it
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 import {CirculationBorrowerSelectionComponent} from './circulation/circulation-borrower-selection/circulation-borrower-selection.component';
 import {CirculationComponent} from './circulation/circulation.component';
+import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,9 @@ const routes: Routes = [
         path: 'circulation',
         component: CirculationComponent,
         children: [
-          {path: '', redirectTo: 'circulation', pathMatch: 'full'},
-          {path: 'circulation', component: CirculationBorrowerSelectionComponent}
+          {path: '', redirectTo: 'selection', pathMatch: 'full'},
+          {path: 'check/:id', component: CirculationCheckComponent},
+          {path: 'selection', component: CirculationBorrowerSelectionComponent}
         ]
       },
       {path: 'borrowers/new', component: NewBorrowerComponent},

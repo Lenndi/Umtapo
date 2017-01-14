@@ -1,0 +1,28 @@
+<div class="3/3--lap-and-up">
+  <md-card class="umt-card-details umt-setup-card">
+    <md-card-title>Emprunteur</md-card-title>
+    <md-card-content>
+      <div class="grid umt-font-attributes">
+        <div class="1-of-7 grid__cell detail">Nom</div>
+        <div class="1-of-7 grid__cell detail">Id</div>
+        <div class="1-of-7 grid__cell detail">Email</div>
+        <div class="1-of-7 grid__cell detail">Quota</div>
+        <div class="1-of-7 grid__cell detail">Fin de l'abonnement</div>
+        <div class="1-of-7 grid__cell detail">Commentaire</div>
+        <div class="1-of-7 grid__cell detail">
+        <md-card-actions>
+            <button (click)="backToCirculationComponent()" class="md-raised md-warn" md-raised-button=""><span class="md-button-wrapper">CHANGER</span></button>
+        </md-card-actions>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="1-of-7 grid__cell detail">{{borrower?.name}}</div>
+        <div class="1-of-7 grid__cell detail">{{borrower?.id}}</div>
+        <div class="1-of-7 grid__cell detail">{{borrower?.address?.email}}</div>
+        <div class="1-of-7 grid__cell detail">{{borrower?.quota}}</div>
+        <div class="1-of-7 grid__cell detail">{{subscription?.end | date}}</div>
+        <div class="1-of-7 grid__cell detail">{{borrower?.comment}}</div>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

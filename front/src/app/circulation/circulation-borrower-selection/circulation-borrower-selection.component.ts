@@ -49,20 +49,36 @@ export class CirculationBorrowerSelectionComponent implements OnInit {
   }
 
   onSubmit(value: any): void {
+    this.config.duration = 1000;
     if (value.idBorrower !== '') {
+      let idExist = this.checkIfIdExist(value.idBorrower);
+      if(!idExist){
+        this.snackBar.open(`L'identifiant entré n'existe pas`, 'OK', this.config);
+      } else {
+        this.router.navigate(['circulation/check', value.idBorrower]);
+      }
     } else if (value.borrowerNames !== '') {
       this.borrowerService.find(value.borrowerNames)
         .then(borrower => {
           this.borrower = borrower;
+          this.subscription = this.borrower.subscriptions[0];
         });
       this.showDetails = true;
-      // TODO Asynchrone Problem
-      // let subscirt: Subscription[] = this.borrower.getSubscriptions();
-      // console.log(subscirt[0]);
     } else {
-      this.config.duration = 1000;
       this.snackBar.open('Les champs du formulaire sont vides', 'OK', this.config);
     }
+  }
 
+  // #########################################################################################################
+  // ########################################### INTERNAL FUNCTION ###########################################
+  // #########################################################################################################
+
+  private checkIfIdExist(id: number): boolean{
+    for (let borrower of this.borrowers) {
+      if(borrower.id == id){
+        return true;
+      }
+    }
+    return false;
   }
 }

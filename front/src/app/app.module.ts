@@ -22,6 +22,8 @@ import {ItemSearchComponent} from './cataloging/item-registration/item-search/it
 import {SearchResultComponent} from './cataloging/item-registration/item-search/search-result/search-result.component';
 import {CirculationBorrowerSelectionComponent} from './circulation/circulation-borrower-selection/circulation-borrower-selection.component';
 import {CirculationComponent} from './circulation/circulation.component';
+import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
+import {CirculationCheckInComponent} from './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import {CirculationComponent} from './circulation/circulation.component';
     SearchResultComponent,
     CirculationBorrowerSelectionComponent,
     CirculationComponent,
+    CirculationCheckComponent,
+    CirculationCheckInComponent
   ],
   imports: [
     BrowserModule,

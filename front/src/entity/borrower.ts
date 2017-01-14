@@ -4,25 +4,16 @@ import {Subscription} from './subscription';
 import {Loan} from './loan';
 
 export class Borrower {
-  private id: number;
+  id: number;
   private name: string;
   private birthday: Date;
   private quota: number;
   private emailOptin: boolean;
   private comment: string;
   private address: Address;
-  private subscriptions: Subscription[];
+  subscriptions: Subscription[];
   private loans: Array<Loan>;
   private library: Library;
-
-
-  getId(): number {
-    return this.id;
-  }
-
-  setId(value: number) {
-    this.id = value;
-  }
 
   getName(): string {
     return this.name;
