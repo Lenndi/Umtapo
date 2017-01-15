@@ -1,43 +1,63 @@
 import {Component, OnInit} from '@angular/core';
-import {Borrower} from '../../entity/borrower';
-import {Library} from '../../entity/library';
-import {BorrowerService} from '../../service/borrower.service';
-import {LibraryService} from '../../service/library.service';
-import {ValidationService} from '../../validator/validationService';
-import {Validators, FormBuilder, FormGroup} from '@angular/forms';
-import {Address} from '../../entity/address';
-import {logger} from '../../environments/environment';
+import {Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
-import {Subscription} from '../../entity/subscription';
+import {Borrower} from '../../../entity/borrower';
+import {Library} from '../../../entity/library';
+import {Address} from '../../../entity/address';
+import {Subscription} from '../../../entity/subscription';
+import {BorrowerService} from '../../../service/borrower.service';
+import {LibraryService} from '../../../service/library.service';
+import {logger} from '../../../environments/environment';
+import {ValidationService} from '../../../validator/validationService';
 
 @Component({
   selector: 'app-new-borrower',
-  templateUrl: './new-borrower.component.html',
-  styleUrls: ['./new-borrower.component.scss']
+  templateUrl: 'new-borrower.component.html',
+  styleUrls: ['new-borrower.component.scss']
 })
 
 export class NewBorrowerComponent implements OnInit {
-  private form: FormGroup;
-  private endSubscription: Date;
-  private dateToday: Date;
-  private borrower: Borrower = new Borrower();
-  private library: Library;
-  private address: Address = new Address();
-  private subscriptionArray: Subscription[] = [];
-  private subscription: Subscription = new Subscription();
-  private config = new MdSnackBarConfig();
+  form: FormGroup;
+  endSubscription: Date;
+  dateToday: Date;
+  borrower: Borrower;
+  library: Library;
+  address: Address;
+  subscriptionArray: Subscription[];
+  subscription: Subscription;
+  config;
+  name: FormControl;
+  email: FormControl;
+  birthday: FormControl;
+  phone: FormControl;
+  address1: FormControl;
+  address2: FormControl;
+  zip: FormControl;
+  city: FormControl;
+  startSubscription: FormControl;
+  quota: FormControl;
+  contribution: FormControl;
+  comment: FormControl;
+  emailOptin: FormControl;
 
   constructor(
     private formBuilder: FormBuilder,
     private borrowerService: BorrowerService,
     private libraryService: LibraryService,
     private snackBar: MdSnackBar
-  ) {}
+  ) {
+    this.borrower = new Borrower();
+    this.address = new Address();
+    this.subscriptionArray = [];
+    this.subscription = new Subscription();
+    this.config = new MdSnackBarConfig();
+    this.endSubscription = new Date();
+    this.dateToday = new Date();
+    this.initializeFormControl();
+  }
 
   ngOnInit() {
     this.config.duration = 1000;
-    this.endSubscription = new Date();
-    this.dateToday = new Date();
     this.initializeForm();
     this.library = this.libraryService.findLocally();
   }
@@ -59,13 +79,14 @@ export class NewBorrowerComponent implements OnInit {
       this.subscription.setStart(new Date(value.startSubscription));
       this.subscription.setEnd(this.endSubscription);
       this.subscription.setContribution(value.contribution);
-      this.subscriptionArray = [];
       this.subscriptionArray.push(this.subscription);
       this.borrower.setAddress(this.address);
       this.borrower.setSubscriptions(this.subscriptionArray);
 
       this.borrowerService
-        .save(this.borrower).then(borrower => this.saveBorrowerOk()).catch(borrower => this.saveBorrowerError());
+        .save(this.borrower)
+        .then(borrower => this.saveBorrowerOk())
+        .catch(borrower => this.saveBorrowerError());
 
     } else {
       logger.info('Invalid form :', value);
@@ -91,23 +112,38 @@ export class NewBorrowerComponent implements OnInit {
   /**
    * Initialize Borrower Save Form.
    */
-  initializeForm() {
-    // TODO Change FormBuilder Value
+  private initializeForm() {
     this.form = this.formBuilder.group({
-      'name': ['', Validators.required],
-      'email': ['', Validators.compose([Validators.required, ValidationService.emailValidator])],
-      'birthday': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
-      'startSubscription': ['', Validators.compose([Validators.required, ValidationService.dateValidator])],
-      'phone': ['', Validators.required],
-      'address1': ['', Validators.required],
-      'address2': ['', Validators.required],
-      'zip': ['', Validators.required],
-      'city': ['', Validators.required],
-      'quota': ['', Validators.required],
-      'contribution': ['', Validators.required],
-      'comment': [''],
-      'emailOptin': ['']
+      'name': this.name,
+      'email': this.email,
+      'birthday': this.birthday,
+      'startSubscription': this.startSubscription,
+      'phone': this.phone,
+      'address1': this.address1,
+      'address2': this.address2,
+      'zip': this.zip,
+      'city': this.city,
+      'quota': this.quota,
+      'contribution': this.contribution,
+      'comment': this.comment,
+      'emailOptin': this.emailOptin
     });
+  }
+
+  private initializeFormControl() {
+    this.name = new FormControl('', Validators.required);
+    this.email = new FormControl('', [Validators.required, ValidationService.emailValidator]);
+    this.birthday = new FormControl('', [Validators.required, ValidationService.dateValidator]);
+    this.startSubscription = new FormControl('', [Validators.required, ValidationService.dateValidator]);
+    this.phone = new FormControl('', Validators.required);
+    this.address1 = new FormControl('', Validators.required);
+    this.address2 = new FormControl('', Validators.required);
+    this.zip = new FormControl('', Validators.required);
+    this.city = new FormControl('', Validators.required);
+    this.quota = new FormControl('', Validators.required);
+    this.contribution = new FormControl('', Validators.required);
+    this.comment = new FormControl('');
+    this.emailOptin = new FormControl('');
   }
 
   /**
@@ -124,11 +160,8 @@ export class NewBorrowerComponent implements OnInit {
    * @param days
    * @returns {Date}
    */
-  addDays(date: Date, days: number): Date {
-    console.log('adding ' + days + ' days');
-    console.log(date);
+  private addDays(date: Date, days: number): Date {
     date.setDate(date.getDate() + days);
-    console.log(date);
     return date;
   }
 

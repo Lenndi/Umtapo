@@ -1,12 +1,12 @@
 export class Library {
-  private id: number;
-  private name: string;
-  private shelfMarkNb: number;
-  private useDeweyClassification: boolean;
-  private subscriptionDuration: number;
-  private borrowDuration: number;
-  private currency: string;
-  private defaultZ3950: number;
+  id: number;
+  name: string;
+  shelfMarkNb: number;
+  useDeweyClassification: boolean;
+  subscriptionDuration: number;
+  borrowDuration: number;
+  currency: string;
+  defaultZ3950: number;
 
   getId(): number {
     return this.id;

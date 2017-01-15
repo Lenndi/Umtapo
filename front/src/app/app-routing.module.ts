@@ -6,7 +6,7 @@ import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.compone
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
 import {AppComponent} from './app.component';
-import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
+import {NewBorrowerComponent} from './borrower/new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';

@@ -13,16 +13,16 @@
           <a *ngFor="let record of dataService.searchResults" (click)="dataService.record = record"
              class="list-group-item list-group-item-action flex-column align-items-start"
              routerLink="/cataloging/registration/save">
-            <h5>{{record.title.mainTitle}}</h5>
+            <h6>{{record.title.mainTitle}}</h6>
             <div class="row w-100 justify-content-between">
-              <div class="text-muted col-8">{{record.creator.name}} {{record.creator.secondName}}</div>
-              <div class="col-4 text-muted" *ngIf="record.identifier.serialType">{{record.identifier.serialType}}</div>
+              <small class="text-muted text-sm-left col-8">{{record.creator.name}} {{record.creator.secondName}}</small>
+              <small class="col-4 text-muted text-sm-left" *ngIf="record.identifier.serialType">{{record.identifier.serialType}}</small>
             </div>
             <div class="row w-100 justify-content-between">
-              <div class="text-muted col-8">{{record.date.publicationDate}}</div>
-              <div class="col-4" *ngIf="record.identifier.serialType">{{record.identifier.serialNumber}}</div>
+              <small class="text-muted col-8">{{record.date.publicationDate}}</small>
+              <small class="col-4" *ngIf="record.identifier.serialType">{{record.identifier.serialNumber}}</small>
             </div>
-            <div class="text-muted">{{record.publisher.editorName}}</div>
+            <small class="text-muted">{{record.publisher.editorName}}</small>
           </a>
           <div id="more-records" *ngIf="dataService.hasMoreRecords">
             <i class="fa fa-spinner text-primary fa-spin" aria-hidden="true"></i>

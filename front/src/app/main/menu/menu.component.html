@@ -1,39 +1,39 @@
 <nav id="umt-sidenav">
   <div class="umt-category">
-    <h5 [class.umt-current]="isOpen('circulation')">Circulation</h5>
+    <h6 [class.text-primary]="isOpen('circulation')">Circulation</h6>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/circulation" routerLinkActive="umt-current">
+        <a class="nav-link" routerLink="/circulation" routerLinkActive="text-primary">
           Entrées/Sorties
         </a>
       </li>
     </ul>
   </div>
   <div class="umt-category">
-    <h5 [class.umt-current]="isOpen('borrower')">Usager</h5>
+    <h6 [class.text-primary]="isOpen('borrower')">Usager</h6>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/borrowers/new" routerLinkActive="umt-current">
+        <a class="nav-link" routerLink="/borrowers/new" routerLinkActive="text-primary">
           Nouvel usager
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/borrowers/management" routerLinkActive="umt-current">
+        <a class="nav-link" routerLink="/borrowers/management" routerLinkActive="text-primary">
           Gestion des usagers
         </a>
       </li>
     </ul>
   </div>
   <div class="umt-category">
-    <h5 [class.umt-current]="isOpen('cataloging')">Fond documentaire</h5>
+    <h6 [class.text-primary]="isOpen('cataloging')">Fond documentaire</h6>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/cataloging/registration" routerLinkActive="umt-current">
+        <a class="nav-link" routerLink="/cataloging/registration" routerLinkActive="text-primary">
           Nouveau document
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/cataloging/management" routerLinkActive="umt-current">
+        <a class="nav-link" routerLink="/cataloging/management" routerLinkActive="text-primary">
           Gestion du fond
         </a>
       </li>

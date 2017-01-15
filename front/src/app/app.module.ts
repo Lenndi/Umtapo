@@ -12,7 +12,7 @@ import {LibraryService} from '../service/library.service';
 import {Z3950Service} from '../service/z3950.service';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
-import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
+import {NewBorrowerComponent} from './borrower/new-borrower/new-borrower.component';
 import {BorrowerService} from '../service/borrower.service';
 import {SetupDataService} from '../service/data-binding/setup-data.service';
 import {MaterialModule} from '@angular/material';
