@@ -2,7 +2,7 @@
   {{dataService.searchMessage}}
 </p>
 <p id="searching-records" *ngIf="dataService.isSearching && dataService.searchResults.length == 0">
-  <md-progress-spinner mode="indeterminate" color="accent"></md-progress-spinner>
+  spinner
 </p>
 <div *ngIf="dataService.searchResults.length != 0">
   <md-nav-list>
@@ -16,6 +16,5 @@
       <span md-line class="detail" *ngIf="record.identifier.serialType">{{record.identifier.serialType}}: {{record.identifier.serialNumber}}</span>
     </a>
   </md-nav-list>
-  <md-progress-spinner id="more-records" mode="indeterminate" color="primary" *ngIf="dataService.hasMoreRecords">
-  </md-progress-spinner>
+  <span *ngIf="dataService.hasMoreRecords">spinner</span>
 </div>

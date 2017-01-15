@@ -9,32 +9,31 @@ import {MdSnackBar} from '@angular/material';
 import {VariousValidator} from '../../../validator/VariousValidator';
 
 @Component({
-  selector: 'app-setup-various',
+  selector: 'umt-setup-various',
   templateUrl: './setup-various.component.html',
   styleUrls: ['../setup.component.scss'],
   providers: [LibraryService]
 })
 export class SetupVariousComponent implements OnInit {
-  private library: Library;
-  private form: FormGroup;
-
-  private borrowDuration: FormControl;
-  private borrowDurationMsg: string;
-  private subscriptionDuration: FormControl;
-  private subscriptionDurationMsg: string;
-  private currency: FormControl;
-  private currencyMsg: string;
-  private itemStartNumber: FormControl;
-  private itemStartNumberMsg: string;
+  library: Library;
+  form: FormGroup;
+  borrowDuration: FormControl;
+  borrowDurationMsg: string;
+  subscriptionDuration: FormControl;
+  subscriptionDurationMsg: string;
+  currency: FormControl;
+  currencyMsg: string;
+  itemStartNumber: FormControl;
+  itemStartNumberMsg: string;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
-    private setupDataService: SetupDataService,
+    public dataService: SetupDataService,
     private snackBar: MdSnackBar
   ) {
-    let library = this.setupDataService.getLibrary();
+    let library = this.dataService.library;
 
     this.borrowDuration = new FormControl(
       library != null ? library.getBorrowDuration() : '',
@@ -49,16 +48,16 @@ export class SetupVariousComponent implements OnInit {
       Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
     this.itemStartNumber = new FormControl(
-      this.setupDataService.getItemStartNumber() != null ? this.setupDataService.getItemStartNumber() : '',
+      this.dataService.itemStartNumber != null ? this.dataService.itemStartNumber : '',
       [Validators.required, VariousValidator.positive]);
-    this.itemStartNumberMsg = `Merci d\'indiquer l\'identifiant à partir duquel seront créé la numérotation automatique
-      des documents`;
+    this.itemStartNumberMsg = `Merci d\'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
+        automatique des documents`;
   }
 
   ngOnInit(): void {
-    this.setupDataService.setStep(2);
-    this.setupDataService.setTitle('Divers');
-    this.library = this.setupDataService.getLibrary();
+    this.dataService.step = 2;
+    this.dataService.title = 'Divers';
+    this.library = this.dataService.library;
 
     this.form = this.formBuilder.group({
       'borrowDuration': this.borrowDuration,
@@ -70,7 +69,7 @@ export class SetupVariousComponent implements OnInit {
 
   onSubmit(value: any): void {
     if (this.form.valid) {
-      this.setupDataService.setItemStartNumber(value.itemStartNumber);
+      this.dataService.itemStartNumber = value.itemStartNumber;
       this.library.setBorrowDuration(value.borrowDuration);
       this.library.setSubscriptionDuration(value.subscriptionDuration);
       this.library.setCurrency(value.currency);
@@ -82,7 +81,7 @@ export class SetupVariousComponent implements OnInit {
 
       this.router.navigate(['circulation']);
     } else {
-      logger.info('Invalid form :', value);
+      logger.info('Invalid form :', this.form);
 
       if (this.form.controls['borrowDuration'].invalid) {
         this.snackBar.open(this.borrowDurationMsg, 'OK');

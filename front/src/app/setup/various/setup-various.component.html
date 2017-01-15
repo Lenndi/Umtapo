@@ -1,40 +1,43 @@
-<md-card-content class="umt-setup-card-content">
-  <form [formGroup]="form">
-    <p>
-      <md-input type="number" placeholder="Durée d'emprunt par défaut (jours)"  class="umt-full-size" required
-                formControlName="borrowDuration">
-        <md-hint *ngIf="borrowDuration.invalid && borrowDuration.dirty" align="start" class="umt-warn-color">
-          {{borrowDurationMsg}}
-        </md-hint>
-      </md-input>
-    </p>
-    <p>
-      <md-input type="number" placeholder="Durée d'abonnement par défaut (jours)" class="umt-full-size"
-                 formControlName="subscriptionDuration" required>
-        <md-hint *ngIf="subscriptionDuration.invalid && subscriptionDuration.dirty"
-                 align="start" class="umt-warn-color">
-          {{subscriptionDurationMsg}}
-        </md-hint>
-      </md-input>
-    </p>
-    <p>
-      <md-input type="text" placeholder="Monnaie" class="umt-full-size"
-                formControlName="currency" required>
-        <md-hint *ngIf="currency.invalid && currency.dirty" align="start" class="umt-warn-color">
-          {{currencyMsg}}
-        </md-hint>
-      </md-input>
-    </p>
-    <p>
-      <md-input type="number" placeholder="Numéro d'identifiant de départ" class="umt-full-size"
-                formControlName="itemStartNumber" required>
-        <md-hint *ngIf="itemStartNumber.invalid && itemStartNumber.dirty" align="start" class="umt-warn-color">
-          {{itemStartNumberMsg}}
-        </md-hint>
-      </md-input>
-    </p>
-  </form>
-</md-card-content>
-<md-card-actions class="umt-setup-card-actions" align="end">
-  <button md-raised-button md-ripple color="accent" (click)="onSubmit(form.value)">FINISH</button>
-</md-card-actions>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <div class="form-group" [class.has-danger]="borrowDuration.invalid && borrowDuration.dirty">
+    <label for="borrow-duration">Durée d'emprunt par défaut (jours)</label>
+    <input id="borrow-duration" type="number" class="form-control" placeholder="Durée d'emprunt par défaut" required
+           [class.form-control-danger]="borrowDuration.invalid && borrowDuration.dirty"
+           formControlName="borrowDuration">
+    <div class="form-control-feedback" *ngIf="borrowDuration.invalid && borrowDuration.dirty">
+      {{borrowDurationMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="subscriptionDuration.invalid && subscriptionDuration.dirty">
+    <label for="subscription-duration">Durée d'abonnement par défaut (jours)</label>
+    <input id="subscription-duration" type="number" class="form-control" placeholder="Durée d'abonnement par défaut"
+           required [class.form-control-danger]="subscriptionDuration.invalid && subscriptionDuration.dirty"
+           formControlName="subscriptionDuration">
+    <div class="form-control-feedback" *ngIf="subscriptionDuration.invalid && subscriptionDuration.dirty">
+      {{subscriptionDurationMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="currency.invalid && currency.dirty">
+    <label for="currency">Monnaie</label>
+    <input id="currency" type="text" class="form-control" placeholder="Monnaie" required
+           [class.form-control-danger]="currency.invalid && currency.dirty" formControlName="currency">
+    <div class="form-control-feedback" *ngIf="currency.invalid && currency.dirty">
+      {{currencyMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="itemStartNumber.invalid && itemStartNumber.dirty">
+    <label for="item-start-number">Identifiant de départ</label>
+    <input id="item-start-number" type="number" class="form-control" placeholder="Identifiant de départ" required
+           [class.form-control-danger]="itemStartNumber.invalid && itemStartNumber.dirty"
+           formControlName="itemStartNumber">
+    <div class="form-control-feedback" *ngIf="itemStartNumber.invalid && itemStartNumber.dirty">
+      {{itemStartNumberMsg}}
+    </div>
+    <small class="form-text text-muted">
+      Il s'agit du numéro d'identification à partir duquel les nouveaux items seront enregistrés
+    </small>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-warning">TERMINER</button>
+  </div>
+</form>

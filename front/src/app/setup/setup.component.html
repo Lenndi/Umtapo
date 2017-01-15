@@ -1,18 +1,27 @@
-<div id="content" class="grid grid--center">
-    <div class="1/3--desk 1/2--lap 11/12 grid__cell">
-        <md-card class="umt-setup-card">
-            <md-toolbar color="primary">
-                <a class="umt-back-arrow" routerLink="{{setupDataService.getStep() - 1}}" *ngIf="setupDataService.getPrecedence()">
-                    <md-icon style="line-height: 1.5">arrow_back</md-icon>
-                </a>
-                <span>Installation</span>
-                <span class="umt-fill-remaining"></span>
-                <span>{{setupDataService.getStep()}}/2</span>
-            </md-toolbar>
-            <div class="umt-setup-card-title">
-                <span>{{setupDataService.getTitle()}}</span>
+<div id="umt-container" class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <div class="row">
+            <div class="col-2 text-left">
+              <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.hasPrecedence">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              </a>
             </div>
-            <router-outlet></router-outlet>
-        </md-card>
+            <div class="col-8">
+              <span>Installation</span>
+            </div>
+            <div class="col-2 text-right">
+              <span>{{dataService.step}}/{{dataService.totalStep}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <h5 class="card-title">{{dataService.title}}</h5>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
