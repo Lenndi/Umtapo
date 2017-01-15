@@ -1,0 +1,42 @@
+<nav id="umt-sidenav">
+  <div class="umt-category">
+    <h5 [class.umt-current]="isOpen('circulation')">Circulation</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/circulation" routerLinkActive="umt-current">
+          Entrées/Sorties
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="umt-category">
+    <h5 [class.umt-current]="isOpen('borrower')">Usager</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/borrowers/new" routerLinkActive="umt-current">
+          Nouvel usager
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/borrowers/management" routerLinkActive="umt-current">
+          Gestion des usagers
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="umt-category">
+    <h5 [class.umt-current]="isOpen('cataloging')">Fond documentaire</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/cataloging/registration" routerLinkActive="umt-current">
+          Nouveau document
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/cataloging/management" routerLinkActive="umt-current">
+          Gestion du fond
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,15 +1,8 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-main',
+  selector: 'umt-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
-  constructor(private router: Router) {}
-
-  isOpen(routeCategory: string) {
-    return this.router.url.includes(routeCategory);
-  }
-}
+export class MainComponent {}

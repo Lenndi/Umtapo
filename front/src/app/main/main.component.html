@@ -1,34 +1,11 @@
-<md-sidenav id="side-nav" mode="side" opened="true">
-  <md-list>
-    <a md-list-item [class.umt-current-category]="isOpen('circulation')">
-      <md-icon md-list-icon>swap_horiz</md-icon>
-      <span md-line>Circulation</span>
-    </a>
-    <a md-list-item routerLink="/circulation" routerLinkActive="umt-current-route" class="umt-menu-item">
-      <span md-line>Entrées/Sorties</span>
-    </a>
-    <a md-list-item [class.umt-current-category]="isOpen('borrower')">
-      <md-icon md-list-icon>people</md-icon>
-      <span md-line>Usager</span>
-    </a>
-    <a md-list-item routerLink="/borrowers/new" routerLinkActive="umt-current-route" class="umt-menu-item">
-      <span md-line>Nouvel usager</span>
-    </a>
-    <a md-list-item routerLink="/borrowers/management" routerLinkActive="umt-current-route" class="umt-menu-item">
-      <span md-line>Gestion des usagers</span>
-    </a>
-    <a md-list-item [class.umt-current-category]="isOpen('cataloging')">
-      <md-icon md-list-icon>collections_bookmark</md-icon>
-      <span md-line>Fond documentaire</span>
-    </a>
-    <a md-list-item routerLink="/cataloging/registration" routerLinkActive="umt-current-route" class="umt-menu-item">
-      <span md-line>Enregistrer un document</span>
-    </a>
-    <a md-list-item routerLink="/cataloging/management" routerLinkActive="umt-current-route" class="umt-menu-item">
-      <span md-line>Gestion des documents</span>
-    </a>
-  </md-list>
-</md-sidenav>
-<div id="content" class="grid">
-  <router-outlet></router-outlet>
+<div class="container-fluid fill">
+  <div class="row">
+    <aside class="col-12 col-md-2">
+      <umt-menu></umt-menu>
+    </aside>
+    <main class="col-12 col-md-10">
+      testoiells
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
