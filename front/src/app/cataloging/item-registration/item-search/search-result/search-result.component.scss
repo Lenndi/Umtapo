@@ -1,5 +1,9 @@
 @import "../../../../../sass/variables.scss";
 
+.card-content {
+  padding-top: 1em;
+}
+
 #search-message {
   color: $disable;
   text-align: center;
@@ -7,11 +11,9 @@
 }
 
 #searching-records {
-  md-progress-spinner {
-    margin: auto;
-    width: 50px;
-    height: 50px;
-  }
+  margin: auto;
+  width: 50px;
+  height: 50px;
 }
 
 #more-records {
@@ -20,6 +22,8 @@
   height: 20px;
 }
 
-.detail, .record-type-icon {
-  color: $disable;
+#result-list-wrapper {
+  height: 85%;
+  margin-bottom: 0;
+  overflow: auto;
 }

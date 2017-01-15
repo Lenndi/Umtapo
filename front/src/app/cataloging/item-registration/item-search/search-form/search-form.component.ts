@@ -38,7 +38,6 @@ export class SearchFormComponent implements OnInit {
       'isbn': this.isbn,
       'title': this.title
     });
-    // this.cardContentHeight = document.getElementById('side-nav').clientHeight - 160;
   }
 
   onSearch(): void {

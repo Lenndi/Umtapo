@@ -1,5 +1,8 @@
-#umt-container {
+main {
   padding-top: 2em;
+}
+html,body,.container,.container .row,.container-fluid,.container-fluid .row,aside {
+  height:100%;
 }
 
 // material-design-icons integration
