@@ -22,6 +22,7 @@ import {ItemSearchComponent} from './cataloging/item-registration/item-search/it
 import {SearchResultComponent} from './cataloging/item-registration/item-search/search-result/search-result.component';
 import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection/circulation-borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
+import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MenuComponent} from './main/menu/menu.component';
     ItemSearchComponent,
     SearchResultComponent,
     CirculationBorrowerSelectionComponent,
-    MenuComponent
+    MenuComponent,
+    SearchFormComponent
   ],
   imports: [
     BrowserModule,

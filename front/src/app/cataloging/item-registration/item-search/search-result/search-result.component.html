@@ -1,14 +1,32 @@
-<p id="search-message" *ngIf="!dataService.isSearching && dataService.searchResults.length == 0">
-  {{dataService.searchMessage}}
-</p>
-<p id="searching-records" *ngIf="dataService.isSearching && dataService.searchResults.length == 0">
-  spinner
-</p>
-<div *ngIf="dataService.searchResults.length != 0">
+<div class="card">
+  <div class="card-block">
+    <h5 class="card-title">Résultats de la recherche</h5>
+    <p id="search-message" *ngIf="!dataService.isSearching && dataService.searchResults.length == 0">
+      {{dataService.searchMessage}}
+    </p>
+    <p id="searching-records" *ngIf="dataService.isSearching && dataService.searchResults.length == 0">
+      spinner
+    </p>
+    <div class="list-group">
+      <a *ngFor="let record of dataService.searchResults" (click)="dataService.record = record"
+         class="list-group-item list-group-item-action flex-column align-items-start"
+         routerLink="/cataloging/registration/save">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{record.title.mainTitle}}</h5>
+          <small>3 days ago</small>
+        </div>
+        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+        <small>Donec id elit non mi porta.</small>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!--<div *ngIf="dataService.searchResults.length != 0">
   <md-nav-list>
     <a md-list-item *ngFor="let record of dataService.searchResults" routerLink="/cataloging/registration/save"
        (click)="dataService.record = record">
-        <md-icon md-list-icon class="record-type-icon">folder</md-icon>
+      <md-icon md-list-icon class="record-type-icon">folder</md-icon>
       <span md-line class="title">{{record.title.mainTitle}}</span>
       <span md-line class="detail">{{record.creator.name}} {{record.creator.secondName}}</span>
       <span md-line class="detail">{{record.date.publicationDate}}</span>
@@ -17,4 +35,4 @@
     </a>
   </md-nav-list>
   <span *ngIf="dataService.hasMoreRecords">spinner</span>
-</div>
+</div>-->
