@@ -7,7 +7,6 @@
           <div class="row">
             <div class="col-10 col-md-4">
               <div class="form-group">
-                <!--<label for="borrower-id">Identifiant de l'usager</label>-->
                 <input id="borrower-id" type="number" class="form-control" placeholder="Identifiant de l'usager"
                        formControlName="borrowerId" autofocus>
               </div>
@@ -24,69 +23,75 @@
             </div>
             <div class="col-12 col-md-4 pull-md-2">
               <div class="form-group">
-                <!--<label for="borrower-name">Nom de l'usager</label>-->
                 <input id="borrower-name" type="text" class="form-control" placeholder="Nom de l'usager" value="">
+                <div class="list-group" *ngIf="borrowers != null">
+                  <a class="list-group-item list-group-item-action drop-link" *ngFor="let borrower of borrowers"
+                     (click)="onSelect(borrower.id)">
+                    <small>{{borrower.name}}</small>
+                    <small class="text-muted">{{borrower.address.email}}</small>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </form>
         <div id="borrower-details" class="row" *ngIf="showDetails">
           <div class="col-12">
-            <h4>{{borrower.name}}</h4>
+            <h4>{{selectedBorrower.name}}</h4>
           </div>
           <div class="col-3">
             <span>Id</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.id}}</span>
+            <span>{{selectedBorrower.id}}</span>
           </div>
           <div class="col-3">
             <span>Email</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.address?.email}}</span>
+            <span>{{selectedBorrower.address?.email}}</span>
           </div>
           <div class="col-3">
             <span>Adresse 1</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.address?.address1}}</span>
+            <span>{{selectedBorrower.address?.address1}}</span>
           </div>
           <div class="col-3">
             <span>Adresse 2</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.address?.address2}}</span>
+            <span>{{selectedBorrower.address?.address2}}</span>
           </div>
           <div class="col-3">
             <span>Code postal</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.address?.zip}}</span>
+            <span>{{selectedBorrower.address?.zip}}</span>
           </div>
           <div class="col-3">
             <span>Ville</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.address?.city}}</span>
+            <span>{{selectedBorrower.address?.city}}</span>
           </div>
           <div class="col-3">
             <span>Quota d'emprunt</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.quota}}</span>
+            <span>{{selectedBorrower.quota}}</span>
           </div>
           <div class="col-3">
             <span>Fin d'adhésion</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.subscriptions[borrower.subscriptions.length - 1]}}</span>
+            <span>{{selectedBorrower.subscriptions[selectedBorrower.subscriptions.length - 1]}}</span>
           </div>
           <div class="col-3">
             <span>Commentaires</span>
           </div>
           <div class="col-9">
-            <span>{{borrower.comment}}</span>
+            <span>{{selectedBorrower.comment}}</span>
           </div>
         </div>
       </div>

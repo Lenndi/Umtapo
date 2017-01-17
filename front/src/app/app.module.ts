@@ -26,6 +26,7 @@ import {SearchFormComponent} from './cataloging/item-registration/item-search/se
 import {CollapseModule} from 'ng2-bootstrap';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
+import {CirculationComponent} from './circulation/circulation.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-person
     MenuComponent,
     SearchFormComponent,
     BorrowerInternalComponent,
-    BorrowerPersonalComponent
+    BorrowerPersonalComponent,
+    CirculationComponent
   ],
   imports: [
     BrowserModule,
