@@ -8,14 +8,14 @@ import {Z3950Service} from '../../../service/z3950.service';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {Z3950} from '../../../entity/z3950';
 import {MdSnackBar} from '@angular/material';
+import {Setup} from '../setup.interface';
 
 @Component({
   selector: 'umt-setup-shelfmark',
   templateUrl: './setup-shelfmark.component.html',
   styleUrls: ['../setup.component.scss']
 })
-export class SetupShelfmarkComponent implements OnInit {
-  library: Library;
+export class SetupShelfmarkComponent implements OnInit, Setup {
   form: FormGroup;
   z3950Sources: Z3950[];
   shelfMarkNb: FormControl;
@@ -32,11 +32,11 @@ export class SetupShelfmarkComponent implements OnInit {
   ) {
     let library = this.dataService.library;
     this.shelfMarkNb = new FormControl(
-      library != null ? library.getShelfMarkNb() : '',
+      library != null ? library.shelfMarkNb : '',
       [Validators.required, ShelfmarkValidator.nbFields]);
     this.shelfMarkNbMsg = 'Le nombre de champs pour la cote doit être compris entre 1 et 5';
     this.defaultZ3950 = new FormControl(
-      library != null ? library.getDefaultZ3950() : '',
+      library != null ? library.defaultZ3950 : '',
       Validators.required);
     this.defaultZ3950Msg = 'Merci de sélectionner votre source ISBN favorite';
   }
@@ -44,7 +44,10 @@ export class SetupShelfmarkComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.step = 1;
     this.dataService.title = 'Cotation';
-    this.library = new Library();
+
+    if (!this.dataService.library) {
+      this.dataService.library = new Library();
+    }
 
     this.z3950Service.findAll()
       .then(z3950Sources => this.z3950Sources = z3950Sources);
@@ -57,10 +60,7 @@ export class SetupShelfmarkComponent implements OnInit {
 
   onSubmit(value: any): void {
     if (this.form.valid) {
-      this.library.setShelfMarkNb(value.shelfMarkNb);
-      this.library.setDefaultZ3950(value.defaultZ3950);
-
-      this.dataService.library = this.library;
+      this.saveData();
 
       this.router.navigate(['setup/' + (this.dataService.step + 1)]);
     } else {
@@ -73,5 +73,11 @@ export class SetupShelfmarkComponent implements OnInit {
         this.snackBar.open(this.defaultZ3950Msg, 'OK', null);
       }
     }
+  }
+
+  saveData(): void {
+    let value = this.form.value;
+    this.dataService.library.shelfMarkNb  = value.shelfMarkNb;
+    this.dataService.library.defaultZ3950 = value.defaultZ3950;
   }
 }

@@ -9,7 +9,9 @@ import {AppComponent} from './app.component';
 import {NewBorrowerComponent} from './borrower/new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
-import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
+import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
+import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 
 const routes: Routes = [
   {
@@ -21,8 +23,16 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: '', redirectTo: 'circulation', pathMatch: 'full'},
-      {path: 'circulation', component: CirculationBorrowerSelectionComponent},
-      {path: 'borrowers/new', component: NewBorrowerComponent},
+      {path: 'circulation', component: BorrowerSelectionComponent},
+      {
+        path: 'borrowers/new',
+        component: NewBorrowerComponent,
+        children: [
+          {path: '', redirectTo: '1', pathMatch: 'full'},
+          {path: '1', component: BorrowerPersonalComponent},
+          {path: '2', component: BorrowerInternalComponent}
+        ]
+      },
       {path: 'borrowers/management', component: TestComponent},
       {
         path: 'cataloging/registration',

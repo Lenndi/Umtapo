@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Library} from '../../../entity/library';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
 import {MdSnackBar} from '@angular/material';
-import {VariousValidator} from '../../../validator/VariousValidator';
+import {VariousValidator} from '../../../validator/various-validator';
+import {Setup} from '../setup.interface';
 
 @Component({
   selector: 'umt-setup-various',
@@ -14,8 +14,7 @@ import {VariousValidator} from '../../../validator/VariousValidator';
   styleUrls: ['../setup.component.scss'],
   providers: [LibraryService]
 })
-export class SetupVariousComponent implements OnInit {
-  library: Library;
+export class SetupVariousComponent implements OnInit, Setup {
   form: FormGroup;
   borrowDuration: FormControl;
   borrowDurationMsg: string;
@@ -36,15 +35,15 @@ export class SetupVariousComponent implements OnInit {
     let library = this.dataService.library;
 
     this.borrowDuration = new FormControl(
-      library != null ? library.getBorrowDuration() : '',
+      library != null ? library.borrowDuration : '',
       [Validators.required, VariousValidator.positive]);
     this.borrowDurationMsg = 'Merci d\'indiquer une durée d\'emprunt par défaut';
     this.subscriptionDuration = new FormControl(
-      library != null ? library.getSubscriptionDuration() : '',
+      library != null ? library.subscriptionDuration : '',
       [Validators.required, VariousValidator.positive]);
     this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
     this.currency = new FormControl(
-      library != null ? library.getCurrency() : '',
+      library != null ? library.currency : '',
       Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
     this.itemStartNumber = new FormControl(
@@ -57,7 +56,6 @@ export class SetupVariousComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.step = 2;
     this.dataService.title = 'Divers';
-    this.library = this.dataService.library;
 
     this.form = this.formBuilder.group({
       'borrowDuration': this.borrowDuration,
@@ -69,12 +67,9 @@ export class SetupVariousComponent implements OnInit {
 
   onSubmit(value: any): void {
     if (this.form.valid) {
-      this.dataService.itemStartNumber = value.itemStartNumber;
-      this.library.setBorrowDuration(value.borrowDuration);
-      this.library.setSubscriptionDuration(value.subscriptionDuration);
-      this.library.setCurrency(value.currency);
+      this.saveData();
 
-      this.libraryService.save(this.library)
+      this.libraryService.save(this.dataService.library)
         .then(library => {
           this.libraryService.saveLocally(library);
         });
@@ -96,5 +91,13 @@ export class SetupVariousComponent implements OnInit {
         this.snackBar.open(this.itemStartNumberMsg, 'OK');
       }
     }
+  }
+
+  saveData(): void {
+    let value = this.form.value;
+    this.dataService.itemStartNumber = value.itemStartNumber;
+    this.dataService.library.borrowDuration = value.borrowDuration;
+    this.dataService.library.subscriptionDuration = value.subscriptionDuration;
+    this.dataService.library.currency = value.currency;
   }
 }

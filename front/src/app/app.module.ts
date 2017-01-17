@@ -20,9 +20,12 @@ import 'hammerjs';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {SearchResultComponent} from './cataloging/item-registration/item-search/search-result/search-result.component';
-import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
+import {CollapseModule} from 'ng2-bootstrap';
+import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
+import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 
 @NgModule({
   declarations: [
@@ -36,9 +39,11 @@ import {SearchFormComponent} from './cataloging/item-registration/item-search/se
     ItemRegistrationComponent,
     ItemSearchComponent,
     SearchResultComponent,
-    CirculationBorrowerSelectionComponent,
+    BorrowerSelectionComponent,
     MenuComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    BorrowerInternalComponent,
+    BorrowerPersonalComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ import {SearchFormComponent} from './cataloging/item-registration/item-search/se
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    CollapseModule.forRoot(),
     MaterialModule.forRoot()
   ],
   providers: [

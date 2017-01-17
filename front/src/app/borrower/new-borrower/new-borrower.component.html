@@ -1,113 +1,24 @@
 <div id="new-borrower" class="row justify-content-center">
   <div class="col-12 col-md-8">
     <div class="card">
+      <div class="card-header bg-primary">
+        <div class="row">
+          <div class="col-2 text-left">
+            <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.step > 1">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="col-8 text-center">
+            <span>Nouvel usager</span>
+          </div>
+          <div class="col-2 text-right">
+            <span>{{dataService.step}}/{{dataService.totalStep}}</span>
+          </div>
+        </div>
+      </div>
       <div class="card-block">
-        <h5 class="card-title">Nouvel usager</h5>
-        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-          <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="name.invalid && name.dirty">
-                <label for="name">Nom</label>
-                <input id="name" type="text" class="form-control" placeholder="Nom" required
-                       [class.form-control-danger]="name.invalid && name.dirty" formControlName="name">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="email.invalid && email.dirty">
-                <label for="email">Email</label>
-                <input id="email" type="email" class="form-control" placeholder="Email" required
-                       [class.form-control-danger]="email.invalid && email.dirty" formControlName="email">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="birthday.invalid && birthday.dirty">
-                <label for="birthday">Date de naissance</label>
-                <input id="birthday" type="date" class="form-control" placeholder="Date de naissance" required
-                       [class.form-control-danger]="birthday.invalid && birthday.dirty" formControlName="birthday">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="phone.invalid && phone.dirty">
-                <label for="phone">Téléphone</label>
-                <input id="phone" type="tel" class="form-control" placeholder="Téléphone" required
-                       [class.form-control-danger]="phone.invalid && phone.dirty" formControlName="phone">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="address1.invalid && address1.dirty">
-                <label for="address1">Adresse 1</label>
-                <input id="address1" type="text" class="form-control" placeholder="Adresse 1" required
-                       [class.form-control-danger]="address1.invalid && address1.dirty" formControlName="address1">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="address2.invalid && address2.dirty">
-                <label for="address2">Adresse 2</label>
-                <input id="address2" type="text" class="form-control" placeholder="Adresse 2" required
-                       [class.form-control-danger]="address2.invalid && address2.dirty" formControlName="address2">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="zip.invalid && zip.dirty">
-                <label for="zip">Code postal</label>
-                <input id="zip" type="text" class="form-control" placeholder="Code postal" required
-                       [class.form-control-danger]="zip.invalid && zip.dirty" formControlName="zip">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="city.invalid && city.dirty">
-                <label for="city">Ville</label>
-                <input id="city" type="text" class="form-control" placeholder="Ville" required
-                       [class.form-control-danger]="city.invalid && city.dirty" formControlName="city">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="startSubscription.invalid && startSubscription.dirty">
-                <label for="subscription-start">Date d'adhésion</label>
-                <input id="subscription-start" type="date" class="form-control" placeholder="Date d'adhésion" required
-                       [class.form-control-danger]="startSubscription.invalid && startSubscription.dirty"
-                       formControlName="startSubscription">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="quota.invalid && quota.dirty">
-                <label for="quota">Quota d'emprunts</label>
-                <input id="quota" type="number" class="form-control" placeholder="Quota d'emprunt" required
-                       [class.form-control-danger]="quota.invalid && quota.dirty" formControlName="quota">
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group" [class.has-danger]="contribution.invalid && contribution.dirty">
-                <label for="contribution">Adhésion ({{library.currency}})</label>
-                <input id="contribution" type="number" class="form-control" placeholder="Adhésion" required
-                       [class.form-control-danger]="contribution.invalid && contribution.dirty"
-                       formControlName="contribution">
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-group">
-                <label for="comment">Commentaires</label>
-                <textarea id="comment" row="3" class="form-control" placeholder="Commentaire" required
-                          formControlName="comment">
-                </textarea>
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" value="" formControlName="emailOptin">
-                  Accepte de recevoir des emails
-                </label>
-              </div>
-            </div>
-            <div class="col-12 col-md-6">
-              Fin d'adhésion : <span class="text-muted">{{endSubscription | date:"MM/dd/yyyy"}}</span>
-            </div>
-          </div>
-          <div class="text-right">
-            <button type="submit" class="btn btn-warning">Créer</button>
-          </div>
-        </form>
+        <h5 class="card-title">{{dataService.title}}</h5>
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>

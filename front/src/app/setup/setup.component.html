@@ -5,11 +5,12 @@
         <div class="card-header bg-primary">
           <div class="row">
             <div class="col-2 text-left">
-              <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.hasPrecedence">
+              <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.step > 1"
+                 (click)="saveData()">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
               </a>
             </div>
-            <div class="col-8">
+            <div class="col-8 text-center">
               <span>Installation</span>
             </div>
             <div class="col-2 text-right">
@@ -19,7 +20,7 @@
         </div>
         <div class="card-block">
           <h5 class="card-title">{{dataService.title}}</h5>
-          <router-outlet></router-outlet>
+          <router-outlet (activate)="setupChild = $event"></router-outlet>
         </div>
       </div>
     </div>
