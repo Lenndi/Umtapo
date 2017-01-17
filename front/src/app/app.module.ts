@@ -12,7 +12,7 @@ import {LibraryService} from '../service/library.service';
 import {Z3950Service} from '../service/z3950.service';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
-import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
+import {NewBorrowerComponent} from './borrower/new-borrower/new-borrower.component';
 import {BorrowerService} from '../service/borrower.service';
 import {SetupDataService} from '../service/data-binding/setup-data.service';
 import {MaterialModule} from '@angular/material';
@@ -20,7 +20,13 @@ import 'hammerjs';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {SearchResultComponent} from './cataloging/item-registration/item-search/search-result/search-result.component';
-import { CirculationBorrowerSelectionComponent } from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
+import {MenuComponent} from './main/menu/menu.component';
+import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
+import {CollapseModule} from 'ng2-bootstrap';
+import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
+import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
+import {CirculationComponent} from './circulation/circulation.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,12 @@ import { CirculationBorrowerSelectionComponent } from './circulation-borrower-se
     ItemRegistrationComponent,
     ItemSearchComponent,
     SearchResultComponent,
-    CirculationBorrowerSelectionComponent,
+    BorrowerSelectionComponent,
+    MenuComponent,
+    SearchFormComponent,
+    BorrowerInternalComponent,
+    BorrowerPersonalComponent,
+    CirculationComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +54,7 @@ import { CirculationBorrowerSelectionComponent } from './circulation-borrower-se
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    CollapseModule.forRoot(),
     MaterialModule.forRoot()
   ],
   providers: [

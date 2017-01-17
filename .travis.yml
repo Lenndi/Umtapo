@@ -16,7 +16,7 @@ env:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
   matrix:
     - NG_SCRIPT=lint
-    - NG_SCRIPT=single-test
+    #- NG_SCRIPT=single-test
     - NG_SCRIPT=style-lint
     - BK_SCRIPT=back-test
 

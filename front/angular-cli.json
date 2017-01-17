@@ -15,10 +15,11 @@
       "main": "main.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
-      "prefix": "app",
+      "prefix": "umt",
       "mobile": false,
       "styles": [
         "styles.scss",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [],

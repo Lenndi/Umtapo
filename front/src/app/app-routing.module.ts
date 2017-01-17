@@ -1,15 +1,18 @@
-import {NgModule }             from '@angular/core';
+import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MainComponent}          from './main/main.component';
+import {MainComponent} from './main/main.component';
 import {TestComponent} from './test/test.component';
 import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.component';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
 import {AppComponent} from './app.component';
-import {NewBorrowerComponent} from './new-borrower/new-borrower.component';
+import {NewBorrowerComponent} from './borrower/new-borrower/new-borrower.component';
 import {ItemSearchComponent} from './cataloging/item-registration/item-search/item-search.component';
 import {ItemRegistrationComponent} from './cataloging/item-registration/item-registration.component';
-import {CirculationBorrowerSelectionComponent} from './circulation-borrower-selection/circulation-borrower-selection.component';
+import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
+import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
+import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
+import {CirculationComponent} from './circulation/circulation.component';
 
 const routes: Routes = [
   {
@@ -21,19 +24,44 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: '', redirectTo: 'circulation', pathMatch: 'full'},
-      {path: 'circulation', component: CirculationBorrowerSelectionComponent},
-      {path: 'borrowers/new', component: NewBorrowerComponent},
-      {path: 'borrowers/management', component: TestComponent},
       {
-        path: 'cataloging/registration',
-        component: ItemRegistrationComponent,
+        path: 'circulation',
+        component: CirculationComponent,
         children: [
-          {path: '', redirectTo: 'search', pathMatch: 'full'},
-          {path: 'search', component: ItemSearchComponent},
-          {path: 'save', component: TestComponent}
+          {path: '', redirectTo: 'selection', pathMatch: 'full'},
+          {path: 'selection', component: BorrowerSelectionComponent},
         ]
       },
-      {path: 'cataloging/management', component: TestComponent}
+      {
+        path: 'borrowers',
+        children: [
+          {
+            path: 'new',
+            component: NewBorrowerComponent,
+            children: [
+              {path: '', redirectTo: '1', pathMatch: 'full'},
+              {path: '1', component: BorrowerPersonalComponent},
+              {path: '2', component: BorrowerInternalComponent}
+            ]
+          },
+          {path: 'management', component: TestComponent}
+        ]
+      },
+      {
+        path: 'cataloging',
+        children: [
+          {
+            path: 'registration',
+            component: ItemRegistrationComponent,
+            children: [
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: ItemSearchComponent},
+              {path: 'save', component: TestComponent}
+            ]
+          },
+          {path: 'management', component: TestComponent}
+        ]
+      },
     ]
   },
   {
