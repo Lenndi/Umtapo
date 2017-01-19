@@ -22,7 +22,7 @@ export class BorrowerSelectionComponent implements OnInit {
   borrowers: Observable<Array<Borrower>>;
   selectedBorrower: Borrower;
   showDetails: boolean;
-  page: number = 1;
+  page: number = 0;
 
   constructor(private formBuilder: FormBuilder,
               private borrowerService: BorrowerService,
@@ -44,14 +44,18 @@ export class BorrowerSelectionComponent implements OnInit {
 
   searchBorrowers(event) {
     console.log(event);
-    this.getPage(this.page, 5, this.form.value.borrowerName);
+    this.getPage(this.page, 10, this.form.value.borrowerName);
+  }
+
+  onScroll(event) {
+    console.log('scroll event', event);
   }
 
   getPage(page: number, size: number, contains: string) {
     let api;
-      api = `http://localhost:8080/borrowers/${size}/${page}/${contains}`;
+    api = `http://localhost:8080/borrowers/${size}/${page}/${contains}`;
     this.borrowers = this.http.get(api)
-      .map((res:Response) => res.json().content)
+      .map((res: Response) => res.json().content)
       .debounceTime(300)        // wait for 300ms pause in events
       .distinctUntilChanged()
       .catch(error => {
@@ -72,6 +76,9 @@ export class BorrowerSelectionComponent implements OnInit {
 
   onSubmit(value: any): void {
     if (value.borrowerId !== '' || this.selectedBorrower) {
+      if (value.borrowerId !== '') {
+        this.router.navigate(['circulation/check/' + value.borrowerId]);
+      }
       if (!this.selectedBorrower) {
         this.borrowerService.find(value.borrowerId)
           .then(response => this.selectedBorrower = response);

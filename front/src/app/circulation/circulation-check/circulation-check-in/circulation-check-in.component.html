@@ -23,14 +23,14 @@
               <p class="demo-secondary-text" md-line="">Did you want to go on Sunday? I was
                 thinking that might work. </p></div>
             <label>Condition
-              <select placeholder="Condition" formControlName="borrowerNames">
+              <select placeholder="Condition">
                 <option *ngFor="let borrower of borrowers" [value]="borrower.id">
                   {{borrower.name}}
                 </option>
               </select>
             </label>
             <label>Retour
-              <select placeholder="Retour" formControlName="borrowerNames">
+              <select placeholder="Retour">
                 <option *ngFor="let borrower of borrowers" [value]="borrower.id">
                   {{borrower.name}}
                 </option>

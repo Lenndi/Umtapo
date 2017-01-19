@@ -54,7 +54,7 @@ import {CirculationCheckInComponent} from
     CirculationComponent,
     CirculationCheckComponent,
     CirculationCheckDetailsComponent,
-    CirculationCheckInComponent,
+    CirculationCheckInComponent
   ],
   imports: [
     BrowserModule,
