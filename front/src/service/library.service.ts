@@ -5,7 +5,6 @@ import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
-import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class LibraryService {
@@ -48,8 +47,8 @@ export class LibraryService {
     let libraryStr: string = localStorage.getItem('library');
     if (!libraryStr) {
       return null;
+    } else {
+      return JSON.parse(libraryStr) as Library;
     }
-
-    return plainToClass(Library, JSON.parse(libraryStr) as Library);
   }
 }

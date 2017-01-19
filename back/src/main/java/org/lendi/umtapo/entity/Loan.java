@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 /**
  * Loan entity.

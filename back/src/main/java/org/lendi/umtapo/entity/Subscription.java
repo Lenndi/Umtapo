@@ -25,7 +25,7 @@ public class Subscription {
     private ZonedDateTime end;
     private String contribution;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "ID")

@@ -26,7 +26,6 @@ public class LibraryDto {
     private List<BorrowerDto> borrowers;
     private List<SubscriptionDto> subscriptions;
 
-
     /**
      * Gets id.
      *

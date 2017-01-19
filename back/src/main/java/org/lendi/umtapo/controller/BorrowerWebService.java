@@ -23,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
- * Borrower service.
- * <p>
- * Created by axel on 05/12/16.
+ * The type Borrower web service.
  */
 @RestController
 @CrossOrigin
@@ -76,16 +75,24 @@ public class BorrowerWebService {
     /**
      * Gets borrowers.
      *
-     * @param page the page
-     * @param size the size
+     * @param page     the page
+     * @param size     the size
+     * @param contains the contains
      * @return the borrowers
      */
-    @RequestMapping(value = "/borrowersPagineable", method = RequestMethod.GET, produces = {MediaType
-            .APPLICATION_JSON_VALUE})
-    public ResponseEntity<Page> getBorrowers(@RequestParam int page, @RequestParam int size) {
+    @RequestMapping(value = {"/borrowers/{size}/{page}/{contains}", "/borrowers/{size}/{page}"}, method = RequestMethod
+            .GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Page> getBorrowers(@PathVariable Integer page, @PathVariable Integer size,
+                                             @PathVariable Optional<String> contains) {
+
+        Page<BorrowerDto> borrowerDtos;
 
         Pageable pageable = new PageRequest(page, size, new Sort("id"));
-        Page<BorrowerDto> borrowerDtos = borrowerService.findAllPageableDto(pageable);
+        if (contains.isPresent()) {
+            borrowerDtos = borrowerService.findAllPageableDto(pageable, contains.get());
+        } else {
+            borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
+        }
 
         if (borrowerDtos == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
@@ -94,7 +101,7 @@ public class BorrowerWebService {
     }
 
     /**
-     * Get borrowers.
+     * Gets borrowers.
      *
      * @param view the view
      * @return the borrowers
@@ -121,7 +128,6 @@ public class BorrowerWebService {
 
     /**
      * Sets borrower.
-     * Validators.required
      *
      * @param borrowerDto the borrower dto
      * @return the borrower

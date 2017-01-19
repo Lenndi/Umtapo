@@ -6,10 +6,6 @@ import org.lendi.umtapo.mapper.ItemMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -17,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by axel on 10/01/17.
+ * Item service implementation.
  */
 @Service
 public class ItemServiceImpl extends AbstractGenericService<Item, Integer> implements ItemService {
@@ -31,6 +27,8 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      */
     @Autowired
     public ItemServiceImpl(ItemMapper itemMapper) {
+        Assert.notNull(itemMapper, "Argument itemMapper cannot be null");
+
         Assert.notNull(itemMapper);
         this.itemMapper = itemMapper;
     }
@@ -53,40 +51,35 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
 
-        return itemMapper.mapItemToItemDto(item);
+        return this.itemMapper.mapItemToItemDto(item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<ItemDto> findAllDto() {
-        List<Item> items = this.findAll();
-
-        return this.mapItemsToItemDtos(items);
+        return mapLibrariesToLibrariesDTO(this.findAll());
     }
+
 
     private Item mapItemDtoToItem(ItemDto itemDto) {
-        return itemMapper.mapItemDtoToItem(itemDto);
+        return this.itemMapper.mapItemDtoToItem(itemDto);
     }
+
 
     private ItemDto mapItemToItemDto(Item item) {
-        return itemMapper.mapItemToItemDto(item);
+        return this.itemMapper.mapItemToItemDto(item);
     }
 
-    private List<Item> mapItemDtosToItems(List<ItemDto> itemDtos) {
+    private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
+        List<Item> libraries = new ArrayList<>();
+        librariesDto.forEach(ItemDto -> libraries.add(mapItemDtoToItem(ItemDto)));
 
-        List<Item> items = new ArrayList<>();
-        itemDtos.forEach(itemDto -> items.add(mapItemDtoToItem(itemDto)));
-
-        return items;
+        return libraries;
     }
 
-    private List<ItemDto> mapItemsToItemDtos(List<Item> items) {
+    private List<ItemDto> mapLibrariesToLibrariesDTO(List<Item> libraries) {
+        List<ItemDto> librariesDto = new ArrayList<>();
+        libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
 
-        List<ItemDto> itemDtos = new ArrayList<>();
-        items.forEach(item -> itemDtos.add(mapItemToItemDto(item)));
-
-        return itemDtos;
+        return librariesDto;
     }
 }

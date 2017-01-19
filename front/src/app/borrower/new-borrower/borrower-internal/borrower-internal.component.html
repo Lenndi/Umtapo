@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="form-group" [class.has-danger]="startSubscription.invalid && startSubscription.dirty">
+        <label for="subscription-start">Date d'adhésion</label>
+        <input id="subscription-start" type="date" class="form-control form-control-sm"
+               placeholder="Date d'adhésion" required (change)="setEndSubscriptionDate()"
+               [class.form-control-danger]="startSubscription.invalid && startSubscription.dirty"
+               formControlName="startSubscription">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="form-group" [class.has-danger]="quota.invalid && quota.dirty">
+        <label for="quota">Quota d'emprunts</label>
+        <input id="quota" type="number" class="form-control form-control-sm"
+               placeholder="Quota d'emprunt" required
+               [class.form-control-danger]="quota.invalid && quota.dirty" formControlName="quota">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="form-group" [class.has-danger]="contribution.invalid && contribution.dirty">
+        <label for="contribution">Adhésion ({{library.currency}})</label>
+        <input id="contribution" type="number" class="form-control form-control-sm"
+               placeholder="Adhésion" required
+               [class.form-control-danger]="contribution.invalid && contribution.dirty"
+               formControlName="contribution">
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <label for="comment">Commentaires</label>
+        <textarea id="comment" row="4" class="form-control form-control-sm" placeholder="Commentaire" required
+                  formControlName="comment">
+                  </textarea>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" value="" formControlName="emailOptin">
+          Accepte de recevoir des emails
+        </label>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      Fin d'adhésion : <span class="text-muted">{{endSubscription | date:"MM/dd/yyyy"}}</span>
+    </div>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-warning">Terminer</button>
+  </div>
+</form>

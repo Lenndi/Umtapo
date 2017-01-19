@@ -1,14 +1,18 @@
 package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.Condition;
+import org.lendi.umtapo.enumeration.ItemType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 /**
@@ -22,43 +26,34 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String type;
-    private String title;
-    private String barcode;
-    private String internalId;
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private ShelfMark shelfmark;
+    private Integer internalId;
     private Integer purchasePrice;
-    private Boolean loanable;
+    private boolean loanable;
     @OneToMany(mappedBy = "item")
-    private List<Loan> loans;
+    private List<Loan> loan;
     @Enumerated(EnumType.STRING)
     private Condition condition;
+    private String currency;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Library library;
+    private String recordId;
 
-    /**
-     * Instantiates a new Item.
-     */
-    public Item() {
-    }
-
-    /**
-     * Instantiates a new Item.
-     *
-     * @param type          the type
-     * @param title         the title
-     * @param internalId    the internal id
-     * @param purchasePrice the purchase price
-     * @param loanable      the loanable
-     * @param loans         the loans
-     * @param condition     the condition
-     */
-    public Item(String type, String title, String internalId, Integer purchasePrice, Boolean loanable, List<Loan> loans,
-                Condition condition) {
+    public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, boolean loanable,
+                List<Loan> loan, Condition condition, String currency, Library library, String recordId) {
         this.type = type;
-        this.title = title;
+        this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
         this.loanable = loanable;
-        this.loans = loans;
+        this.loan = loan;
         this.condition = condition;
+        this.currency = currency;
+        this.library = library;
+        this.recordId = recordId;
     }
 
     /**
@@ -80,24 +75,6 @@ public class Item {
     }
 
     /**
-     * Gets barcode.
-     *
-     * @return the barcode
-     */
-    public String getBarcode() {
-        return barcode;
-    }
-
-    /**
-     * Sets barcode.
-     *
-     * @param barcode the barcode
-     */
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    /**
      * Gets condition.
      *
      * @return the condition
@@ -116,21 +93,21 @@ public class Item {
     }
 
     /**
-     * Gets loans.
+     * Gets loan.
      *
-     * @return the loans
+     * @return the loan
      */
-    public List<Loan> getLoans() {
-        return loans;
+    public List<Loan> getLoan() {
+        return loan;
     }
 
     /**
-     * Sets loans.
+     * Sets loan.
      *
-     * @param loans the loans
+     * @param loan the loan
      */
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
+    public void setLoan(List<Loan> loan) {
+        this.loan = loan;
     }
 
     /**
@@ -138,7 +115,7 @@ public class Item {
      *
      * @return the type
      */
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
@@ -147,7 +124,7 @@ public class Item {
      *
      * @param type the type
      */
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 
@@ -156,7 +133,7 @@ public class Item {
      *
      * @return the internal id
      */
-    public String getInternalId() {
+    public Integer getInternalId() {
         return internalId;
     }
 
@@ -165,7 +142,7 @@ public class Item {
      *
      * @param internalId the internal id
      */
-    public void setInternalId(String internalId) {
+    public void setInternalId(Integer internalId) {
         this.internalId = internalId;
     }
 
@@ -192,7 +169,7 @@ public class Item {
      *
      * @return the loanable
      */
-    public Boolean getLoanable() {
+    public boolean getLoanable() {
         return loanable;
     }
 
@@ -201,25 +178,79 @@ public class Item {
      *
      * @param loanable the loanable
      */
-    public void setLoanable(Boolean loanable) {
+    public void setLoanable(boolean loanable) {
         this.loanable = loanable;
     }
 
     /**
-     * Gets title.
+     * Gets shelfmark.
      *
-     * @return the title
+     * @return the shelfmark
      */
-    public String getTitle() {
-        return title;
+    public ShelfMark getShelfmark() {
+        return shelfmark;
     }
 
     /**
-     * Sets title.
+     * Sets shelfmark.
      *
-     * @param title the title
+     * @param shelfmark the shelfmark
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setShelfmark(ShelfMark shelfmark) {
+        this.shelfmark = shelfmark;
+    }
+
+    /**
+     * Gets currency.
+     *
+     * @return the currency
+     */
+    public String getCurrency() {
+        return currency;
+    }
+
+    /**
+     * Sets currency.
+     *
+     * @param currency the currency
+     */
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    /**
+     * Gets library.
+     *
+     * @return the library
+     */
+    public Library getLibrary() {
+        return library;
+    }
+
+    /**
+     * Sets library.
+     *
+     * @param library the library
+     */
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
+
+    /**
+     * Gets record id.
+     *
+     * @return the record id
+     */
+    public String getRecordId() {
+        return recordId;
+    }
+
+    /**
+     * Sets record id.
+     *
+     * @param recordId the record id
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }

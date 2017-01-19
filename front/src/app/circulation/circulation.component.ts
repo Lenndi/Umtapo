@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
+import {CirculationDataService} from '../../service/data-binding/circulation-data.service';
 
 @Component({
-  selector: 'app-circulation',
+  selector: 'umt-circulation',
   templateUrl: './circulation.component.html',
-  styleUrls: ['./circulation.component.scss']
+  styleUrls: ['./circulation.component.scss'],
+  providers: [CirculationDataService]
 })
 export class CirculationComponent {
 
-
+  constructor(public circulationDataService: CirculationDataService) { }
 }

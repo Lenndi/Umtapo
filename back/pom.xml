@@ -24,14 +24,6 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<repositories>
-        <repository>
-            <id>in-project</id>
-            <name>In Project Repository</name>
-            <url>file://${project.basedir}/libs</url>
-        </repository>
-    </repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -95,7 +87,9 @@
 		<dependency>
 			<groupId>org.yaz4j</groupId>
 			<artifactId>yaz4j-any</artifactId>
-			<version>1.5</version>
+            <version>1.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/yaz4j.jar</systemPath>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
 		<dependency>

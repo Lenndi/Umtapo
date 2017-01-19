@@ -23,11 +23,11 @@ Return item.
           field1: "LEH",
           field2: "MAU",
           field3: "NOU"},
-        condition: "G",
+        condition: "GOOD",
         isLoanable : true,
         purchasePrice: 12,
         currency: "€",
-        libraryId : 2,
+        library : 2,
         recordId: "FRB78979879878789"
       }
 ```
@@ -54,7 +54,7 @@ Create item.
 
   `shelfmark=[Shelfmark]` Shelfmark.
 
-  `condition=[char(1)]` Item condition define in a list.
+  `condition=[string]` Item condition define in a list.
 
   `isLoanable=[boolean]` Define if the item can be loan or not.
 
@@ -62,7 +62,7 @@ Create item.
 
   `currency=[string]` Currency when the item was purchase.
 
-  `libraryId=[integer]` Library id the item belongs to.
+  `library=[integer]` Library id the item belongs to.
 
   `recordId=[string]` Id of the corresponding record.
 
@@ -79,11 +79,11 @@ Create item.
           field1: "LEH",
           field2: "MAU",
           field3: "NOU"},
-        condition: "G",
+        condition: "GOOD",
         isLoanable : true,
         purchasePrice: 12,
         currency: "€",
-        libraryId : 2,
+        library : 2,
         recordId: "FRB78979879878789"
   }
 ```

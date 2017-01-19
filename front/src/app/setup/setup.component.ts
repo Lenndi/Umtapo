@@ -1,12 +1,19 @@
 import {Component} from '@angular/core';
 import {SetupDataService} from '../../service/data-binding/setup-data.service';
+import {Setup} from './setup.interface';
 
 @Component({
-  selector: 'app-setup',
+  selector: 'umt-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   providers: [SetupDataService]
 })
 export class SetupComponent {
-  constructor(private setupDataService: SetupDataService) {}
+  setupChild: Setup;
+
+  constructor(public dataService: SetupDataService) {}
+
+  saveData() {
+    this.setupChild.saveData();
+  }
 }

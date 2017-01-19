@@ -1,9 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Borrower} from "../../../../entity/borrower";
+import {Borrower} from '../../../../entity/borrower';
 import {Router, ActivatedRoute} from '@angular/router';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
-import {Subscription} from "../../../../entity/subscription";
+import {Subscription} from '../../../../entity/subscription';
 
 @Component({
   selector: 'app-circulation-check-details',
@@ -17,20 +17,18 @@ export class CirculationCheckDetailsComponent implements OnInit, OnDestroy {
   private config = new MdSnackBarConfig();
   private subscription: Subscription;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private borrowerService: BorrowerService,
-    private snackBar: MdSnackBar
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private borrowerService: BorrowerService,
+              private snackBar: MdSnackBar) {
+  }
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
     });
     this.borrowerService.find(this.id)
-      .then(borrower =>
-      {
+      .then(borrower => {
         this.borrower = borrower;
         this.subscription = this.borrower.subscriptions[0];
       })
@@ -52,7 +50,7 @@ export class CirculationCheckDetailsComponent implements OnInit, OnDestroy {
     this.snackBar.open(`L'emprunteur n'a pas été trouvé`, 'OK', this.config);
   }
 
-  backToCirculationComponent(){
+  backToCirculationComponent() {
     this.router.navigate(['circulation/selection']);
   }
 }

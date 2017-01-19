@@ -2,19 +2,17 @@ package org.lendi.umtapo.mapper;
 
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.converter.builtin.PassThroughConverter;
+import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.mapper.converter.LibraryConverter;
+import org.lendi.umtapo.mapper.converter.PriceConverter;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-
 /**
- * Item generic mapper.
- *
- * Created by axel on 10/01/17.
+ * Item entity to Item DTO mapper.
  */
 @Component
 public class ItemMapper extends ConfigurableMapper {
@@ -23,8 +21,16 @@ public class ItemMapper extends ConfigurableMapper {
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
-        mapperFactory.classMap(Item.class, ItemDto.class).byDefault().register();
+        final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
+
+        converterFactory.registerConverter("priceConverter", new PriceConverter());
+        converterFactory.registerConverter("libraryConverter", new LibraryConverter());
+
+        mapperFactory.classMap(Item.class, ItemDto.class)
+                .fieldMap("purchasePrice", "purchasePrice").converter("priceConverter").add()
+                .fieldMap("library", "library").converter("libraryConverter").add()
+                .byDefault()
+                .register();
         MAPPER = mapperFactory.getMapperFacade();
     }
 
@@ -35,7 +41,7 @@ public class ItemMapper extends ConfigurableMapper {
     }
 
     /**
-     * Map item to item dto.
+     * Map item to item dto item dto.
      *
      * @param item the item
      * @return the item dto
@@ -45,7 +51,7 @@ public class ItemMapper extends ConfigurableMapper {
     }
 
     /**
-     * Map item dto to item.
+     * Map item dto to item item.
      *
      * @param itemDto the item dto
      * @return the item
@@ -54,4 +60,3 @@ public class ItemMapper extends ConfigurableMapper {
         return MAPPER.map(itemDto, Item.class);
     }
 }
-

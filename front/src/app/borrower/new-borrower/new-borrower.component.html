@@ -1,0 +1,25 @@
+<div id="new-borrower" class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <div class="card">
+      <div class="card-header bg-primary">
+        <div class="row">
+          <div class="col-2 text-left">
+            <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.step > 1">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="col-8 text-center">
+            <span>Nouvel usager</span>
+          </div>
+          <div class="col-2 text-right">
+            <span>{{dataService.step}}/{{dataService.totalStep}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-block">
+        <h5 class="card-title">{{dataService.title}}</h5>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

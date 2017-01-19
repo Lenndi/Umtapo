@@ -30,6 +30,8 @@ public class Library {
     private List<Subscription> subscription;
     @OneToMany(mappedBy = "library")
     private List<Borrower> borrowers;
+    @OneToMany(mappedBy = "library")
+    private List<Item> items;
 
     /**
      * Instantiates a new Library.
@@ -239,5 +241,23 @@ public class Library {
      */
     public void setSubscription(List<Subscription> subscription) {
         this.subscription = subscription;
+    }
+
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
+    public List<Item> getItems() {
+        return items;
+    }
+
+    /**
+     * Sets items.
+     *
+     * @param items the items
+     */
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

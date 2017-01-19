@@ -38,6 +38,16 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
+  findPaginable(size: number, page: number, contains: string, jsonViewResolver?: string): Promise<Borrower> {
+    let uri;
+
+    uri = `${this.borrowerUrl}/${size}/${page}/${contains}`;
+    return this.http.get(uri)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {
     let uri;
     if (jsonViewResolver != null) {

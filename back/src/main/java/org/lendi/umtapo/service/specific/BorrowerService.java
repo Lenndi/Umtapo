@@ -64,9 +64,10 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * Return a page of Borrower.
      *
      * @param pageable the pageable
+     * @param contains the contains
      * @return the page
      */
-    Page<BorrowerDto> findAllPageableDto(Pageable pageable);
+    Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains);
 
     /**
      * Retur all Borrower DTO.

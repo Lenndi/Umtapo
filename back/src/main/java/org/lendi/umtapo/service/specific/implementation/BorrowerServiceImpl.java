@@ -1,5 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import org.lendi.umtapo.dao.BorrowerDao;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Borrower service implementation.
@@ -24,14 +26,17 @@ import java.util.List;
 public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Integer> implements BorrowerService {
 
     private final BorrowerMapper borrowerMapper;
+    private final BorrowerDao borrowerDao;
 
     /**
      * Instantiates a new Borrower service.
      *
      * @param borrowerMapper the borrower mapper
+     * @param borrowerDao
      */
     @Autowired
-    public BorrowerServiceImpl(BorrowerMapper borrowerMapper) {
+    public BorrowerServiceImpl(BorrowerMapper borrowerMapper, BorrowerDao borrowerDao) {
+        this.borrowerDao = borrowerDao;
         Assert.notNull(borrowerMapper);
         this.borrowerMapper = borrowerMapper;
     }
@@ -71,11 +76,17 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * {@inheritDoc}
      */
     @Override
-    public Page<BorrowerDto> findAllPageableDto(Pageable pageable) {
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
 
-        Page<Borrower> borrowers = this.findAll(pageable);
+        Page<Borrower> borrowerDtos;
 
-        return this.mapBorrowersToBorrowerDtosPage(borrowers);
+        if (Objects.equals(contains, "")) {
+            borrowerDtos = this.findAll(pageable);
+        } else {
+            borrowerDtos = borrowerDao.findByNameContainingIgnoreCase(contains, pageable);
+        }
+
+        return this.mapBorrowersToBorrowerDtosPage(borrowerDtos);
     }
 
     /**

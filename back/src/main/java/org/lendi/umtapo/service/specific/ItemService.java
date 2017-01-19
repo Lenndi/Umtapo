@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * The interface Item service.
+ * The interface of Item service.
  */
 @Service
 public interface ItemService extends GenericService<Item, Integer> {
@@ -17,15 +17,15 @@ public interface ItemService extends GenericService<Item, Integer> {
      * {@inheritDoc}
      */
     @Override
-    Item save(Item item);
+    Item save(Item library);
 
     /**
-     * Save dto item dto.
+     * Persist a Item from a ItemDto.
      *
-     * @param itemDto the item dto
-     * @return the item dto
+     * @param libraryDto the library dto
+     * @return library dto
      */
-    ItemDto saveDto(ItemDto itemDto);
+    ItemDto saveDto(ItemDto libraryDto);
 
     /**
      * {@inheritDoc}
@@ -34,10 +34,10 @@ public interface ItemService extends GenericService<Item, Integer> {
     Item findOne(Integer id);
 
     /**
-     * Find one dto item dto.
+     * Find a Item by id.
      *
      * @param id the id
-     * @return the item dto
+     * @return ItemDto library dto
      */
     ItemDto findOneDto(Integer id);
 
@@ -48,9 +48,9 @@ public interface ItemService extends GenericService<Item, Integer> {
     List<Item> findAll();
 
     /**
-     * Find all dto list.
+     * Find all Libraries.
      *
-     * @return the list
+     * @return list list
      */
     List<ItemDto> findAllDto();
 

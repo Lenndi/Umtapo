@@ -3,7 +3,9 @@ package org.lendi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.Loan;
+import org.lendi.umtapo.entity.ShelfMark;
 import org.lendi.umtapo.enumeration.Condition;
+import org.lendi.umtapo.enumeration.ItemType;
 
 import java.util.List;
 
@@ -14,14 +16,17 @@ import java.util.List;
 public class ItemDto {
 
     private Integer id;
-    private String type;
-    private String title;
+    private ItemType type;
+    private ShelfMark shelfmark;
     private String internalId;
-    private Integer purchasePrice;
-    private String barcode;
+    private Float purchasePrice;
     private Boolean loanable;
-    private List<LoanDto> loans;
+    private String barcode;
+    private List<Loan> loan;
     private Condition condition;
+    private String currency;
+    private Integer library;
+    private String recordId;
 
     /**
      * Gets id.
@@ -60,47 +65,11 @@ public class ItemDto {
     }
 
     /**
-     * Gets condition.
-     *
-     * @return the condition
-     */
-    public Condition getCondition() {
-        return condition;
-    }
-
-    /**
-     * Sets condition.
-     *
-     * @param condition the condition
-     */
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    /**
-     * Gets loans.
-     *
-     * @return the loans
-     */
-    public List<LoanDto> getLoans() {
-        return loans;
-    }
-
-    /**
-     * Sets loans.
-     *
-     * @param loans the loans
-     */
-    public void setLoans(List<LoanDto> loans) {
-        this.loans = loans;
-    }
-
-    /**
      * Gets type.
      *
      * @return the type
      */
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
@@ -109,8 +78,26 @@ public class ItemDto {
      *
      * @param type the type
      */
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
+    }
+
+    /**
+     * Gets shelfmark.
+     *
+     * @return the shelfmark
+     */
+    public ShelfMark getShelfmark() {
+        return shelfmark;
+    }
+
+    /**
+     * Sets shelfmark.
+     *
+     * @param shelfmark the shelfmark
+     */
+    public void setShelfmark(ShelfMark shelfmark) {
+        this.shelfmark = shelfmark;
     }
 
     /**
@@ -136,7 +123,7 @@ public class ItemDto {
      *
      * @return the purchase price
      */
-    public Integer getPurchasePrice() {
+    public Float getPurchasePrice() {
         return purchasePrice;
     }
 
@@ -145,7 +132,7 @@ public class ItemDto {
      *
      * @param purchasePrice the purchase price
      */
-    public void setPurchasePrice(Integer purchasePrice) {
+    public void setPurchasePrice(Float purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
@@ -168,20 +155,92 @@ public class ItemDto {
     }
 
     /**
-     * Gets title.
+     * Gets loan.
      *
-     * @return the title
+     * @return the loan
      */
-    public String getTitle() {
-        return title;
+    public List<Loan> getLoan() {
+        return loan;
     }
 
     /**
-     * Sets title.
+     * Sets loan.
      *
-     * @param title the title
+     * @param loan the loan
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setLoan(List<Loan> loan) {
+        this.loan = loan;
+    }
+
+    /**
+     * Gets condition.
+     *
+     * @return the condition
+     */
+    public Condition getCondition() {
+        return condition;
+    }
+
+    /**
+     * Sets condition.
+     *
+     * @param condition the condition
+     */
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    /**
+     * Gets currency.
+     *
+     * @return the currency
+     */
+    public String getCurrency() {
+        return currency;
+    }
+
+    /**
+     * Sets currency.
+     *
+     * @param currency the currency
+     */
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    /**
+     * Gets library id.
+     *
+     * @return the library id
+     */
+    public Integer getLibrary() {
+        return library;
+    }
+
+    /**
+     * Sets library id.
+     *
+     * @param library the library id
+     */
+    public void setLibrary(Integer library) {
+        this.library = library;
+    }
+
+    /**
+     * Gets record id.
+     *
+     * @return the record id
+     */
+    public String getRecordId() {
+        return recordId;
+    }
+
+    /**
+     * Sets record id.
+     *
+     * @param recordId the record id
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }
