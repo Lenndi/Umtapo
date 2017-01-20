@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity;
 
+import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
 
@@ -40,7 +41,8 @@ public class Item {
     private String currency;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
-    private String recordId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private SimpleRecord record;
 
     /**
      * Gets id.
@@ -227,16 +229,16 @@ public class Item {
      *
      * @return the record id
      */
-    public String getRecordId() {
-        return recordId;
+    public SimpleRecord getRecord() {
+        return record;
     }
 
     /**
      * Sets record id.
      *
-     * @param recordId the record id
+     * @param record the record id
      */
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
+    public void setRecord(SimpleRecord record) {
+        this.record = record;
     }
 }

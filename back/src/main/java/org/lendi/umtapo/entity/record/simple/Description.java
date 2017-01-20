@@ -2,6 +2,11 @@ package org.lendi.umtapo.entity.record.simple;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +14,36 @@ import java.util.List;
  * Description entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
 public class Description {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String mainDescription;
+    @ElementCollection
     private List<String> otherDescriptions;
     private String mainPhysicalDescription;
     private String secondaryPhysicalDescription;
     private String format;
     private String associatedMaterial;
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * Instantiates a new Description.

@@ -1,11 +1,13 @@
 package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
+import org.lendi.umtapo.entity.configuration.Z3950;
 import org.lendi.umtapo.entity.record.RecordListWrapper;
 import org.lendi.umtapo.entity.record.simple.SimpleRecord;
+import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.rest.wrapper.GenericRestWrapper;
-import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
+import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
 
     private final RecordService recordService;
     private final UnimarcToSimpleRecord unimarcToSimpleRecord;
+    private final Z3950Service z3950Service;
 
     /**
      * Instantiates a new Record web service.
@@ -44,11 +47,17 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
      * @param unimarcToSimpleRecord the unimarc to simple record
      */
     @Autowired
-    public RecordWebService(RecordService recordService, UnimarcToSimpleRecord unimarcToSimpleRecord) {
+    public RecordWebService(
+            RecordService recordService,
+            UnimarcToSimpleRecord unimarcToSimpleRecord,
+            Z3950Service z3950Service
+    ) {
         Assert.notNull(recordService, "Argument libraryService cannot be null.");
         Assert.notNull(unimarcToSimpleRecord, "Argument unimarcToSimpleRecord cannot be null.");
+        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
         this.recordService = recordService;
         this.unimarcToSimpleRecord = unimarcToSimpleRecord;
+        this.z3950Service = z3950Service;
     }
 
     /**
@@ -64,6 +73,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
     public ResponseEntity getRecords(WebRequest webRequest) {
         String title = webRequest.getParameter("title");
         String isbn = webRequest.getParameter("isbn");
+        Z3950 z3950;
         int resultSize = 10;
         int page = 1;
 
@@ -74,8 +84,11 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             page = Integer.parseInt(webRequest.getParameter("page"));
         }
         if (webRequest.getParameter("z3950") != null) {
-            this.recordService.setDefaultLibrary(Integer.parseInt(webRequest.getParameter("z3950")));
+            z3950 = this.z3950Service.find(Integer.parseInt(webRequest.getParameter("z3950")));
+        } else {
+            z3950 = this.z3950Service.find(1);
         }
+        this.recordService.setLibrary(z3950.getId());
 
         List<Record> records = new ArrayList<>();
         List<SimpleRecord> simpleRecords = new ArrayList<>();
@@ -121,6 +134,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         } else {
             records.forEach(record -> {
                 SimpleRecord simpleRecord = this.unimarcToSimpleRecord.transform(record);
+                simpleRecord.getSource().setLibrary(z3950.getName());
                 simpleRecord.getRight().setModified(false);
                 simpleRecords.add(simpleRecord);
             });

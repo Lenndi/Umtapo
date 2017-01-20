@@ -1,3 +1,114 @@
-<md-card-title>Résultat de la recherche</md-card-title>
-<md-card-content id="item-details">
-</md-card-content>
+<div class="card">
+  <div class="card-block">
+    <h5 class="card-title">Description du document</h5>
+    <div id="record-details" *ngIf="dataService.record">
+      <div id="record-title" class="row">
+        <div class="col-3">
+          <span>Titre</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{formatTitle(dataService.record.title)}}</li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-author" class="row" *ngIf="dataService.record.creator">
+        <div class="col-3">
+          <span>Auteur</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{formatAuthor(dataService.record.creator)}}</li>
+            <li class="text-muted" *ngFor="let contributor of dataService.record.contributors">
+              {{formatAuthor(contributor)}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-publication" class="row" *ngIf="dataService.record.publisher">
+        <div class="col-3">
+          <span>Publication</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{formatPublication()}}</li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-description" class="row" *ngIf="dataService.record.description.mainDescription">
+        <div class="col-3">
+          <span>Description</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{dataService.record.description.mainDescription}}</li>
+            <li *ngFor="let description of dataService.record.description.otherDescriptions">{{description}}</li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-physical-description" class="row" *ngIf="dataService.record.description">
+        <div class="col-3">
+          <span>Description matérielle</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{formatPhysicalDescription()}}</li>
+            <li class="text-muted">{{dataService.record.description.format}}</li>
+            <li class="text-muted">{{dataService.record.description.associatedMaterial}}</li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-subjects" class="row" *ngIf="dataService.record.subject.terms.length > 0">
+        <div class="col-3">
+          <span>Sujets</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record.subject.dewey">
+              Dewey: {{dataService.record.subject.dewey}}
+            </li>
+            <li class="text-muted">{{formatSubjects()}}</li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-other-titles" class="row" *ngIf="dataService.record.title.alternateTitles.length > 0">
+        <div class="col-3">
+          <span>Autres titres</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngFor="let alternateTitle of dataService.record.title.alternateTitles">
+              {{alternateTitle}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-language" class="row" *ngIf="dataService.record.language">
+        <div class="col-3">
+          <span>Langue</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted">{{dataService.record.language.mainLanguage}}</li>
+            <li class="text-muted" *ngIf="dataService.record.language.subtitles.length > 0">
+              Sous-titres : {{formatSubtitles()}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="record-source" class="row">
+        <div class="col-3">
+          <span>Source</span>
+        </div>
+        <div class="col-9">
+            <ul class="list-unstyled">
+              <li class="text-muted">{{formatOrigin()}}</li>
+              <li class="text-muted">{{dataService.record.source.url}}</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
