@@ -26,7 +26,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      * Instantiates a new Item service.
      *
      * @param itemMapper the item mapper
-     * @param itemDao
+     * @param itemDao    the item dao
      */
     @Autowired
     public ItemServiceImpl(ItemMapper itemMapper, ItemDao itemDao) {

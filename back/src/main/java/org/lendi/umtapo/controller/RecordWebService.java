@@ -35,6 +35,7 @@ import java.util.List;
 @ControllerAdvice
 public class RecordWebService extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = Logger.getLogger(RecordWebService.class);
+    private static final int DEFAULT_RESULT_SIZE = 10;
 
     private final RecordService recordService;
     private final UnimarcToSimpleRecord unimarcToSimpleRecord;
@@ -45,6 +46,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
      *
      * @param recordService         the record service
      * @param unimarcToSimpleRecord the unimarc to simple record
+     * @param z3950Service          the z 3950 service
      */
     @Autowired
     public RecordWebService(
@@ -74,7 +76,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         String title = webRequest.getParameter("title");
         String isbn = webRequest.getParameter("isbn");
         Z3950 z3950;
-        int resultSize = 10;
+        int resultSize = DEFAULT_RESULT_SIZE;
         int page = 1;
 
         if (webRequest.getParameter("result-size") != null) {

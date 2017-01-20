@@ -9,6 +9,11 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ItemDao extends JpaRepository<Item, Integer> {
 
+    /**
+     * Find top internal id integer.
+     *
+     * @return the integer
+     */
     @Query("select max(internalId) from Item")
     Integer findTopInternalId();
 }
