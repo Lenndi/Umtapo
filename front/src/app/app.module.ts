@@ -37,6 +37,7 @@ import {CirculationCheckInComponent} from
   './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
 import {CirculationCheckOutComponent} from
   './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
+import {CirculationComponent} from "./circulation/circulation.component";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import {CirculationCheckOutComponent} from
     CirculationComponent,
     ItemSaveComponent,
     InternalInformationsComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
     CirculationCheckComponent,
     CirculationCheckDetailsComponent,
     CirculationCheckInComponent,

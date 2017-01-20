@@ -12,6 +12,11 @@ export class Borrower {
   comment: string;
   address: Address;
   subscriptions: Subscription[];
-  loans: Array<Loan>;
+  loans: Loan[];
   library: Library;
+
+  constructor() {
+    this.subscriptions = [];
+    this.loans = [];
+  }
 }

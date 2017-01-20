@@ -56,10 +56,9 @@ public class Item {
      * @param condition     the condition
      * @param currency      the currency
      * @param library       the library
-     * @param recordId      the record id
      */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, boolean loanable,
-                List<Loan> loan, Condition condition, String currency, Library library, String recordId) {
+                List<Loan> loan, Condition condition, String currency, Library library) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
@@ -69,7 +68,6 @@ public class Item {
         this.condition = condition;
         this.currency = currency;
         this.library = library;
-        this.recordId = recordId;
     }
 
     /**
