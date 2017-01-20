@@ -34,8 +34,6 @@ const routes: Routes = [
           {path: 'selection', component: BorrowerSelectionComponent}
         ]
       },
-      {path: 'borrowers/new', component: NewBorrowerComponent},
-      {path: 'borrowers/management', component: TestComponent},
       {
         path: 'borrowers',
         children: [

@@ -32,6 +32,8 @@ import {CirculationCheckDetailsComponent} from
   './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
 import {CirculationCheckInComponent} from
   './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
+import {CirculationCheckOutComponent} from
+  './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 
 @NgModule({
   declarations: [
@@ -51,10 +53,10 @@ import {CirculationCheckInComponent} from
     BorrowerInternalComponent,
     BorrowerPersonalComponent,
     CirculationComponent,
-    CirculationComponent,
     CirculationCheckComponent,
     CirculationCheckDetailsComponent,
-    CirculationCheckInComponent
+    CirculationCheckInComponent,
+    CirculationCheckOutComponent
   ],
   imports: [
     BrowserModule,

@@ -42,6 +42,20 @@ public class Item {
     private Library library;
     private String recordId;
 
+    /**
+     * Instantiates a new Item.
+     *
+     * @param type          the type
+     * @param shelfmark     the shelfmark
+     * @param internalId    the internal id
+     * @param purchasePrice the purchase price
+     * @param loanable      the loanable
+     * @param loan          the loan
+     * @param condition     the condition
+     * @param currency      the currency
+     * @param library       the library
+     * @param recordId      the record id
+     */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, boolean loanable,
                 List<Loan> loan, Condition condition, String currency, Library library, String recordId) {
         this.type = type;

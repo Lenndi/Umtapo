@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import java.time.ZonedDateTime;
@@ -23,11 +22,12 @@ public class Subscription {
     private Integer id;
     private ZonedDateTime start;
     private ZonedDateTime end;
-    private String contribution;
+    private Integer contribution;
     @ManyToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "ID")
     private Library library;
 
     /**
@@ -43,7 +43,7 @@ public class Subscription {
      * @param end          the end
      * @param contribution the contribution
      */
-    public Subscription(ZonedDateTime start, ZonedDateTime end, String contribution) {
+    public Subscription(ZonedDateTime start, ZonedDateTime end, Integer contribution) {
         this.start = start;
         this.end = end;
         this.contribution = contribution;
@@ -108,7 +108,7 @@ public class Subscription {
      *
      * @return the contribution
      */
-    public String getContribution() {
+    public Integer getContribution() {
         return contribution;
     }
 
@@ -117,7 +117,7 @@ public class Subscription {
      *
      * @param contribution the contribution
      */
-    public void setContribution(String contribution) {
+    public void setContribution(Integer contribution) {
         this.contribution = contribution;
     }
 

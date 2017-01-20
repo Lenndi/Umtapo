@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-circulation-check-in',
+  selector: 'umt-circulation-check-in',
   templateUrl: './circulation-check-in.component.html',
   styleUrls: ['./circulation-check-in.component.scss']
 })

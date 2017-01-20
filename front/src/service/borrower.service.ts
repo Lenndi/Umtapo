@@ -5,7 +5,7 @@ import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class BorrowerService {
@@ -41,7 +41,7 @@ export class BorrowerService {
 
   findPaginable(size: number, page: number, contains: string): Observable<Borrower[]> {
     return this.http
-      .get(`http://localhost:8080/borrowers/${size}/${page}/${contains}`)
+      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&contains=${contains}`)
       .map((r: Response) => r.json().content as Borrower[]);
 
   }

@@ -1,46 +1,41 @@
-<div class="2/3--lap-and-up">
-  <md-card class="umt-setup-card">
-    <md-card-title>Retour</md-card-title>
-    <md-card-content>
-      <button (click)="onSubmit(form.value)" type="button" md-fab class="md-warn">
-        <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
-      </button>
-      <md-input placeholder="Code barre" style="width: 100%"></md-input>
-      <md-input placeholder="Id item" style="width: 100%"></md-input>
-      <md-card-actions>
-        <button (click)="backToCirculationComponent()" class="md-raised md-warn" md-raised-button=""><span
-          class="md-button-wrapper">Tout retourner</span></button>
-      </md-card-actions>
-      <md-list>
-        <md-list-item role="listitem" class="md-list-avatar md-3-line">
-          <div class="md-list-item">
-            <img md-list-avatar=""
-                 ng-reflect-src="https://angular.io/resources/images/bios/julie-ralph.jpg"
-                 src="https://angular.io/resources/images/bios/julie-ralph.jpg"
-                 ng-reflect-alt="Image of Nancy" alt="Image of Nancy">
-            <div class="md-list-text"><h4 md-line="">Nancy</h4>
-              <p md-line=""> Brunch? </p>
-              <p class="demo-secondary-text" md-line="">Did you want to go on Sunday? I was
-                thinking that might work. </p></div>
-            <label>Condition
-              <select placeholder="Condition">
-                <option *ngFor="let borrower of borrowers" [value]="borrower.id">
-                  {{borrower.name}}
-                </option>
-              </select>
-            </label>
-            <label>Retour
-              <select placeholder="Retour">
-                <option *ngFor="let borrower of borrowers" [value]="borrower.id">
-                  {{borrower.name}}
-                </option>
-              </select>
-            </label>
+<div class="card">
+  <div class="card-block">
+    <div class="container-fluid">
+      <div class="row justify-content-between">
+        <div class="col-11">
+          <h4 class="card-title">Retours</h4>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-warning"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="serial">Serial</label>
+            <input id="serial" type="text" class="form-control form-control-sm" placeholder="Serial">
+            <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
           </div>
-          <button (click)="backToCirculationComponent()" class="md-button" md-raised-button=""><span
-            class="md-button-wrapper"><i class="fa check-item fa-arrow-down fa-2x" aria-hidden="true"></i></span></button>
-        </md-list-item>
-      </md-list>
-    </md-card-content>
-  </md-card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="itemId">Indentifiant du document</label>
+            <input id="itemId" type="number" class="form-control form-control-sm"
+                   placeholder="Identifiant du document">
+            <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-1">
+          <button type="button" class="btn btn-warning">Tout retourner</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

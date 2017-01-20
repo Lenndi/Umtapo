@@ -14,9 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
- * Borrower entity.
- * <p>
- * Created by axel on 29/11/16.
+ * The type Borrower.
  */
 @Entity
 public class Borrower {
@@ -33,9 +31,9 @@ public class Borrower {
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name="BORROWER_SUBSCRIPTION",
-            joinColumns = @JoinColumn( name="BORROWER_ID"),
-            inverseJoinColumns = @JoinColumn( name="SUBSCRIPTION_ID")
+            name = "BORROWER_SUBSCRIPTION",
+            joinColumns = @JoinColumn(name = "BORROWER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SUBSCRIPTION_ID")
     )
     private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)

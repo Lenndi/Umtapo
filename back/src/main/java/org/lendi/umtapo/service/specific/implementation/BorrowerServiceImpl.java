@@ -32,12 +32,12 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * Instantiates a new Borrower service.
      *
      * @param borrowerMapper the borrower mapper
-     * @param borrowerDao
+     * @param borrowerDao    the borrower dao
      */
     @Autowired
     public BorrowerServiceImpl(BorrowerMapper borrowerMapper, BorrowerDao borrowerDao) {
-        this.borrowerDao = borrowerDao;
         Assert.notNull(borrowerMapper);
+        this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
     }
 

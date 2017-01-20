@@ -6,7 +6,7 @@ import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Subscription} from '../../../../entity/subscription';
 
 @Component({
-  selector: 'app-circulation-check-details',
+  selector: 'umt-circulation-check-details',
   templateUrl: './circulation-check-details.component.html',
   styleUrls: ['./circulation-check-details.component.scss']
 })
