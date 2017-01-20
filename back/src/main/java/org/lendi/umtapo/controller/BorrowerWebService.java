@@ -1,9 +1,9 @@
 package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
-import org.lendi.umtapo.util.JsonViewResolver;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.util.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

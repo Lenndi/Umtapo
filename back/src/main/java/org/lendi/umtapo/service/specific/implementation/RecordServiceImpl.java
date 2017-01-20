@@ -30,7 +30,7 @@ import java.util.Map;
 public class RecordServiceImpl implements RecordService {
     private static final Logger LOGGER = Logger.getLogger(RecordServiceImpl.class);
 
-    private Z3950 defaultLibrary;
+    private Z3950 library;
     private Map<Integer, Z3950> libraries;
     private Connection connection;
     private long connectionStartTime;
@@ -85,9 +85,9 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public void setDefaultLibrary(int libraryNumber) {
-        if (this.defaultLibrary == null || this.defaultLibrary.getId() != libraryNumber) {
-            this.defaultLibrary = this.libraries.get(libraryNumber);
+    public void setLibrary(int libraryNumber) {
+        if (this.library == null || this.library.getId() != libraryNumber) {
+            this.library = this.libraries.get(libraryNumber);
             if (this.connection != null && !this.connection.isClose()) {
                 this.connection.close();
             }
@@ -98,8 +98,8 @@ public class RecordServiceImpl implements RecordService {
      * Create Z39.50 connection. If connection does not exist or is close, it creates a new one.
      */
     private void createConnection() throws ZoomException {
-        if (this.defaultLibrary == null) {
-            this.setDefaultLibrary(1);
+        if (this.library == null) {
+            this.setLibrary(1);
         }
 
         if (!this.isConnectionAlive()) {
@@ -107,12 +107,12 @@ public class RecordServiceImpl implements RecordService {
                 this.connection.close();
             }
             this.connectionStartTime = System.currentTimeMillis();
-            this.connection = new Connection(this.defaultLibrary.getUrl(), this.defaultLibrary.getPort());
-            this.connection.setDatabaseName(this.defaultLibrary.getDatabase().get("name"));
-            this.connection.setUsername(this.defaultLibrary.getDatabase().get("username"));
-            this.connection.setPassword(this.defaultLibrary.getDatabase().get("password"));
-            this.connection.setSyntax(this.defaultLibrary.getSyntax());
-            this.defaultLibrary.getOptions().forEach(connection::option);
+            this.connection = new Connection(this.library.getUrl(), this.library.getPort());
+            this.connection.setDatabaseName(this.library.getDatabase().get("name"));
+            this.connection.setUsername(this.library.getDatabase().get("username"));
+            this.connection.setPassword(this.library.getDatabase().get("password"));
+            this.connection.setSyntax(this.library.getSyntax());
+            this.library.getOptions().forEach(connection::option);
 
             this.connection.connect();
         }
@@ -149,7 +149,7 @@ public class RecordServiceImpl implements RecordService {
     }
 
     private boolean isConnectionAlive() {
-        boolean isOverTtl = (System.currentTimeMillis() - this.connectionStartTime) > this.defaultLibrary.getTtl();
+        boolean isOverTtl = (System.currentTimeMillis() - this.connectionStartTime) > this.library.getTtl();
 
         return ((this.connection != null) && !this.connection.isClose() && !isOverTtl);
     }

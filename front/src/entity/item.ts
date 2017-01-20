@@ -1,15 +1,17 @@
 import {ShelfMark} from './shelfmark';
 import {Loan} from './loan';
+import {Library} from './library';
+import {Record} from './record/record';
 export class Item {
   id: number;
-  type: ItemType;
+  type: string;
   shelfmark: ShelfMark;
   internalId: number;
   purchasePrice: number;
   loanable: boolean;
   loan: Loan[];
-  condition: Condition;
+  condition: string;
   currency: string;
-  library: number;
-  recordId: string;
+  library: Library;
+  record: Record;
 }

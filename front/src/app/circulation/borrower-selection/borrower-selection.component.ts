@@ -46,6 +46,7 @@ export class BorrowerSelectionComponent implements OnInit {
     this.borrowerService.find(id)
       .then(response => this.selectedBorrower = response);
     this.showDetails = true;
+
   }
 
   onSubmit(value: any): void {

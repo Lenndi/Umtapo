@@ -204,7 +204,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
             publisher.setEditorAddress(dataField.getSubfieldsAsString("b"));
             publisher.setManufacturerName(dataField.getSubfieldsAsString("g"));
             publisher.setManufacturerAddress(dataField.getSubfieldsAsString("f"));
-            publisher.setPublicationPlace(dataField.getSubfieldsAsString("e"));
+            publisher.setManufacturerPlace(dataField.getSubfieldsAsString("e"));
         }
 
         return publisher;

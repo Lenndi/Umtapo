@@ -44,5 +44,5 @@ public interface RecordService {
      *
      * @param libraryId Z39.50 id in z39-50.yml file
      */
-    void setDefaultLibrary(int libraryId);
+    void setLibrary(int libraryId);
 }

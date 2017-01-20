@@ -24,6 +24,8 @@ export class SetupVariousComponent implements OnInit, Setup {
   currencyMsg: string;
   itemStartNumber: FormControl;
   itemStartNumberMsg: string;
+  libraryName: FormControl;
+  libraryNameMsg: string;
 
   constructor(
     private router: Router,
@@ -42,15 +44,15 @@ export class SetupVariousComponent implements OnInit, Setup {
       library != null ? library.subscriptionDuration : '',
       [Validators.required, VariousValidator.positive]);
     this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
-    this.currency = new FormControl(
-      library != null ? library.currency : '',
-      Validators.required);
+    this.currency = new FormControl(library != null ? library.currency : '', Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
     this.itemStartNumber = new FormControl(
       this.dataService.itemStartNumber != null ? this.dataService.itemStartNumber : '',
       [Validators.required, VariousValidator.positive]);
-    this.itemStartNumberMsg = `Merci d\'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
+    this.itemStartNumberMsg = `Merci d'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
         automatique des documents`;
+    this.libraryName = new FormControl(library != null ? library.name : '', Validators.required);
+    this.libraryNameMsg = `Merci d'indiquer un nom de bibliothèque`;
   }
 
   ngOnInit(): void {
@@ -61,7 +63,8 @@ export class SetupVariousComponent implements OnInit, Setup {
       'borrowDuration': this.borrowDuration,
       'subscriptionDuration': this.subscriptionDuration,
       'currency': this.currency,
-      'itemStartNumber': this.itemStartNumber
+      'itemStartNumber': this.itemStartNumber,
+      'libraryName': this.libraryName
     });
   }
 
@@ -90,6 +93,9 @@ export class SetupVariousComponent implements OnInit, Setup {
       if (this.form.controls['itemStartNumber'].invalid) {
         this.snackBar.open(this.itemStartNumberMsg, 'OK');
       }
+      if (this.form.controls['libraryName'].invalid) {
+        this.snackBar.open(this.libraryNameMsg, 'OK');
+      }
     }
   }
 
@@ -99,5 +105,6 @@ export class SetupVariousComponent implements OnInit, Setup {
     this.dataService.library.borrowDuration = value.borrowDuration;
     this.dataService.library.subscriptionDuration = value.subscriptionDuration;
     this.dataService.library.currency = value.currency;
+    this.dataService.library.name = value.libraryName;
   }
 }

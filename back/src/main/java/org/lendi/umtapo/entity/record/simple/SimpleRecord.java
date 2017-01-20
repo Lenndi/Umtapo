@@ -1,25 +1,70 @@
 package org.lendi.umtapo.entity.record.simple;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Simplified record, inspired by Dublin Core format.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
 public class SimpleRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Title title;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Creator creator;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Subject subject;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Description description;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Publisher publisher;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Creator> contributors;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private SimpleRecordDate date;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Type type;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Identifier identifier;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Source source;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Language language;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Coverage coverage;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Right right;
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * Instantiates a new Simple record.

@@ -1,4 +1,13 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <div class="form-group" [class.has-danger]="libraryName.invalid && libraryName.dirty">
+    <label for="library-name">Nom de la bibliothèque</label>
+    <input id="library-name" type="text" class="form-control" placeholder="Nom de la bibliothèque" required
+           [class.form-control-danger]="libraryName.invalid && libraryName.dirty"
+           formControlName="libraryName">
+    <div class="form-control-feedback" *ngIf="libraryName.invalid && libraryName.dirty">
+      {{libraryNameMsg}}
+    </div>
+  </div>
   <div class="form-group" [class.has-danger]="borrowDuration.invalid && borrowDuration.dirty">
     <label for="borrow-duration">Durée d'emprunt par défaut (jours)</label>
     <input id="borrow-duration" type="number" class="form-control" placeholder="Durée d'emprunt par défaut" required

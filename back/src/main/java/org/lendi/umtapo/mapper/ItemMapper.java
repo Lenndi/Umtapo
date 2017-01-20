@@ -7,7 +7,6 @@ import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
-import org.lendi.umtapo.mapper.converter.LibraryConverter;
 import org.lendi.umtapo.mapper.converter.PriceConverter;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +23,9 @@ public class ItemMapper extends ConfigurableMapper {
         final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
 
         converterFactory.registerConverter("priceConverter", new PriceConverter());
-        converterFactory.registerConverter("libraryConverter", new LibraryConverter());
 
         mapperFactory.classMap(Item.class, ItemDto.class)
                 .fieldMap("purchasePrice", "purchasePrice").converter("priceConverter").add()
-                .fieldMap("library", "library").converter("libraryConverter").add()
                 .byDefault()
                 .register();
         MAPPER = mapperFactory.getMapperFacade();
