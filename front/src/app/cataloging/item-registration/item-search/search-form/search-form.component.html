@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-block">
     <h5 class="card-title">Recherche de documents</h5>
-    <form [formGroup]="form" (ngSubmit)="onSearch(form.value)">
+    <form [formGroup]="form" (ngSubmit)="onSearch()">
       <div class="form-group">
         <label for="isbn">ISBN</label>
         <input id="isbn" type="text" class="form-control" placeholder="ISBN"
