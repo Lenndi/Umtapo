@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.entity.ShelfMark;
+import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
 
@@ -25,8 +26,8 @@ public class ItemDto {
     private List<Loan> loan;
     private Condition condition;
     private String currency;
-    private Integer library;
-    private String recordId;
+    private LibraryDto library;
+    private SimpleRecord record;
 
     /**
      * Gets id.
@@ -213,7 +214,7 @@ public class ItemDto {
      *
      * @return the library id
      */
-    public Integer getLibrary() {
+    public LibraryDto getLibrary() {
         return library;
     }
 
@@ -222,7 +223,7 @@ public class ItemDto {
      *
      * @param library the library id
      */
-    public void setLibrary(Integer library) {
+    public void setLibrary(LibraryDto library) {
         this.library = library;
     }
 
@@ -231,16 +232,16 @@ public class ItemDto {
      *
      * @return the record id
      */
-    public String getRecordId() {
-        return recordId;
+    public SimpleRecord getRecord() {
+        return record;
     }
 
     /**
      * Sets record id.
      *
-     * @param recordId the record id
+     * @param record the record id
      */
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
+    public void setRecord(SimpleRecord record) {
+        this.record = record;
     }
 }

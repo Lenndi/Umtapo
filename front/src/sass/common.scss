@@ -1,31 +1,63 @@
 @import "variables.scss";
 
-// Index spinner
-#app-loading {
+main {
+  padding-top: 2em;
+}
+html,body,.container,.container .row,.container-fluid,.container-fluid .row,aside {
+  height:100%;
+}
+.back-link {
+  color: #000;
+}
+
+/* Card */
+$margin-card: 2rem;
+h5.card-title {
+  margin-bottom: $margin-card;
+}
+.umt-card-footer {
+  margin-top: $margin-card;
+}
+
+/* Switch button */
+.onoffswitch {
+  position: relative;
+  float: right;
+  width: 40px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  height: 21px; padding: 0; line-height: 21px;
+  border: 2px solid #E3E3E3; border-radius: 21px;
+  background-color: #FFFFFF;
+  transition: background-color 0.3s ease-in;
+}
+.onoffswitch-label:before {
+  content: "";
+  display: block;
+  width: 21px;
+  margin: 0;
+  background: #FFFFFF;
   position: absolute;
-  margin: auto;
   top: 0;
+  bottom: 7px;
+  right: 17px;
+  border: 2px solid #E3E3E3;
+  border-radius: 21px;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+  background-color: $primary;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+  border-color: $primary;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
   right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-#content {
-  padding: 32px;
-}
-
-.umt-full-size {
-  width: 100%;
-}
-
-.umt-input-wrapper {
-  padding-bottom: 20px;
-}
-
-.umt-warn-color {
-  color: $warn;
-}
-
-.umt-toggle-prefix {
-  margin: 16px 0;
 }

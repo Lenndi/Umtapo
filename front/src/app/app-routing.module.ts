@@ -14,6 +14,7 @@ import {CirculationCheckComponent} from './circulation/circulation-check/circula
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,7 @@ const routes: Routes = [
             children: [
               {path: '', redirectTo: 'search', pathMatch: 'full'},
               {path: 'search', component: ItemSearchComponent},
-              {path: 'save', component: TestComponent}
+              {path: 'save', component: ItemSaveComponent}
             ]
           },
           {path: 'management', component: TestComponent}

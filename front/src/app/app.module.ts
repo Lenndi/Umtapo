@@ -23,10 +23,13 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
-import {CollapseModule} from 'ng2-bootstrap';
+import {ModalModule} from 'ng2-bootstrap';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
-import {CirculationComponent} from './circulation/circulation.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {InternalInformationsComponent}
+  from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
+import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
 import {CirculationCheckDetailsComponent} from
   './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
@@ -53,6 +56,9 @@ import {CirculationCheckOutComponent} from
     BorrowerInternalComponent,
     BorrowerPersonalComponent,
     CirculationComponent,
+    ItemSaveComponent,
+    InternalInformationsComponent,
+    ItemDetailsComponent
     CirculationCheckComponent,
     CirculationCheckDetailsComponent,
     CirculationCheckInComponent,
@@ -65,7 +71,7 @@ import {CirculationCheckOutComponent} from
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    CollapseModule.forRoot(),
+    ModalModule.forRoot(),
     MaterialModule.forRoot()
   ],
   providers: [

@@ -1,6 +1,0 @@
-const enum ItemType {
-  BOOK,
-  AUDIO_RECORDING,
-  MUSIC_SHEET,
-  VIDEO_RECORDING
-}

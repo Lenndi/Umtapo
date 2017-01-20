@@ -67,6 +67,7 @@ export class BorrowerSelectionComponent implements OnInit {
         console.debug('borrower', this.selectedBorrower);
       });
     this.showDetails = true;
+
   }
 
   onSubmit(value: any): void {

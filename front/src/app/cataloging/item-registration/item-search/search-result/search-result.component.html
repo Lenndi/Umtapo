@@ -10,7 +10,7 @@
       </p>
       <div id="result-list-wrapper" [style.max-height.px]="resultListHeight">
         <div class="list-group">
-          <a *ngFor="let record of dataService.searchResults" (click)="dataService.record = record"
+          <a *ngFor="let record of dataService.searchResults" (click)="onSelect(record)"
              class="list-group-item list-group-item-action flex-column align-items-start"
              routerLink="/cataloging/registration/save">
             <h6>{{record.title.mainTitle}}</h6>

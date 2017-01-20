@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ItemRegistrationDataService} from '../../../../../service/data-binding/item-registration-data.service';
+import {Record} from '../../../../../entity/record/record';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'umt-search-result',
@@ -9,9 +11,14 @@ import {ItemRegistrationDataService} from '../../../../../service/data-binding/i
 export class SearchResultComponent implements OnInit {
   resultListHeight: number;
 
-  constructor(public dataService: ItemRegistrationDataService) { }
+  constructor(public dataService: ItemRegistrationDataService, private router: Router) { }
 
   ngOnInit() {
     this.resultListHeight = document.getElementById('side-nav').clientHeight - 200;
+  }
+
+  onSelect(record: Record) {
+    this.dataService.record = record;
+    this.router.navigate(['/cataloging/registration/save']);
   }
 }

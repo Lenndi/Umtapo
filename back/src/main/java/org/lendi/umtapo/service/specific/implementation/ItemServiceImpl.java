@@ -1,5 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import org.lendi.umtapo.dao.ItemDao;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.mapper.ItemMapper;
@@ -19,18 +20,22 @@ import java.util.List;
 public class ItemServiceImpl extends AbstractGenericService<Item, Integer> implements ItemService {
 
     private final ItemMapper itemMapper;
+    private final ItemDao itemDao;
 
     /**
      * Instantiates a new Item service.
      *
      * @param itemMapper the item mapper
+     * @param itemDao    the item dao
      */
     @Autowired
-    public ItemServiceImpl(ItemMapper itemMapper) {
+    public ItemServiceImpl(ItemMapper itemMapper, ItemDao itemDao) {
         Assert.notNull(itemMapper, "Argument itemMapper cannot be null");
+        Assert.notNull(itemDao, "Argument itemDao cannot be null");
 
         Assert.notNull(itemMapper);
         this.itemMapper = itemMapper;
+        this.itemDao = itemDao;
     }
 
     /**
@@ -38,7 +43,12 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      */
     @Override
     public ItemDto saveDto(ItemDto itemDto) {
+        Integer previousInternalId = this.itemDao.findTopInternalId();
+
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
+        if (item.getInternalId() == null) {
+            item.setInternalId(previousInternalId + 1);
+        }
         item = this.save(item);
 
         return this.itemMapper.mapItemToItemDto(item);
@@ -59,11 +69,9 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
-
     private Item mapItemDtoToItem(ItemDto itemDto) {
         return this.itemMapper.mapItemDtoToItem(itemDto);
     }
-
 
     private ItemDto mapItemToItemDto(Item item) {
         return this.itemMapper.mapItemToItemDto(item);

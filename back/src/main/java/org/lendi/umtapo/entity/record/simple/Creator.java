@@ -2,15 +2,42 @@ package org.lendi.umtapo.entity.record.simple;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Creator entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
 public class Creator {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
     private String secondName;
     private String date;
     private String titles;
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * Gets name.

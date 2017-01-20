@@ -1,8 +1,6 @@
 export class ShelfMark {
-  private id: number;
-  private field1: string;
-  private field2: string;
-  private field3: string;
-  private field4: string;
-  private field5: string;
+  field1: string;
+  field2: string;
+  field3: string;
+  field4: string;
 }

@@ -1,3 +1,5 @@
 export class Right {
-  generalNote: string;
+  recordOrigin: string;
+  transactionDate: string;
+  isModified: boolean;
 }
