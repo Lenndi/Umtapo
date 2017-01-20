@@ -1,28 +1,38 @@
-<div class="3/3--lap-and-up">
-  <md-card class="umt-card-details umt-setup-card">
-    <md-card-title>Emprunteur</md-card-title>
-    <md-card-content>
-      <div class="grid umt-font-attributes">
-        <div class="1-of-7 grid__cell detail">Nom</div>
-        <div class="1-of-7 grid__cell detail">Id</div>
-        <div class="1-of-7 grid__cell detail">Email</div>
-        <div class="1-of-7 grid__cell detail">Quota</div>
-        <div class="1-of-7 grid__cell detail">Fin de l'abonnement</div>
-        <div class="1-of-7 grid__cell detail">Commentaire</div>
-        <div class="1-of-7 grid__cell detail">
-          <md-card-actions>
-            <button (click)="backToCirculationComponent()" class="md-raised md-warn" md-raised-button=""><span class="md-button-wrapper">CHANGER</span></button>
-          </md-card-actions>
+<div id="circulation-check-detail">
+  <div class="card">
+    <div class="card-block">
+      <h4 class="card-title">Emprunteur</h4>
+      <div class="container">
+        <div class="row">
+          <div class="col-10">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Quota</th>
+                <th>Fin de l'abonnement</th>
+                <th>Commentaire</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{borrower?.name}}</td>
+                <td>{{borrower?.id}}</td>
+                <td>{{borrower?.address?.email}}</td>
+                <td>{{borrower?.quota}}</td>
+                <td>{{subscription?.end | date}}</td>
+                <td>{{borrower?.comment}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-2 btn-change">
+            <button (click)="backToCirculationComponent()" type="button" class="btn btn-primary">CHANGER</button>
+          </div>
         </div>
       </div>
-      <div class="grid">
-        <div class="1-of-7 grid__cell detail">{{borrower?.name}}</div>
-        <div class="1-of-7 grid__cell detail">{{borrower?.id}}</div>
-        <div class="1-of-7 grid__cell detail">{{borrower?.address?.email}}</div>
-        <div class="1-of-7 grid__cell detail">{{borrower?.quota}}</div>
-        <div class="1-of-7 grid__cell detail">{{subscription?.end | date}}</div>
-        <div class="1-of-7 grid__cell detail">{{borrower?.comment}}</div>
-      </div>
-    </md-card-content>
-  </md-card>
+    </div>
+  </div>
 </div>

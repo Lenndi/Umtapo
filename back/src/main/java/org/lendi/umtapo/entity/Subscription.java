@@ -25,10 +25,9 @@ public class Subscription {
     private ZonedDateTime end;
     private String contribution;
     @ManyToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "ID")
+    @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "id")
     private Library library;
 
     /**

@@ -23,10 +23,10 @@
             </div>
             <div class="col-12 col-md-4 pull-md-2">
               <div class="form-group">
-                <input autocomplete="off" id="borrower-name" #borrowerName formControlName="borrowerName" type="text"
+                <input autocomplete="off" #borrowerBox id="borrower-name" #borrowerName formControlName="borrowerName" type="text"
                        class="form-control" placeholder="Nom de l'usager" value=""
-                       (keydown)="searchBorrowers(borrowerName.value)">
-                <div (window:scroll)="onScroll($event)" class="list-group" *ngIf="borrowers != null">
+                       (keyup)="search(borrowerBox.value)">
+                <div class="list-group" *ngIf="borrowers != null">
                   <a class="list-group-item list-group-item-action drop-link" *ngFor="let borrower of borrowers | async"
                      (click)="onSelect(borrower.id)">
                     <small>{{borrower.name}}</small>

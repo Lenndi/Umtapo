@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class BorrowerService {
@@ -38,14 +39,11 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginable(size: number, page: number, contains: string, jsonViewResolver?: string): Promise<Borrower> {
-    let uri;
+  findPaginable(size: number, page: number, contains: string): Observable<Borrower[]> {
+    return this.http
+      .get(`http://localhost:8080/borrowers/${size}/${page}/${contains}`)
+      .map((r: Response) => r.json().content as Borrower[]);
 
-    uri = `${this.borrowerUrl}/${size}/${page}/${contains}`;
-    return this.http.get(uri)
-      .toPromise()
-      .then(response => response.json() as Borrower)
-      .catch(error => this.httpLogger.error(error));
   }
 
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {

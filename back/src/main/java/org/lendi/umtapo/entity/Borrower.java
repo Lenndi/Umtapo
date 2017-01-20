@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -29,7 +31,12 @@ public class Borrower {
     private Boolean emailOptin;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
-    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="BORROWER_SUBSCRIPTION",
+            joinColumns = @JoinColumn( name="BORROWER_ID"),
+            inverseJoinColumns = @JoinColumn( name="SUBSCRIPTION_ID")
+    )
     private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
     private List<Loan> loans;
