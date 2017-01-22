@@ -71,16 +71,13 @@ export class BorrowerSelectionComponent implements OnInit {
   }
 
   onSubmit(value: any): void {
-    if (value.borrowerId !== '' || this.selectedBorrower) {
+    if (value.borrowerId !== '' || this.selectedBorrower != null) {
       if (value.borrowerId !== '') {
         this.router.navigate(['circulation/check/' + value.borrowerId]);
       }
-      if (!this.selectedBorrower) {
-        this.borrowerService.find(value.borrowerId)
-          .then(response => this.selectedBorrower = response);
+      if (this.selectedBorrower.id !== null) {
+        this.router.navigate(['circulation/check/' + this.selectedBorrower.id]);
       }
-      this.dataService.borrower = this.selectedBorrower;
-      // TODO: Redirect to next component
     } else {
       this.snackBar.open('Les champs du formulaire sont vides', 'OK');
     }
