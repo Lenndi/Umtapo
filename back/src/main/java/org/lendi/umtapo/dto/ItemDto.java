@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Item entity.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class ItemDto {
 
     private Integer id;
@@ -22,7 +22,7 @@ public class ItemDto {
     private Integer internalId;
     private Float purchasePrice;
     private Boolean loanable;
-    private List<Loan> loan;
+    private List<LoanDto> loan;
     private Condition condition;
     private String currency;
     private LibraryDto library;
@@ -141,7 +141,7 @@ public class ItemDto {
      *
      * @return the loan
      */
-    public List<Loan> getLoan() {
+    public List<LoanDto> getLoan() {
         return loan;
     }
 
@@ -150,7 +150,7 @@ public class ItemDto {
      *
      * @param loan the loan
      */
-    public void setLoan(List<Loan> loan) {
+    public void setLoan(List<LoanDto> loan) {
         this.loan = loan;
     }
 

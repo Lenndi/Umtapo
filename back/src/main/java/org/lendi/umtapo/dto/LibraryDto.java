@@ -11,7 +11,7 @@ import java.util.List;
  * <p>
  * Created by axel on 29/11/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class LibraryDto {
 
     private Integer id;

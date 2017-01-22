@@ -11,13 +11,13 @@ import java.time.ZonedDateTime;
  * <p>
  * Created by axel on 29/11/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class LoanDto {
 
- private Integer id;
- private ZonedDateTime date;
- private BorrowerDto borrower;
- private ItemDto item;
+    private Integer id;
+    private ZonedDateTime date;
+    private BorrowerDto borrower;
+    private ItemDto item;
 
     /**
      * Gets id.
@@ -25,8 +25,8 @@ public class LoanDto {
      * @return the id
      */
     public Integer getId() {
-  return id;
- }
+        return id;
+    }
 
     /**
      * Sets id.
@@ -34,8 +34,8 @@ public class LoanDto {
      * @param id the id
      */
     public void setId(Integer id) {
-  this.id = id;
- }
+        this.id = id;
+    }
 
     /**
      * Gets date.
@@ -43,8 +43,8 @@ public class LoanDto {
      * @return the date
      */
     public ZonedDateTime getDate() {
-  return date;
- }
+        return date;
+    }
 
     /**
      * Sets date.
@@ -52,8 +52,8 @@ public class LoanDto {
      * @param date the date
      */
     public void setDate(ZonedDateTime date) {
-  this.date = date;
- }
+        this.date = date;
+    }
 
     /**
      * Gets borrower.

@@ -21,7 +21,6 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private ZonedDateTime date;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;

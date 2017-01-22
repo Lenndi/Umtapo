@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * Created by axel on 29/11/16.
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class AddressDto {
 
     @Id
