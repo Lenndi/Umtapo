@@ -4,15 +4,15 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Subscription} from '../../../../entity/subscription';
+import {CirculationDataService} from "../../../../service/data-binding/circulation-data.service";
 
 @Component({
   selector: 'umt-circulation-check-details',
   templateUrl: './circulation-check-details.component.html',
   styleUrls: ['./circulation-check-details.component.scss']
 })
-export class CirculationCheckDetailsComponent implements OnInit, OnDestroy {
+export class CirculationCheckDetailsComponent implements OnInit {
   private id: number;
-  private sub: any;
   private borrower: Borrower;
   private config = new MdSnackBarConfig();
   private subscription: Subscription;
@@ -20,23 +20,12 @@ export class CirculationCheckDetailsComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private borrowerService: BorrowerService,
+              public dataService: CirculationDataService,
               private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
-    this.sub = this.activatedRoute.params.subscribe(params => {
-      this.id = +params['id'];
-    });
-    this.borrowerService.find(this.id)
-      .then(borrower => {
-        this.borrower = borrower;
-        this.subscription = this.borrower.subscriptions[0];
-      })
-      .catch(borrower => this.findBorrowerError());
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+   this.borrower = this.dataService.borrower;
   }
 
   // #########################################################################################################

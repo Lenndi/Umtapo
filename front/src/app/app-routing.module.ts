@@ -31,7 +31,7 @@ const routes: Routes = [
         component: CirculationComponent,
         children: [
           {path: '', redirectTo: 'selection', pathMatch: 'full'},
-          {path: 'check/:id', component: CirculationCheckComponent},
+          {path: 'check', component: CirculationCheckComponent},
           {path: 'selection', component: BorrowerSelectionComponent}
         ]
       },

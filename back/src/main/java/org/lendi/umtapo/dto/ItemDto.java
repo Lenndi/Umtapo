@@ -19,10 +19,9 @@ public class ItemDto {
     private Integer id;
     private ItemType type;
     private ShelfMark shelfmark;
-    private String internalId;
+    private Integer internalId;
     private Float purchasePrice;
     private Boolean loanable;
-    private String barcode;
     private List<Loan> loan;
     private Condition condition;
     private String currency;
@@ -45,24 +44,6 @@ public class ItemDto {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets barcode.
-     *
-     * @return the barcode
-     */
-    public String getBarcode() {
-        return barcode;
-    }
-
-    /**
-     * Sets barcode.
-     *
-     * @param barcode the barcode
-     */
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
     }
 
     /**
@@ -106,7 +87,7 @@ public class ItemDto {
      *
      * @return the internal id
      */
-    public String getInternalId() {
+    public Integer getInternalId() {
         return internalId;
     }
 
@@ -115,7 +96,7 @@ public class ItemDto {
      *
      * @param internalId the internal id
      */
-    public void setInternalId(String internalId) {
+    public void setInternalId(Integer internalId) {
         this.internalId = internalId;
     }
 

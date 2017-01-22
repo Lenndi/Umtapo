@@ -46,55 +46,55 @@
             <span>Id</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.id}}</span>
+            <span class="umt-details-users">{{selectedBorrower.id}}</span>
           </div>
           <div class="col-3">
             <span>Email</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.address?.email}}</span>
+            <span class="umt-details-users">{{selectedBorrower.address?.email}}</span>
           </div>
           <div class="col-3">
             <span>Adresse 1</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.address?.address1}}</span>
+            <span class="umt-details-users">{{selectedBorrower.address?.address1}}</span>
           </div>
           <div class="col-3">
             <span>Adresse 2</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.address?.address2}}</span>
+            <span class="umt-details-users">{{selectedBorrower.address?.address2}}</span>
           </div>
           <div class="col-3">
             <span>Code postal</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.address?.zip}}</span>
+            <span class="umt-details-users">{{selectedBorrower.address?.zip}}</span>
           </div>
           <div class="col-3">
             <span>Ville</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.address?.city}}</span>
+            <span class="umt-details-users">{{selectedBorrower.address?.city}}</span>
           </div>
           <div class="col-3">
             <span>Quota d'emprunt</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.quota}}</span>
+            <span class="umt-details-users">{{selectedBorrower.quota}}</span>
           </div>
           <div class="col-3">
             <span>Fin d'adhésion</span>
           </div>
           <div class="col-9">
-            <!--<span>{{selectedBorrower.subscriptions[selectedBorrower.subscriptions.length - 1]}}</span>-->
+            <span class="umt-details-users">{{selectedBorrower.subscriptions[selectedBorrower.subscriptions.length - 1]?.end | date}}</span>
           </div>
           <div class="col-3">
             <span>Commentaires</span>
           </div>
           <div class="col-9">
-            <span>{{selectedBorrower.comment}}</span>
+            <span class="umt-details-users">{{selectedBorrower.comment}}</span>
           </div>
         </div>
       </div>

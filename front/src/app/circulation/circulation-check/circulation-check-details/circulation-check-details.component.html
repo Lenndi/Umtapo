@@ -21,7 +21,7 @@
               <td>{{borrower?.id}}</td>
               <td>{{borrower?.address?.email}}</td>
               <td>{{borrower?.quota}}</td>
-              <td>{{subscription?.end | date}}</td>
+              <td>{{borrower.subscriptions[borrower.subscriptions.length - 1]?.end | date}}</td>
               <td>{{borrower?.comment}}</td>
             </tr>
             </tbody>

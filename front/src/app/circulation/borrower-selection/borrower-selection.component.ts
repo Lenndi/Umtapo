@@ -49,8 +49,6 @@ export class BorrowerSelectionComponent implements OnInit {
         this.borrowerService.findPaginable(this.size, this.page, contains)
         : Observable.of<Borrower[]>([]))
       .catch(error => {
-        // TODO: real error handling
-        console.log(error);
         return Observable.of<Borrower[]>([]);
       });
 
@@ -64,20 +62,26 @@ export class BorrowerSelectionComponent implements OnInit {
     this.borrowerService.find(id)
       .then(response => {
         this.selectedBorrower = response;
-        console.debug('borrower', this.selectedBorrower);
       });
     this.showDetails = true;
-
   }
 
   onSubmit(value: any): void {
-    if (value.borrowerId !== '' || this.selectedBorrower != null) {
+    let id;
+    if (value.borrowerId !== '' || this.selectedBorrower) {
       if (value.borrowerId !== '') {
-        this.router.navigate(['circulation/check/' + value.borrowerId]);
+        id = value.borrowerId;
+      } else {
+        if (this.selectedBorrower.id) {
+          id = this.selectedBorrower.id;
+        }
       }
-      if (this.selectedBorrower.id !== null) {
-        this.router.navigate(['circulation/check/' + this.selectedBorrower.id]);
-      }
+      this.borrowerService.find(id)
+        .then(response => {
+          this.dataService.borrower = response;
+          this.router.navigate(['circulation/check/']);
+        })
+        .catch(error => this.snackBar.open(`Cet identifiant n'existe pas`, 'OK'));
     } else {
       this.snackBar.open('Les champs du formulaire sont vides', 'OK');
     }

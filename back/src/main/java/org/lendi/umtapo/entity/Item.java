@@ -44,6 +44,9 @@ public class Item {
     @ManyToOne(cascade = CascadeType.ALL)
     private SimpleRecord record;
 
+    public Item() {
+    }
+
     /**
      * Instantiates a new Item.
      *
