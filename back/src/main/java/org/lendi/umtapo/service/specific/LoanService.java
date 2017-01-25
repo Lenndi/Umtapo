@@ -55,4 +55,13 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @return list list
      */
     List<LoanDto> findAllDto();
+
+    /**
+     * Item End Date change.
+     *
+     * @param loanDto the loan dto
+     * @return the integer
+     */
+    Integer saveEnd(LoanDto loanDto);
 }
+

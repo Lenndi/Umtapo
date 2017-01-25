@@ -6,6 +6,7 @@ import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-/**
- * Loan WebService.
- *
- * Created by axel on 22/01/17.
- */
 @RestController
+@CrossOrigin
 public class LoanWebService {
 
     private static final Logger LOGGER = Logger.getLogger(LoanWebService.class);
@@ -31,12 +28,6 @@ public class LoanWebService {
         this.loanService = loanService;
     }
 
-    /**
-     * Gets loan.
-     *
-     * @param id the id
-     * @return the loan
-     */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<LoanDto> getLoan(@PathVariable Integer id) {
@@ -49,11 +40,6 @@ public class LoanWebService {
         return new ResponseEntity<>(loanDto, HttpStatus.OK);
     }
 
-    /**
-     * Get loans.
-     *
-     * @return the loans
-     */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getLoans() {
 
@@ -66,18 +52,29 @@ public class LoanWebService {
         return new ResponseEntity(loanDtos, HttpStatus.OK);
     }
 
-    /**
-     * Sets loan.
-     * Validators.required
-     *
-     * @param loanDto the loan dto
-     * @return the loan
-     */
     @RequestMapping(value = "/loans", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LoanDto> setLoan(@RequestBody LoanDto loanDto) {
 
         loanDto = loanService.saveDto(loanDto);
         return new ResponseEntity<>(loanDto, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/loans", method = RequestMethod.PATCH, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateLoan(@RequestBody LoanDto loanDto) {
+
+        if (loanDto.getId() != null) {
+            if (loanDto.getEnd() != null) {
+                if (loanService.saveEnd(loanDto) == null) {
+                    return new ResponseEntity<>("Loan not found", HttpStatus.NOT_FOUND);
+                } else {
+                    return new ResponseEntity<>("Loan modified", HttpStatus.OK);
+                }
+            }
+        } else {
+            return new ResponseEntity<>("Id cannot be null", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Patch error", HttpStatus.OK);
     }
 }

@@ -6,7 +6,7 @@
           <h4 class="card-title">Retours</h4>
         </div>
         <div class="col-1">
-          <button type="button" class="btn btn-warning"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+          <button (click)="checkInInternalId()" type="button" class="btn btn-warning"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         </div>
       </div>
       <div class="row">
@@ -22,7 +22,7 @@
         <div class="col-4">
           <div class="form-group">
             <label for="itemId">Indentifiant du document</label>
-            <input id="itemId" type="number" class="form-control form-control-sm"
+            <input [(ngModel)]="itemId" id="itemId" type="number" class="form-control form-control-sm"
                    placeholder="Identifiant du document">
             <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
             <div>
@@ -36,38 +36,40 @@
           <button type="button" class="btn btn-warning">Tout retourner</button>
         </div>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item">
+      <div *ngFor="let loan of borrower.loans">
+        <ul class="list-group">
+          <li class="list-group-item">
             <div class="col-12 col-md-1 icon">
               <i class="fa fa-book fa-3x text-center" aria-hidden="true"></i>
             </div>
             <div class="col-12 col-md-4">
-              <h4 class="card-title">Treasure Island</h4>
-              <p class="card-text">ed. 2005</p>
-              <p class="card-text">J.R Stevenson</p>
+              <h4 class="card-title">{{loan.item.record.title.mainTitle}}</h4>
+              <p class="card-text">{{loan.item.record.date.publicationDate}}</p>
+              <p class="card-text">{{loan.item.record.creator.secondName}} {{loan.item.record.creator.name}}</p>
             </div>
             <div class="col-12 col-md-3">
-              <label class="lbl" for="exampleSelect1">Condition</label>
-              <select class="form-control" id="exampleSelect1">
-                <option>Good</option>
-                <option>Medium</option>
-                <option>Bad</option>
+              <label class="lbl" >Condition</label>
+              <select (change)="saveCondition($event.target.value, loan.item.id)" [value]="loan.item.condition" id="condition" class="form-control  form-control-sm custom-select">
+                <option *ngFor="let condition of conditionEnum.array" [value]="condition.key">{{condition.value}}</option>
               </select>
             </div>
             <div class="col-12 col-md-3">
-              <label class="lbl" for="exampleSelect1">Retour</label>
-              <select class="form-control" id="exampleSelect2">
-                <option>12/02/2016</option>
-                <option>18/09/2016</option>
-              </select>
+              <!--<div class="form-group" [class.has-danger]="birthday.invalid && birthday.dirty">-->
+              <div class="form-group">
+                <label for="end_date">Retour</label>
+                <input (change)="saveEnd($event.target.value, loan.id)" [value]="loan.end | date:'yyyy-MM-dd'" id="end_date" type="date" class="form-control form-control-sm" placeholder="Date de retour"
+                       required>
+                <!--[class.form-control-danger]="birthday.invalid && birthday.dirty" formControlName="birthday">-->
+              </div>
             </div>
             <div class="col-12 col-md-1 button-check-in">
               <div onclick="">
                 <i class="fa fa-arrow-down fa-2x "></i>
               </div>
             </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

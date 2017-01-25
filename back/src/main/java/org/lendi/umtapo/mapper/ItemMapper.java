@@ -3,12 +3,15 @@ package org.lendi.umtapo.mapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.ConverterFactory;
+import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.mapper.converter.PriceConverter;
 import org.springframework.stereotype.Component;
+
+import java.time.ZonedDateTime;
 
 /**
  * Item entity to Item DTO mapper.
@@ -21,7 +24,7 @@ public class ItemMapper extends ConfigurableMapper {
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-
+        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
         converterFactory.registerConverter("priceConverter", new PriceConverter());
 
         mapperFactory.classMap(Item.class, ItemDto.class)

@@ -34,8 +34,8 @@ public class Item {
     private Integer internalId;
     private Integer purchasePrice;
     private boolean loanable;
-    @OneToMany(mappedBy = "item")
-    private List<Loan> loan;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Loan> loans;
     @Enumerated(EnumType.STRING)
     private Condition condition;
     private String currency;
@@ -44,6 +44,9 @@ public class Item {
     @ManyToOne(cascade = CascadeType.ALL)
     private SimpleRecord record;
 
+    /**
+     * Instantiates a new Item.
+     */
     public Item() {
     }
 
@@ -55,19 +58,19 @@ public class Item {
      * @param internalId    the internal id
      * @param purchasePrice the purchase price
      * @param loanable      the loanable
-     * @param loan          the loan
+     * @param loans         the loans
      * @param condition     the condition
      * @param currency      the currency
      * @param library       the library
      */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, boolean loanable,
-                List<Loan> loan, Condition condition, String currency, Library library) {
+                List<Loan> loans, Condition condition, String currency, Library library) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
         this.loanable = loanable;
-        this.loan = loan;
+        this.loans = loans;
         this.condition = condition;
         this.currency = currency;
         this.library = library;
@@ -110,21 +113,21 @@ public class Item {
     }
 
     /**
-     * Gets loan.
+     * Gets loans.
      *
-     * @return the loan
+     * @return the loans
      */
     public List<Loan> getLoan() {
-        return loan;
+        return loans;
     }
 
     /**
-     * Sets loan.
+     * Sets loans.
      *
-     * @param loan the loan
+     * @param loans the loans
      */
-    public void setLoan(List<Loan> loan) {
-        this.loan = loan;
+    public void setLoan(List<Loan> loans) {
+        this.loans = loans;
     }
 
     /**

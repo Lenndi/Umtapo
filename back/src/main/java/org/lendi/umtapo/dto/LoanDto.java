@@ -15,9 +15,36 @@ import java.time.ZonedDateTime;
 public class LoanDto {
 
     private Integer id;
-    private ZonedDateTime date;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
     private BorrowerDto borrower;
+    private boolean isReturned;
     private ItemDto item;
+
+    /**
+     * Instantiates a new Loan dto.
+     */
+    public LoanDto() {
+    }
+
+    /**
+     * Instantiates a new Loan dto.
+     *
+     * @param id         the id
+     * @param start      the start
+     * @param end        the end
+     * @param borrower   the borrower
+     * @param isReturned the is returned
+     * @param item       the item
+     */
+    public LoanDto(Integer id, ZonedDateTime start, ZonedDateTime end, BorrowerDto borrower, boolean isReturned, ItemDto item) {
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.borrower = borrower;
+        this.isReturned = isReturned;
+        this.item = item;
+    }
 
     /**
      * Gets id.
@@ -37,22 +64,59 @@ public class LoanDto {
         this.id = id;
     }
 
+
     /**
-     * Gets date.
+     * Is returned boolean.
      *
-     * @return the date
+     * @return the boolean
      */
-    public ZonedDateTime getDate() {
-        return date;
+    public boolean isReturned() {
+        return isReturned;
     }
 
     /**
-     * Sets date.
+     * Sets returned.
      *
-     * @param date the date
+     * @param returned the returned
      */
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setReturned(boolean returned) {
+        isReturned = returned;
+    }
+
+    /**
+     * Gets start.
+     *
+     * @return the start
+     */
+    public ZonedDateTime getStart() {
+        return start;
+    }
+
+    /**
+     * Sets start.
+     *
+     * @param start the start
+     */
+    public void setStart(ZonedDateTime start) {
+        this.start = start;
+    }
+
+    /**
+     * Gets end.
+     *
+     * @return the end
+     */
+    public ZonedDateTime getEnd() {
+        return end;
+    }
+
+    /**
+     * Sets end.
+     *
+     * @param end the end
+     */
+    public void setEnd(ZonedDateTime end) {
+        this.end = end;
     }
 
     /**

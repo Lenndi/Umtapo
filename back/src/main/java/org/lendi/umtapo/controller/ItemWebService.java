@@ -68,4 +68,34 @@ public class ItemWebService {
         itemDto = itemService.saveDto(itemDto);
         return new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
+
+    /**
+     * Sets item.
+     *
+     * @param itemDto the item dto
+     * @return the item
+     */
+    @RequestMapping(value = "/items", method = RequestMethod.PATCH, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity patchItem(@RequestBody ItemDto itemDto) {
+
+        if(itemDto.getId() != null) {
+            if (itemDto.getCondition() != null) {
+                if (itemService.saveCondition(itemDto) == null) {
+                    return new ResponseEntity<>("Item not found", HttpStatus.NOT_FOUND);
+                } else {
+                    return new ResponseEntity<>("Item modified", HttpStatus.OK);
+                }
+            } else if (itemDto.getInternalId() != null) {
+                if (itemService.saveInternalId(itemDto) == null) {
+                    return new ResponseEntity<>("Item not found", HttpStatus.NOT_FOUND);
+                } else {
+                    return new ResponseEntity<>("Item modified", HttpStatus.OK);
+                }
+            }
+        } else {
+            return new ResponseEntity<>("Id cannot be null", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Patch error", HttpStatus.OK);
+    }
 }

@@ -2,6 +2,7 @@ import {ShelfMark} from './shelfmark';
 import {Loan} from './loan';
 import {Library} from './library';
 import {Record} from './record/record';
+import {Condition} from "./condition";
 export class Item {
   id: number;
   type: string;
@@ -9,9 +10,13 @@ export class Item {
   internalId: number;
   purchasePrice: number;
   loanable: boolean;
-  loan: Loan[];
-  condition: string;
+  loans: Loan[];
+  condition: Condition;
   currency: string;
   library: Library;
   record: Record;
+
+  constructor () {
+    this.loans = [];
+  }
 }

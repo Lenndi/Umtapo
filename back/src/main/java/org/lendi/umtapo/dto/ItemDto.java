@@ -11,7 +11,7 @@ import org.lendi.umtapo.enumeration.ItemType;
 import java.util.List;
 
 /**
- * Item entity.
+ * The type Item dto.
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class ItemDto {
@@ -22,11 +22,48 @@ public class ItemDto {
     private Integer internalId;
     private Float purchasePrice;
     private Boolean loanable;
-    private List<LoanDto> loan;
+    private List<LoanDto> loans;
     private Condition condition;
     private String currency;
     private LibraryDto library;
     private SimpleRecord record;
+
+    /**
+     * Instantiates a new Item dto.
+     */
+    public ItemDto() {
+    }
+
+    /**
+     * Instantiates a new Item dto.
+     *
+     * @param id            the id
+     * @param type          the type
+     * @param shelfmark     the shelfmark
+     * @param internalId    the internal id
+     * @param purchasePrice the purchase price
+     * @param loanable      the loanable
+     * @param loans         the loans
+     * @param condition     the condition
+     * @param currency      the currency
+     * @param library       the library
+     * @param record        the record
+     */
+    public ItemDto(Integer id, ItemType type, ShelfMark shelfmark, Integer internalId, Float purchasePrice,
+                   Boolean loanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
+                   SimpleRecord record) {
+        this.id = id;
+        this.type = type;
+        this.shelfmark = shelfmark;
+        this.internalId = internalId;
+        this.purchasePrice = purchasePrice;
+        this.loanable = loanable;
+        this.loans = loans;
+        this.condition = condition;
+        this.currency = currency;
+        this.library = library;
+        this.record = record;
+    }
 
     /**
      * Gets id.
@@ -137,21 +174,21 @@ public class ItemDto {
     }
 
     /**
-     * Gets loan.
+     * Gets loans.
      *
-     * @return the loan
+     * @return the loans
      */
-    public List<LoanDto> getLoan() {
-        return loan;
+    public List<LoanDto> getLoans() {
+        return loans;
     }
 
     /**
-     * Sets loan.
+     * Sets loans.
      *
-     * @param loan the loan
+     * @param loans the loans
      */
-    public void setLoan(List<LoanDto> loan) {
-        this.loan = loan;
+    public void setLoans(List<LoanDto> loans) {
+        this.loans = loans;
     }
 
     /**
@@ -191,36 +228,36 @@ public class ItemDto {
     }
 
     /**
-     * Gets library id.
+     * Gets library.
      *
-     * @return the library id
+     * @return the library
      */
     public LibraryDto getLibrary() {
         return library;
     }
 
     /**
-     * Sets library id.
+     * Sets library.
      *
-     * @param library the library id
+     * @param library the library
      */
     public void setLibrary(LibraryDto library) {
         this.library = library;
     }
 
     /**
-     * Gets record id.
+     * Gets record.
      *
-     * @return the record id
+     * @return the record
      */
     public SimpleRecord getRecord() {
         return record;
     }
 
     /**
-     * Sets record id.
+     * Sets record.
      *
-     * @param record the record id
+     * @param record the record
      */
     public void setRecord(SimpleRecord record) {
         this.record = record;

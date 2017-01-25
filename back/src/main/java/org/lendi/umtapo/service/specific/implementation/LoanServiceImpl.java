@@ -1,5 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import org.lendi.umtapo.dao.LoanDao;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.mapper.LoanMapper;
@@ -18,21 +19,24 @@ import java.util.List;
 
 /**
  * LoanService Implementation.
- *
+ * <p>
  * Created by axel on 22/01/17.
  */
 @Service
 public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> implements LoanService {
 
     private final LoanMapper loanMapper;
+    private final LoanDao loanDao;
 
     /**
      * Instantiates a new Loan service.
      *
      * @param loanMapper the loan mapper
+     * @param loanDao
      */
     @Autowired
-    public LoanServiceImpl(LoanMapper loanMapper) {
+    public LoanServiceImpl(LoanMapper loanMapper, LoanDao loanDao) {
+        this.loanDao = loanDao;
         Assert.notNull(loanMapper);
         this.loanMapper = loanMapper;
     }
@@ -66,6 +70,13 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         List<Loan> loans = this.findAll();
 
         return this.mapLoansToLoanDtos(loans);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Integer saveEnd(LoanDto loanDto) {
+        return loanDao.saveConditonById(loanDto.getEnd(), loanDto.getId());
     }
 
     private Loan mapLoanDtoToLoan(LoanDto loanDto) {

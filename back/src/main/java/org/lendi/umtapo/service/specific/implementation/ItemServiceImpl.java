@@ -69,6 +69,20 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public Integer saveCondition(ItemDto itemDto) {
+        return itemDao.saveConditonById(itemDto.getCondition(), itemDto.getId());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Integer saveInternalId(ItemDto itemDto) {
+        return itemDao.saveIsLoanableById(itemDto.getId());
+    }
+
     private Item mapItemDtoToItem(ItemDto itemDto) {
         return this.itemMapper.mapItemDtoToItem(itemDto);
     }

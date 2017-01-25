@@ -20,7 +20,9 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private ZonedDateTime date;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
+    private boolean isReturned;
     @ManyToOne(cascade = CascadeType.MERGE)
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
@@ -28,15 +30,20 @@ public class Loan {
     @PrimaryKeyJoinColumn(name = "ITEMID", referencedColumnName = "ID")
     private Item item;
 
+
     /**
      * Instantiates a new Loan.
      *
-     * @param date     the date
-     * @param borrower the borrower
-     * @param item     the item
+     * @param start      the start
+     * @param end        the end
+     * @param isReturned the is returned
+     * @param borrower   the borrower
+     * @param item       the item
      */
-    public Loan(ZonedDateTime date, Borrower borrower, Item item) {
-        this.date = date;
+    public Loan(ZonedDateTime start, ZonedDateTime end, boolean isReturned, Borrower borrower, Item item) {
+        this.start = start;
+        this.end = end;
+        this.isReturned = isReturned;
         this.borrower = borrower;
         this.item = item;
     }
@@ -66,21 +73,57 @@ public class Loan {
     }
 
     /**
-     * Gets date.
+     * Is returned boolean.
      *
-     * @return the date
+     * @return the boolean
      */
-    public ZonedDateTime getDate() {
-        return date;
+    public boolean isReturned() {
+        return isReturned;
     }
 
     /**
-     * Sets date.
+     * Sets returned.
      *
-     * @param date the date
+     * @param returned the returned
      */
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setReturned(boolean returned) {
+        isReturned = returned;
+    }
+
+    /**
+     * Gets start.
+     *
+     * @return the start
+     */
+    public ZonedDateTime getStart() {
+        return start;
+    }
+
+    /**
+     * Sets start.
+     *
+     * @param start the start
+     */
+    public void setStart(ZonedDateTime start) {
+        this.start = start;
+    }
+
+    /**
+     * Gets end.
+     *
+     * @return the end
+     */
+    public ZonedDateTime getEnd() {
+        return end;
+    }
+
+    /**
+     * Sets end.
+     *
+     * @param end the end
+     */
+    public void setEnd(ZonedDateTime end) {
+        this.end = end;
     }
 
     /**

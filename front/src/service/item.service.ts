@@ -31,4 +31,22 @@ export class ItemService {
       .then(response => response.json() as Item)
       .catch(error => this.httpLogger.error(error));
   }
+
+  saveCondition(item: Item): Promise<number> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .patch(this.itemUrl, JSON.stringify(item), options)
+      .toPromise()
+      .then(response => response.status)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  saveInternalId(item: Item): Promise<number> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .patch(this.itemUrl, JSON.stringify(item), options)
+      .toPromise()
+      .then(response => response.status)
+      .catch(error => this.httpLogger.error(error));
+  }
 }

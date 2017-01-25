@@ -3,5 +3,6 @@ export const api = {
   z3950: 'z3950',
   borrower: 'borrowers',
   record: 'records',
-  item: 'items'
+  item: 'items',
+  loan: 'loans'
 };

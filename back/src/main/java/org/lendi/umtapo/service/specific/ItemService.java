@@ -2,6 +2,7 @@ package org.lendi.umtapo.service.specific;
 
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,27 @@ public interface ItemService extends GenericService<Item, Integer> {
      */
     List<ItemDto> findAllDto();
 
+
+    /**
+     * Item condition change
+     *
+     * @param itemDto the item dto
+     * @return the item dto
+     */
+    Integer saveCondition(ItemDto itemDto);
+
     /**
      * {@inheritDoc}
      */
     @Override
     Boolean exists(Integer id);
-}
+
+    /**
+     * Item back to library (check in)
+     *
+     * @param itemDto the item dto
+     * @return the integer
+     */
+    public Integer saveInternalId(ItemDto itemDto);
+
+    }

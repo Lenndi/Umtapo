@@ -1,4 +1,10 @@
+import {Item} from "./item";
+import {Borrower} from "./borrower";
+
 export class Loan {
-    private id: number;
-    private date: Date;
+  id: number;
+  start: Date;
+  end: Date;
+  borrower: Borrower;
+  item: Item;
 }
