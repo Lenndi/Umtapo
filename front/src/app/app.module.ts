@@ -39,6 +39,7 @@ import {CirculationCheckOutComponent} from
   './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 import {CirculationComponent} from "./circulation/circulation.component";
 import {ConditionEnum} from "../entity/enum/pipe.enum";
+import {LoanService} from "../service/loan.service";
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import {ConditionEnum} from "../entity/enum/pipe.enum";
     LibraryService,
     Z3950Service,
     SetupDataService,
-    BorrowerService
+    BorrowerService,
+    LoanService
   ],
   bootstrap: [AppComponent],
   exports: [ConditionEnum],

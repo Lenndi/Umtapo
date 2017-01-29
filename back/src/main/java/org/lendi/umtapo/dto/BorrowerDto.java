@@ -1,6 +1,7 @@
 package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.util.JsonViewResolver;
@@ -28,7 +29,6 @@ public class BorrowerDto {
     @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private AddressDto address;
     private List<SubscriptionDto> subscriptions;
-    private List<LoanDto> loans;
     private LibraryDto library;
 
     /**
@@ -119,24 +119,6 @@ public class BorrowerDto {
      */
     public void setSubscriptions(List<SubscriptionDto> subscriptions) {
         this.subscriptions = subscriptions;
-    }
-
-    /**
-     * Gets loans.
-     *
-     * @return the loans
-     */
-    public List<LoanDto> getLoans() {
-        return loans;
-    }
-
-    /**
-     * Sets loans.
-     *
-     * @param loans the loans
-     */
-    public void setLoans(List<LoanDto> loans) {
-        this.loans = loans;
     }
 
     /**

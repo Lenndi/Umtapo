@@ -18,7 +18,7 @@ public class LoanDto {
     private ZonedDateTime start;
     private ZonedDateTime end;
     private BorrowerDto borrower;
-    private boolean isReturned;
+    private Boolean returned;
     private ItemDto item;
 
     /**
@@ -30,19 +30,19 @@ public class LoanDto {
     /**
      * Instantiates a new Loan dto.
      *
-     * @param id         the id
-     * @param start      the start
-     * @param end        the end
-     * @param borrower   the borrower
-     * @param isReturned the is returned
-     * @param item       the item
+     * @param id       the id
+     * @param start    the start
+     * @param end      the end
+     * @param borrower the borrower
+     * @param returned the returned
+     * @param item     the item
      */
-    public LoanDto(Integer id, ZonedDateTime start, ZonedDateTime end, BorrowerDto borrower, boolean isReturned, ItemDto item) {
+    public LoanDto(Integer id, ZonedDateTime start, ZonedDateTime end, BorrowerDto borrower, Boolean returned, ItemDto item) {
         this.id = id;
         this.start = start;
         this.end = end;
         this.borrower = borrower;
-        this.isReturned = isReturned;
+        this.returned = returned;
         this.item = item;
     }
 
@@ -66,12 +66,12 @@ public class LoanDto {
 
 
     /**
-     * Is returned boolean.
+     * Gets returned.
      *
-     * @return the boolean
+     * @return the returned
      */
-    public boolean isReturned() {
-        return isReturned;
+    public Boolean getReturned() {
+        return returned;
     }
 
     /**
@@ -79,8 +79,8 @@ public class LoanDto {
      *
      * @param returned the returned
      */
-    public void setReturned(boolean returned) {
-        isReturned = returned;
+    public void setReturned(Boolean returned) {
+        this.returned = returned;
     }
 
     /**

@@ -1,11 +1,15 @@
 package org.lendi.umtapo.service.specific;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -57,25 +61,20 @@ public interface ItemService extends GenericService<Item, Integer> {
 
 
     /**
-     * Item condition change
-     *
-     * @param itemDto the item dto
-     * @return the item dto
-     */
-    Integer saveCondition(ItemDto itemDto);
-
-    /**
      * {@inheritDoc}
      */
     @Override
     Boolean exists(Integer id);
 
     /**
-     * Item back to library (check in)
+     * Dynamic patch borrower.
      *
-     * @param itemDto the item dto
-     * @return the integer
+     * @param jsonNodeItem the json node item
+     * @param item         the item
+     * @return the borrower
+     * @throws IOException        the io exception
+     * @throws JsonPatchException the json patch exception
      */
-    public Integer saveInternalId(ItemDto itemDto);
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException;
 
-    }
+}

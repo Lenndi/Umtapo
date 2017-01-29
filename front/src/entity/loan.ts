@@ -7,4 +7,6 @@ export class Loan {
   end: Date;
   borrower: Borrower;
   item: Item;
+  returned: boolean
+
 }

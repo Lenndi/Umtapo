@@ -1,5 +1,7 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.LoanDao;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
@@ -7,13 +9,10 @@ import org.lendi.umtapo.mapper.LoanMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.geo.GeoPage;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +74,27 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     /**
      * {@inheritDoc}
      */
+    @Override
+    public List<LoanDto> findAllDtoByBorrowerIdAndReturned(Integer id) {
+        List<Loan> loans = loanDao.findByBorrowerIdAndReturnedFalse(id);
+
+        return this.mapLoansToLoanDtos(loans);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Integer saveEnd(LoanDto loanDto) {
         return loanDao.saveConditonById(loanDto.getEnd(), loanDto.getId());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IOException, JsonPatchException {
+
+        loanMapper.mergeLoanAndJsonNode(loan, jsonNodeLoan);
+        return this.mapLoanToLoanDto(this.save(loan));
     }
 
     private Loan mapLoanDtoToLoan(LoanDto loanDto) {

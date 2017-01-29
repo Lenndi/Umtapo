@@ -17,8 +17,28 @@ export class LoanService {
 
   saveEnd(loan: Loan): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
+    let patch = {"end" : loan.end};
     return this.http
-      .patch(this.loanUrl, JSON.stringify(loan), options)
+      .patch(this.loanUrl + "/" + loan.id, JSON.stringify(patch), options)
+      .toPromise()
+      .then(response => response.status)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  findAllDtoByBorrowerIdAndReturned(borrowerId: number): Promise<Loan[]> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .get(this.loanUrl + "?id=" + borrowerId, options)
+      .toPromise()
+      .then(response => response.json() as Loan[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  returnBookLoan(id: number): Promise<any> {
+    let options = new RequestOptions({headers: this.headers});
+    let patch = {"returned" : true};
+    return this.http
+      .patch(this.loanUrl + "/" + id, JSON.stringify(patch), options)
       .toPromise()
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));

@@ -1,5 +1,7 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.BorrowerDao;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -67,7 +70,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      */
     @Override
     public List<BorrowerDto> findAllDto() {
-        List<Borrower> borrowers = this.findAll();
+        List<Borrower> borrowers = findAll();
 
         return this.mapBorrowersToBorrowerDtos(borrowers);
     }
@@ -97,6 +100,15 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.findAll(pageable);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IOException,
+            JsonPatchException {
+
+        borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
+        return this.mapBorrowerToBorrowerDto(this.save(borrower));
+    }
 
     private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);

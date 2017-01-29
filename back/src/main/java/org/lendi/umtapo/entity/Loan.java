@@ -22,7 +22,7 @@ public class Loan {
     private Integer id;
     private ZonedDateTime start;
     private ZonedDateTime end;
-    private boolean isReturned;
+    private Boolean returned;
     @ManyToOne(cascade = CascadeType.MERGE)
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
@@ -34,16 +34,16 @@ public class Loan {
     /**
      * Instantiates a new Loan.
      *
-     * @param start      the start
-     * @param end        the end
-     * @param isReturned the is returned
-     * @param borrower   the borrower
-     * @param item       the item
+     * @param start    the start
+     * @param end      the end
+     * @param returned the returned
+     * @param borrower the borrower
+     * @param item     the item
      */
-    public Loan(ZonedDateTime start, ZonedDateTime end, boolean isReturned, Borrower borrower, Item item) {
+    public Loan(ZonedDateTime start, ZonedDateTime end, Boolean returned, Borrower borrower, Item item) {
         this.start = start;
         this.end = end;
-        this.isReturned = isReturned;
+        this.returned = returned;
         this.borrower = borrower;
         this.item = item;
     }
@@ -73,12 +73,12 @@ public class Loan {
     }
 
     /**
-     * Is returned boolean.
+     * Gets returned.
      *
-     * @return the boolean
+     * @return the returned
      */
-    public boolean isReturned() {
-        return isReturned;
+    public Boolean getReturned() {
+        return returned;
     }
 
     /**
@@ -86,8 +86,8 @@ public class Loan {
      *
      * @param returned the returned
      */
-    public void setReturned(boolean returned) {
-        isReturned = returned;
+    public void setReturned(Boolean returned) {
+        this.returned = returned;
     }
 
     /**

@@ -68,9 +68,9 @@ public class BorrowerWebServiceTest {
     public void setup() {
         zonedDateTime = ZonedDateTime.of(2000, 5, 25, 21, 52, 35, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null, null);
+                true, null, null, null);
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null, null);
+                false, null, null, null);
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }
@@ -94,7 +94,6 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
                 .andExpect(jsonPath("$.subscription", nullValue()))
-                .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
         verify(borrowerService, times(1)).findOneDto(1);
         verifyNoMoreInteractions(borrowerService);
@@ -123,7 +122,6 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$[0].emailOptin", is(true)))
                 .andExpect(jsonPath("$[0].address", nullValue()))
                 .andExpect(jsonPath("$[0].subscription", nullValue()))
-                .andExpect(jsonPath("$[0].loan", nullValue()))
                 .andExpect(jsonPath("$[0].library", nullValue()))
                 .andExpect(jsonPath("$[1].name", is("NameTest2")))
                 .andExpect(jsonPath("$[1].comment", is("CommentTest2")))
@@ -160,7 +158,6 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
                 .andExpect(jsonPath("$.subscription", nullValue()))
-                .andExpect(jsonPath("$.loan", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
         verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);

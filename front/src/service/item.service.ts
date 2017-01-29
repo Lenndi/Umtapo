@@ -34,17 +34,19 @@ export class ItemService {
 
   saveCondition(item: Item): Promise<number> {
     let options = new RequestOptions({headers: this.headers});
+    let patch = {"condition" : item.condition};
     return this.http
-      .patch(this.itemUrl, JSON.stringify(item), options)
+      .patch(this.itemUrl + "/" + item.id, JSON.stringify(patch), options)
       .toPromise()
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));
   }
 
-  saveInternalId(item: Item): Promise<number> {
+  returnBookItem(id: number): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
+    let patch = {"loanable" : true};
     return this.http
-      .patch(this.itemUrl, JSON.stringify(item), options)
+      .patch(this.itemUrl + "/" + id, JSON.stringify(patch), options)
       .toPromise()
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));

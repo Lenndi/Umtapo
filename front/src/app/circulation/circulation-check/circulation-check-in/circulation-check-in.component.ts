@@ -20,6 +20,7 @@ export class CirculationCheckInComponent implements OnInit {
   private borrower: Borrower;
   conditionEnum: CustomMap;
   itemId: number;
+  serial: string;
 
 
   constructor(public dataService: CirculationDataService,
@@ -30,6 +31,11 @@ export class CirculationCheckInComponent implements OnInit {
 
   ngOnInit() {
     this.borrower = this.dataService.borrower;
+    this.loanService.findAllDtoByBorrowerIdAndReturned(this.borrower.id)
+      .then(response => {
+        this.borrower.loans = response;
+      });
+
   }
 
   saveCondition(value, id) {
@@ -49,14 +55,17 @@ export class CirculationCheckInComponent implements OnInit {
     // TODO Toast modification
   }
 
-  checkInInternalId() {
+  returnBook(idLoan, idItem){
+    this.loanService.returnBookLoan(idLoan);
+    this.itemService.returnBookItem(idItem);
+  }
+
+  checkBySerialOrInternalId() {
     if (this.itemId !== null) {
       for (let loan of this.borrower.loans) {
         if (loan.item.internalId == this.itemId) {
-          let item: Item = new Item();
-          item.id = loan.item.id;
-          item.internalId = loan.item.internalId;
-          this.itemService.saveInternalId(item);
+          this.loanService.returnBookLoan(loan.id);
+          this.itemService.returnBookItem(loan.item.id);
         } else {
           // TODO TOAST
         }

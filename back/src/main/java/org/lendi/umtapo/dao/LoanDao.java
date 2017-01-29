@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Item Dao.
@@ -18,7 +19,7 @@ public interface LoanDao extends JpaRepository<Loan, Integer> {
     @Query("update Loan l set l.end = ?1 where l.id = ?2")
     Integer saveConditonById(ZonedDateTime date, Integer id);
 
-    @Modifying
-    @Query("update Loan l set i.isReturn = true where i.id = ?2")
-    Integer saveIsReturnIdById(Integer id);
+    List<Loan> findByBorrowerIdAndReturnedFalse(Integer borrower);
+
+
 }

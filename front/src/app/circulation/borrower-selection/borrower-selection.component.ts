@@ -8,6 +8,7 @@ import {jsonViewResolver} from '../../../config/jsonViewResolver';
 import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
 import {Observable, Subject} from 'rxjs'; // <-- import the module
 import {Http, Response} from '@angular/http';
+import {Loan} from "../../../entity/loan";
 
 
 @Component({
@@ -82,6 +83,7 @@ export class BorrowerSelectionComponent implements OnInit {
           this.router.navigate(['circulation/check/']);
         })
         .catch(error => this.snackBar.open(`Cet identifiant n'existe pas`, 'OK'));
+
     } else {
       this.snackBar.open('Les champs du formulaire sont vides', 'OK');
     }

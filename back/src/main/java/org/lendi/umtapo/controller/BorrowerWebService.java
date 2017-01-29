@@ -1,7 +1,10 @@
 package org.lendi.umtapo.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
+import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.lendi.umtapo.util.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -121,5 +125,33 @@ public class BorrowerWebService {
 
         borrowerDto = borrowerService.saveDto(borrowerDto);
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
+    }
+
+    /**
+     * Patch response entity.
+     *
+     * @param jsonNodeBorrower the json node borrower
+     * @param id               the id
+     * @return the response entity
+     * @throws IOException        the io exception
+     * @throws JsonPatchException the json patch exception
+     */
+    @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
+            "application/json", "application/json-patch+json"})
+    public ResponseEntity patch(@RequestBody JsonNode jsonNodeBorrower, @PathVariable Integer id) {
+
+        Borrower borrower = borrowerService.findOne(id);
+        if (borrower == null) {
+            return new ResponseEntity<>("This borrower do not exist", HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                borrowerService.patchBorrower(jsonNodeBorrower, borrower);
+            } catch (IOException | JsonPatchException e) {
+                LOGGER.error("JsonPatch Error" + e);
+                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

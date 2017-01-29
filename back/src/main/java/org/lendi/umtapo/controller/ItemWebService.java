@@ -1,7 +1,10 @@
 package org.lendi.umtapo.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
+import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.specific.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 /**
  * Item web service.
@@ -72,30 +77,26 @@ public class ItemWebService {
     /**
      * Sets item.
      *
-     * @param itemDto the item dto
+     * @param jsonNodeItem the json node item
+     * @param id           the id
      * @return the item
      */
-    @RequestMapping(value = "/items", method = RequestMethod.PATCH, consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity patchItem(@RequestBody ItemDto itemDto) {
+    @RequestMapping(value = "/items/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
+            "application/json", "application/json-patch+json"})
+    public ResponseEntity patch(@RequestBody JsonNode jsonNodeItem, @PathVariable Integer id) {
 
-        if(itemDto.getId() != null) {
-            if (itemDto.getCondition() != null) {
-                if (itemService.saveCondition(itemDto) == null) {
-                    return new ResponseEntity<>("Item not found", HttpStatus.NOT_FOUND);
-                } else {
-                    return new ResponseEntity<>("Item modified", HttpStatus.OK);
-                }
-            } else if (itemDto.getInternalId() != null) {
-                if (itemService.saveInternalId(itemDto) == null) {
-                    return new ResponseEntity<>("Item not found", HttpStatus.NOT_FOUND);
-                } else {
-                    return new ResponseEntity<>("Item modified", HttpStatus.OK);
-                }
-            }
+        Item item = itemService.findOne(id);
+        if (item == null) {
+            return new ResponseEntity<>("This item do not exist", HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>("Id cannot be null", HttpStatus.BAD_REQUEST);
+            try {
+                itemService.patchItem(jsonNodeItem, item);
+            } catch (IOException | JsonPatchException e) {
+                LOGGER.error("JsonPatch Error" + e);
+                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        return new ResponseEntity<>("Patch error", HttpStatus.OK);
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

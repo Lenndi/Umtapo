@@ -1,5 +1,7 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.ItemDao;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,16 +75,12 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public Integer saveCondition(ItemDto itemDto) {
-        return itemDao.saveConditonById(itemDto.getCondition(), itemDto.getId());
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException {
+
+        itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
+        return this.mapItemToItemDto(this.save(item));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Integer saveInternalId(ItemDto itemDto) {
-        return itemDao.saveIsLoanableById(itemDto.getId());
-    }
 
     private Item mapItemDtoToItem(ItemDto itemDto) {
         return this.itemMapper.mapItemDtoToItem(itemDto);

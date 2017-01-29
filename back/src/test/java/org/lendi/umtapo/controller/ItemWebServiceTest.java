@@ -66,8 +66,8 @@
 //    public void setup() {
 //        Item item = new Item("typeTest", "titleTest", "internalIdTest", 5, true, null, null);
 //        Item item2 = new Item("typeTest2", "titleTest2", "internalIdTest2", 7, false, null, null);
-//        itemDto = itemMapper.mapItemToItemDto(item);
-//        itemDto2 = itemMapper.mapItemToItemDto(item2);
+//        itemDto = itemMapper.mergeItemAndJsonNode(item);
+//        itemDto2 = itemMapper.mergeItemAndJsonNode(item2);
 //    }
 //
 //    /**

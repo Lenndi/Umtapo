@@ -22,12 +22,4 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      */
     @Query("select max(internalId) from Item")
     Integer findTopInternalId();
-
-    @Modifying
-    @Query("update Item i set i.condition = ?1 where i.id = ?2")
-    Integer saveConditonById(Condition condition, Integer id);
-
-    @Modifying
-    @Query("update Item i set i.loanable = true where i.id = ?2")
-    Integer saveIsLoanableById(Integer id);
 }

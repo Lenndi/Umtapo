@@ -6,14 +6,14 @@
           <h4 class="card-title">Retours</h4>
         </div>
         <div class="col-1">
-          <button (click)="checkInInternalId()" type="button" class="btn btn-warning"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+          <button (click)="checkBySerialOrInternalId()" type="button" class="btn btn-warning"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
         </div>
       </div>
       <div class="row">
         <div class="col-4">
           <div class="form-group">
             <label for="serial">Serial</label>
-            <input id="serial" type="text" class="form-control form-control-sm" placeholder="Serial">
+            <input [(ngModel)]="serial" id="serial" type="text" class="form-control form-control-sm" placeholder="Serial">
             <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
           </div>
         </div>
@@ -63,8 +63,8 @@
               </div>
             </div>
             <div class="col-12 col-md-1 button-check-in">
-              <div onclick="">
-                <i class="fa fa-arrow-down fa-2x "></i>
+              <div >
+                <i (click)="returnBook(loan.id, loan.item.id)" class="fa fa-arrow-down fa-2x "></i>
               </div>
             </div>
           </li>
