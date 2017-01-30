@@ -55,7 +55,14 @@ export class CirculationCheckInComponent implements OnInit {
     // TODO Toast modification
   }
 
-  returnBook(idLoan, idItem){
+  returnAllBooks(){
+    for (let loan of this.borrower.loans){
+      this.loanService.returnBookLoan(loan.id);
+      this.itemService.returnBookItem(loan.item.id);
+    }
+  }
+
+  returnBook(idLoan, idItem) {
     this.loanService.returnBookLoan(idLoan);
     this.itemService.returnBookItem(idItem);
   }
@@ -70,6 +77,28 @@ export class CirculationCheckInComponent implements OnInit {
           // TODO TOAST
         }
       }
+    } else if (this.serial !== null) {
+      let cnt = 0;
+      let loanId;
+      let itemId;
+      for (let loan of this.borrower.loans) {
+        if (loan.item.record.identifier.serialNumber == this.serial) {
+          loanId = loan.id;
+          itemId = loan.item.id;
+          cnt++;
+        }
+      }
+      if (cnt == 1) {
+        this.loanService.returnBookLoan(loanId);
+        this.itemService.returnBookItem(itemId);
+        // TODO Toast
+      } else if (cnt > 1) {
+        // TODO Toast
+      } else {
+        // TODO Toast
+      }
+    } else {
+      // TODO Toast
     }
   }
 }

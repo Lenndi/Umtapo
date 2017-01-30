@@ -33,7 +33,7 @@
       <hr>
       <div class="row">
         <div class="col-1 umt-button-return">
-          <button type="button" class="btn btn-warning">Tout retourner</button>
+          <button (click)="returnAllBooks()" type="button" class="btn btn-warning">Tout retourner</button>
         </div>
       </div>
       <div *ngFor="let loan of borrower.loans">
