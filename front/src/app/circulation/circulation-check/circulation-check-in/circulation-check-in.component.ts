@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {CirculationDataService} from "../../../../service/data-binding/circulation-data.service";
-import {Borrower} from "../../../../entity/borrower";
+import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
+import {Borrower} from '../../../../entity/borrower';
 import {DatepickerModule} from 'ng2-bootstrap';
-import {DateFormatter} from "@angular/common/src/pipes/intl";
+import {DateFormatter} from '@angular/common/src/pipes/intl';
 import {Loan} from "../../../../entity/loan";
 import {conditionEnum} from '../../../../enumeration/fr';
-import {CustomMap} from "../../../../enumeration/custom-map";
+import {CustomMap} from '../../../../enumeration/custom-map';
 import {ItemService} from "../../../../service/item.service";
 import {Item} from "../../../../entity/item";
-import {LoanService} from "../../../../service/loan.service";
+import {LoanService} from '../../../../service/loan.service';
 
 @Component({
   selector: 'umt-circulation-check-in',

@@ -37,9 +37,9 @@ import {CirculationCheckInComponent} from
   './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
 import {CirculationCheckOutComponent} from
   './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
-import {CirculationComponent} from "./circulation/circulation.component";
-import {ConditionEnum} from "../entity/enum/pipe.enum";
-import {LoanService} from "../service/loan.service";
+import {CirculationComponent} from './circulation/circulation.component';
+import {ConditionEnum} from '../entity/enum/pipe.enum';
+import {LoanService} from '../service/loan.service';
 
 @NgModule({
   declarations: [
