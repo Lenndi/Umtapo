@@ -29,7 +29,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
     private final BorrowerMapper borrowerMapper;
     private final BorrowerDao borrowerDao;
-    private final SolrBorrowerService indexService;
+    private final SolrBorrowerService solrBorrowerService;
 
     /**
      * Instantiates a new Borrower service.
@@ -48,7 +48,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         Assert.notNull(borrowerDao);
         this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
-        this.indexService = indexService;
+        this.solrBorrowerService = indexService;
     }
 
     /**
@@ -59,14 +59,14 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
-        this.indexService.addToIndex(borrowerDto);
+        this.solrBorrowerService.addToIndex(borrower);
 
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
     @Override
     public void delete(Integer borrowerId) {
-        this.indexService.deleteFromIndex(borrowerId);
+        this.solrBorrowerService.deleteFromIndex(borrowerId);
         super.delete(borrowerId);
     }
 
@@ -76,7 +76,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
-        this.indexService.search("est");
+        this.solrBorrowerService.search("test");
 
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
@@ -145,8 +145,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
         borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
-        Page<BorrowerDto> page = new PageImpl(borrowerDtos);
 
-        return page;
+        return new PageImpl(borrowerDtos);
     }
 }

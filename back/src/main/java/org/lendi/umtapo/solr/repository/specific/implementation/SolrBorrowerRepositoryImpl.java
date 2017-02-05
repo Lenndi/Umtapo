@@ -21,12 +21,6 @@ public class SolrBorrowerRepositoryImpl extends AbstractSolrRepository<BorrowerD
 
     @Override
     public List<BorrowerDocument> findByEmailOrName(String term) throws IOException, SolrServerException {
-        try {
-            this.queryWithChild("*");
-            return this.queryWithChild("name:" + term);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return this.queryWithChild(String.format("name:%s OR email:%s", term, term));
     }
 }

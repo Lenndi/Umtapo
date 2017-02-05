@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class BorrowerDocument {
 
-    public static final String DOCUMENT_TYPE = "borrower";
+    private static final String DOCUMENT_TYPE = "borrower";
 
     @Field(value = "document_type")
     private String documentType;
@@ -24,7 +24,6 @@ public class BorrowerDocument {
     @Field
     private String comment;
 
-    @Field
     private ZonedDateTime birthday;
 
     @Field
