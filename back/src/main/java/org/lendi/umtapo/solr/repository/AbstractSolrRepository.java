@@ -6,9 +6,13 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.lendi.umtapo.solr.configuration.SolrConfig;
 import org.springframework.core.GenericTypeResolver;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,37 +65,37 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> query(String queryStr) throws SolrRepositoryException {
-        return this.query(queryStr, null, null, null);
+    protected List<T> query(String queryStr, Pageable pageable) throws SolrRepositoryException {
+        return this.query(queryStr, null, null, null, pageable);
     }
 
     /**
-     * Query parent with children list.
+     * Search on parent and return parents with there children.
      *
-     * @param queryStr the query str
+     * @param queryStr the query string
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryParentWithChildren(String queryStr) throws SolrRepositoryException {
+    protected List<T> queryParentWithChildren(String queryStr, Pageable pageable) throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query(queryStr, null, fieldList, null);
+        return this.query(queryStr, null, fieldList, null, pageable);
     }
 
     /**
-     * Query children with parent list.
+     * Search on children and return parents with there children.
      *
      * @param queryStr the query str
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryChildrenWithParent(String queryStr) throws SolrRepositoryException {
+    protected List<T> queryChildrenWithParent(String queryStr, Pageable pageable) throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryStr);
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query("*:*", filterQuery, fieldList, null);
+        return this.query("*:*", filterQuery, fieldList, null, pageable);
     }
 
     /**
@@ -102,12 +106,13 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryParentAndChildren(String queryParent, String queryChildren) throws SolrRepositoryException {
+    protected List<T> queryParentAndChildren(String queryParent, String queryChildren, Pageable pageable)
+            throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryChildren);
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query(queryParent, filterQuery, fieldList, null);
+        return this.query(queryParent, filterQuery, fieldList, null, pageable);
     }
 
     /**
@@ -120,8 +125,13 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> query(String queryStr, String optFilter, String optFields, Map<String, String> extraParams)
-            throws SolrRepositoryException {
+    protected List<T> query(
+            String queryStr,
+            String optFilter,
+            String optFields,
+            Map<String, String> extraParams,
+            Pageable pageable
+    ) throws SolrRepositoryException {
         SolrQuery query = new SolrQuery(queryStr);
         if (null != optFilter) {
             query.addFilterQuery(optFilter);
@@ -136,6 +146,20 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
                 query.set(param.getKey(), param.getValue());
             }
         }
+        if (pageable != null) {
+            query.setStart(pageable.getPageNumber());
+            query.setRows(pageable.getPageSize());
+
+            for (Sort.Order order : pageable.getSort()) {
+                SolrQuery.ORDER translatedOrder;
+                if (order.getDirection().compareTo(Sort.Direction.ASC) == 0) {
+                    translatedOrder = SolrQuery.ORDER.asc;
+                } else {
+                    translatedOrder = SolrQuery.ORDER.desc;
+                }
+                query.addSort(order.getProperty(), translatedOrder);
+            }
+        }
 
         QueryResponse response;
         try {
@@ -143,6 +167,8 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         } catch (SolrServerException | IOException e) {
             throw new SolrRepositoryException("Can't execute query : " + query.toString(), e);
         }
+        // TODO: return a Page<BorrowerDocument>
+        response.getResults().getNumFound();
 
         return response.getBeans(this.tType);
     }
