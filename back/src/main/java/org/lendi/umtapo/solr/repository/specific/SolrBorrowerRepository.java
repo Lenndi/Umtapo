@@ -1,10 +1,9 @@
 package org.lendi.umtapo.solr.repository.specific;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.repository.SolrRepository;
+import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,7 +11,20 @@ import java.util.List;
  */
 public interface SolrBorrowerRepository extends SolrRepository<BorrowerDocument> {
 
-    List<BorrowerDocument> searchByNameOrEmail(String term) throws IOException, SolrServerException;
+    /**
+     * Search by name list.
+     *
+     * @param term the term
+     * @return the list
+     * @throws SolrRepositoryException the solr repository exception
+     */
+    List<BorrowerDocument> searchByName(String term) throws SolrRepositoryException;
 
-    List<BorrowerDocument> searchAll() throws IOException, SolrServerException;
+    /**
+     * Search all list.
+     *
+     * @return the list
+     * @throws SolrRepositoryException the solr repository exception
+     */
+    List<BorrowerDocument> searchAll() throws SolrRepositoryException;
 }

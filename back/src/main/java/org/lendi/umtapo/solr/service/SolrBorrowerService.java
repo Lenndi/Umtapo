@@ -1,6 +1,5 @@
 package org.lendi.umtapo.solr.service;
 
-import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 
@@ -32,5 +31,5 @@ public interface SolrBorrowerService {
      * @param term the term
      * @return the list
      */
-    List<BorrowerDocument> searchByNameOrEmail(String term);
+    List<BorrowerDocument> searchByName(String term);
 }

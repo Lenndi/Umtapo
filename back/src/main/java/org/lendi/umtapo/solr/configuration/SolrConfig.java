@@ -2,12 +2,9 @@ package org.lendi.umtapo.solr.configuration;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.core.CoreContainer;
-import org.lendi.umtapo.solr.service.implementation.SolrBorrowerServiceImpl;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +24,12 @@ public class SolrConfig {
     @Resource
     private Environment env;
 
+    /**
+     * Solr client solr client.
+     *
+     * @param core the core
+     * @return the solr client
+     */
     public SolrClient solrClient(String core) {
         SolrClient solrClient;
         final String solrHome = this.env.getProperty("solr.home");
