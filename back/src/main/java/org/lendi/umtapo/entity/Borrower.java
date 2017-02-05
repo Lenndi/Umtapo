@@ -36,7 +36,7 @@ public class Borrower {
             inverseJoinColumns = @JoinColumn(name = "SUBSCRIPTION_ID")
     )
     private List<Subscription> subscriptions;
-    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "borrower")
     private List<Loan> loans;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;

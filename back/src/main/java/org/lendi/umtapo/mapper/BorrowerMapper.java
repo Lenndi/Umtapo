@@ -7,6 +7,7 @@ import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -20,12 +21,17 @@ import java.time.ZonedDateTime;
 public class BorrowerMapper extends ConfigurableMapper {
 
     private static final MapperFacade MAPPER;
+    private static final MapperFacade DOCUMENT_MAPPER;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
         MAPPER = mapperFactory.getMapperFacade();
+
+        final MapperFactory documentMapperFactory = new DefaultMapperFactory.Builder().build();
+        mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class).byDefault().register();
+        DOCUMENT_MAPPER = documentMapperFactory.getMapperFacade();
     }
 
     /**
@@ -52,5 +58,13 @@ public class BorrowerMapper extends ConfigurableMapper {
      */
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return MAPPER.map(borrowerDto, Borrower.class);
+    }
+
+    public BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
+        return DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
+    }
+
+    public BorrowerDto mapBorrowerDocumenttoBorrowerDto(BorrowerDocument borrowerDocument) {
+        return DOCUMENT_MAPPER.map(borrowerDocument, BorrowerDto.class);
     }
 }

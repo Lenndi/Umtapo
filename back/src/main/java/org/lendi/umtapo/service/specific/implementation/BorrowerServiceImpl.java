@@ -6,11 +6,13 @@ import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
     private final BorrowerMapper borrowerMapper;
     private final BorrowerDao borrowerDao;
+    private final SolrBorrowerService indexService;
 
     /**
      * Instantiates a new Borrower service.
@@ -35,21 +38,36 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * @param borrowerDao    the borrower dao
      */
     @Autowired
-    public BorrowerServiceImpl(BorrowerMapper borrowerMapper, BorrowerDao borrowerDao) {
+    public BorrowerServiceImpl(
+            BorrowerMapper borrowerMapper,
+            BorrowerDao borrowerDao,
+            SolrBorrowerService indexService
+    ) {
         Assert.notNull(borrowerMapper);
+        Assert.notNull(indexService);
+        Assert.notNull(borrowerDao);
         this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
+        this.indexService = indexService;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
+        this.indexService.addToIndex(borrowerDto);
 
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    }
+
+    @Override
+    public void delete(Integer borrowerId) {
+        this.indexService.deleteFromIndex(borrowerId);
+        super.delete(borrowerId);
     }
 
     /**
@@ -58,6 +76,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
+        this.indexService.search("est");
 
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
