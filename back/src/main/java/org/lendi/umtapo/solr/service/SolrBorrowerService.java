@@ -2,6 +2,7 @@ package org.lendi.umtapo.solr.service;
 
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -31,5 +32,8 @@ public interface SolrBorrowerService {
      * @param term the term
      * @return the list
      */
-    List<BorrowerDocument> searchByName(String term);
+    List<BorrowerDocument> searchByName(String term, Pageable pageable);
+
+
+    List<BorrowerDocument> searchAll(Pageable pageable);
 }

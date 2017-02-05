@@ -6,6 +6,7 @@ import org.lendi.umtapo.solr.repository.AbstractSolrRepository;
 import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class SolrBorrowerRepositoryImpl extends AbstractSolrRepository<BorrowerD
     }
 
     @Override
-    public List<BorrowerDocument> searchByName(String term) throws SolrRepositoryException {
-        return this.queryParentWithChildren(String.format("name:%s", term));
+    public List<BorrowerDocument> searchByName(String term, Pageable pageable) throws SolrRepositoryException {
+        return this.queryParentWithChildren(String.format("name:*%s*", term), pageable);
     }
 
     @Override
-    public List<BorrowerDocument> searchAll() throws SolrRepositoryException {
-        return this.queryParentWithChildren("*:*");
+    public List<BorrowerDocument> searchAll(Pageable pageable) throws SolrRepositoryException {
+        return this.queryParentWithChildren("*:*", pageable);
     }
 }

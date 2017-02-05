@@ -8,6 +8,7 @@ import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -51,15 +52,15 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public List<BorrowerDocument> searchByName(String term) {
-        List<BorrowerDocument> result = null;
+    public List<BorrowerDocument> searchByName(String term, Pageable pageable) {
+        List<BorrowerDocument> borrowers = null;
         try {
-            result = this.documentRepository.searchByName(term);
+            borrowers = this.documentRepository.searchByName(term, pageable);
         } catch (SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
 
-        return result;
+        return borrowers;
     }
 
     @Override
@@ -69,6 +70,18 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
         } catch (SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
+    }
+
+    @Override
+    public List<BorrowerDocument> searchAll(Pageable pageable) {
+        List<BorrowerDocument> borrowers = null;
+        try {
+            borrowers = this.documentRepository.searchAll(pageable);
+        } catch (SolrRepositoryException e) {
+            LOGGER.error(e.getStackTrace());
+        }
+
+        return borrowers;
     }
 
     private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {

@@ -20,8 +20,9 @@ import java.time.ZonedDateTime;
 @Component
 public class BorrowerMapper extends ConfigurableMapper {
 
-    private static final MapperFacade MAPPER;
+    private static final MapperFacade DTO_MAPPER;
     private static final MapperFacade DOCUMENT_MAPPER;
+    private static final MapperFacade DTO_DOCUMENT_MAPPER;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
@@ -29,13 +30,19 @@ public class BorrowerMapper extends ConfigurableMapper {
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
 
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
-        MAPPER = mapperFactory.getMapperFacade();
+        DTO_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
                 .field("address.id", "address.addressId")
                 .byDefault()
                 .register();
         DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
+
+        mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
+                .field("address.id", "address.addressId")
+                .byDefault()
+                .register();
+        DTO_DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
     }
 
     /**
@@ -51,7 +58,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower dto
      */
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        return MAPPER.map(borrower, BorrowerDto.class);
+        return DTO_MAPPER.map(borrower, BorrowerDto.class);
     }
 
     /**
@@ -61,7 +68,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower
      */
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return MAPPER.map(borrowerDto, Borrower.class);
+        return DTO_MAPPER.map(borrowerDto, Borrower.class);
     }
 
     /**
@@ -82,5 +89,25 @@ public class BorrowerMapper extends ConfigurableMapper {
      */
     public Borrower mapBorrowerDocumenttoBorrower(BorrowerDocument borrowerDocument) {
         return DOCUMENT_MAPPER.map(borrowerDocument, Borrower.class);
+    }
+
+    /**
+     * Map borrower to borrower document borrower document.
+     *
+     * @param borrowerDto the borrower
+     * @return the borrower document
+     */
+    public BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
+        return DTO_DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
+    }
+
+    /**
+     * Map borrower documentto borrower borrower.
+     *
+     * @param borrowerDocument the borrower document
+     * @return the borrower
+     */
+    public BorrowerDto mapBorrowerDocumenttoBorrowerDto(BorrowerDocument borrowerDocument) {
+        return DTO_DOCUMENT_MAPPER.map(borrowerDocument, BorrowerDto.class);
     }
 }
