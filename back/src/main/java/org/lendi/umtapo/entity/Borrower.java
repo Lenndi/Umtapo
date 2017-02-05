@@ -36,6 +36,8 @@ public class Borrower {
             inverseJoinColumns = @JoinColumn(name = "SUBSCRIPTION_ID")
     )
     private List<Subscription> subscriptions;
+    @OneToMany(mappedBy = "borrower")
+    private List<Loan> loans;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
 
@@ -60,7 +62,7 @@ public class Borrower {
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
-            List<Subscription> subscriptions, Library library) {
+            List<Subscription> subscriptions, List<Loan> loans, Library library) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -68,6 +70,7 @@ public class Borrower {
         this.emailOptin = emailOptin;
         this.address = address;
         this.subscriptions = subscriptions;
+        this.loans = loans;
         this.library = library;
     }
 
@@ -123,6 +126,24 @@ public class Borrower {
      */
     public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    /**
+     * Gets loans.
+     *
+     * @return the loans
+     */
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    /**
+     * Sets loans.
+     *
+     * @param loans the loans
+     */
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     /**

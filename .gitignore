@@ -3,7 +3,7 @@ target/
 lib/
 umtapo.mv.db
 umtapo.trace.db
-
+back/solr/**/data
 
 ### STS ###
 .classpath
