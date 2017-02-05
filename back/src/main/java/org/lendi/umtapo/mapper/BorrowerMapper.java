@@ -107,15 +107,27 @@ public class BorrowerMapper extends ConfigurableMapper {
         MAPPER_PATCH.map(borrower, jsonNode);
     }
 
-    public BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
-        return DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
-    }
-
+    /**
+     * Map borrower to borrower document borrower document.
+     *
+     * @param borrower the borrower
+     * @return the borrower document
+     */
     public BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
         return DOCUMENT_MAPPER.map(borrower, BorrowerDocument.class);
     }
 
+    /**
+     * Map borrower documentto borrower borrower.
+     *
+     * @param borrowerDocument the borrower document
+     * @return the borrower
+     */
     public Borrower mapBorrowerDocumenttoBorrower(BorrowerDocument borrowerDocument) {
         return DOCUMENT_MAPPER.map(borrowerDocument, Borrower.class);
+    }
+
+    public BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
+        return DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
     }
 }

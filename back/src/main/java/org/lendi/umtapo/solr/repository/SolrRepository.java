@@ -1,12 +1,25 @@
 package org.lendi.umtapo.solr.repository;
 
-import org.apache.solr.client.solrj.SolrServerException;
-
-import java.io.IOException;
-
+/**
+ * The interface Solr repository.
+ *
+ * @param <T> the type parameter
+ */
 public interface SolrRepository<T> {
 
-    void save(T document) throws IOException, SolrServerException;
+    /**
+     * Save.
+     *
+     * @param document the document
+     * @throws SolrRepositoryException the solr repository exception
+     */
+    void save(T document) throws SolrRepositoryException;
 
-    void delete(String id) throws IOException, SolrServerException;
+    /**
+     * Delete.
+     *
+     * @param id the id
+     * @throws SolrRepositoryException the solr repository exception
+     */
+    void delete(String id) throws SolrRepositoryException;
 }
