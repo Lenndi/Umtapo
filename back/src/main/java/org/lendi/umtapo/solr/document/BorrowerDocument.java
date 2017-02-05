@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class BorrowerDocument {
 
-    private static final String DOCUMENT_TYPE = "borrower";
+    public static final String DOCUMENT_TYPE = "borrower";
 
     @Field(value = "document_type")
     private String documentType;

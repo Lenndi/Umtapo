@@ -79,7 +79,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
-        this.solrBorrowerService.search("test");
+        this.solrBorrowerService.searchByNameOrEmail("test");
 
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }

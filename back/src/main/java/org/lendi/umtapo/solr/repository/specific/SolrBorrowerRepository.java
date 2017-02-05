@@ -12,5 +12,7 @@ import java.util.List;
  */
 public interface SolrBorrowerRepository extends SolrRepository<BorrowerDocument> {
 
-    List<BorrowerDocument> findByEmailOrName(String term) throws IOException, SolrServerException;
+    List<BorrowerDocument> searchByNameOrEmail(String term) throws IOException, SolrServerException;
+
+    List<BorrowerDocument> searchAll() throws IOException, SolrServerException;
 }

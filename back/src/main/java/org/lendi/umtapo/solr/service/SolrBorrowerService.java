@@ -32,5 +32,5 @@ public interface SolrBorrowerService {
      * @param term the term
      * @return the list
      */
-    List<BorrowerDocument> search(String term);
+    List<BorrowerDocument> searchByNameOrEmail(String term);
 }
