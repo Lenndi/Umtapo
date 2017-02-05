@@ -4,9 +4,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrInputDocument;
 import org.lendi.umtapo.solr.configuration.SolrConfig;
-import org.lendi.umtapo.solr.document.AddressDocument;
 import org.springframework.core.GenericTypeResolver;
 
 import java.io.IOException;
@@ -16,7 +14,7 @@ import java.util.Map;
 
 public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
 
-    private SolrClient solr;
+    protected SolrClient solr;
     private final Class<T> tType;
 
     protected AbstractSolrRepository(SolrConfig solrConfig, String core) throws SolrServerException {
@@ -28,23 +26,25 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
     @Override
     public void save(T document) throws IOException, SolrServerException {
         this.solr.addBean(document);
+        this.solr.commit();
     }
 
     @Override
     public void delete(String id) throws IOException, SolrServerException {
         this.solr.deleteById(id);
+        this.solr.commit();
     }
 
     protected List<T> query(String queryStr) throws IOException, SolrServerException {
         return this.query(queryStr, null, null, null);
     }
 
-    protected List<T> queryWithChild(String queryStr) throws SolrServerException, IllegalAccessException, IOException {
+    protected List<T> queryWithChild(String queryStr) throws SolrServerException, IOException {
         String documentType;
         try {
             documentType = (String) tType.getField("DOCUMENT_TYPE").get(null);
         } catch (final IllegalAccessException e) {
-            throw new IllegalAccessException("Can't access to parent document");
+            throw new SolrServerException("Can't access to parent document");
         } catch (final NoSuchFieldException e) {
             throw new SolrServerException("A parent document bean should have a DOCUMENT_TYPE constant", e);
         }
@@ -55,29 +55,25 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         return this.query(queryStr, null, "*,[child parentFilter=$parent_filter]", params);
     }
 
-    protected List<T> query(String queryStr, String optFilter, String optFields, Map<String, String> extraParams)
+    protected List<T> query(String queryStr, String optFilter, String optFields, Map<String,String> extraParams )
             throws SolrServerException, IOException {
-        SolrQuery query = new SolrQuery(queryStr);
-        if (optFilter != null) {
-            query.addFilterQuery(optFilter);
+        SolrQuery query = new SolrQuery( queryStr );
+        if ( null!=optFilter ) {
+            query.addFilterQuery( optFilter );
         }
-        if (optFields != null) {
-            query.setParam("fl", optFields);
-        } else {
-            query.addField("*");
+        if ( null!=optFields ) {
+            query.setParam( "fl", optFields );
         }
-        if (extraParams != null) {
-            extraParams.entrySet().forEach(param -> query.set(param.getKey(), param.getValue()));
+        else {
+            query.addField( "*" );
+        }
+        if ( null!=extraParams ) {
+            for ( Map.Entry<String,String> param : extraParams.entrySet() ) {
+                query.set( param.getKey(), param.getValue() );
+            }
         }
 
-        QueryResponse response;
-        try {
-            response = this.solr.query(query);
-        } catch (final SolrServerException e) {
-            throw new SolrServerException("Query cannot be resolved !", e);
-        } catch (final IOException e) {
-            throw new IOException("Query cannot be resolved !", e);
-        }
+        QueryResponse response = solr.query(query);
 
         return response.getBeans(this.tType);
     }

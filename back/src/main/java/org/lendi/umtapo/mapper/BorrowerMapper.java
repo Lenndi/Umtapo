@@ -21,16 +21,21 @@ import java.time.ZonedDateTime;
 public class BorrowerMapper extends ConfigurableMapper {
 
     private static final MapperFacade MAPPER;
+    private static final MapperFacade DOCUMENT_MAPPER;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
         MAPPER = mapperFactory.getMapperFacade();
 
-        final MapperFactory documentMapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class).byDefault().register();
-        DOCUMENT_MAPPER = documentMapperFactory.getMapperFacade();
+        mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
+                .field("address.id", "address.addressId")
+                .byDefault()
+                .register();
+        DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
     }
 
     static {
@@ -106,7 +111,11 @@ public class BorrowerMapper extends ConfigurableMapper {
         return DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
     }
 
-    public BorrowerDto mapBorrowerDocumenttoBorrowerDto(BorrowerDocument borrowerDocument) {
-        return DOCUMENT_MAPPER.map(borrowerDocument, BorrowerDto.class);
+    public BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
+        return DOCUMENT_MAPPER.map(borrower, BorrowerDocument.class);
+    }
+
+    public Borrower mapBorrowerDocumenttoBorrower(BorrowerDocument borrowerDocument) {
+        return DOCUMENT_MAPPER.map(borrowerDocument, Borrower.class);
     }
 }

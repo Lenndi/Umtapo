@@ -42,8 +42,8 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public void addToIndex(BorrowerDto borrowerDto) {
-        BorrowerDocument document = this.mapBorrowerDtoToBorrowerDocument(borrowerDto);
+    public void addToIndex(Borrower borrower) {
+        BorrowerDocument document = this.mapBorrowerToBorrowerDocument(borrower);
 
         try {
             documentRepository.save(document);
@@ -73,7 +73,7 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
         }
     }
 
-    private BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
-        return this.borrowerMapper.mapBorrowerDtoToBorrowerDocument(borrowerDto);
+    private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
+        return this.borrowerMapper.mapBorrowerToBorrowerDocument(borrower);
     }
 }

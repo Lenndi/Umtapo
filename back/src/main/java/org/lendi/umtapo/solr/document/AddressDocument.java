@@ -5,7 +5,7 @@ import org.apache.solr.client.solrj.beans.Field;
 public class AddressDocument {
 
     @Field
-    private String id;
+    private String addressId;
 
     @Field
     private String address1;
@@ -25,12 +25,12 @@ public class AddressDocument {
     @Field
     private String email;
 
-    public String getId() {
-        return id;
+    public String getAddressId() {
+        return addressId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAddressId(String id) {
+        this.addressId = id;
     }
 
     public String getAddress1() {

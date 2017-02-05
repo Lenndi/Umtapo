@@ -15,9 +15,9 @@ public interface SolrBorrowerService {
     /**
      * Add to index.
      *
-     * @param borrowerDto the borrower
+     * @param borrower the borrower
      */
-    void addToIndex(BorrowerDto borrowerDto);
+    void addToIndex(Borrower borrower);
 
     /**
      * Delete from index.
