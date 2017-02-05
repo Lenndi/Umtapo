@@ -2,10 +2,8 @@ package org.lendi.umtapo.solr.service.implementation;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
-import org.lendi.umtapo.solr.document.AddressDocument;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
@@ -53,10 +51,10 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public List<BorrowerDocument> search(String term) {
+    public List<BorrowerDocument> searchByNameOrEmail(String term) {
         List<BorrowerDocument> result = null;
         try {
-            result = this.documentRepository.findByEmailOrName(term);
+            result = this.documentRepository.searchByNameOrEmail(term);
         } catch (final IOException | SolrServerException e) {
             LOGGER.error(e.getStackTrace());
         }

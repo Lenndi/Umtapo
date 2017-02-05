@@ -14,7 +14,7 @@ import java.util.Map;
 
 public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
 
-    protected SolrClient solr;
+    private SolrClient solr;
     private final Class<T> tType;
 
     protected AbstractSolrRepository(SolrConfig solrConfig, String core) throws SolrServerException {
@@ -49,27 +49,25 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
             throw new SolrServerException("A parent document bean should have a DOCUMENT_TYPE constant", e);
         }
 
-        Map<String, String> params = new LinkedHashMap<>();
-        params.put("parent_filter", "document_type:" + documentType );
+        String optFields = "*,[child parentFilter=document_type:" + documentType + "]";
 
-        return this.query(queryStr, null, "*,[child parentFilter=$parent_filter]", params);
+        return this.query(queryStr, null, optFields, null);
     }
 
-    protected List<T> query(String queryStr, String optFilter, String optFields, Map<String,String> extraParams )
+    protected List<T> query(String queryStr, String optFilter, String optFields, Map<String, String> extraParams)
             throws SolrServerException, IOException {
-        SolrQuery query = new SolrQuery( queryStr );
-        if ( null!=optFilter ) {
-            query.addFilterQuery( optFilter );
+        SolrQuery query = new SolrQuery(queryStr);
+        if (null != optFilter) {
+            query.addFilterQuery(optFilter);
         }
-        if ( null!=optFields ) {
-            query.setParam( "fl", optFields );
+        if (null != optFields) {
+            query.setParam("fl", optFields);
+        } else {
+            query.addField("*");
         }
-        else {
-            query.addField( "*" );
-        }
-        if ( null!=extraParams ) {
-            for ( Map.Entry<String,String> param : extraParams.entrySet() ) {
-                query.set( param.getKey(), param.getValue() );
+        if (null != extraParams) {
+            for (final Map.Entry<String, String> param : extraParams.entrySet()) {
+                query.set(param.getKey(), param.getValue());
             }
         }
 
