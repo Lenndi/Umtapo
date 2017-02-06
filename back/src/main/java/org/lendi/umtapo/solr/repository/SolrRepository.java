@@ -1,5 +1,8 @@
 package org.lendi.umtapo.solr.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * The interface Solr repository.
  *
@@ -14,6 +17,16 @@ public interface SolrRepository<T> {
      * @throws SolrRepositoryException the solr repository exception
      */
     void save(T document) throws SolrRepositoryException;
+
+
+    /**
+     * Search all page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     * @throws SolrRepositoryException the solr repository exception
+     */
+    Page<T> searchAll(Pageable pageable) throws SolrRepositoryException;
 
     /**
      * Delete.

@@ -11,7 +11,6 @@ import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +48,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         Assert.notNull(borrowerMapper);
         Assert.notNull(indexService);
         Assert.notNull(borrowerDao);
+
         this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
         this.solrBorrowerService = indexService;
@@ -98,8 +98,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      */
     @Override
     public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
-
-        List<BorrowerDocument> borrowers;
+        Page<BorrowerDocument> borrowers;
 
         if (Objects.equals(contains, "")) {
             borrowers = this.solrBorrowerService.searchAll(pageable);
@@ -107,7 +106,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
             borrowers = this.solrBorrowerService.searchByName(contains, pageable);
         }
 
-        return this.mapBorrowerDocumentsToBorrowerDtosPage(borrowers, pageable);
+        return this.borrowerDocumentPageToDtoPage(borrowers, pageable);
     }
 
     /**
@@ -143,14 +142,14 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerDtos;
     }
 
-    private Page<BorrowerDto> mapBorrowerDocumentsToBorrowerDtosPage(List<BorrowerDocument> borrowerDocuments, Pageable pageable) {
-
+    private Page<BorrowerDto> borrowerDocumentPageToDtoPage(Page<BorrowerDocument> borrowersPage, Pageable pageable) {
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
-        borrowerDocuments.forEach(borrowerDocument ->
+        List<BorrowerDocument> borrowers = borrowersPage.getContent();
+
+        borrowers.forEach(borrowerDocument ->
           borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumenttoBorrowerDto(borrowerDocument))
         );
 
-        // TODO : Transform Page<BorrowerDocument> to Page<BorrowerDto>
-        return new PageImpl<>(borrowerDtos, pageable, pageable.getOffset());
+        return new PageImpl<>(borrowerDtos, pageable, borrowersPage.getTotalElements());
     }
 }
