@@ -167,14 +167,16 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         query.setStart(pageable.getPageNumber());
         query.setRows(pageable.getPageSize());
 
-        for (final Sort.Order order : pageable.getSort()) {
-            SolrQuery.ORDER translatedOrder;
-            if (order.getDirection().compareTo(Sort.Direction.ASC) == 0) {
-                translatedOrder = SolrQuery.ORDER.asc;
-            } else {
-                translatedOrder = SolrQuery.ORDER.desc;
+        if (pageable.getSort() != null) {
+            for (final Sort.Order order : pageable.getSort()) {
+                SolrQuery.ORDER translatedOrder;
+                if (order.getDirection().compareTo(Sort.Direction.ASC) == 0) {
+                    translatedOrder = SolrQuery.ORDER.asc;
+                } else {
+                    translatedOrder = SolrQuery.ORDER.desc;
+                }
+                query.addSort(order.getProperty(), translatedOrder);
             }
-            query.addSort(order.getProperty(), translatedOrder);
         }
 
         QueryResponse response = this.processQuery(query);

@@ -45,7 +45,7 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
 
         try {
             documentRepository.save(document);
-        } catch (SolrRepositoryException e) {
+        } catch (final SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
     }
@@ -55,7 +55,7 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
         Page<BorrowerDocument> borrowers = null;
         try {
             borrowers = this.documentRepository.searchByName(term, pageable);
-        } catch (SolrRepositoryException e) {
+        } catch (final SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
 
@@ -67,7 +67,7 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
         Page<BorrowerDocument> borrowers = null;
         try {
             borrowers = this.documentRepository.searchAll(pageable);
-        } catch (SolrRepositoryException e) {
+        } catch (final SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
 
@@ -78,7 +78,7 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     public void deleteFromIndex(Integer id) {
         try {
             documentRepository.delete(id.toString());
-        } catch (SolrRepositoryException e) {
+        } catch (final SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
     }

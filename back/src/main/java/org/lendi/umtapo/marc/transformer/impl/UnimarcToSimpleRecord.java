@@ -1,18 +1,18 @@
 package org.lendi.umtapo.marc.transformer.impl;
 
-import org.lendi.umtapo.entity.record.simple.Coverage;
-import org.lendi.umtapo.entity.record.simple.Creator;
-import org.lendi.umtapo.entity.record.simple.Description;
-import org.lendi.umtapo.entity.record.simple.Identifier;
-import org.lendi.umtapo.entity.record.simple.Language;
-import org.lendi.umtapo.entity.record.simple.Publisher;
-import org.lendi.umtapo.entity.record.simple.Right;
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
-import org.lendi.umtapo.entity.record.simple.SimpleRecordDate;
-import org.lendi.umtapo.entity.record.simple.Source;
-import org.lendi.umtapo.entity.record.simple.Subject;
-import org.lendi.umtapo.entity.record.simple.Title;
-import org.lendi.umtapo.entity.record.simple.Type;
+import org.lendi.umtapo.solr.document.record.simple.Coverage;
+import org.lendi.umtapo.solr.document.record.simple.Creator;
+import org.lendi.umtapo.solr.document.record.simple.Description;
+import org.lendi.umtapo.solr.document.record.simple.Identifier;
+import org.lendi.umtapo.solr.document.record.simple.Language;
+import org.lendi.umtapo.solr.document.record.simple.Publisher;
+import org.lendi.umtapo.solr.document.record.simple.Right;
+import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
+import org.lendi.umtapo.solr.document.record.simple.SimpleRecordDate;
+import org.lendi.umtapo.solr.document.record.simple.Source;
+import org.lendi.umtapo.solr.document.record.simple.Subject;
+import org.lendi.umtapo.solr.document.record.simple.Title;
+import org.lendi.umtapo.solr.document.record.simple.Type;
 import org.lendi.umtapo.marc.transformer.RecordTransformer;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
@@ -224,7 +224,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
         variableFields = record.getVariableFields(tags);
         if (variableFields != null) {
             variableFields.forEach(variableField -> {
-                Creator contributor = new Creator();
+                Creator contributor = new Creator("contributor");
                 DataField dataField1 = (DataField) variableField;
 
                 contributor.setName(dataField1.getSubfieldsAsString("a"));

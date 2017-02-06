@@ -414,16 +414,48 @@
     <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
     <field name="_version_" type="long" indexed="false" stored="false"/>
     <field name="id" type="string" multiValued="false" indexed="true" stored="true" required="false"/>
-    <field name="addressId" type="string" multiValued="false" indexed="false" stored="true" required="false"/>
-    <field name="address1" type="string" multiValued="false" indexed="false" stored="true"/>
-    <field name="address2" type="string" multiValued="false" indexed="false" stored="true"/>
-    <field name="birthday" type="date" indexed="true" stored="true"/>
-    <field name="city" type="string" multiValued="false" indexed="true" stored="true"/>
-    <field name="comment" type="text_fr" indexed="true" stored="true"/>
     <field name="document_type" type="string" multiValued="false" indexed="true" stored="false"/>
+    <!-- Title -->
+    <field name="mainTitle" type="text_general" indexed="false" stored="true"/>
+    <field name="subTitle" type="text_general" indexed="false" stored="true"/>
+    <field name="alternateTitle" type="text_general" multiValued="true" indexed="false" stored="true"/>
+    <field name="uniformTitle" type="text_general" indexed="false" stored="true"/>
+    <field name="_title_" type="text_general" indexed="true" stored="false" multiValued="true"/>
+    <copyField source="*Title" dest="_title_"/>
+    <!-- Creator -->
+    <field name="name" type="text_general" indexed="true" stored="true"/>
+    <field name="secondName" type="text_general" indexed="false" stored="true"/>
+    <field name="date" type="string" indexed="true" stored="true"/>
+    <field name="titles" type="string" indexed="false" stored="true"/>
+    <field name="_name_" type="text_general" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="name" dest="_name_"/>
+    <copyField source="secondName" dest="_name_"/>
+    <!-- Subject -->
+    <field name="terms" type="strings" indexed="true" stored="true"/>
+    <field name="dewey" type="string" indexed="true" stored="true"/>
+    <field name="universal" type="string" indexed="true" stored="true"/>
+    <!-- Description -->
+    <field name="mainDescription" type="text_general" indexed="false" stored="true"/>
+    <field name="otherDescriptions" type="text_general" indexed="false" stored="true" multiValued="true"/>
+    <field name="mainPhysicalDescription" type="text_general" indexed="false" stored="true"/>
+    <field name="secondaryPhysicalDescription" type="text_general" indexed="false" stored="true"/>
+    <field name="format" type="string" indexed="false" stored="true"/>
+    <field name="associatedMaterial" type="text_general" indexed="false" stored="true"/>
+    <!-- Publisher -->
+    <field name="publicationPlace" type="string" indexed="false" stored="true"/>
+    <field name="editorName" type="text_general" indexed="true" stored="true"/>
+    <field name="editorAddress" type="text_general" indexed="false" stored="true"/>
+    <field name="manufacturerName" type="text_general" indexed="true" stored="true"/>
+    <field name="manufacturerPlace" type="string" indexed="false" stored="true"/>
+    <field name="manufacturerAddress" type="text_general" indexed="false" stored="true"/>
+    <!-- Date -->
+    <field name="publicationDate" type="string" indexed="true" stored="true"/>
+    <field name="manufactureDate" type="string" indexed="false" stored="true"/>
+
+
     <field name="email" type="string_lowercase" multiValued="false" indexed="true" stored="true"/>
     <field name="emailOptin" type="boolean" indexed="true" stored="true"/>
-    <field name="name" type="text_general" indexed="true" stored="true"/>
+
     <field name="phone" type="string" multiValued="false" indexed="true" stored="true"/>
     <field name="quota" type="int" indexed="true" stored="true"/>
     <field name="zip" type="string" multiValued="false" indexed="true" stored="true"/>

@@ -2,13 +2,13 @@ package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.configuration.Z3950;
-import org.lendi.umtapo.entity.record.RecordListWrapper;
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.rest.wrapper.GenericRestWrapper;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
+import org.lendi.umtapo.solr.document.record.RecordListWrapper;
+import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

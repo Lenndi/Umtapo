@@ -2,10 +2,10 @@ package org.lendi.umtapo.service.specific.implementation;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.configuration.Z3950;
-import org.lendi.umtapo.entity.record.RecordListWrapper;
 import org.lendi.umtapo.marc.Connection;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
+import org.lendi.umtapo.solr.document.record.RecordListWrapper;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;

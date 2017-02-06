@@ -1,6 +1,6 @@
 package org.lendi.umtapo.service.specific;
 
-import org.lendi.umtapo.entity.record.RecordListWrapper;
+import org.lendi.umtapo.solr.document.record.RecordListWrapper;
 import org.marc4j.marc.Record;
 import org.springframework.stereotype.Service;
 import org.yaz4j.exception.ZoomException;

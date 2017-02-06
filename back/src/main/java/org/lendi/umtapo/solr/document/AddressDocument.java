@@ -7,6 +7,11 @@ import org.apache.solr.client.solrj.beans.Field;
  */
 public class AddressDocument {
 
+    private static final String DOCUMENT_TYPE = "address";
+
+    @Field(value = "document_type")
+    private final String documentType;
+
     @Field
     private String addressId;
 
@@ -27,6 +32,10 @@ public class AddressDocument {
 
     @Field
     private String email;
+
+    public AddressDocument() {
+        this.documentType = DOCUMENT_TYPE;
+    }
 
     /**
      * Gets address id.
@@ -152,5 +161,9 @@ public class AddressDocument {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDocumentType() {
+        return documentType;
     }
 }

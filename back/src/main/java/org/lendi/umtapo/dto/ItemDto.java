@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.entity.ShelfMark;
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
+import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
 
 import java.util.List;
 
