@@ -61,9 +61,9 @@ public class LibraryWebServiceTest {
     public void setup() {
         ZonedDateTime zonedDateTime = java.time.ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null);
+                true, null, null, null, null);
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null);
+                false, null, null, null, null);
         this.borrowers.add(borrower);
         this.borrowers.add(borrower2);
         Library library1 = new Library("Library of tests", 3, true, 365, 30, "$", 1, this.borrowers);

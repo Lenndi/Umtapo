@@ -1,7 +1,10 @@
 package org.lendi.umtapo.mapper;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -10,7 +13,11 @@ import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Borrower mapper generic.
@@ -23,6 +30,7 @@ public class BorrowerMapper extends ConfigurableMapper {
     private static final MapperFacade DTO_MAPPER;
     private static final MapperFacade DOCUMENT_MAPPER;
     private static final MapperFacade DTO_DOCUMENT_MAPPER;
+    private static final MapperFacade MAPPER_PATCH;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
@@ -91,7 +99,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower dto
      */
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        return MAPPER.map(borrower, BorrowerDto.class);
+        return DTO_MAPPER.map(borrower, BorrowerDto.class);
     }
 
     /**
@@ -101,7 +109,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower
      */
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return MAPPER.map(borrowerDto, Borrower.class);
+        return DTO_MAPPER.map(borrowerDto, Borrower.class);
     }
 
     /**
