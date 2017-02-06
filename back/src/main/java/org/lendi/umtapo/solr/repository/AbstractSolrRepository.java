@@ -6,13 +6,14 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.lendi.umtapo.solr.configuration.SolrConfig;
 import org.springframework.core.GenericTypeResolver;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +44,16 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         try {
             this.solr.addBean(document);
             this.solr.commit();
-        } catch (IOException | SolrServerException e) {
+        } catch (final IOException | SolrServerException e) {
             throw new SolrRepositoryException("Can't add document to solr", e);
         }
+    }
+
+    @Override
+    public Page<T> searchAll(Pageable pageable) throws SolrRepositoryException {
+        SolrQuery query = this.queryChildrenWithParent("*");
+
+        return this.getPage(query, pageable);
     }
 
     @Override
@@ -53,7 +61,7 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         try {
             this.solr.deleteById(id);
             this.solr.commit();
-        } catch (IOException | SolrServerException e) {
+        } catch (final IOException | SolrServerException e) {
             throw new SolrRepositoryException("Can't document with id " + id, e);
         }
     }
@@ -65,8 +73,8 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> query(String queryStr, Pageable pageable) throws SolrRepositoryException {
-        return this.query(queryStr, null, null, null, pageable);
+    protected SolrQuery query(String queryStr) throws SolrRepositoryException {
+        return this.query(queryStr, null, null, null);
     }
 
     /**
@@ -76,11 +84,11 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryParentWithChildren(String queryStr, Pageable pageable) throws SolrRepositoryException {
+    protected SolrQuery queryParentWithChildren(String queryStr) throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query(queryStr, null, fieldList, null, pageable);
+        return this.query(queryStr, null, fieldList, null);
     }
 
     /**
@@ -90,12 +98,12 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryChildrenWithParent(String queryStr, Pageable pageable) throws SolrRepositoryException {
+    protected SolrQuery queryChildrenWithParent(String queryStr) throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryStr);
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query("*:*", filterQuery, fieldList, null, pageable);
+        return this.query("*:*", filterQuery, fieldList, null);
     }
 
     /**
@@ -106,13 +114,13 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> queryParentAndChildren(String queryParent, String queryChildren, Pageable pageable)
+    protected SolrQuery queryParentAndChildren(String queryParent, String queryChildren)
             throws SolrRepositoryException {
         String documentType = this.getDocumentType();
         String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryChildren);
         String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
 
-        return this.query(queryParent, filterQuery, fieldList, null, pageable);
+        return this.query(queryParent, filterQuery, fieldList, null);
     }
 
     /**
@@ -125,13 +133,8 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      * @return the list
      * @throws SolrRepositoryException the solr repository exception
      */
-    protected List<T> query(
-            String queryStr,
-            String optFilter,
-            String optFields,
-            Map<String, String> extraParams,
-            Pageable pageable
-    ) throws SolrRepositoryException {
+    protected SolrQuery query(String queryStr, String optFilter, String optFields, Map<String, String> extraParams)
+            throws SolrRepositoryException {
         SolrQuery query = new SolrQuery(queryStr);
         if (null != optFilter) {
             query.addFilterQuery(optFilter);
@@ -146,31 +149,37 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
                 query.set(param.getKey(), param.getValue());
             }
         }
-        if (pageable != null) {
-            query.setStart(pageable.getPageNumber());
-            query.setRows(pageable.getPageSize());
 
-            for (Sort.Order order : pageable.getSort()) {
-                SolrQuery.ORDER translatedOrder;
-                if (order.getDirection().compareTo(Sort.Direction.ASC) == 0) {
-                    translatedOrder = SolrQuery.ORDER.asc;
-                } else {
-                    translatedOrder = SolrQuery.ORDER.desc;
-                }
-                query.addSort(order.getProperty(), translatedOrder);
-            }
-        }
+        return query;
+    }
 
-        QueryResponse response;
-        try {
-            response = solr.query(query);
-        } catch (SolrServerException | IOException e) {
-            throw new SolrRepositoryException("Can't execute query : " + query.toString(), e);
-        }
-        // TODO: return a Page<BorrowerDocument>
-        response.getResults().getNumFound();
+    protected List<T> getList(SolrQuery query) throws SolrRepositoryException {
+        QueryResponse response = this.processQuery(query);
 
         return response.getBeans(this.tType);
+    }
+
+    protected Page<T> getPage(SolrQuery query, Pageable pageable) throws SolrRepositoryException {
+        if (pageable == null) {
+            pageable = new PageRequest(0, 50);
+        }
+
+        query.setStart(pageable.getPageNumber());
+        query.setRows(pageable.getPageSize());
+
+        for (final Sort.Order order : pageable.getSort()) {
+            SolrQuery.ORDER translatedOrder;
+            if (order.getDirection().compareTo(Sort.Direction.ASC) == 0) {
+                translatedOrder = SolrQuery.ORDER.asc;
+            } else {
+                translatedOrder = SolrQuery.ORDER.desc;
+            }
+            query.addSort(order.getProperty(), translatedOrder);
+        }
+
+        QueryResponse response = this.processQuery(query);
+
+        return new PageImpl<>(response.getBeans(this.tType), pageable, response.getResults().getNumFound());
     }
 
     private String getDocumentType() throws SolrRepositoryException {
@@ -186,5 +195,16 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         }
 
         return documentType;
+    }
+
+    private QueryResponse processQuery(SolrQuery query) throws SolrRepositoryException {
+        QueryResponse response;
+        try {
+            response = solr.query(query);
+        } catch (final SolrServerException | IOException e) {
+            throw new SolrRepositoryException("Can't execute query : " + query.toString(), e);
+        }
+
+        return response;
     }
 }

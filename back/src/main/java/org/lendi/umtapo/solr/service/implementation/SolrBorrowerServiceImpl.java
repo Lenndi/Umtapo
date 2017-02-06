@@ -8,11 +8,10 @@ import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import java.util.List;
 
 /**
  * The type Borrower index service.
@@ -52,10 +51,22 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public List<BorrowerDocument> searchByName(String term, Pageable pageable) {
-        List<BorrowerDocument> borrowers = null;
+    public Page<BorrowerDocument> searchByName(String term, Pageable pageable) {
+        Page<BorrowerDocument> borrowers = null;
         try {
             borrowers = this.documentRepository.searchByName(term, pageable);
+        } catch (SolrRepositoryException e) {
+            LOGGER.error(e.getStackTrace());
+        }
+
+        return borrowers;
+    }
+
+    @Override
+    public Page<BorrowerDocument> searchAll(Pageable pageable) {
+        Page<BorrowerDocument> borrowers = null;
+        try {
+            borrowers = this.documentRepository.searchAll(pageable);
         } catch (SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
@@ -70,18 +81,6 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
         } catch (SolrRepositoryException e) {
             LOGGER.error(e.getStackTrace());
         }
-    }
-
-    @Override
-    public List<BorrowerDocument> searchAll(Pageable pageable) {
-        List<BorrowerDocument> borrowers = null;
-        try {
-            borrowers = this.documentRepository.searchAll(pageable);
-        } catch (SolrRepositoryException e) {
-            LOGGER.error(e.getStackTrace());
-        }
-
-        return borrowers;
     }
 
     private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
