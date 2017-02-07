@@ -120,11 +120,15 @@ public class ItemWebService {
         if (item == null) {
             return new ResponseEntity<>("This item do not exist", HttpStatus.NOT_FOUND);
         } else {
-            if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
-                if (!item.isBorrowed()) {
-                    return new ResponseEntity<>("This item is already not borrowed", HttpStatus.NOT_MODIFIED);
-                } else if (item.isBorrowed()) {
-                    return new ResponseEntity<>("This item is already borrowed", HttpStatus.NOT_MODIFIED);
+            if (item.isBorrowed() != null) {
+                if (jsonNodeItem.get("isBorrowed") != null && item.isBorrowed() != null) {
+                    if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
+                        if (!item.isBorrowed()) {
+                            return new ResponseEntity<>("This item is already not borrowed", HttpStatus.NOT_MODIFIED);
+                        } else if (item.isBorrowed()) {
+                            return new ResponseEntity<>("This item is already borrowed", HttpStatus.NOT_MODIFIED);
+                        }
+                    }
                 }
             }
             try {

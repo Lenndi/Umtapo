@@ -62,7 +62,7 @@ public class ItemMapper extends ConfigurableMapper {
                                             value = elt.getValue().asText();
                                         } else if (Condition.class.isAssignableFrom(field.getType())) {
                                             value = Condition.valueOf(jsonNode.get(field.getName()).textValue());
-                                        } else if (boolean.class.isAssignableFrom(field.getType())) {
+                                        } else if (Boolean.class.isAssignableFrom(field.getType())) {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(item, value);
