@@ -20,7 +20,8 @@ public class ItemDto {
     private ShelfMark shelfmark;
     private Integer internalId;
     private Float purchasePrice;
-    private Boolean loanable;
+    private Boolean isLoanable;
+    private Boolean isBorrowed;
     private List<LoanDto> loans;
     private Condition condition;
     private String currency;
@@ -42,24 +43,26 @@ public class ItemDto {
      * @param shelfmark     the shelfmark
      * @param internalId    the internal id
      * @param purchasePrice the purchase price
-     * @param loanable      the loanable
+     * @param isLoanable    the isLoanable
      * @param loans         the loans
      * @param condition     the condition
      * @param currency      the currency
      * @param library       the library
      * @param record        the record
+     * @param isBorrowed    the is borrowed
      */
     public ItemDto(Integer id, ItemType type, ShelfMark shelfmark, Integer internalId, Float purchasePrice,
-                   Boolean loanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
-                   Record record) {
+                   Boolean isLoanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
+                   Record record, boolean isBorrowed) {
         this.id = id;
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
-        this.loanable = loanable;
+        this.isLoanable = isLoanable;
         this.loans = loans;
         this.condition = condition;
+        this.isBorrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
         this.record = record;
@@ -81,6 +84,42 @@ public class ItemDto {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * Gets loanable.
+     *
+     * @return the loanable
+     */
+    public Boolean getLoanable() {
+        return isLoanable;
+    }
+
+    /**
+     * Sets loanable.
+     *
+     * @param loanable the loanable
+     */
+    public void setLoanable(Boolean loanable) {
+        isLoanable = loanable;
+    }
+
+    /**
+     * Gets borrowed.
+     *
+     * @return the borrowed
+     */
+    public Boolean getBorrowed() {
+        return isBorrowed;
+    }
+
+    /**
+     * Sets borrowed.
+     *
+     * @param borrowed the borrowed
+     */
+    public void setBorrowed(Boolean borrowed) {
+        isBorrowed = borrowed;
     }
 
     /**
@@ -156,21 +195,21 @@ public class ItemDto {
     }
 
     /**
-     * Gets loanable.
+     * Gets isLoanable.
      *
-     * @return the loanable
+     * @return the isLoanable
      */
-    public Boolean getLoanable() {
-        return loanable;
+    public Boolean getIsLoanable() {
+        return isLoanable;
     }
 
     /**
-     * Sets loanable.
+     * Sets isLoanable.
      *
-     * @param loanable the loanable
+     * @param isLoanable the isLoanable
      */
-    public void setLoanable(Boolean loanable) {
-        this.loanable = loanable;
+    public void setIsLoanable(Boolean isLoanable) {
+        this.isLoanable = isLoanable;
     }
 
     /**

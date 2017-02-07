@@ -25,7 +25,6 @@ import java.util.List;
  * The type Loan web service.
  */
 @RestController
-@CrossOrigin
 public class LoanWebService {
 
     private static final Logger LOGGER = Logger.getLogger(LoanWebService.class);
@@ -109,8 +108,7 @@ public class LoanWebService {
      */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
             "application/json", "application/json-patch+json"})
-    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id) throws IOException,
-            JsonPatchException {
+    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id){
 
         Loan loan = loanService.findOne(id);
         if (loan == null) {

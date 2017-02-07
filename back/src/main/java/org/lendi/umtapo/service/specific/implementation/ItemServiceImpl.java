@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.ItemDao;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
@@ -107,11 +106,19 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item)
-            throws IOException, JsonPatchException, InvalidRecordException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
         return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ItemDto findByInternalId(Integer internalId) {
+        Item item = itemDao.findByInternalId(internalId);
+
+        return this.itemMapper.mapItemToItemDto(item);
     }
 
     private List<ItemDto> mapItemsToItemsDto(List<Item> items) {

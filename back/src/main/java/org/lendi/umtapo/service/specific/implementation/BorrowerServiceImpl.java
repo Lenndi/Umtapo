@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.BorrowerDao;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -124,8 +122,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IOException,
-            JsonPatchException {
+    public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower){
 
         borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
         return this.mapBorrowerToBorrowerDto(this.save(borrower));

@@ -40,20 +40,22 @@ export class BorrowerService {
   }
 
   findPaginable(size: number, page: number, contains: string): Observable<Borrower[]> {
+    let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&contains=${contains}`)
+      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&contains=${contains}`, options)
       .map((r: Response) => r.json().content as Borrower[]);
 
   }
 
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {
     let uri;
+    let options = new RequestOptions({headers: this.headers});
     if (jsonViewResolver != null) {
       uri = `${this.borrowerUrl}/${id}` + jsonViewResolver;
     } else {
       uri = `${this.borrowerUrl}/${id}`;
     }
-    return this.http.get(uri)
+    return this.http.get(uri, options)
       .toPromise()
       .then(response => response.json() as Borrower)
       .catch(error => this.httpLogger.error(error));

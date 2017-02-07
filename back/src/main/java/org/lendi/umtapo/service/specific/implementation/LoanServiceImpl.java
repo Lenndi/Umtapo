@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dao.LoanDao;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +89,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IOException, JsonPatchException {
+    public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan){
 
         loanMapper.mergeLoanAndJsonNode(loan, jsonNodeLoan);
         return this.mapLoanToLoanDto(this.save(loan));

@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
@@ -80,9 +79,14 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException, InvalidRecordException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item);
 
+    /**
+     * Find by internal id item dto.
+     *
+     * @param internalId the internal id
+     * @return the item dto
+     */
+    public ItemDto findByInternalId(Integer internalId);
 }

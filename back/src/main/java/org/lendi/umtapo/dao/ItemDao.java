@@ -19,4 +19,12 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      */
     @Query("select max(internalId) from Item")
     Integer findTopInternalId();
+
+    /**
+     * Find by internal id integer.
+     *
+     * @param internalId the internal id
+     * @return the integer
+     */
+    Item findByInternalId(Integer internalId);
 }

@@ -9,6 +9,8 @@ import {CirculationDataService} from '../../../service/data-binding/circulation-
 import {Observable, Subject} from 'rxjs'; // <-- import the module
 import {Http, Response} from '@angular/http';
 import {Loan} from "../../../entity/loan";
+import {SelectModule} from 'ng2-select';
+
 
 
 @Component({

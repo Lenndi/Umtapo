@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
@@ -13,15 +12,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 
 /**
  * Item web service.
  */
 @RestController
-@CrossOrigin
 public class ItemWebService {
 
     private static final Logger LOGGER = Logger.getLogger(ItemWebService.class);
@@ -55,6 +58,28 @@ public class ItemWebService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        return new ResponseEntity<>(itemDto, HttpStatus.OK);
+    }
+
+    /**
+     * Gets item.
+     *
+     * @param internalId the internal id
+     * @return the item
+     */
+    @RequestMapping(value = "/items/search", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<ItemDto> getItemSearch(@PathParam("internalId") Integer internalId) {
+
+        ItemDto itemDto = null;
+
+        if (internalId != null) {
+            itemDto = this.itemService.findByInternalId(internalId);
+        }
+        if (itemDto == null) {
+            LOGGER.info("Item with id " + internalId + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
@@ -95,6 +120,13 @@ public class ItemWebService {
         if (item == null) {
             return new ResponseEntity<>("This item do not exist", HttpStatus.NOT_FOUND);
         } else {
+            if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
+                if (!item.isBorrowed()) {
+                    return new ResponseEntity<>("This item is already not borrowed", HttpStatus.NOT_MODIFIED);
+                } else if (item.isBorrowed()) {
+                    return new ResponseEntity<>("This item is already borrowed", HttpStatus.NOT_MODIFIED);
+                }
+            }
             try {
                 itemService.patchItem(jsonNodeItem, item);
             } catch (final IOException | JsonPatchException e) {

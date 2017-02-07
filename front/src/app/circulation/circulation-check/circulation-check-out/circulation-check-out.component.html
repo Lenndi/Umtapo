@@ -1,7 +1,49 @@
 <div class="card">
   <div class="card-block">
     <div class="container-fluid">
-      <h4 class="card-title">Entrées</h4>
+      <div class="row justify-content-between">
+        <div class="col-11">
+          <h4 class="card-title">Entrées</h4>
+        </div>
+        <div class="col-1">
+          <button (click)="checkout()" type="button" class="btn btn-warning"><i
+            class="fa fa-arrow-down" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="serial">Serial</label>
+            <input [(ngModel)]="serial" id="serial" type="text" class="form-control form-control-sm"
+                   placeholder="Serial">
+          </div>
+          <div class="list-group" *ngIf="borrowers != null">
+            <a class="list-group-item list-group-item-action drop-link" *ngFor="let borrower of borrowers | async"
+               (click)="onSelect(borrower.id)">
+              <small>{{borrower.name}}</small>
+              <small class="text-muted">{{borrower.address.email}}</small>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="internalId">Indentifiant du document</label>
+            <input [(ngModel)]="internalId" id="internalId" type="text" class="form-control form-control-sm"
+                   placeholder="Identifiant du document">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="title">Titre</label>
+            <input [(ngModel)]="title" id="title" type="text" class="form-control form-control-sm"
+                   placeholder="Titre">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
