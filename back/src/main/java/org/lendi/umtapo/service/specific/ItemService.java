@@ -89,4 +89,31 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @return the item dto
      */
     public ItemDto findByInternalId(Integer internalId);
-}
+
+    /**
+     * Find all pageable dto page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    public Page<ItemDto> findAllPageableDto(Pageable pageable);
+
+    /**
+     * Find all pageable dto by record identifier serial number page.
+     *
+     * @param pageable the pageable
+     * @param contains the contains
+     * @return the page
+     */
+    public Page<ItemDto> findAllPageableDtoByRecordIdentifierBarCode(Pageable pageable, String contains);
+
+
+    /**
+     * Find all pageable dto by record titel main title page.
+     *
+     * @param pageable the pageable
+     * @param contains the contains
+     * @return the page
+     */
+    public Page<ItemDto> findAllPageableDtoByRecordTitelMainTitle(Pageable pageable, String contains);
+    }

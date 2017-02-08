@@ -70,7 +70,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param contains the contains
      * @return the page
      */
-    Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains);
+    Page<BorrowerDto> findAllPageableDto(Pageable pageable);
 
     /**
      * Retur all Borrower DTO.
@@ -87,5 +87,14 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @return the borrower
      */
     BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower);
+
+    /**
+     * Find all pageable dto by name page.
+     *
+     * @param pageable the pageable
+     * @param contains the contains
+     * @return the page
+     */
+    public Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains);
 
     }

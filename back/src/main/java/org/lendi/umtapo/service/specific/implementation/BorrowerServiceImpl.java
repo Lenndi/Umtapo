@@ -91,7 +91,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     @Override
     public List<BorrowerDto> findAllDto() {
         List<Borrower> borrowers = findAll();
-
         return this.mapBorrowersToBorrowerDtos(borrowers);
     }
 
@@ -115,7 +114,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * {@inheritDoc}
      */
     public Page<Borrower> findAllPageable(Pageable pageable) {
-
         return this.findAll(pageable);
     }
 

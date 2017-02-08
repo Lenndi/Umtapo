@@ -11,10 +11,12 @@ import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,14 +118,52 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      * {@inheritDoc}
      */
     public ItemDto findByInternalId(Integer internalId) {
-        Item item = itemDao.findByInternalId(internalId);
 
+        Item item = itemDao.findByInternalId(internalId);
         return this.itemMapper.mapItemToItemDto(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<ItemDto> findAllPageableDto(Pageable pageable) {
+
+        Page<Item> items = this.findAll(pageable);
+        return this.mapItemsToItemDtosPage(items);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<ItemDto> findAllPageableDtoByRecordIdentifierBarCode(Pageable pageable, String contains) {
+
+        Page<Item> items = itemDao.findByRecordIdentifierBarCodeContainingIgnoreCase(contains, pageable);
+        return this.mapItemsToItemDtosPage(items);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<ItemDto> findAllPageableDtoByRecordTitelMainTitle(Pageable pageable, String contains) {
+
+        Page<Item> items = itemDao.findByRecordTitleMainTitleContainingIgnoreCase(contains, pageable);
+        return this.mapItemsToItemDtosPage(items);
+    }
+
+    private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {
+
+        List<ItemDto> itemDtos = new ArrayList<>();
+        items.forEach(item -> itemDtos.add(mapItemToItemDto(item)));
+
+        return (Page<ItemDto>) new PageImpl(itemDtos);
     }
 
     private List<ItemDto> mapItemsToItemsDto(List<Item> items) {
         List<ItemDto> itemDtos = new ArrayList<>();
         items.forEach(item -> itemDtos.add(this.itemMapper.mapItemToItemDto(item)));
+
+        return itemDtos;
+    }
 
         return itemDtos;
     }
@@ -134,6 +174,17 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             item.setRecord(record);
         }
 
-        return item;
+    private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
+        List<Item> libraries = new ArrayList<>();
+        librariesDto.forEach(ItemDto -> libraries.add(mapItemDtoToItem(ItemDto)));
+
+        return libraries;
+    }
+
+    private List<ItemDto> mapLibrariesToLibrariesDTO(List<Item> libraries) {
+        List<ItemDto> librariesDto = new ArrayList<>();
+        libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
+
+        return librariesDto;
     }
 }

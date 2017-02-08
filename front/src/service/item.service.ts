@@ -57,6 +57,14 @@ export class ItemService {
       .catch(error => this.httpLogger.error(error));
   }
 
+  findPaginableBySerialNumber(size: number, page: number, contains: string): Observable<Item[]> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&contains=${contains}&attribute=barCode`, options)
+      .map((r: Response) => r.json().content as Item[]);
+
+  }
+
   setLoanAndItemCheckOut(itemInternalId: number, borrowerId: number) {
     let options = new RequestOptions({headers: this.headers});
     let loan: Loan = new Loan;

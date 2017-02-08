@@ -8,6 +8,10 @@ import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
-import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Item web service.
@@ -59,6 +64,71 @@ public class ItemWebService {
         }
 
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
+    }
+
+    /**
+     * Gets items.
+     *
+     * @param page the page
+     * @param size the size
+     * @return the items
+     */
+    @RequestMapping(value = "/items", method = RequestMethod
+            .GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity getItems(@PathParam("page") Integer page, @PathParam("size") Integer size) {
+
+        if (size != null && page != null) {
+            Page<ItemDto> itemDtoPage;
+            Pageable pageable = new PageRequest(page, size, new Sort("id"));
+            itemDtoPage = itemService.findAllPageableDto(pageable);
+            if (itemDtoPage == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+            } else {
+                return new ResponseEntity<>(itemDtoPage, HttpStatus.OK);
+            }
+        } else {
+            List<ItemDto> itemDtos;
+            itemDtos = itemService.findAllDto();
+
+            if (itemDtos.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+            } else {
+                return new ResponseEntity<>(itemDtos, HttpStatus.NOT_FOUND);
+            }
+        }
+    }
+
+    /**
+     * Gets item.
+     *
+     * @param page      the page
+     * @param size      the size
+     * @param contains  the contains
+     * @param attribute the attribute
+     * @return the item
+     */
+    @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<ItemDto> getItemSearchs(@PathParam("page") Integer page,
+                                                  @PathParam("size") Integer size,
+                                                  @PathParam("contains") String contains,
+                                                  @PathParam("attribute") String attribute) {
+
+        Page<ItemDto> itemDtos = null;
+
+        if (size != null && page != null && contains != null) {
+            Pageable pageable = new PageRequest(page, size, new Sort("id"));
+            if (Objects.equals(attribute, "barCode")) {
+                itemDtos = this.itemService.findAllPageableDtoByRecordIdentifierBarCode(pageable, contains);
+            } else if (Objects.equals(attribute, "mainTitle")) {
+                itemDtos = this.itemService.findAllPageableDtoByRecordTitelMainTitle(pageable, contains);
+            }
+        }
+        if (itemDtos == null) {
+            LOGGER.info("Items not found");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(itemDtos, HttpStatus.OK);
     }
 
     /**

@@ -39,10 +39,10 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginable(size: number, page: number, contains: string): Observable<Borrower[]> {
+  findPaginableByName(size: number, page: number, contains: string): Observable<Borrower[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&contains=${contains}`, options)
+      .get(`http://localhost:8080/borrowers/searchs?size=${size}&page=${page}&contains=${contains}&attribute=name`, options)
       .map((r: Response) => r.json().content as Borrower[]);
 
   }

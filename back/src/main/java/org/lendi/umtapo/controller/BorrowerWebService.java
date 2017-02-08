@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Borrower web service.
@@ -76,24 +77,18 @@ public class BorrowerWebService {
     /**
      * Gets borrowers.
      *
-     * @param page     the page
-     * @param size     the size
-     * @param contains the contains
+     * @param page the page
+     * @param size the size
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod
             .GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getBorrowers(@PathParam("page") Integer page, @PathParam("size") Integer size,
-                                       @PathParam("contains") String contains) {
+    public ResponseEntity getBorrowers(@PathParam("page") Integer page, @PathParam("size") Integer size) {
 
         if (size != null && page != null) {
             Page<BorrowerDto> borrowerDtos;
             Pageable pageable = new PageRequest(page, size, new Sort("id"));
-            if (contains != null) {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
-            } else {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
-            }
+            borrowerDtos = borrowerService.findAllPageableDto(pageable);
             if (borrowerDtos == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
             } else {
@@ -106,10 +101,42 @@ public class BorrowerWebService {
             if (borrowerDtos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
             } else {
-                return new ResponseEntity<>(borrowerDtos, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(borrowerDtos, HttpStatus.OK);
             }
         }
 
+    }
+
+    /**
+     * Gets item.
+     *
+     * @param page      the page
+     * @param size      the size
+     * @param contains  the contains
+     * @param attribute the attribute
+     * @return the item
+     */
+    @RequestMapping(value = "/borrowers/searchs", method = RequestMethod.GET, produces = {MediaType
+            .APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<BorrowerDto> getItemSearchs(@PathParam("page") Integer page,
+                                                      @PathParam("size") Integer size,
+                                                      @PathParam("contains") String contains,
+                                                      @PathParam("attribute") String attribute) {
+
+        Page<BorrowerDto> borrowerDtos = null;
+
+        if (size != null && page != null && contains != null) {
+            Pageable pageable = new PageRequest(page, size, new Sort("id"));
+            if (Objects.equals(attribute, "name")) {
+                borrowerDtos = this.borrowerService.findAllPageableDtoByName(pageable, contains);
+            }
+        }
+        if (borrowerDtos == null) {
+            LOGGER.info("Items not found");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(borrowerDtos, HttpStatus.OK);
     }
 
     /**

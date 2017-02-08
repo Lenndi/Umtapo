@@ -49,7 +49,7 @@ export class BorrowerSelectionComponent implements OnInit {
       .debounceTime(200)
       .distinctUntilChanged()
       .switchMap(contains => contains ?
-        this.borrowerService.findPaginable(this.size, this.page, contains)
+        this.borrowerService.findPaginableByName(this.size, this.page, contains)
         : Observable.of<Borrower[]>([]))
       .catch(error => {
         return Observable.of<Borrower[]>([]);

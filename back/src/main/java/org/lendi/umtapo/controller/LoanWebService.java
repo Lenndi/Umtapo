@@ -65,8 +65,8 @@ public class LoanWebService {
      * @return the loans
      */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getLoans(@PathParam("id") Integer id) {
-
+    public ResponseEntity getLoans(@PathParam("id") Integer id, @PathParam("page") Integer page, @PathParam("size") Integer size,
+                                   @PathParam("contains") String contains) {
 
         List<LoanDto> loans;
 
