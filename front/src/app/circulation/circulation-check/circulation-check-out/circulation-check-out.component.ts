@@ -21,6 +21,8 @@ export class CirculationCheckOutComponent implements OnInit {
   size: number = 10;
   internalId: number;
   private searchItems = new Subject<string>();
+  visible : boolean = true;
+  barCode: string;
 
 
   constructor(private itemService: ItemService,
@@ -31,6 +33,12 @@ export class CirculationCheckOutComponent implements OnInit {
 
   search(contains: string): void {
     this.searchItems.next(contains);
+    this.visible = true;
+  }
+
+  onSelect(item: Item): void {
+    this.barCode = item.record.identifier.barCode;
+    this.visible = false;
   }
 
   ngOnInit() {

@@ -9,8 +9,6 @@ import {CirculationDataService} from '../../../service/data-binding/circulation-
 import {Observable, Subject} from 'rxjs'; // <-- import the module
 import {Http, Response} from '@angular/http';
 import {Loan} from "../../../entity/loan";
-import {SelectModule} from 'ng2-select';
-
 
 
 @Component({
@@ -28,6 +26,8 @@ export class BorrowerSelectionComponent implements OnInit {
   page: number = 0;
   size: number = 10;
   private searchBorrowers = new Subject<string>();
+  serial : string;
+  visible: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               private borrowerService: BorrowerService,
@@ -42,7 +42,9 @@ export class BorrowerSelectionComponent implements OnInit {
 
   search(contains: string): void {
     this.searchBorrowers.next(contains);
+    this.visible = true;
   }
+
 
   ngOnInit() {
     this.borrowers = this.searchBorrowers
@@ -61,13 +63,17 @@ export class BorrowerSelectionComponent implements OnInit {
     });
   }
 
-  onSelect(id: number): void {
-    this.borrowerService.find(id)
+  onSelect(borrower: Borrower): void {
+    this.form.patchValue({borrowerName: borrower.name});
+    this.borrowerService.find(borrower.id)
       .then(response => {
         this.selectedBorrower = response;
       });
     this.showDetails = true;
+    this.visible = false;
   }
+
+
 
   onSubmit(value: any): void {
     let id;

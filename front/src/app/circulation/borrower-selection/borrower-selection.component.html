@@ -27,9 +27,9 @@
                        type="text"
                        class="form-control" placeholder="Nom de l'usager" value=""
                        (keyup)="search(borrowerBox.value)">
-                <div class="list-group" *ngIf="borrowers != null">
+                <div class="list-group" *ngIf="visible == true">
                   <a class="list-group-item list-group-item-action drop-link" *ngFor="let borrower of borrowers | async"
-                     (click)="onSelect(borrower.id)">
+                     (click)="onSelect(borrower)">
                     <small>{{borrower.name}}</small>
                     <small class="text-muted">{{borrower.address.email}}</small>
                   </a>

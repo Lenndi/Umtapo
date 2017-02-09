@@ -24,6 +24,7 @@
     "@angular/platform-browser": "2.4.4",
     "@angular/platform-browser-dynamic": "2.4.4",
     "@angular/router": "3.4.4",
+    "angular2-select": "^1.0.0-beta.2",
     "avalanche-css": "^1.2.0",
     "bootstrap": "^4.0.0-alpha.6",
     "class-transformer": "^0.1.3",

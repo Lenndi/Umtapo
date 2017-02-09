@@ -41,6 +41,7 @@ import {CirculationComponent} from './circulation/circulation.component';
 import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {ToastModule} from "ng2-toastr";
+import { SelectModule } from 'ng2-select';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import {ToastModule} from "ng2-toastr";
     MaterialModule.forRoot(),
     DatepickerModule.forRoot(),
     ToastModule.forRoot(),
+    SelectModule
   ],
   providers: [
     HttpLoggerService,
