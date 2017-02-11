@@ -1,18 +1,16 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Identifier entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Identifier {
+
+    private static final String DOCUMENT_TYPE = "identifier";
+
     /**
      * The constant ISBN.
      */
@@ -34,30 +32,26 @@ public class Identifier {
      */
     public static final String ISRC = "ISRC";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Field(value = "document_type")
+    private final String documentType;
+
+    @Field
     private String recordIdentifier;
+
+    @Field
     private String serialNumber;
+
+    @Field
     private String serialType;
+
+    @Field
     private String barCode;
 
     /**
-     * Gets id.
-     *
-     * @return the id
+     * Instantiates a new Identifier.
      */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
+    public Identifier() {
+        this.documentType = DOCUMENT_TYPE;
     }
 
     /**
@@ -130,5 +124,14 @@ public class Identifier {
      */
     public void setBarCode(String barCode) {
         this.barCode = barCode;
+    }
+
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
+    public String getDocumentType() {
+        return documentType;
     }
 }

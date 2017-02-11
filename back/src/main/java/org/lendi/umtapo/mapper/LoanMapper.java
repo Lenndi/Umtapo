@@ -41,9 +41,9 @@ public class LoanMapper extends ConfigurableMapper {
                 .customize(new CustomMapper<Loan, JsonNode>() {
                     @Override
                     public void mapAtoB(Loan loan, JsonNode jsonNode, MappingContext mappingContext) {
-                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext(); ) {
+                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext();) {
                             Map.Entry<String, JsonNode> elt = it.next();
-                            for (Field field : loan.getClass().getDeclaredFields()) {
+                            for (final Field field : loan.getClass().getDeclaredFields()) {
                                 field.setAccessible(true);
                                 if (field.getName().equals(elt.getKey())) {
                                     Object value = jsonNode.get(elt.getKey());
@@ -56,7 +56,7 @@ public class LoanMapper extends ConfigurableMapper {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(loan, value);
-                                    } catch (IllegalAccessException e) {
+                                    } catch (final IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
                                 }

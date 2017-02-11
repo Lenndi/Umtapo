@@ -1,4 +1,4 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.solr.client.solrj.beans.Field;
@@ -26,6 +26,9 @@ public class Subject {
     @Field
     private String universal;
 
+    /**
+     * Instantiates a new Subject.
+     */
     public Subject() {
         this.documentType = DOCUMENT_TYPE;
         this.terms = new ArrayList<>();
@@ -94,6 +97,11 @@ public class Subject {
         this.universal = universal;
     }
 
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
     public String getDocumentType() {
         return documentType;
     }

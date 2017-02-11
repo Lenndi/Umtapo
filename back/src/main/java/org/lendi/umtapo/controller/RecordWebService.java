@@ -7,10 +7,12 @@ import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.rest.wrapper.GenericRestWrapper;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
-import org.lendi.umtapo.solr.document.record.RecordListWrapper;
-import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
+import org.lendi.umtapo.solr.document.record.RecordDocument;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,11 +78,11 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         String title = webRequest.getParameter("title");
         String isbn = webRequest.getParameter("isbn");
         Z3950 z3950;
-        int resultSize = DEFAULT_RESULT_SIZE;
+        int size = DEFAULT_RESULT_SIZE;
         int page = 1;
 
         if (webRequest.getParameter("result-size") != null) {
-            resultSize = Integer.parseInt(webRequest.getParameter("result-size"));
+            size = Integer.parseInt(webRequest.getParameter("result-size"));
         }
         if (webRequest.getParameter("page") != null) {
             page = Integer.parseInt(webRequest.getParameter("page"));
@@ -93,9 +95,9 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         this.recordService.setLibrary(z3950.getId());
 
         List<Record> records = new ArrayList<>();
-        List<SimpleRecord> simpleRecords = new ArrayList<>();
-        GenericRestWrapper<SimpleRecord> recordWrapper = new GenericRestWrapper<>();
-        recordWrapper.setData(simpleRecords);
+        List<RecordDocument> recordDocuments = new ArrayList<>();
+        GenericRestWrapper<RecordDocument> recordWrapper = new GenericRestWrapper<>();
+        recordWrapper.setData(recordDocuments);
         recordWrapper.setPage(page);
 
         if (isbn != null) {
@@ -111,12 +113,13 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             }
         } else if (title != null) {
             try {
-                int start = resultSize * (page - 1);
-                RecordListWrapper<Record> recordListWrapper = this.recordService.findByTitle(title, start, resultSize);
-                if (recordListWrapper.getRecord() != null) {
-                    records.addAll(recordListWrapper.getRecord());
+                page = page - 1;
+                Pageable pageable = new PageRequest(page, size);
+                Page<Record> recordPage = this.recordService.findByTitle(title, pageable);
+                if (recordPage.getContent() != null) {
+                    records.addAll(recordPage.getContent());
                 }
-                int totalPage = (int) Math.ceil(recordListWrapper.getHitCount() / resultSize);
+                int totalPage = recordPage.getTotalPages();
                 recordWrapper.setTotalPage(totalPage);
             } catch (final ZoomException e) {
                 return this.zoomExceptionHandling(e);
@@ -135,10 +138,10 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             records.forEach(record -> {
-                SimpleRecord simpleRecord = this.unimarcToSimpleRecord.transform(record);
-                simpleRecord.getSource().setLibrary(z3950.getName());
-                simpleRecord.getRight().setModified(false);
-                simpleRecords.add(simpleRecord);
+                RecordDocument recordDocument = this.unimarcToSimpleRecord.transform(record);
+                recordDocument.getSource().setLibrary(z3950.getName());
+                recordDocument.getRight().setModified(false);
+                recordDocuments.add(recordDocument);
             });
         }
 

@@ -33,6 +33,9 @@ public class AddressDocument {
     @Field
     private String email;
 
+    /**
+     * Instantiates a new Address document.
+     */
     public AddressDocument() {
         this.documentType = DOCUMENT_TYPE;
     }
@@ -163,6 +166,11 @@ public class AddressDocument {
         this.email = email;
     }
 
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
     public String getDocumentType() {
         return documentType;
     }

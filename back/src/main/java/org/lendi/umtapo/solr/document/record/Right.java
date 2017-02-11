@@ -1,41 +1,33 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Right entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Right {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
+    private static final String DOCUMENT_TYPE = "right";
+
+    @Field(value = "document_type")
+    private final String documentType;
+
+    @Field
     private String recordOrigin;
+
+    @Field
     private String transactionDate;
+
+    @Field
     private boolean isModified;
 
     /**
-     * Gets id.
-     *
-     * @return the id
+     * Instantiates a new Right.
      */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
+    public Right() {
+        this.documentType = DOCUMENT_TYPE;
     }
 
     /**
@@ -90,5 +82,14 @@ public class Right {
      */
     public void setModified(boolean modified) {
         isModified = modified;
+    }
+
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
+    public String getDocumentType() {
+        return documentType;
     }
 }

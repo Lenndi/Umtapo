@@ -1,13 +1,8 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.solr.client.solrj.beans.Field;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,6 +160,11 @@ public class Description {
         this.associatedMaterial = associatedMaterial;
     }
 
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
     public String getDocumentType() {
         return documentType;
     }

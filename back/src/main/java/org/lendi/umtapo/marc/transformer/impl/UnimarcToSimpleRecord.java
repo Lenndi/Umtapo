@@ -1,19 +1,19 @@
 package org.lendi.umtapo.marc.transformer.impl;
 
-import org.lendi.umtapo.solr.document.record.simple.Coverage;
-import org.lendi.umtapo.solr.document.record.simple.Creator;
-import org.lendi.umtapo.solr.document.record.simple.Description;
-import org.lendi.umtapo.solr.document.record.simple.Identifier;
-import org.lendi.umtapo.solr.document.record.simple.Language;
-import org.lendi.umtapo.solr.document.record.simple.Publisher;
-import org.lendi.umtapo.solr.document.record.simple.Right;
-import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
-import org.lendi.umtapo.solr.document.record.simple.SimpleRecordDate;
-import org.lendi.umtapo.solr.document.record.simple.Source;
-import org.lendi.umtapo.solr.document.record.simple.Subject;
-import org.lendi.umtapo.solr.document.record.simple.Title;
-import org.lendi.umtapo.solr.document.record.simple.Type;
 import org.lendi.umtapo.marc.transformer.RecordTransformer;
+import org.lendi.umtapo.solr.document.record.Coverage;
+import org.lendi.umtapo.solr.document.record.Creator;
+import org.lendi.umtapo.solr.document.record.Description;
+import org.lendi.umtapo.solr.document.record.Identifier;
+import org.lendi.umtapo.solr.document.record.Language;
+import org.lendi.umtapo.solr.document.record.Publisher;
+import org.lendi.umtapo.solr.document.record.RecordDate;
+import org.lendi.umtapo.solr.document.record.RecordDocument;
+import org.lendi.umtapo.solr.document.record.Right;
+import org.lendi.umtapo.solr.document.record.Source;
+import org.lendi.umtapo.solr.document.record.Subject;
+import org.lendi.umtapo.solr.document.record.Title;
+import org.lendi.umtapo.solr.document.record.Type;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
@@ -25,38 +25,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Transform Record with UNIMARC format to a SimpleRecord.
+ * Transform Record with UNIMARC format to a RecordDocument.
  */
 @Service
-public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
+public class UnimarcToSimpleRecord implements RecordTransformer<RecordDocument> {
     private Record record;
 
     @Override
-    public SimpleRecord transform(Record baseRecord) {
+    public RecordDocument transform(Record baseRecord) {
         this.record = baseRecord;
-        SimpleRecord simpleRecord;
+        RecordDocument recordDocument;
 
         if (this.record == null) {
-            simpleRecord = null;
+            recordDocument = null;
         } else {
-            simpleRecord = new SimpleRecord();
+            recordDocument = new RecordDocument();
 
-            simpleRecord.setTitle(this.processTitle());
-            simpleRecord.setCreator(this.processCreator());
-            simpleRecord.setSubject(this.processSubject());
-            simpleRecord.setDescription(this.processDescription());
-            simpleRecord.setPublisher(this.processPublisher());
-            simpleRecord.setContributors(this.processContributors());
-            simpleRecord.setDate(this.processDate());
-            simpleRecord.setType(this.processType());
-            simpleRecord.setIdentifier(this.processIdentifier());
-            simpleRecord.setSource(this.processSource());
-            simpleRecord.setLanguage(this.processLanguage());
-            simpleRecord.setCoverage(this.processCoverage());
-            simpleRecord.setRight(this.processRight());
+            recordDocument.setTitle(this.processTitle());
+            recordDocument.setCreator(this.processCreator());
+            recordDocument.setSubject(this.processSubject());
+            recordDocument.setDescription(this.processDescription());
+            recordDocument.setPublisher(this.processPublisher());
+            recordDocument.setContributors(this.processContributors());
+            recordDocument.setDate(this.processDate());
+            recordDocument.setType(this.processType());
+            recordDocument.setIdentifier(this.processIdentifier());
+            recordDocument.setSource(this.processSource());
+            recordDocument.setLanguage(this.processLanguage());
+            recordDocument.setCoverage(this.processCoverage());
+            recordDocument.setRight(this.processRight());
         }
 
-        return simpleRecord;
+        return recordDocument;
     }
 
     /**
@@ -247,12 +247,12 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
     }
 
     /**
-     * Get dates from record to create SimpleRecordDate.
+     * Get dates from record to create RecordDate.
      *
      * @return Simple record date
      */
-    private SimpleRecordDate processDate() {
-        SimpleRecordDate date = new SimpleRecordDate();
+    private RecordDate processDate() {
+        RecordDate date = new RecordDate();
         DataField dataField;
 
         dataField = (DataField) record.getVariableField("210");

@@ -1,7 +1,8 @@
 package org.lendi.umtapo.service.specific;
 
-import org.lendi.umtapo.solr.document.record.RecordListWrapper;
 import org.marc4j.marc.Record;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.yaz4j.exception.ZoomException;
 
@@ -22,13 +23,12 @@ public interface RecordService {
     /**
      * Find records by title.
      *
-     * @param title Record's title.
-     * @param start Index beginning from records results.
-     * @param end   Index ending from records results.
+     * @param title    Record's title.
+     * @param pageable the pageable
      * @return Marc4j records. Empty list if no record.
      * @throws ZoomException the zoom exception
      */
-    RecordListWrapper<Record> findByTitle(String title, Integer start, Integer end) throws ZoomException;
+    Page<Record> findByTitle(String title, Pageable pageable) throws ZoomException;
 
     /**
      * Find records by title.
@@ -37,7 +37,7 @@ public interface RecordService {
      * @return Marc4j records. Empty list if no record.
      * @throws ZoomException the zoom exception
      */
-    RecordListWrapper<Record> findByTitle(String title) throws ZoomException;
+    Page<Record> findByTitle(String title) throws ZoomException;
 
     /**
      * Define the default library based on Z39.50 configuration number.

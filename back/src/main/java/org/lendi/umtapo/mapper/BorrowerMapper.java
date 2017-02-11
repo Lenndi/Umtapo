@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Borrower mapper generic.
- *
+ * <p>
  * Created by axel on 05/12/16.
  */
 @Component
@@ -59,9 +59,9 @@ public class BorrowerMapper extends ConfigurableMapper {
                 .customize(new CustomMapper<Borrower, JsonNode>() {
                     @Override
                     public void mapAtoB(Borrower item, JsonNode jsonNode, MappingContext mappingContext) {
-                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext(); ) {
+                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext();) {
                             Map.Entry<String, JsonNode> elt = it.next();
-                            for (Field field : item.getClass().getDeclaredFields()) {
+                            for (final Field field : item.getClass().getDeclaredFields()) {
                                 field.setAccessible(true);
                                 if (field.getName().equals(elt.getKey())) {
                                     Object value = jsonNode.get(elt.getKey());
@@ -74,7 +74,7 @@ public class BorrowerMapper extends ConfigurableMapper {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(item, value);
-                                    } catch (IllegalAccessException e) {
+                                    } catch (final IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
                                 }

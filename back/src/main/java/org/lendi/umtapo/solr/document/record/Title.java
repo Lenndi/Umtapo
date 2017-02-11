@@ -1,4 +1,4 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.solr.client.solrj.beans.Field;
@@ -118,6 +118,11 @@ public class Title {
         this.uniformTitle = uniformTitle;
     }
 
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
     public String getDocumentType() {
         return documentType;
     }

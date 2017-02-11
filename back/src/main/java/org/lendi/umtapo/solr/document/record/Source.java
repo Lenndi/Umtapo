@@ -1,40 +1,30 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Source entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Source {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
+    private static final String DOCUMENT_TYPE = "source";
+
+    @Field(value = "document_type")
+    private final String documentType;
+
+    @Field
     private String library;
+
+    @Field
     private String url;
 
     /**
-     * Gets id.
-     *
-     * @return the id
+     * Instantiates a new Source.
      */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
+    public Source() {
+        this.documentType = DOCUMENT_TYPE;
     }
 
     /**
@@ -71,5 +61,14 @@ public class Source {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
+    public String getDocumentType() {
+        return documentType;
     }
 }

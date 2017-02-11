@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +23,17 @@ import java.util.Map;
  */
 public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
 
-    private final SolrClient solr;
-    private final Class<T> tType;
+    public static final int DEFAULT_PAGE = 0;
+    public static final int DEFAULT_PAGE_SIZE = 50;
+
+    /**
+     * The Solr.
+     */
+    protected final SolrClient solr;
+    /**
+     * The T type.
+     */
+    protected final Class<T> tType;
 
     /**
      * Instantiates a new Abstract solr repository.
@@ -51,19 +59,9 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
 
     @Override
     public Page<T> searchAll(Pageable pageable) throws SolrRepositoryException {
-        SolrQuery query = this.queryChildrenWithParent("*");
+        SolrQuery query = this.query("*");
 
         return this.getPage(query, pageable);
-    }
-
-    @Override
-    public void delete(String id) throws SolrRepositoryException {
-        try {
-            this.solr.deleteById(id);
-            this.solr.commit();
-        } catch (final IOException | SolrServerException e) {
-            throw new SolrRepositoryException("Can't document with id " + id, e);
-        }
     }
 
     /**
@@ -75,52 +73,6 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
      */
     protected SolrQuery query(String queryStr) throws SolrRepositoryException {
         return this.query(queryStr, null, null, null);
-    }
-
-    /**
-     * Search on parent and return parents with there children.
-     *
-     * @param queryStr the query string
-     * @return the list
-     * @throws SolrRepositoryException the solr repository exception
-     */
-    protected SolrQuery queryParentWithChildren(String queryStr) throws SolrRepositoryException {
-        String documentType = this.getDocumentType();
-        String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
-
-        return this.query(queryStr, null, fieldList, null);
-    }
-
-    /**
-     * Search on children and return parents with there children.
-     *
-     * @param queryStr the query str
-     * @return the list
-     * @throws SolrRepositoryException the solr repository exception
-     */
-    protected SolrQuery queryChildrenWithParent(String queryStr) throws SolrRepositoryException {
-        String documentType = this.getDocumentType();
-        String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryStr);
-        String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
-
-        return this.query("*:*", filterQuery, fieldList, null);
-    }
-
-    /**
-     * Query parent and children list.
-     *
-     * @param queryParent   the query parent
-     * @param queryChildren the query children
-     * @return the list
-     * @throws SolrRepositoryException the solr repository exception
-     */
-    protected SolrQuery queryParentAndChildren(String queryParent, String queryChildren)
-            throws SolrRepositoryException {
-        String documentType = this.getDocumentType();
-        String filterQuery = String.format("{!parent which=\"document_type:borrower\"}(%s)", queryChildren);
-        String fieldList = String.format("*,[child parentFilter=document_type:%s]", documentType);
-
-        return this.query(queryParent, filterQuery, fieldList, null);
     }
 
     /**
@@ -153,15 +105,30 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         return query;
     }
 
+    /**
+     * Gets list.
+     *
+     * @param query the query
+     * @return the list
+     * @throws SolrRepositoryException the solr repository exception
+     */
     protected List<T> getList(SolrQuery query) throws SolrRepositoryException {
         QueryResponse response = this.processQuery(query);
 
         return response.getBeans(this.tType);
     }
 
+    /**
+     * Gets page.
+     *
+     * @param query    the query
+     * @param pageable the pageable
+     * @return the page
+     * @throws SolrRepositoryException the solr repository exception
+     */
     protected Page<T> getPage(SolrQuery query, Pageable pageable) throws SolrRepositoryException {
         if (pageable == null) {
-            pageable = new PageRequest(0, 50);
+            pageable = new PageRequest(DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
         }
 
         query.setStart(pageable.getPageNumber());
@@ -182,21 +149,6 @@ public abstract class AbstractSolrRepository<T> implements SolrRepository<T> {
         QueryResponse response = this.processQuery(query);
 
         return new PageImpl<>(response.getBeans(this.tType), pageable, response.getResults().getNumFound());
-    }
-
-    private String getDocumentType() throws SolrRepositoryException {
-        String documentType;
-        try {
-            Field documentTypeField = tType.getDeclaredField("DOCUMENT_TYPE");
-            documentTypeField.setAccessible(true);
-            documentType = (String) documentTypeField.get(null);
-        } catch (final IllegalAccessException e) {
-            throw new SolrRepositoryException("Can't access to parent document", e);
-        } catch (final NoSuchFieldException e) {
-            throw new SolrRepositoryException("A parent document bean should have a DOCUMENT_TYPE constant", e);
-        }
-
-        return documentType;
     }
 
     private QueryResponse processQuery(SolrQuery query) throws SolrRepositoryException {

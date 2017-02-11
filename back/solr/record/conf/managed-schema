@@ -451,14 +451,27 @@
     <!-- Date -->
     <field name="publicationDate" type="string" indexed="true" stored="true"/>
     <field name="manufactureDate" type="string" indexed="false" stored="true"/>
-
-
-    <field name="email" type="string_lowercase" multiValued="false" indexed="true" stored="true"/>
-    <field name="emailOptin" type="boolean" indexed="true" stored="true"/>
-
-    <field name="phone" type="string" multiValued="false" indexed="true" stored="true"/>
-    <field name="quota" type="int" indexed="true" stored="true"/>
-    <field name="zip" type="string" multiValued="false" indexed="true" stored="true"/>
+    <!-- Type -->
+    <field name="types" type="strings" indexed="true" stored="true"/>
+    <!-- Identifier -->
+    <field name="recordIdentifier" type="string" indexed="true" stored="true"/>
+    <field name="serialNumber" type="string" indexed="true" stored="true"/>
+    <field name="serialType" type="string" indexed="true" stored="true"/>
+    <field name="barCode" type="string" indexed="true" stored="true"/>
+    <!-- Source -->
+    <field name="library" type="text_general" indexed="true" stored="true"/>
+    <field name="url" type="string" indexed="false" stored="true"/>
+    <!-- Language -->
+    <field name="mainLanguage" type="string" indexed="true" stored="true"/>
+    <field name="originalLanguage" type="string" indexed="true" stored="true"/>
+    <field name="subtitles" type="strings" indexed="true" stored="true"/>
+    <field name="others" type="strings" indexed="true" stored="true"/>
+    <!-- Coverage -->
+    <field name="generalNote" type="text_general" indexed="true" stored="true"/>
+    <!-- Right -->
+    <field name="recordOrigin" type="string" indexed="false" stored="true"/>
+    <field name="transactionDate" type="string" indexed="false" stored="true"/>
+    <field name="isModified" type="boolean" indexed="true" stored="true"/>
     <dynamicField name="*_txt_en_split_tight" type="text_en_splitting_tight" indexed="true" stored="true"/>
     <dynamicField name="*_descendent_path" type="descendent_path" indexed="true" stored="true"/>
     <dynamicField name="*_ancestor_path" type="ancestor_path" indexed="true" stored="true"/>

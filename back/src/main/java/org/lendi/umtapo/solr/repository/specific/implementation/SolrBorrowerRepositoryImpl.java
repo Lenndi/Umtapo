@@ -3,7 +3,7 @@ package org.lendi.umtapo.solr.repository.specific.implementation;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.lendi.umtapo.solr.configuration.SolrConfig;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
-import org.lendi.umtapo.solr.repository.AbstractSolrRepository;
+import org.lendi.umtapo.solr.repository.AbstractParentSolrRepository;
 import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
  * The type Solr borrower repository.
  */
 @Service
-public class SolrBorrowerRepositoryImpl extends AbstractSolrRepository<BorrowerDocument> implements SolrBorrowerRepository {
+public class SolrBorrowerRepositoryImpl
+        extends AbstractParentSolrRepository<BorrowerDocument> implements SolrBorrowerRepository {
 
     /**
      * Instantiates a new Solr borrower repository.

@@ -1,12 +1,8 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.solr.client.solrj.beans.Field;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,40 +10,30 @@ import java.util.List;
  * Language entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Language {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
+    private static final String DOCUMENT_TYPE = "language";
+
+    @Field(value = "document_type")
+    private final String documentType;
+
+    @Field
     private String mainLanguage;
+
+    @Field
     private String originalLanguage;
-    @ElementCollection
+
+    @Field
     private List<String> subtitles;
-    @ElementCollection
+
+    @Field
     private List<String> others;
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * Instantiates a new Language.
      */
     public Language() {
+        this.documentType = DOCUMENT_TYPE;
         this.subtitles = new ArrayList<>();
         this.others = new ArrayList<>();
     }
@@ -140,5 +126,14 @@ public class Language {
      */
     public void addOther(String other) {
         this.others.add(other);
+    }
+
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
+    public String getDocumentType() {
+        return documentType;
     }
 }

@@ -1,20 +1,14 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LoanDto;
-import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sound.midi.Patch;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.List;
 
 
+/**
+ * The type Loan web service.
+ */
 @RestController
 @CrossOrigin
 public class LoanWebService {
@@ -38,10 +32,21 @@ public class LoanWebService {
 
     private final LoanService loanService;
 
+    /**
+     * Instantiates a new Loan web service.
+     *
+     * @param loanService the loan service
+     */
     public LoanWebService(LoanService loanService) {
         this.loanService = loanService;
     }
 
+    /**
+     * Gets loan.
+     *
+     * @param id the id
+     * @return the loan
+     */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<LoanDto> getLoan(@PathVariable Integer id) {
@@ -54,6 +59,12 @@ public class LoanWebService {
         return new ResponseEntity<>(loanDto, HttpStatus.OK);
     }
 
+    /**
+     * Gets loans.
+     *
+     * @param id the id
+     * @return the loans
+     */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getLoans(@PathParam("id") Integer id) {
 
@@ -73,6 +84,12 @@ public class LoanWebService {
         return new ResponseEntity(loans, HttpStatus.OK);
     }
 
+    /**
+     * Sets loan.
+     *
+     * @param loanDto the loan dto
+     * @return the loan
+     */
     @RequestMapping(value = "/loans", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LoanDto> setLoan(@RequestBody LoanDto loanDto) {
@@ -81,6 +98,15 @@ public class LoanWebService {
         return new ResponseEntity<>(loanDto, HttpStatus.CREATED);
     }
 
+    /**
+     * Patch response entity.
+     *
+     * @param jsonNodeLoan the json node loan
+     * @param id           the id
+     * @return the response entity
+     * @throws IOException        the io exception
+     * @throws JsonPatchException the json patch exception
+     */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
             "application/json", "application/json-patch+json"})
     public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id) throws IOException,
@@ -92,7 +118,7 @@ public class LoanWebService {
         } else {
             try {
                 loanService.patchLoan(jsonNodeLoan, loan);
-            } catch (IOException | JsonPatchException e) {
+            } catch (final IOException | JsonPatchException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }

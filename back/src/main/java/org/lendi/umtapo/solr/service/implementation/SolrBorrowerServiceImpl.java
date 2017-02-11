@@ -1,6 +1,5 @@
 package org.lendi.umtapo.solr.service.implementation;
 
-import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
@@ -18,8 +17,6 @@ import org.springframework.util.Assert;
  */
 @Service
 public class SolrBorrowerServiceImpl implements SolrBorrowerService {
-
-    private static final Logger LOGGER = Logger.getLogger(SolrBorrowerServiceImpl.class);
 
     private final SolrBorrowerRepository documentRepository;
     private final BorrowerMapper borrowerMapper;
@@ -40,47 +37,30 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public void addToIndex(Borrower borrower) {
+    public void addToIndex(Borrower borrower) throws SolrRepositoryException {
         BorrowerDocument document = this.mapBorrowerToBorrowerDocument(borrower);
-
-        try {
-            documentRepository.save(document);
-        } catch (final SolrRepositoryException e) {
-            LOGGER.error(e.getStackTrace());
-        }
+        documentRepository.save(document);
     }
 
     @Override
-    public Page<BorrowerDocument> searchByName(String term, Pageable pageable) {
+    public Page<BorrowerDocument> searchByName(String term, Pageable pageable) throws SolrRepositoryException {
         Page<BorrowerDocument> borrowers = null;
-        try {
-            borrowers = this.documentRepository.searchByName(term, pageable);
-        } catch (final SolrRepositoryException e) {
-            LOGGER.error(e.getStackTrace());
-        }
+        borrowers = this.documentRepository.searchByName(term, pageable);
 
         return borrowers;
     }
 
     @Override
-    public Page<BorrowerDocument> searchAll(Pageable pageable) {
+    public Page<BorrowerDocument> searchAll(Pageable pageable) throws SolrRepositoryException {
         Page<BorrowerDocument> borrowers = null;
-        try {
-            borrowers = this.documentRepository.searchAll(pageable);
-        } catch (final SolrRepositoryException e) {
-            LOGGER.error(e.getStackTrace());
-        }
+        borrowers = this.documentRepository.searchAll(pageable);
 
         return borrowers;
     }
 
     @Override
-    public void deleteFromIndex(Integer id) {
-        try {
-            documentRepository.delete(id.toString());
-        } catch (final SolrRepositoryException e) {
-            LOGGER.error(e.getStackTrace());
-        }
+    public int deleteFromIndex(Integer id) throws SolrRepositoryException {
+        return documentRepository.delete(id.toString());
     }
 
     private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {

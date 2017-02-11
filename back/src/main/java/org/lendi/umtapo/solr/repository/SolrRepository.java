@@ -27,12 +27,4 @@ public interface SolrRepository<T> {
      * @throws SolrRepositoryException the solr repository exception
      */
     Page<T> searchAll(Pageable pageable) throws SolrRepositoryException;
-
-    /**
-     * Delete.
-     *
-     * @param id the id
-     * @throws SolrRepositoryException the solr repository exception
-     */
-    void delete(String id) throws SolrRepositoryException;
 }

@@ -1,7 +1,8 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.solr.client.solrj.beans.Field;
+import org.lendi.umtapo.solr.document.ParentDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Simplified record, inspired by Dublin Core format.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SimpleRecord {
+public class RecordDocument implements ParentDocument {
 
     private static final String DOCUMENT_TYPE = "record";
 
@@ -18,7 +19,7 @@ public class SimpleRecord {
     private final String documentType;
 
     @Field
-    private Integer id;
+    private String id;
 
     @Field(child = true)
     private Title title;
@@ -39,7 +40,7 @@ public class SimpleRecord {
     private List<Creator> contributors;
 
     @Field(child = true)
-    private SimpleRecordDate date;
+    private RecordDate date;
 
     @Field(child = true)
     private Type type;
@@ -59,7 +60,10 @@ public class SimpleRecord {
     @Field(child = true)
     private Right right;
 
-    public SimpleRecord() {
+    /**
+     * Instantiates a new Record document.
+     */
+    public RecordDocument() {
         this.documentType = DOCUMENT_TYPE;
         this.contributors = new ArrayList<>();
     }
@@ -69,7 +73,7 @@ public class SimpleRecord {
      *
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -78,7 +82,7 @@ public class SimpleRecord {
      *
      * @param id the id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -204,7 +208,7 @@ public class SimpleRecord {
      *
      * @return the date
      */
-    public SimpleRecordDate getDate() {
+    public RecordDate getDate() {
         return date;
     }
 
@@ -213,7 +217,7 @@ public class SimpleRecord {
      *
      * @param date the date
      */
-    public void setDate(SimpleRecordDate date) {
+    public void setDate(RecordDate date) {
         this.date = date;
     }
 
@@ -325,6 +329,11 @@ public class SimpleRecord {
         this.right = right;
     }
 
+    /**
+     * Get document type.
+     *
+     * @return document type
+     */
     public String getDocumentType() {
         return documentType;
     }

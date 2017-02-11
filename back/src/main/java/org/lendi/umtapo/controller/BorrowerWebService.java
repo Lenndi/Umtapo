@@ -5,7 +5,9 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.util.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.List;
-
 
 /**
  * The type Borrower web service.
@@ -63,9 +64,14 @@ public class BorrowerWebService {
      */
     @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity<BorrowerDto> getBorrower(@PathVariable Integer id) {
+    public ResponseEntity getBorrower(@PathVariable Integer id) {
 
-        BorrowerDto borrowerDto = borrowerService.findOneDto(id);
+        BorrowerDto borrowerDto;
+        try {
+            borrowerDto = borrowerService.findOneDto(id);
+        } catch (final SolrRepositoryException e) {
+            return this.solrRepositoryExceptionHandling(e);
+        }
         if (borrowerDto == null) {
             LOGGER.info("Borrower with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -90,11 +96,17 @@ public class BorrowerWebService {
         if (size != null && page != null) {
             Page<BorrowerDto> borrowerDtos;
             Pageable pageable = new PageRequest(page, size, new Sort("id"));
-            if (contains != null) {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
-            } else {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
+
+            try {
+                if (contains != null) {
+                    borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
+                } else {
+                    borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
+                }
+            } catch (final SolrRepositoryException e) {
+                return this.solrRepositoryExceptionHandling(e);
             }
+
             if (borrowerDtos == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
             } else {
@@ -121,9 +133,13 @@ public class BorrowerWebService {
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<BorrowerDto> setBorrower(@RequestBody BorrowerDto borrowerDto) {
+    public ResponseEntity setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
-        borrowerDto = borrowerService.saveDto(borrowerDto);
+        try {
+            borrowerDto = borrowerService.saveDto(borrowerDto);
+        } catch (final SolrRepositoryException e) {
+            this.solrRepositoryExceptionHandling(e);
+        }
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
 
@@ -133,8 +149,6 @@ public class BorrowerWebService {
      * @param jsonNodeBorrower the json node borrower
      * @param id               the id
      * @return the response entity
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
      */
     @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
             "application/json", "application/json-patch+json"})
@@ -146,12 +160,22 @@ public class BorrowerWebService {
         } else {
             try {
                 borrowerService.patchBorrower(jsonNodeBorrower, borrower);
-            } catch (IOException | JsonPatchException e) {
+            } catch (final IOException | JsonPatchException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    private ResponseEntity solrRepositoryExceptionHandling(SolrRepositoryException e) {
+        LOGGER.fatal(e.getMessage());
+        ApiError apiError = new ApiError(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                e.getLocalizedMessage(),
+                "SolrRepository error");
+
+        return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

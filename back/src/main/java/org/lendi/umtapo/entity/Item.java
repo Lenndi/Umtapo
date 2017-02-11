@@ -2,6 +2,7 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
+import org.lendi.umtapo.solr.document.record.RecordDocument;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -40,8 +42,9 @@ public class Item {
     private String currency;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
-    // TODO: link record with item
     private String recordId;
+    @Transient
+    private RecordDocument record;
 
     /**
      * Instantiates a new Item.
@@ -255,10 +258,38 @@ public class Item {
         this.library = library;
     }
 
+    /**
+     * Gets record.
+     *
+     * @return the record
+     */
+    public RecordDocument getRecord() {
+        return record;
+    }
+
+    /**
+     * Sets record.
+     *
+     * @param record the record
+     */
+    public void setRecord(RecordDocument record) {
+        this.record = record;
+    }
+
+    /**
+     * Gets record id.
+     *
+     * @return the record id
+     */
     public String getRecordId() {
         return recordId;
     }
 
+    /**
+     * Sets record id.
+     *
+     * @param recordId the record id
+     */
     public void setRecordId(String recordId) {
         this.recordId = recordId;
     }

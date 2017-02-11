@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * The type Borrower document.
  */
-public class BorrowerDocument {
+public class BorrowerDocument implements ParentDocument {
 
     private static final String DOCUMENT_TYPE = "borrower";
 

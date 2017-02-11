@@ -49,9 +49,9 @@ public class ItemMapper extends ConfigurableMapper {
                 .customize(new CustomMapper<Item, JsonNode>() {
                     @Override
                     public void mapAtoB(Item item, JsonNode jsonNode, MappingContext mappingContext) {
-                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext(); ) {
+                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext();) {
                             Map.Entry<String, JsonNode> elt = it.next();
-                            for (Field field : item.getClass().getDeclaredFields()) {
+                            for (final Field field : item.getClass().getDeclaredFields()) {
                                 field.setAccessible(true);
                                 if (field.getName().equals(elt.getKey())) {
                                     Object value = jsonNode.get(elt.getKey());
@@ -66,7 +66,7 @@ public class ItemMapper extends ConfigurableMapper {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(item, value);
-                                    } catch (IllegalAccessException e) {
+                                    } catch (final IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
                                 }

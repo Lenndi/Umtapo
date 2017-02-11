@@ -5,6 +5,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.service.generic.GenericService;
+import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      *
      * @param entity the entity
      * @return borrower dto
+     * @throws SolrRepositoryException the solr repository exception
      */
-    BorrowerDto saveDto(BorrowerDto entity);
+    BorrowerDto saveDto(BorrowerDto entity) throws SolrRepositoryException;
 
     /**
      * {@inheritDoc}
@@ -45,8 +47,9 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      *
      * @param integer the integer
      * @return borrower dto
+     * @throws SolrRepositoryException the solr repository exception
      */
-    BorrowerDto findOneDto(Integer integer);
+    BorrowerDto findOneDto(Integer integer) throws SolrRepositoryException;
 
 
     /**
@@ -69,8 +72,9 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param pageable the pageable
      * @param contains the contains
      * @return the page
+     * @throws SolrRepositoryException the solr repository exception
      */
-    Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains);
+    Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) throws SolrRepositoryException;
 
     /**
      * Retur all Borrower DTO.

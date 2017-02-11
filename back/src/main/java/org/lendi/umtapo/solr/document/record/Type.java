@@ -1,12 +1,8 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.solr.client.solrj.beans.Field;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,36 +10,21 @@ import java.util.List;
  * Type entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Type {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @ElementCollection
+
+    private static final String DOCUMENT_TYPE = "type";
+
+    @Field(value = "document_type")
+    private final String documentType;
+
+    @Field
     private List<String> types;
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * Instantiates a new Type.
      */
     public Type() {
+        this.documentType = DOCUMENT_TYPE;
         this.types = new ArrayList<>();
     }
 
@@ -72,5 +53,14 @@ public class Type {
      */
     public void addType(String type) {
         this.types.add(type);
+    }
+
+    /**
+     * Gets document type.
+     *
+     * @return the document type
+     */
+    public String getDocumentType() {
+        return documentType;
     }
 }
