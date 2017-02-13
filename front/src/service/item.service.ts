@@ -57,15 +57,14 @@ export class ItemService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginableBySerialNumber(size: number, page: number, contains: string): Observable<Item[]> {
+  findPaginableByContains(size: number, page: number, contains: string, attribute: string): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&contains=${contains}&attribute=barCode`, options)
-      .map((r: Response) => r.json().content as Item[]);
-
+      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&contains=${contains}&attribute=${attribute}`, options)
+      .map((r: Response) => r.json().content as Item[])
   }
 
-  setLoanAndItemCheckOut(itemInternalId: number, borrowerId: number) {
+  setLoanAndItemCheckOut(itemInternalId: number, borrowerId: number): any {
     let options = new RequestOptions({headers: this.headers});
     let loan: Loan = new Loan;
     let loanPost: Loan = new Loan;
@@ -76,7 +75,6 @@ export class ItemService {
     loan.borrower = new Borrower;
     loan.item = new Item;
     loan.borrower.id = borrowerId;
-    console.log(loan);
     this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options).map((response: Response) => {
       item = response.json();
       loan.item.id = item.id;
@@ -92,6 +90,5 @@ export class ItemService {
       loan = response.json();
       return loan;
     })
-      .subscribe(response => loan = response);
   }
 }

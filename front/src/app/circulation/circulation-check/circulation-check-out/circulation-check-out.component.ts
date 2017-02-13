@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ItemService} from "../../../../service/item.service";
-import {CirculationDataService} from "../../../../service/data-binding/circulation-data.service";
-import {Borrower} from "../../../../entity/borrower";
-import {Observable, Subject} from "rxjs";
-import {Item} from "../../../../entity/item";
-import {BorrowerService} from "../../../../service/borrower.service";
+import {ItemService} from '../../../../service/item.service';
+import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
+import {Borrower} from '../../../../entity/borrower';
+import {Observable, Subject, Observer} from 'rxjs';
+import {Item} from '../../../../entity/item';
+import {BorrowerService} from '../../../../service/borrower.service';
+import {TypeaheadMatch} from "ng2-bootstrap";
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -15,45 +16,49 @@ import {BorrowerService} from "../../../../service/borrower.service";
 })
 export class CirculationCheckOutComponent implements OnInit {
   private borrower: Borrower;
-  items: Observable<Item[]>;
+  items : Item[];
   selectedItem: Item;
   page: number = 0;
   size: number = 10;
   internalId: number;
   private searchItems = new Subject<string>();
-  visible : boolean = true;
   barCode: string;
-
+  public dataSource: Observable<Item[]>;
 
   constructor(private itemService: ItemService,
               public dataService: CirculationDataService,
               private borrowerService: BorrowerService) {
+
     this.selectedItem = new Item();
-  }
 
-  search(contains: string): void {
-    this.searchItems.next(contains);
-    this.visible = true;
-  }
-
-  onSelect(item: Item): void {
-    this.barCode = item.record.identifier.barCode;
-    this.visible = false;
+    this.dataSource = Observable
+      .create((observer: any) => {
+        // Runs on every search
+        observer.next(this.barCode);
+      })
+      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains, "barCode"))
+      .map(res => this.items = res as Item[]);
   }
 
   ngOnInit() {
-    this.items = this.searchItems
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .switchMap(contains => contains ?
-        this.itemService.findPaginableBySerialNumber(this.size, this.page, contains)
-        : Observable.of<Item[]>([]))
-      .catch(error => {
-        return Observable.of<Item[]>([]);
-      });
+    this.borrower = this.dataService.borrower;
+  }
+
+  public typeaheadOnSelect(itemTypeahead: TypeaheadMatch): void {
+    this.itemService.setLoanAndItemCheckOut(this.internalId, this.borrower.id);
+  }
+
+  public changeTypeaheadNoResults(e: boolean): void {
+    if(!this.barCode){
+      this.items = [];
+    }
   }
 
   checkout(){
-    this.itemService.setLoanAndItemCheckOut(this.internalId, this.borrower.id)
+    if(this.items.length > 0){
+      if(this.items.length > 1){
+
+      }
+    }
   }
 }

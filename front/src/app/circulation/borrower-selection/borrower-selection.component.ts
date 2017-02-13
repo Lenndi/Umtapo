@@ -1,14 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
-import {Borrower} from '../../../entity/borrower';
-import {BorrowerService} from '../../../service/borrower.service';
-import {jsonViewResolver} from '../../../config/jsonViewResolver';
-import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
-import {Observable, Subject} from 'rxjs'; // <-- import the module
-import {Http, Response} from '@angular/http';
-import {Loan} from "../../../entity/loan";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {Router} from "@angular/router";
+import {MdSnackBar} from "@angular/material";
+import {Borrower} from "../../../entity/borrower";
+import {BorrowerService} from "../../../service/borrower.service";
+import {CirculationDataService} from "../../../service/data-binding/circulation-data.service";
+import {Observable, Subject} from "rxjs"; // <-- import the module
+import {Http} from "@angular/http";
+import {TypeaheadMatch} from "ng2-bootstrap";
 
 
 @Component({
@@ -25,9 +24,7 @@ export class BorrowerSelectionComponent implements OnInit {
   showDetails: boolean;
   page: number = 0;
   size: number = 10;
-  private searchBorrowers = new Subject<string>();
-  serial : string;
-  visible: boolean = true;
+  public dataSource: Observable<any>;
 
   constructor(private formBuilder: FormBuilder,
               private borrowerService: BorrowerService,
@@ -38,42 +35,29 @@ export class BorrowerSelectionComponent implements OnInit {
     this.selectedBorrower = new Borrower();
     this.showDetails = false;
     this.borrowerId = new FormControl('');
-  }
 
-  search(contains: string): void {
-    this.searchBorrowers.next(contains);
-    this.visible = true;
+    this.dataSource = Observable
+      .create((observer: any) => {
+        // Runs on every search
+        observer.next(this.form.value["borrowerName"]);
+      })
+      .mergeMap((contains: string) => this.borrowerService.findPaginableByName(this.size, this.page, contains));
   }
-
 
   ngOnInit() {
-    this.borrowers = this.searchBorrowers
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .switchMap(contains => contains ?
-        this.borrowerService.findPaginableByName(this.size, this.page, contains)
-        : Observable.of<Borrower[]>([]))
-      .catch(error => {
-        return Observable.of<Borrower[]>([]);
-      });
-
     this.form = this.formBuilder.group({
       'borrowerId': this.borrowerId,
       'borrowerName': this.borrowerName
     });
   }
 
-  onSelect(borrower: Borrower): void {
-    this.form.patchValue({borrowerName: borrower.name});
-    this.borrowerService.find(borrower.id)
+  public typeaheadOnSelect(borrowerTypeahead: TypeaheadMatch): void {
+    this.borrowerService.find(borrowerTypeahead.item.id)
       .then(response => {
         this.selectedBorrower = response;
       });
     this.showDetails = true;
-    this.visible = false;
   }
-
-
 
   onSubmit(value: any): void {
     let id;

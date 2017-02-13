@@ -13,16 +13,19 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="serial">Serial</label>
-            <input autocomplete="off" #itemBox [(ngModel)]="barCode" id="serial" type="text" class="form-control form-control-sm"
-                   placeholder="Serial" (keyup)="search(itemBox.value)">
-          </div>
-          <div class="list-group" *ngIf="visible == true">
-            <a class="list-group-item list-group-item-action drop-link" *ngFor="let item of items | async"
-               (click)="onSelect(item)">
-              <small>{{item.record.identifier.barCode}}</small>
-              <small class="text-muted">{{item.record.title.mainTitle}}</small>
-            </a>
+            <template #customItemTemplate let-model="item" let-index="index">
+              <h5>{{model.record.identifier.barCode}} <small class="text-muted">{{model.record.title.mainTitle}}</small></h5>
+            </template>
+            <label for="internalId">Serial</label>
+            <input [(ngModel)]="barCode"
+                   [typeahead]="dataSource"
+                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   typeaheadOptionsLimit="25"
+                   [typeaheadItemTemplate]="customItemTemplate"
+                   typeaheadOptionField="model.record.identifier.barCode"
+                   [typeaheadWaitMs]="300"
+                   placeholder="Serial"
+                   class="form-control form-control-sm">
           </div>
         </div>
       </div>
