@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Source entity.
@@ -9,23 +8,8 @@ import org.apache.solr.client.solrj.beans.Field;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Source {
 
-    private static final String DOCUMENT_TYPE = "source";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String library;
-
-    @Field
     private String url;
-
-    /**
-     * Instantiates a new Source.
-     */
-    public Source() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets library.
@@ -61,14 +45,5 @@ public class Source {
      */
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

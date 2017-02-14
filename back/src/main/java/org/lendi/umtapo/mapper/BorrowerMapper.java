@@ -41,13 +41,25 @@ public class BorrowerMapper extends ConfigurableMapper {
         DTO_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
-                .field("address.id", "address.addressId")
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
                 .byDefault()
                 .register();
         DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
-                .field("address.id", "address.addressId")
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
                 .byDefault()
                 .register();
         DTO_DOCUMENT_MAPPER = mapperFactory.getMapperFacade();

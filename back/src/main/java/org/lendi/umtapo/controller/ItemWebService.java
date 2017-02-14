@@ -7,7 +7,7 @@ import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.ItemService;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,6 +59,7 @@ public class ItemWebService {
             LOGGER.info("Item with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
@@ -74,9 +75,13 @@ public class ItemWebService {
 
         try {
             itemDto = itemService.saveDto(itemDto);
-        } catch (final SolrRepositoryException e) {
-            this.solrRepositoryExceptionHandling(e);
+        } catch (final InvalidRecordException e) {
+            LOGGER.fatal(e.getMessage());
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+            return new ResponseEntity<>(apiError, apiError.getStatus());
         }
+
         return new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
 
@@ -104,15 +109,5 @@ public class ItemWebService {
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);
-    }
-
-    private ResponseEntity solrRepositoryExceptionHandling(SolrRepositoryException e) {
-        LOGGER.fatal(e.getMessage());
-        ApiError apiError = new ApiError(
-                HttpStatus.SERVICE_UNAVAILABLE,
-                e.getLocalizedMessage(),
-                "SolrRepository error");
-
-        return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

@@ -1,15 +1,12 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Identifier entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Identifier {
-
-    private static final String DOCUMENT_TYPE = "identifier";
 
     /**
      * The constant ISBN.
@@ -32,27 +29,10 @@ public class Identifier {
      */
     public static final String ISRC = "ISRC";
 
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String recordIdentifier;
-
-    @Field
     private String serialNumber;
-
-    @Field
     private String serialType;
-
-    @Field
     private String barCode;
-
-    /**
-     * Instantiates a new Identifier.
-     */
-    public Identifier() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets serial number.
@@ -124,14 +104,5 @@ public class Identifier {
      */
     public void setBarCode(String barCode) {
         this.barCode = barCode;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

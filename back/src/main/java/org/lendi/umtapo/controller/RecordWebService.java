@@ -7,8 +7,7 @@ import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.rest.wrapper.GenericRestWrapper;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
-import org.lendi.umtapo.solr.document.record.RecordDocument;
-import org.marc4j.marc.Record;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -94,15 +93,15 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         }
         this.recordService.setLibrary(z3950.getId());
 
-        List<Record> records = new ArrayList<>();
-        List<RecordDocument> recordDocuments = new ArrayList<>();
-        GenericRestWrapper<RecordDocument> recordWrapper = new GenericRestWrapper<>();
+        List<org.marc4j.marc.Record> records = new ArrayList<>();
+        List<Record> recordDocuments = new ArrayList<>();
+        GenericRestWrapper<Record> recordWrapper = new GenericRestWrapper<>();
         recordWrapper.setData(recordDocuments);
         recordWrapper.setPage(page);
 
         if (isbn != null) {
             try {
-                Record record = this.recordService.findByISBN(isbn);
+                org.marc4j.marc.Record record = this.recordService.findByISBN(isbn);
                 if (record != null) {
                     records.add(record);
                 } else {
@@ -115,7 +114,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             try {
                 page = page - 1;
                 Pageable pageable = new PageRequest(page, size);
-                Page<Record> recordPage = this.recordService.findByTitle(title, pageable);
+                Page<org.marc4j.marc.Record> recordPage = this.recordService.findByTitle(title, pageable);
                 if (recordPage.getContent() != null) {
                     records.addAll(recordPage.getContent());
                 }
@@ -138,9 +137,9 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             records.forEach(record -> {
-                RecordDocument recordDocument = this.unimarcToSimpleRecord.transform(record);
+                Record recordDocument = this.unimarcToSimpleRecord.transform(record);
                 recordDocument.getSource().setLibrary(z3950.getName());
-                recordDocument.getRight().setModified(false);
+                recordDocument.getRight().setIsModified(false);
                 recordDocuments.add(recordDocument);
             });
         }

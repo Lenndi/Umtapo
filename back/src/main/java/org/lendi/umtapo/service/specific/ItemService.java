@@ -5,7 +5,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,9 +28,9 @@ public interface ItemService extends GenericService<Item, Integer> {
      *
      * @param libraryDto the library dto
      * @return library dto
-     * @throws SolrRepositoryException the solr repository exception
+     * @throws InvalidRecordException invalid record
      */
-    ItemDto saveDto(ItemDto libraryDto) throws SolrRepositoryException;
+    ItemDto saveDto(ItemDto libraryDto) throws InvalidRecordException;
 
     /**
      * {@inheritDoc}

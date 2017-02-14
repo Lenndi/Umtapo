@@ -1,6 +1,5 @@
 package org.lendi.umtapo.service.generic;
 
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,7 +59,7 @@ public abstract class AbstractGenericService<T, ID extends Serializable> impleme
      * {@inheritDoc}
      */
     @Override
-    public void delete(ID id) throws SolrRepositoryException {
+    public void delete(ID id) {
         this.repository.delete(id);
     }
 

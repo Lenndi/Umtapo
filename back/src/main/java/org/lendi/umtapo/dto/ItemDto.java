@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.ShelfMark;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
-import org.lendi.umtapo.solr.document.record.RecordDocument;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class ItemDto {
     private String currency;
     private LibraryDto library;
     private String recordId;
-    private RecordDocument record;
+    private Record record;
 
     /**
      * Instantiates a new Item dto.
@@ -51,7 +51,7 @@ public class ItemDto {
      */
     public ItemDto(Integer id, ItemType type, ShelfMark shelfmark, Integer internalId, Float purchasePrice,
                    Boolean loanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
-                   RecordDocument record) {
+                   Record record) {
         this.id = id;
         this.type = type;
         this.shelfmark = shelfmark;
@@ -250,7 +250,7 @@ public class ItemDto {
      *
      * @return the record
      */
-    public RecordDocument getRecord() {
+    public Record getRecord() {
         return record;
     }
 
@@ -259,7 +259,7 @@ public class ItemDto {
      *
      * @param record the record
      */
-    public void setRecord(RecordDocument record) {
+    public void setRecord(Record record) {
         this.record = record;
     }
 

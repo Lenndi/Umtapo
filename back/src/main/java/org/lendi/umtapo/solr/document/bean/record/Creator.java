@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Creator entity.
@@ -9,38 +8,13 @@ import org.apache.solr.client.solrj.beans.Field;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Creator {
 
-    private static final String DOCUMENT_TYPE = "creator";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String name;
 
-    @Field
     private String secondName;
 
-    @Field
     private String date;
 
-    @Field
     private String titles;
-
-    /**
-     * Instantiates a new Creator.
-     */
-    public Creator() {
-        this.documentType = DOCUMENT_TYPE;
-    }
-
-    /**
-     * Instantiates a new Creator.
-     *
-     * @param documentType the document type
-     */
-    public Creator(String documentType) {
-        this.documentType = documentType;
-    }
 
     /**
      * Gets name.
@@ -113,15 +87,4 @@ public class Creator {
     public void setTitles(String titles) {
         this.titles = titles;
     }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
-    }
-
-
 }

@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +11,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Language {
 
-    private static final String DOCUMENT_TYPE = "language";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String mainLanguage;
-
-    @Field
     private String originalLanguage;
-
-    @Field
     private List<String> subtitles;
-
-    @Field
     private List<String> others;
 
     /**
      * Instantiates a new Language.
      */
     public Language() {
-        this.documentType = DOCUMENT_TYPE;
         this.subtitles = new ArrayList<>();
         this.others = new ArrayList<>();
     }
@@ -126,14 +112,5 @@ public class Language {
      */
     public void addOther(String other) {
         this.others.add(other);
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

@@ -1,7 +1,7 @@
 package org.lendi.umtapo.solr.service;
 
-import org.lendi.umtapo.solr.document.record.RecordDocument;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
+import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,21 +13,28 @@ import java.util.List;
 public interface SolrRecordService {
 
     /**
+     * Find by id record.
+     *
+     * @param id the id
+     * @return the record
+     */
+    Record findById(String id);
+
+    /**
      * Add to index.
      *
-     * @param recordDocument the record document
-     * @throws SolrRepositoryException the solr repository exception
+     * @param record the record document
+     * @return the record
+     * @throws InvalidRecordException the invalid record exception
      */
-    void addToIndex(RecordDocument recordDocument) throws SolrRepositoryException;
+    Record save(Record record) throws InvalidRecordException;
 
     /**
      * Delete from index int.
      *
      * @param id the id
-     * @return the int
-     * @throws SolrRepositoryException the solr repository exception
      */
-    int deleteFromIndex(String id) throws SolrRepositoryException;
+    void delete(String id);
 
     /**
      * Search by serial number list.
@@ -35,9 +42,8 @@ public interface SolrRecordService {
      * @param serialNumber the serial number
      * @param serialType   the serial type
      * @return the list
-     * @throws SolrRepositoryException the solr repository exception
      */
-    List<RecordDocument> searchBySerialNumber(String serialNumber, String serialType) throws SolrRepositoryException;
+    List<Record> searchBySerialNumber(String serialNumber, String serialType);
 
     /**
      * Search by title page.
@@ -45,7 +51,6 @@ public interface SolrRecordService {
      * @param title    the title
      * @param pageable the pageable
      * @return the page
-     * @throws SolrRepositoryException the solr repository exception
      */
-    Page<RecordDocument> searchByTitle(String title, Pageable pageable) throws SolrRepositoryException;
+    Page<Record> searchByTitle(String title, Pageable pageable);
 }

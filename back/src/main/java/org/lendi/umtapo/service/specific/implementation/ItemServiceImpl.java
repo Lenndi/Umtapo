@@ -8,9 +8,8 @@ import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.mapper.ItemMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.ItemService;
-import org.lendi.umtapo.solr.document.record.Identifier;
-import org.lendi.umtapo.solr.document.record.RecordDocument;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
+import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.util.Assert;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Item service implementation.
@@ -53,25 +51,11 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      * {@inheritDoc}
      */
     @Override
-    public ItemDto saveDto(ItemDto itemDto) throws SolrRepositoryException {
+    public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
 
-        if (itemDto.getRecordId() == null) {
-            RecordDocument recordDocument = itemDto.getRecord();
-            if (recordDocument != null && recordDocument.getId() == null) {
-                Identifier identifier = recordDocument.getIdentifier();
-                List<RecordDocument> documents;
-                documents = this.solrRecordService.searchBySerialNumber(
-                        identifier.getSerialNumber(),
-                        identifier.getSerialType());
-
-                if (documents.size() < 1) {
-                    recordDocument.setId(UUID.randomUUID().toString());
-                    this.solrRecordService.addToIndex(recordDocument);
-                } else {
-                    recordDocument = documents.get(0);
-                }
-            }
-            itemDto.setRecordId(recordDocument.getId());
+        if (itemDto.getRecord() != null) {
+            Record record = this.solrRecordService.save(itemDto.getRecord());
+            itemDto.setRecordId(record.getId());
         }
 
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
@@ -90,12 +74,16 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
+        this.linkRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
 
     @Override
     public List<ItemDto> findAllDto() {
+        List<Item> items = this.findAll();
+        items.forEach(this::linkRecord);
+
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
@@ -129,5 +117,14 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
 
         return librariesDto;
+    }
+
+    private Item linkRecord(Item item) {
+        if (item.getRecordId() != null) {
+            Record record = this.solrRecordService.findById(item.getRecordId());
+            item.setRecord(record);
+        }
+
+        return item;
     }
 }

@@ -1,7 +1,5 @@
 package org.lendi.umtapo.service.generic;
 
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -42,9 +40,8 @@ public interface GenericService<T, ID extends Serializable> {
      * Delete.
      *
      * @param id the id
-     * @throws SolrRepositoryException the solr repository exception
      */
-    void delete(ID id) throws SolrRepositoryException;
+    void delete(ID id);
 
     /**
      * Exists boolean.

@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +11,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Title {
 
-    private static final String DOCUMENT_TYPE = "title";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String mainTitle;
-
-    @Field
     private String subTitle;
-
-    @Field
     private List<String> alternateTitles;
-
-    @Field
     private String uniformTitle;
 
     /**
      * Instantiates a new Title.
      */
     public Title() {
-        this.documentType = DOCUMENT_TYPE;
         this.alternateTitles = new ArrayList<>();
     }
 
@@ -116,14 +102,5 @@ public class Title {
      */
     public void setUniformTitle(String uniformTitle) {
         this.uniformTitle = uniformTitle;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

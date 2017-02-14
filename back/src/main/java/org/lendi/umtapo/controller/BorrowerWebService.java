@@ -5,9 +5,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
-import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.BorrowerService;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.util.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,11 +65,7 @@ public class BorrowerWebService {
     public ResponseEntity getBorrower(@PathVariable Integer id) {
 
         BorrowerDto borrowerDto;
-        try {
-            borrowerDto = borrowerService.findOneDto(id);
-        } catch (final SolrRepositoryException e) {
-            return this.solrRepositoryExceptionHandling(e);
-        }
+        borrowerDto = borrowerService.findOneDto(id);
         if (borrowerDto == null) {
             LOGGER.info("Borrower with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -97,14 +91,10 @@ public class BorrowerWebService {
             Page<BorrowerDto> borrowerDtos;
             Pageable pageable = new PageRequest(page, size, new Sort("id"));
 
-            try {
-                if (contains != null) {
-                    borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
-                } else {
-                    borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
-                }
-            } catch (final SolrRepositoryException e) {
-                return this.solrRepositoryExceptionHandling(e);
+            if (contains != null) {
+                borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
+            } else {
+                borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
             }
 
             if (borrowerDtos == null) {
@@ -135,11 +125,8 @@ public class BorrowerWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
-        try {
-            borrowerDto = borrowerService.saveDto(borrowerDto);
-        } catch (final SolrRepositoryException e) {
-            this.solrRepositoryExceptionHandling(e);
-        }
+        borrowerDto = borrowerService.saveDto(borrowerDto);
+
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
 
@@ -167,15 +154,5 @@ public class BorrowerWebService {
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);
-    }
-
-    private ResponseEntity solrRepositoryExceptionHandling(SolrRepositoryException e) {
-        LOGGER.fatal(e.getMessage());
-        ApiError apiError = new ApiError(
-                HttpStatus.SERVICE_UNAVAILABLE,
-                e.getLocalizedMessage(),
-                "SolrRepository error");
-
-        return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

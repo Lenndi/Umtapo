@@ -9,12 +9,10 @@ import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +62,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      */
     @Override
     @Transactional
-    public BorrowerDto saveDto(BorrowerDto borrowerDto) throws SolrRepositoryException {
+    public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
         this.solrBorrowerService.addToIndex(borrower);
@@ -73,7 +71,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     @Override
-    public void delete(Integer borrowerId) throws SolrRepositoryException {
+    public void delete(Integer borrowerId) {
         this.solrBorrowerService.deleteFromIndex(borrowerId);
         super.delete(borrowerId);
     }
@@ -82,7 +80,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * {@inheritDoc}
      */
     @Override
-    public BorrowerDto findOneDto(Integer id) throws SolrRepositoryException {
+    public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
 
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
@@ -102,7 +100,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * {@inheritDoc}
      */
     @Override
-    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) throws SolrRepositoryException {
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
         Page<BorrowerDocument> borrowers;
 
         if (Objects.equals(contains, "")) {

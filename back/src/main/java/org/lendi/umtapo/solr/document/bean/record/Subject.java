@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,25 +11,14 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Subject {
 
-    private static final String DOCUMENT_TYPE = "subject";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private List<String> terms;
-
-    @Field
     private String dewey;
-
-    @Field
     private String universal;
 
     /**
      * Instantiates a new Subject.
      */
     public Subject() {
-        this.documentType = DOCUMENT_TYPE;
         this.terms = new ArrayList<>();
     }
 
@@ -95,14 +83,5 @@ public class Subject {
      */
     public void setUniversal(String universal) {
         this.universal = universal;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

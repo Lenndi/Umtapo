@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Right entity.
@@ -9,26 +8,9 @@ import org.apache.solr.client.solrj.beans.Field;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Right {
 
-    private static final String DOCUMENT_TYPE = "right";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String recordOrigin;
-
-    @Field
     private String transactionDate;
-
-    @Field
     private boolean isModified;
-
-    /**
-     * Instantiates a new Right.
-     */
-    public Right() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets record origin.
@@ -71,7 +53,7 @@ public class Right {
      *
      * @return the boolean
      */
-    public boolean isModified() {
+    public boolean getIsModified() {
         return isModified;
     }
 
@@ -80,16 +62,7 @@ public class Right {
      *
      * @param modified the modified
      */
-    public void setModified(boolean modified) {
+    public void setIsModified(boolean modified) {
         isModified = modified;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

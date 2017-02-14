@@ -2,7 +2,6 @@ package org.lendi.umtapo.solr.service;
 
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,23 +10,19 @@ import org.springframework.data.domain.Pageable;
  */
 public interface SolrBorrowerService {
 
-
     /**
      * Add to index.
      *
      * @param borrower the borrower
-     * @throws SolrRepositoryException the solr repository exception
      */
-    void addToIndex(Borrower borrower) throws SolrRepositoryException;
+    void addToIndex(Borrower borrower);
 
     /**
      * Delete from index.
      *
      * @param id the id
-     * @return the int
-     * @throws SolrRepositoryException the solr repository exception
      */
-    int deleteFromIndex(Integer id) throws SolrRepositoryException;
+    void deleteFromIndex(Integer id);
 
     /**
      * Search list.
@@ -35,9 +30,8 @@ public interface SolrBorrowerService {
      * @param term     the term
      * @param pageable the pageable
      * @return the list
-     * @throws SolrRepositoryException the solr repository exception
      */
-    Page<BorrowerDocument> searchByName(String term, Pageable pageable) throws SolrRepositoryException;
+    Page<BorrowerDocument> searchByName(String term, Pageable pageable);
 
 
     /**
@@ -45,7 +39,6 @@ public interface SolrBorrowerService {
      *
      * @param pageable the pageable
      * @return the page
-     * @throws SolrRepositoryException the solr repository exception
      */
-    Page<BorrowerDocument> searchAll(Pageable pageable) throws SolrRepositoryException;
+    Page<BorrowerDocument> searchAll(Pageable pageable);
 }

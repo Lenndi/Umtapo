@@ -3,8 +3,7 @@ package org.lendi.umtapo.solr.service.implementation;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
-import org.lendi.umtapo.solr.repository.SolrRepositoryException;
-import org.lendi.umtapo.solr.repository.specific.SolrBorrowerRepository;
+import org.lendi.umtapo.solr.repository.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,30 +36,30 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public void addToIndex(Borrower borrower) throws SolrRepositoryException {
+    public void addToIndex(Borrower borrower) {
         BorrowerDocument document = this.mapBorrowerToBorrowerDocument(borrower);
         documentRepository.save(document);
     }
 
     @Override
-    public Page<BorrowerDocument> searchByName(String term, Pageable pageable) throws SolrRepositoryException {
+    public Page<BorrowerDocument> searchByName(String name, Pageable pageable) {
         Page<BorrowerDocument> borrowers = null;
-        borrowers = this.documentRepository.searchByName(term, pageable);
+        borrowers = this.documentRepository.findByName(name, pageable);
 
         return borrowers;
     }
 
     @Override
-    public Page<BorrowerDocument> searchAll(Pageable pageable) throws SolrRepositoryException {
+    public Page<BorrowerDocument> searchAll(Pageable pageable) {
         Page<BorrowerDocument> borrowers = null;
-        borrowers = this.documentRepository.searchAll(pageable);
+        borrowers = this.documentRepository.findAll(pageable);
 
         return borrowers;
     }
 
     @Override
-    public int deleteFromIndex(Integer id) throws SolrRepositoryException {
-        return documentRepository.delete(id.toString());
+    public void deleteFromIndex(Integer id) {
+        documentRepository.delete(id.toString());
     }
 
     private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {

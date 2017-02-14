@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 /**
  * Record date entity.
@@ -9,23 +8,8 @@ import org.apache.solr.client.solrj.beans.Field;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecordDate {
 
-    private static final String DOCUMENT_TYPE = "date";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String publicationDate;
-
-    @Field
     private String manufactureDate;
-
-    /**
-     * Instantiates a new Record date.
-     */
-    public RecordDate() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets publication date.
@@ -61,14 +45,5 @@ public class RecordDate {
      */
     public void setManufactureDate(String manufactureDate) {
         this.manufactureDate = manufactureDate;
-    }
-
-    /**
-     * Gets document type.
-     *
-     * @return the document type
-     */
-    public String getDocumentType() {
-        return documentType;
     }
 }

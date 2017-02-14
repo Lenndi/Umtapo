@@ -2,7 +2,7 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
-import org.lendi.umtapo.solr.document.record.RecordDocument;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -44,7 +44,7 @@ public class Item {
     private Library library;
     private String recordId;
     @Transient
-    private RecordDocument record;
+    private Record record;
 
     /**
      * Instantiates a new Item.
@@ -263,7 +263,7 @@ public class Item {
      *
      * @return the record
      */
-    public RecordDocument getRecord() {
+    public Record getRecord() {
         return record;
     }
 
@@ -272,7 +272,7 @@ public class Item {
      *
      * @param record the record
      */
-    public void setRecord(RecordDocument record) {
+    public void setRecord(Record record) {
         this.record = record;
     }
 
