@@ -3,7 +3,6 @@ package org.lendi.umtapo.service.specific;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.LoanDto;
-import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;

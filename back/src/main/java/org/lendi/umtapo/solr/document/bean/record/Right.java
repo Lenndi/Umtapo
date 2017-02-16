@@ -1,42 +1,16 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Right entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Right {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
     private String recordOrigin;
     private String transactionDate;
     private boolean isModified;
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * Gets record origin.
@@ -79,7 +53,7 @@ public class Right {
      *
      * @return the boolean
      */
-    public boolean isModified() {
+    public boolean getIsModified() {
         return isModified;
     }
 
@@ -88,7 +62,7 @@ public class Right {
      *
      * @param modified the modified
      */
-    public void setModified(boolean modified) {
+    public void setIsModified(boolean modified) {
         isModified = modified;
     }
 }

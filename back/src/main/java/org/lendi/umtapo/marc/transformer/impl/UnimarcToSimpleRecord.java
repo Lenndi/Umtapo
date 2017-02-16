@@ -1,22 +1,22 @@
 package org.lendi.umtapo.marc.transformer.impl;
 
-import org.lendi.umtapo.solr.document.record.simple.Coverage;
-import org.lendi.umtapo.solr.document.record.simple.Creator;
-import org.lendi.umtapo.solr.document.record.simple.Description;
-import org.lendi.umtapo.solr.document.record.simple.Identifier;
-import org.lendi.umtapo.solr.document.record.simple.Language;
-import org.lendi.umtapo.solr.document.record.simple.Publisher;
-import org.lendi.umtapo.solr.document.record.simple.Right;
-import org.lendi.umtapo.solr.document.record.simple.SimpleRecord;
-import org.lendi.umtapo.solr.document.record.simple.SimpleRecordDate;
-import org.lendi.umtapo.solr.document.record.simple.Source;
-import org.lendi.umtapo.solr.document.record.simple.Subject;
-import org.lendi.umtapo.solr.document.record.simple.Title;
-import org.lendi.umtapo.solr.document.record.simple.Type;
 import org.lendi.umtapo.marc.transformer.RecordTransformer;
+import org.lendi.umtapo.solr.document.bean.record.Contributor;
+import org.lendi.umtapo.solr.document.bean.record.Coverage;
+import org.lendi.umtapo.solr.document.bean.record.Creator;
+import org.lendi.umtapo.solr.document.bean.record.Description;
+import org.lendi.umtapo.solr.document.bean.record.Identifier;
+import org.lendi.umtapo.solr.document.bean.record.Language;
+import org.lendi.umtapo.solr.document.bean.record.Publisher;
+import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.solr.document.bean.record.RecordDate;
+import org.lendi.umtapo.solr.document.bean.record.Right;
+import org.lendi.umtapo.solr.document.bean.record.Source;
+import org.lendi.umtapo.solr.document.bean.record.Subject;
+import org.lendi.umtapo.solr.document.bean.record.Title;
+import org.lendi.umtapo.solr.document.bean.record.Type;
 import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
-import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 import org.springframework.stereotype.Service;
@@ -25,38 +25,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Transform Record with UNIMARC format to a SimpleRecord.
+ * Transform Record with UNIMARC format to a Record.
  */
 @Service
-public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
-    private Record record;
+public class UnimarcToSimpleRecord implements RecordTransformer<Record> {
+    private org.marc4j.marc.Record record;
 
     @Override
-    public SimpleRecord transform(Record baseRecord) {
+    public Record transform(org.marc4j.marc.Record baseRecord) {
         this.record = baseRecord;
-        SimpleRecord simpleRecord;
+        Record record;
 
         if (this.record == null) {
-            simpleRecord = null;
+            record = null;
         } else {
-            simpleRecord = new SimpleRecord();
+            record = new Record();
 
-            simpleRecord.setTitle(this.processTitle());
-            simpleRecord.setCreator(this.processCreator());
-            simpleRecord.setSubject(this.processSubject());
-            simpleRecord.setDescription(this.processDescription());
-            simpleRecord.setPublisher(this.processPublisher());
-            simpleRecord.setContributors(this.processContributors());
-            simpleRecord.setDate(this.processDate());
-            simpleRecord.setType(this.processType());
-            simpleRecord.setIdentifier(this.processIdentifier());
-            simpleRecord.setSource(this.processSource());
-            simpleRecord.setLanguage(this.processLanguage());
-            simpleRecord.setCoverage(this.processCoverage());
-            simpleRecord.setRight(this.processRight());
+            record.setTitle(this.processTitle());
+            record.setCreator(this.processCreator());
+            record.setSubject(this.processSubject());
+            record.setDescription(this.processDescription());
+            record.setPublisher(this.processPublisher());
+            record.setContributors(this.processContributors());
+            record.setDate(this.processDate());
+            record.setType(this.processType());
+            record.setIdentifier(this.processIdentifier());
+            record.setSource(this.processSource());
+            record.setLanguage(this.processLanguage());
+            record.setCoverage(this.processCoverage());
+            record.setRight(this.processRight());
         }
 
-        return simpleRecord;
+        return record;
     }
 
     /**
@@ -215,8 +215,8 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
      *
      * @return Simple record contributors
      */
-    private List<Creator> processContributors() {
-        List<Creator> contributors = new ArrayList<>();
+    private List<Contributor> processContributors() {
+        List<Contributor> contributors = new ArrayList<>();
         DataField dataField;
         List<VariableField> variableFields;
 
@@ -224,7 +224,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
         variableFields = record.getVariableFields(tags);
         if (variableFields != null) {
             variableFields.forEach(variableField -> {
-                Creator contributor = new Creator("contributor");
+                Contributor contributor = new Contributor();
                 DataField dataField1 = (DataField) variableField;
 
                 contributor.setName(dataField1.getSubfieldsAsString("a"));
@@ -238,7 +238,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
 
         dataField = (DataField) record.getVariableField("200");
         if (dataField != null) {
-            Creator contributor = new Creator();
+            Contributor contributor = new Contributor();
             contributor.setName(dataField.getSubfieldsAsString("g"));
             contributors.add(contributor);
         }
@@ -247,12 +247,12 @@ public class UnimarcToSimpleRecord implements RecordTransformer<SimpleRecord> {
     }
 
     /**
-     * Get dates from record to create SimpleRecordDate.
+     * Get dates from record to create RecordDate.
      *
      * @return Simple record date
      */
-    private SimpleRecordDate processDate() {
-        SimpleRecordDate date = new SimpleRecordDate();
+    private RecordDate processDate() {
+        RecordDate date = new RecordDate();
         DataField dataField;
 
         dataField = (DataField) record.getVariableField("210");

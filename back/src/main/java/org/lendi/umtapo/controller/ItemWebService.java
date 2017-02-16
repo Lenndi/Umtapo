@@ -5,7 +5,9 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.ItemService;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,6 +59,7 @@ public class ItemWebService {
             LOGGER.info("Item with id " + id + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
@@ -68,9 +71,17 @@ public class ItemWebService {
      */
     @RequestMapping(value = "/items", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ItemDto> setItem(@RequestBody ItemDto itemDto) {
+    public ResponseEntity setItem(@RequestBody ItemDto itemDto) {
 
-        itemDto = itemService.saveDto(itemDto);
+        try {
+            itemDto = itemService.saveDto(itemDto);
+        } catch (final InvalidRecordException e) {
+            LOGGER.fatal(e.getMessage());
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+            return new ResponseEntity<>(apiError, apiError.getStatus());
+        }
+
         return new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
 
@@ -91,7 +102,7 @@ public class ItemWebService {
         } else {
             try {
                 itemService.patchItem(jsonNodeItem, item);
-            } catch (IOException | JsonPatchException e) {
+            } catch (final IOException | JsonPatchException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }

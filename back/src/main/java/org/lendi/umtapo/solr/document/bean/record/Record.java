@@ -1,7 +1,6 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,57 +9,27 @@ import java.util.List;
  * Simplified record, inspired by Dublin Core format.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SimpleRecord {
+public class Record {
 
-    private static final String DOCUMENT_TYPE = "record";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
-    private Integer id;
-
-    @Field(child = true)
+    private String id;
     private Title title;
-
-    @Field(child = true)
     private Creator creator;
-
-    @Field(child = true)
     private Subject subject;
-
-    @Field(child = true)
     private Description description;
-
-    @Field(child = true)
     private Publisher publisher;
-
-    @Field(child = true)
-    private List<Creator> contributors;
-
-    @Field(child = true)
-    private SimpleRecordDate date;
-
-    @Field(child = true)
+    private List<Contributor> contributors;
+    private RecordDate date;
     private Type type;
-
-    @Field(child = true)
     private Identifier identifier;
-
-    @Field(child = true)
     private Source source;
-
-    @Field(child = true)
     private Language language;
-
-    @Field(child = true)
     private Coverage coverage;
-
-    @Field(child = true)
     private Right right;
 
-    public SimpleRecord() {
-        this.documentType = DOCUMENT_TYPE;
+    /**
+     * Instantiates a new Record document.
+     */
+    public Record() {
         this.contributors = new ArrayList<>();
     }
 
@@ -69,7 +38,7 @@ public class SimpleRecord {
      *
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -78,7 +47,7 @@ public class SimpleRecord {
      *
      * @param id the id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -177,7 +146,7 @@ public class SimpleRecord {
      *
      * @return the contributors
      */
-    public List<Creator> getContributors() {
+    public List<Contributor> getContributors() {
         return contributors;
     }
 
@@ -186,7 +155,7 @@ public class SimpleRecord {
      *
      * @param contributors the contributors
      */
-    public void setContributors(List<Creator> contributors) {
+    public void setContributors(List<Contributor> contributors) {
         this.contributors = contributors;
     }
 
@@ -195,7 +164,7 @@ public class SimpleRecord {
      *
      * @param contributor the contributor
      */
-    public void addContributor(Creator contributor) {
+    public void addContributor(Contributor contributor) {
         this.contributors.add(contributor);
     }
 
@@ -204,7 +173,7 @@ public class SimpleRecord {
      *
      * @return the date
      */
-    public SimpleRecordDate getDate() {
+    public RecordDate getDate() {
         return date;
     }
 
@@ -213,7 +182,7 @@ public class SimpleRecord {
      *
      * @param date the date
      */
-    public void setDate(SimpleRecordDate date) {
+    public void setDate(RecordDate date) {
         this.date = date;
     }
 
@@ -323,9 +292,5 @@ public class SimpleRecord {
      */
     public void setRight(Right right) {
         this.right = right;
-    }
-
-    public String getDocumentType() {
-        return documentType;
     }
 }

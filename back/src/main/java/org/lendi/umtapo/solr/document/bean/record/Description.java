@@ -1,13 +1,7 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,34 +11,17 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Description {
 
-    private static final String DOCUMENT_TYPE = "description";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String mainDescription;
-
-    @Field
     private List<String> otherDescriptions;
-
-    @Field
     private String mainPhysicalDescription;
-
-    @Field
     private String secondaryPhysicalDescription;
-
-    @Field
     private String format;
-
-    @Field
     private String associatedMaterial;
 
     /**
      * Instantiates a new Description.
      */
     public Description() {
-        this.documentType = DOCUMENT_TYPE;
         this.otherDescriptions = new ArrayList<>();
     }
 
@@ -163,9 +140,5 @@ public class Description {
      */
     public void setAssociatedMaterial(String associatedMaterial) {
         this.associatedMaterial = associatedMaterial;
-    }
-
-    public String getDocumentType() {
-        return documentType;
     }
 }

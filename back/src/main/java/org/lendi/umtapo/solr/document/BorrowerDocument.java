@@ -1,30 +1,30 @@
 package org.lendi.umtapo.solr.document;
 
 import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
+import java.util.Date;
 
 /**
- * The type Borrower document.
+ * Flat Borrower representation.
  */
+@SolrDocument(solrCoreName = "borrower")
 public class BorrowerDocument {
 
-    private static final String DOCUMENT_TYPE = "borrower";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
+    @Id
     private String id;
 
     @Field
-    private String[] name;
+    private String name;
 
     @Field
     private String comment;
 
-    private ZonedDateTime birthday;
+    @Field
+    private Date birthday;
 
     @Field
     private Integer quota;
@@ -32,15 +32,26 @@ public class BorrowerDocument {
     @Field
     private Boolean emailOptin;
 
-    @Field(child = true)
-    private AddressDocument address;
+    @Field
+    private String addressId;
 
-    /**
-     * Instantiates a new Borrower document.
-     */
-    public BorrowerDocument() {
-        this.documentType = DOCUMENT_TYPE;
-    }
+    @Field
+    private String address1;
+
+    @Field
+    private String address2;
+
+    @Field
+    private String zip;
+
+    @Field
+    private String city;
+
+    @Field
+    private String phone;
+
+    @Field
+    private String email;
 
     /**
      * Gets id.
@@ -66,7 +77,7 @@ public class BorrowerDocument {
      * @return the name
      */
     public String getName() {
-        return Arrays.toString(name);
+        return name;
     }
 
     /**
@@ -75,7 +86,7 @@ public class BorrowerDocument {
      * @param name the name
      */
     public void setName(String name) {
-        this.name = new String[]{name};
+        this.name = name;
     }
 
     /**
@@ -102,7 +113,7 @@ public class BorrowerDocument {
      * @return the birthday
      */
     public ZonedDateTime getBirthday() {
-        return birthday;
+        return ZonedDateTime.ofInstant(this.birthday.toInstant(), ZoneId.systemDefault());
     }
 
     /**
@@ -111,7 +122,7 @@ public class BorrowerDocument {
      * @param birthday the birthday
      */
     public void setBirthday(ZonedDateTime birthday) {
-        this.birthday = birthday;
+        this.birthday = Date.from(birthday.toInstant());
     }
 
     /**
@@ -151,29 +162,128 @@ public class BorrowerDocument {
     }
 
     /**
-     * Gets address.
+     * Gets address id.
      *
-     * @return the address
+     * @return the address id
      */
-    public AddressDocument getAddress() {
-        return address;
+    public String getAddressId() {
+        return addressId;
     }
 
     /**
-     * Sets address.
+     * Sets address id.
      *
-     * @param address the address
+     * @param addressId the address id
      */
-    public void setAddress(AddressDocument address) {
-        this.address = address;
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     /**
-     * Gets document type.
+     * Gets address 1.
      *
-     * @return the document type
+     * @return the address 1
      */
-    public String getDocumentType() {
-        return documentType;
+    public String getAddress1() {
+        return address1;
+    }
+
+    /**
+     * Sets address 1.
+     *
+     * @param address1 the address 1
+     */
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    /**
+     * Gets address 2.
+     *
+     * @return the address 2
+     */
+    public String getAddress2() {
+        return address2;
+    }
+
+    /**
+     * Sets address 2.
+     *
+     * @param address2 the address 2
+     */
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    /**
+     * Gets zip.
+     *
+     * @return the zip
+     */
+    public String getZip() {
+        return zip;
+    }
+
+    /**
+     * Sets zip.
+     *
+     * @param zip the zip
+     */
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    /**
+     * Gets city.
+     *
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * Sets city.
+     *
+     * @param city the city
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * Gets phone.
+     *
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Sets phone.
+     *
+     * @param phone the phone
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets email.
+     *
+     * @param email the email
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

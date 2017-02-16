@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Borrower mapper generic.
- *
+ * <p>
  * Created by axel on 05/12/16.
  */
 @Component
@@ -41,13 +41,25 @@ public class BorrowerMapper extends ConfigurableMapper {
         DTO_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
-                .field("address.id", "address.addressId")
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
                 .byDefault()
                 .register();
         DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
-                .field("address.id", "address.addressId")
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
                 .byDefault()
                 .register();
         DTO_DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
@@ -59,9 +71,9 @@ public class BorrowerMapper extends ConfigurableMapper {
                 .customize(new CustomMapper<Borrower, JsonNode>() {
                     @Override
                     public void mapAtoB(Borrower item, JsonNode jsonNode, MappingContext mappingContext) {
-                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext(); ) {
+                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext();) {
                             Map.Entry<String, JsonNode> elt = it.next();
-                            for (Field field : item.getClass().getDeclaredFields()) {
+                            for (final Field field : item.getClass().getDeclaredFields()) {
                                 field.setAccessible(true);
                                 if (field.getName().equals(elt.getKey())) {
                                     Object value = jsonNode.get(elt.getKey());
@@ -74,7 +86,7 @@ public class BorrowerMapper extends ConfigurableMapper {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(item, value);
-                                    } catch (IllegalAccessException e) {
+                                    } catch (final IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
                                 }

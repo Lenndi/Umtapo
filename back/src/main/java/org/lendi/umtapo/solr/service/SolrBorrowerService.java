@@ -6,10 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * The interface Borrower index service.
+ * Solr borrwer service interface.
  */
 public interface SolrBorrowerService {
-
 
     /**
      * Add to index.
@@ -28,11 +27,18 @@ public interface SolrBorrowerService {
     /**
      * Search list.
      *
-     * @param term the term
+     * @param term     the term
+     * @param pageable the pageable
      * @return the list
      */
     Page<BorrowerDocument> searchByName(String term, Pageable pageable);
 
 
+    /**
+     * Search all page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
     Page<BorrowerDocument> searchAll(Pageable pageable);
 }

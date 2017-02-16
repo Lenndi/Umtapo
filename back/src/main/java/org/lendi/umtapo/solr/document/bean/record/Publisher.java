@@ -1,12 +1,6 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Publisher entity.
@@ -14,32 +8,12 @@ import javax.persistence.Id;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Publisher {
 
-    private static final String DOCUMENT_TYPE = "publisher";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String publicationPlace;
-
-    @Field
     private String editorName;
-
-    @Field
     private String editorAddress;
-
-    @Field
     private String manufacturerName;
-
-    @Field
     private String manufacturerPlace;
-
-    @Field
     private String manufacturerAddress;
-
-    public Publisher() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets publication place.
@@ -147,9 +121,5 @@ public class Publisher {
      */
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
-    }
-
-    public String getDocumentType() {
-        return documentType;
     }
 }

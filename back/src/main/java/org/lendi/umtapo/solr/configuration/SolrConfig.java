@@ -1,50 +1,48 @@
 package org.lendi.umtapo.solr.configuration;
 
-import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.core.CoreContainer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
+import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
+import org.xml.sax.SAXException;
 
 import javax.annotation.Resource;
-import java.nio.file.Path;
-
-import static org.apache.commons.io.FileUtils.getFile;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 /**
- * Embedded Solr configuration.
+ * Solr configuration. Set solr.embedded to true in application.properties to use Solr Embedded server.
  */
-@Component
+@Configuration
+@EnableSolrRepositories(basePackages = {"org.lendi.umtapo.solr.repository"}, multicoreSupport = true)
 public class SolrConfig {
-
-    private static final Logger LOGGER = Logger.getLogger(SolrConfig.class);
 
     @Resource
     private Environment env;
 
     /**
-     * Solr client solr client.
+     * Solr client.
      *
-     * @param core the core
-     * @return the solr client
+     * @return the solr client, embedded or HTTP
+     * @throws IOException                  the io exception
+     * @throws IllegalStateException        the illegal state exception
+     * @throws SAXException                 the sax exception
+     * @throws ParserConfigurationException the parser configuration exception
      */
-    public SolrClient solrClient(String core) {
+    @Bean
+    public SolrClient solrClient()
+            throws IOException, IllegalStateException, SAXException, ParserConfigurationException {
         SolrClient solrClient;
-        final String solrHome = this.env.getProperty("solr.home");
-        final String solrUrl = this.env.getProperty("solr.url");
 
-        if (!solrHome.equals("")) {
-            final Path solrPath = getFile(solrHome).toPath().toAbsolutePath();
-            CoreContainer coreContainer = CoreContainer.createAndLoad(solrPath, solrPath.resolve("solr.xml"));
-            solrClient = new EmbeddedSolrServer(coreContainer, core);
+        if (env.getRequiredProperty("solr.embedded").equals("true")) {
+            String solrHome = env.getRequiredProperty("solr.home");
+            EmbeddedSolrServerFactory solrServerFactory = new EmbeddedSolrServerFactory(solrHome);
+            solrClient = solrServerFactory.getSolrClient();
         } else {
-            if (solrUrl.equals("")) {
-                LOGGER.fatal("Can't connect to Solr, "
-                        + "both solr.home and solr.url are empty in application.properties !");
-            }
-            solrClient = new HttpSolrClient.Builder(solrUrl + core).build();
+            solrClient = new HttpSolrClient(env.getRequiredProperty("solr.url"));
         }
 
         return solrClient;

@@ -12,25 +12,11 @@ import ma.glasnost.orika.metadata.Type;
 public class PriceConverter extends BidirectionalConverter<Float, Integer> {
     private static final int CENT = 100;
 
-    /**
-     * Convert price to cents.
-     *
-     * @param price
-     * @param destinationType
-     * @return
-     */
     @Override
     public Integer convertTo(Float price, Type<Integer> destinationType) {
         return (int) (price * CENT);
     }
 
-    /**
-     * Convert cents to price.
-     *
-     * @param price
-     * @param destinationType
-     * @return
-     */
     @Override
     public Float convertFrom(Integer price, Type<Float> destinationType) {
         return (float) price / CENT;

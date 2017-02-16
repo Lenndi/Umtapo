@@ -31,7 +31,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
      * Instantiates a new Loan service.
      *
      * @param loanMapper the loan mapper
-     * @param loanDao
+     * @param loanDao    the loan dao
      */
     @Autowired
     public LoanServiceImpl(LoanMapper loanMapper, LoanDao loanDao) {

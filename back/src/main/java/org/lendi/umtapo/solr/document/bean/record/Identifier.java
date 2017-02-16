@@ -1,18 +1,13 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Identifier entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Entity
 public class Identifier {
+
     /**
      * The constant ISBN.
      */
@@ -34,31 +29,10 @@ public class Identifier {
      */
     public static final String ISRC = "ISRC";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
     private String recordIdentifier;
     private String serialNumber;
     private String serialType;
     private String barCode;
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * Gets serial number.

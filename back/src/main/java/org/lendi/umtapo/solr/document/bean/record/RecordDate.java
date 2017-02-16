@@ -1,33 +1,15 @@
-package org.lendi.umtapo.solr.document.record.simple;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.solr.client.solrj.beans.Field;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Record date entity.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SimpleRecordDate {
+public class RecordDate {
 
-    private static final String DOCUMENT_TYPE = "date";
-
-    @Field(value = "document_type")
-    private final String documentType;
-
-    @Field
     private String publicationDate;
-
-    @Field
     private String manufactureDate;
-
-    public SimpleRecordDate() {
-        this.documentType = DOCUMENT_TYPE;
-    }
 
     /**
      * Gets publication date.
@@ -63,9 +45,5 @@ public class SimpleRecordDate {
      */
     public void setManufactureDate(String manufactureDate) {
         this.manufactureDate = manufactureDate;
-    }
-
-    public String getDocumentType() {
-        return documentType;
     }
 }
