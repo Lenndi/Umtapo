@@ -47,6 +47,9 @@ public abstract class AbstractGenericService<T, ID extends Serializable> impleme
 
     /**
      * {@inheritDoc}
+     *
+     * @param pageable the pageable
+     * @return the page
      */
     public Page<T> findAll(Pageable pageable) {
         return this.repository.findAll(pageable);

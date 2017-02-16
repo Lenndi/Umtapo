@@ -2,7 +2,6 @@ package org.lendi.umtapo.service.specific.implementation;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.entity.configuration.Z3950;
-import org.lendi.umtapo.entity.record.RecordListWrapper;
 import org.lendi.umtapo.marc.Connection;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
@@ -10,6 +9,10 @@ import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.yaz4j.PrefixQuery;
@@ -64,24 +67,23 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public RecordListWrapper<Record> findByTitle(String title, Integer start, Integer count) throws ZoomException {
+    public Page<Record> findByTitle(String title, Pageable pageable) throws ZoomException {
         this.createConnection();
-        RecordListWrapper<Record> recordListWrapper = new RecordListWrapper<>();
+        int start = pageable.getPageSize() * pageable.getPageNumber();
+        int count = pageable.getPageSize();
 
         Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
         ResultSet set = this.safeSearch(query);
-
         LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 
-        recordListWrapper.setRecord(this.getRecordsFromSet(set, start, count));
-        recordListWrapper.setHitCount((int) set.getHitCount());
+        List<Record> records = this.getRecordsFromSet(set, start, count);
 
-        return recordListWrapper;
+        return new PageImpl<>(records, pageable, set.getHitCount());
     }
 
     @Override
-    public RecordListWrapper<Record> findByTitle(String title) throws ZoomException {
-        return this.findByTitle(title, 0, -1);
+    public Page<Record> findByTitle(String title) throws ZoomException {
+        return this.findByTitle(title, new PageRequest(0, -1));
     }
 
     @Override

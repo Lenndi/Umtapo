@@ -2,11 +2,10 @@ package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.entity.ShelfMark;
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import java.util.List;
 
@@ -26,7 +25,8 @@ public class ItemDto {
     private Condition condition;
     private String currency;
     private LibraryDto library;
-    private SimpleRecord record;
+    private String recordId;
+    private Record record;
 
     /**
      * Instantiates a new Item dto.
@@ -51,7 +51,7 @@ public class ItemDto {
      */
     public ItemDto(Integer id, ItemType type, ShelfMark shelfmark, Integer internalId, Float purchasePrice,
                    Boolean loanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
-                   SimpleRecord record) {
+                   Record record) {
         this.id = id;
         this.type = type;
         this.shelfmark = shelfmark;
@@ -250,7 +250,7 @@ public class ItemDto {
      *
      * @return the record
      */
-    public SimpleRecord getRecord() {
+    public Record getRecord() {
         return record;
     }
 
@@ -259,7 +259,25 @@ public class ItemDto {
      *
      * @param record the record
      */
-    public void setRecord(SimpleRecord record) {
+    public void setRecord(Record record) {
         this.record = record;
+    }
+
+    /**
+     * Gets record id.
+     *
+     * @return the record id
+     */
+    public String getRecordId() {
+        return recordId;
+    }
+
+    /**
+     * Sets record id.
+     *
+     * @param recordId the record id
+     */
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }

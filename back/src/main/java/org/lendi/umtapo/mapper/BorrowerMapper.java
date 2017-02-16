@@ -10,6 +10,7 @@ import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -26,14 +27,42 @@ import java.util.Map;
 @Component
 public class BorrowerMapper extends ConfigurableMapper {
 
-    private static final MapperFacade MAPPER;
+    private static final MapperFacade DTO_MAPPER;
+    private static final MapperFacade DOCUMENT_MAPPER;
+    private static final MapperFacade DTO_DOCUMENT_MAPPER;
     private static final MapperFacade MAPPER_PATCH;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
-        MAPPER = mapperFactory.getMapperFacade();
+        DTO_MAPPER = mapperFactory.getMapperFacade();
+
+        mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
+                .byDefault()
+                .register();
+        DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
+
+        mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
+                .field("address.id", "addressId")
+                .field("address.address1", "address1")
+                .field("address.address2", "address2")
+                .field("address.zip", "zip")
+                .field("address.city", "city")
+                .field("address.phone", "phone")
+                .field("address.email", "email")
+                .byDefault()
+                .register();
+        DTO_DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
     }
 
     static {
@@ -42,9 +71,9 @@ public class BorrowerMapper extends ConfigurableMapper {
                 .customize(new CustomMapper<Borrower, JsonNode>() {
                     @Override
                     public void mapAtoB(Borrower item, JsonNode jsonNode, MappingContext mappingContext) {
-                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext(); ) {
+                        for (Iterator<Map.Entry<String, JsonNode>> it = jsonNode.fields(); it.hasNext();) {
                             Map.Entry<String, JsonNode> elt = it.next();
-                            for (Field field : item.getClass().getDeclaredFields()) {
+                            for (final Field field : item.getClass().getDeclaredFields()) {
                                 field.setAccessible(true);
                                 if (field.getName().equals(elt.getKey())) {
                                     Object value = jsonNode.get(elt.getKey());
@@ -57,7 +86,7 @@ public class BorrowerMapper extends ConfigurableMapper {
                                             value = elt.getValue().asBoolean();
                                         }
                                         field.set(item, value);
-                                    } catch (IllegalAccessException e) {
+                                    } catch (final IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -82,7 +111,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower dto
      */
     public BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
-        return MAPPER.map(borrower, BorrowerDto.class);
+        return DTO_MAPPER.map(borrower, BorrowerDto.class);
     }
 
     /**
@@ -92,7 +121,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @return the borrower
      */
     public Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return MAPPER.map(borrowerDto, Borrower.class);
+        return DTO_MAPPER.map(borrowerDto, Borrower.class);
     }
 
     /**
@@ -103,5 +132,45 @@ public class BorrowerMapper extends ConfigurableMapper {
      */
     public void mergeItemAndJsonNode(Borrower borrower, JsonNode jsonNode) {
         MAPPER_PATCH.map(borrower, jsonNode);
+    }
+
+    /**
+     * Map borrower to borrower document borrower document.
+     *
+     * @param borrower the borrower
+     * @return the borrower document
+     */
+    public BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
+        return DOCUMENT_MAPPER.map(borrower, BorrowerDocument.class);
+    }
+
+    /**
+     * Map borrower documentto borrower borrower.
+     *
+     * @param borrowerDocument the borrower document
+     * @return the borrower
+     */
+    public Borrower mapBorrowerDocumenttoBorrower(BorrowerDocument borrowerDocument) {
+        return DOCUMENT_MAPPER.map(borrowerDocument, Borrower.class);
+    }
+
+    /**
+     * Map borrower to borrower document borrower document.
+     *
+     * @param borrowerDto the borrower
+     * @return the borrower document
+     */
+    public BorrowerDocument mapBorrowerDtoToBorrowerDocument(BorrowerDto borrowerDto) {
+        return DTO_DOCUMENT_MAPPER.map(borrowerDto, BorrowerDocument.class);
+    }
+
+    /**
+     * Map borrower documentto borrower borrower.
+     *
+     * @param borrowerDocument the borrower document
+     * @return the borrower
+     */
+    public BorrowerDto mapBorrowerDocumenttoBorrowerDto(BorrowerDocument borrowerDocument) {
+        return DTO_DOCUMENT_MAPPER.map(borrowerDocument, BorrowerDto.class);
     }
 }

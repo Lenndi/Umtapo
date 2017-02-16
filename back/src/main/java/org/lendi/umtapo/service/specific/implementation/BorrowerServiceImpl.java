@@ -8,11 +8,14 @@ import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -30,29 +33,47 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
     private final BorrowerMapper borrowerMapper;
     private final BorrowerDao borrowerDao;
+    private final SolrBorrowerService solrBorrowerService;
 
     /**
      * Instantiates a new Borrower service.
      *
      * @param borrowerMapper the borrower mapper
      * @param borrowerDao    the borrower dao
+     * @param indexService   the index service
      */
     @Autowired
-    public BorrowerServiceImpl(BorrowerMapper borrowerMapper, BorrowerDao borrowerDao) {
+    public BorrowerServiceImpl(
+            BorrowerMapper borrowerMapper,
+            BorrowerDao borrowerDao,
+            SolrBorrowerService indexService
+    ) {
         Assert.notNull(borrowerMapper);
+        Assert.notNull(indexService);
+        Assert.notNull(borrowerDao);
+
         this.borrowerDao = borrowerDao;
         this.borrowerMapper = borrowerMapper;
+        this.solrBorrowerService = indexService;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
+        this.solrBorrowerService.addToIndex(borrower);
 
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    }
+
+    @Override
+    public void delete(Integer borrowerId) {
+        this.solrBorrowerService.deleteFromIndex(borrowerId);
+        super.delete(borrowerId);
     }
 
     /**
@@ -80,16 +101,15 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      */
     @Override
     public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
-
-        Page<Borrower> borrowerDtos;
+        Page<BorrowerDocument> borrowers;
 
         if (Objects.equals(contains, "")) {
-            borrowerDtos = this.findAll(pageable);
+            borrowers = this.solrBorrowerService.searchAll(pageable);
         } else {
-            borrowerDtos = borrowerDao.findByNameContainingIgnoreCase(contains, pageable);
+            borrowers = this.solrBorrowerService.searchByName(contains, pageable);
         }
 
-        return this.mapBorrowersToBorrowerDtosPage(borrowerDtos);
+        return this.borrowerDocumentPageToDtoPage(borrowers, pageable);
     }
 
     /**
@@ -134,12 +154,14 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerDtos;
     }
 
-    private Page<BorrowerDto> mapBorrowersToBorrowerDtosPage(Page<Borrower> borrowers) {
-
+    private Page<BorrowerDto> borrowerDocumentPageToDtoPage(Page<BorrowerDocument> borrowersPage, Pageable pageable) {
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
-        borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
-        Page<BorrowerDto> page = new PageImpl(borrowerDtos);
+        List<BorrowerDocument> borrowers = borrowersPage.getContent();
 
-        return page;
+        borrowers.forEach(borrowerDocument ->
+          borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumenttoBorrowerDto(borrowerDocument))
+        );
+
+        return new PageImpl<>(borrowerDtos, pageable, borrowersPage.getTotalElements());
     }
 }

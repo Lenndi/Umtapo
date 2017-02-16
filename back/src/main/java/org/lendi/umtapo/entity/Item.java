@@ -1,8 +1,8 @@
 package org.lendi.umtapo.entity;
 
-import org.lendi.umtapo.entity.record.simple.SimpleRecord;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -41,8 +42,9 @@ public class Item {
     private String currency;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Library library;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private SimpleRecord record;
+    private String recordId;
+    @Transient
+    private Record record;
 
     /**
      * Instantiates a new Item.
@@ -257,20 +259,38 @@ public class Item {
     }
 
     /**
+     * Gets record.
+     *
+     * @return the record
+     */
+    public Record getRecord() {
+        return record;
+    }
+
+    /**
+     * Sets record.
+     *
+     * @param record the record
+     */
+    public void setRecord(Record record) {
+        this.record = record;
+    }
+
+    /**
      * Gets record id.
      *
      * @return the record id
      */
-    public SimpleRecord getRecord() {
-        return record;
+    public String getRecordId() {
+        return recordId;
     }
 
     /**
      * Sets record id.
      *
-     * @param record the record id
+     * @param recordId the record id
      */
-    public void setRecord(SimpleRecord record) {
-        this.record = record;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 }
