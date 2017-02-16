@@ -101,14 +101,6 @@ public class Item {
         this.id = id;
     }
 
-    /**
-     * Is loanable boolean.
-     *
-     * @return the boolean
-     */
-    public Boolean isLoanable() {
-        return isLoanable;
-    }
 
     /**
      * Is borrowed boolean.
@@ -236,23 +228,6 @@ public class Item {
         this.purchasePrice = purchasePrice;
     }
 
-    /**
-     * Gets isLoanable.
-     *
-     * @return the isLoanable
-     */
-    public Boolean getLoanable() {
-        return isLoanable;
-    }
-
-    /**
-     * Sets isLoanable.
-     *
-     * @param loanable the isLoanable
-     */
-    public void setLoanable(Boolean loanable) {
-        this.isLoanable = loanable;
-    }
 
     /**
      * Gets shelfmark.
@@ -342,5 +317,32 @@ public class Item {
      */
     public void setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+
+    /**
+     * Gets loanable.
+     *
+     * @return the loanable
+     */
+    public Boolean getLoanable() {
+        return isLoanable;
+    }
+
+    /**
+     * Sets loanable.
+     *
+     * @param loanable the loanable
+     */
+    public void setLoanable(Boolean loanable) {
+        isLoanable = loanable;
+    }
+
+    /**
+     * Gets borrowed.
+     *
+     * @return the borrowed
+     */
+    public Boolean getBorrowed() {
+        return isBorrowed;
     }
 }

@@ -20,6 +20,7 @@
             <input [(ngModel)]="barCode"
                    [typeahead]="dataSource"
                    (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    typeaheadOptionsLimit="25"
                    [typeaheadItemTemplate]="customItemTemplate"
                    typeaheadOptionField="model.record.identifier.barCode"
@@ -33,7 +34,7 @@
         <div class="col">
           <div class="form-group">
             <label for="internalId">Indentifiant du document</label>
-            <input [(ngModel)]="internalId" id="internalId" type="text" class="form-control form-control-sm"
+            <input [(ngModel)]="internalId" id="internalId" type="number" class="form-control form-control-sm"
                    placeholder="Identifiant du document">
           </div>
         </div>

@@ -53,7 +53,7 @@ public class LoanWebService {
         LoanDto loanDto = loanService.findOneDto(id);
         if (loanDto == null) {
             LOGGER.info("Loan with id " + id + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(loanDto, HttpStatus.OK);
     }
@@ -112,7 +112,7 @@ public class LoanWebService {
 
         Loan loan = loanService.findOne(id);
         if (loan == null) {
-            return new ResponseEntity<>("This loan do not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("This loan do not exist", HttpStatus.NO_CONTENT);
         } else {
             try {
                 loanService.patchLoan(jsonNodeLoan, loan);

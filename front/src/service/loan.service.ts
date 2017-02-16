@@ -1,9 +1,10 @@
-import {Http, Headers, RequestOptions} from "@angular/http";
+import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {HttpLoggerService} from "./http-logger.service";
 import {environment} from '../environments/environment';
 import {api} from "../config/api";
 import {Loan} from "../entity/loan";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class LoanService {
@@ -42,5 +43,12 @@ export class LoanService {
       .toPromise()
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));
+  }
+
+  createLoan(loan: Loan): Observable<Response>{
+    let options = new RequestOptions({headers: this.headers});
+
+    return this.http.post(this.loanUrl, loan, options)
+      .map((r: Response) => r)
   }
 }

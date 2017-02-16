@@ -87,24 +87,6 @@ public class ItemDto {
     }
 
     /**
-     * Gets loanable.
-     *
-     * @return the loanable
-     */
-    public Boolean getLoanable() {
-        return isLoanable;
-    }
-
-    /**
-     * Sets loanable.
-     *
-     * @param loanable the loanable
-     */
-    public void setLoanable(Boolean loanable) {
-        isLoanable = loanable;
-    }
-
-    /**
      * Gets borrowed.
      *
      * @return the borrowed
@@ -195,21 +177,21 @@ public class ItemDto {
     }
 
     /**
-     * Gets isLoanable.
+     * Gets loanable.
      *
-     * @return the isLoanable
+     * @return the loanable
      */
-    public Boolean getIsLoanable() {
+    public Boolean getLoanable() {
         return isLoanable;
     }
 
     /**
-     * Sets isLoanable.
+     * Sets loanable.
      *
-     * @param isLoanable the isLoanable
+     * @param loanable the loanable
      */
-    public void setIsLoanable(Boolean isLoanable) {
-        this.isLoanable = isLoanable;
+    public void setLoanable(Boolean loanable) {
+        isLoanable = loanable;
     }
 
     /**

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
-import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +59,8 @@ public class ItemWebService {
         ItemDto itemDto = this.itemService.findOneDto(id);
         if (itemDto == null) {
             LOGGER.info("Item with id " + id + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
 
@@ -93,7 +91,7 @@ public class ItemWebService {
             if (itemDtos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
             } else {
-                return new ResponseEntity<>(itemDtos, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(itemDtos, HttpStatus.NO_CONTENT);
             }
         }
     }
@@ -126,7 +124,7 @@ public class ItemWebService {
         }
         if (itemDtos == null) {
             LOGGER.info("Items not found");
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(itemDtos, HttpStatus.OK);
     }
@@ -148,7 +146,7 @@ public class ItemWebService {
         }
         if (itemDto == null) {
             LOGGER.info("Item with id " + internalId + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(itemDto, HttpStatus.OK);
     }
@@ -188,17 +186,20 @@ public class ItemWebService {
 
         Item item = itemService.findOne(id);
         if (item == null) {
-            return new ResponseEntity<>("This item do not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("This item do not exist", HttpStatus.NO_CONTENT);
         } else {
             if (item.isBorrowed() != null) {
                 if (jsonNodeItem.get("isBorrowed") != null && item.isBorrowed() != null) {
                     if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
                         if (!item.isBorrowed()) {
-                            return new ResponseEntity<>("This item is already not borrowed", HttpStatus.NOT_MODIFIED);
+                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_RENDERED.getValue(), HttpStatus.ACCEPTED);
                         } else if (item.isBorrowed()) {
-                            return new ResponseEntity<>("This item is already borrowed", HttpStatus.NOT_MODIFIED);
+                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus.ACCEPTED);
                         }
                     }
+                } else if (item.getLoanable() == null || !item.getLoanable()){
+                    return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus
+                            .ACCEPTED);
                 }
             }
             try {

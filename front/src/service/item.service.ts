@@ -49,7 +49,7 @@ export class ItemService {
 
   returnBookItem(id: number): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
-    let patch = {"loanable": true};
+    let patch = {"isBorrowed": false};
     return this.http
       .patch(this.itemUrl + "/" + id, JSON.stringify(patch), options)
       .toPromise()
@@ -64,31 +64,18 @@ export class ItemService {
       .map((r: Response) => r.json().content as Item[])
   }
 
-  setLoanAndItemCheckOut(itemInternalId: number, borrowerId: number): any {
+  searchItemByInternalId(itemInternalId: number) : Observable<Response> {
     let options = new RequestOptions({headers: this.headers});
-    let loan: Loan = new Loan;
-    let loanPost: Loan = new Loan;
-    let item: Item = new Item;
-    let itemLend: Item = new Item;
+
+    return this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options)
+      .map((r: Response) => r)
+  }
+
+  patchCheckoutItem(itemId: number): Observable<Response>{
+    let options = new RequestOptions({headers: this.headers});
     let patchItem = {"isBorrowed": true};
 
-    loan.borrower = new Borrower;
-    loan.item = new Item;
-    loan.borrower.id = borrowerId;
-    this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options).map((response: Response) => {
-      item = response.json();
-      loan.item.id = item.id;
-      loan.returned = false;
-      loanPost = loan;
-      return loan;
-    })
-      .flatMap((loan) => this.http.patch(this.itemUrl + "/" + loan.item.id, patchItem, options)).map((response: Response) => {
-      item = response.json();
-      return item;
-    })
-      .flatMap((loan) => this.http.post(this.loanUrl, loanPost, options)).map((response: Response) => {
-      loan = response.json();
-      return loan;
-    })
+    return this.http.patch(this.itemUrl + "/" + itemId, patchItem, options)
+      .map((r: Response) => r)
   }
 }
