@@ -18,5 +18,6 @@ export class Item {
 
   constructor () {
     this.loans = [];
+    this.record = new Record;
   }
 }

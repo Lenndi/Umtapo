@@ -19,7 +19,8 @@ import {LoanService} from "../../../../service/loan.service";
 
 })
 export class CirculationCheckOutComponent implements OnInit {
-  private borrower: Borrower;
+  itemsBarCode: Item[] = [];
+  itemsTitle: Item[] = [];
   items: Item[] = [];
   selectedItem: Item;
   page: number = 0;
@@ -27,7 +28,9 @@ export class CirculationCheckOutComponent implements OnInit {
   internalId: number;
   private searchItems = new Subject<string>();
   barCode: string;
-  public dataSource: Observable<Item[]>;
+  title: string;
+  public dataSourceSerial: Observable<Item[]>;
+  public dataSourceTitle: Observable<Item[]>;
 
   constructor(private itemService: ItemService,
               private loanService: LoanService,
@@ -38,26 +41,43 @@ export class CirculationCheckOutComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vRef);
     this.selectedItem = new Item();
 
-    this.dataSource = Observable
+    this.dataSourceSerial = Observable
       .create((observer: any) => {
         // Runs on every search
         observer.next(this.barCode);
       })
       .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains, "barCode"))
-      .map(res => this.items = res as Item[]);
+      .map(res => this.itemsBarCode = res as Item[]);
+
+    this.dataSourceTitle = Observable
+      .create((observer: any) => {
+        // Runs on every search
+        observer.next(this.title);
+      })
+      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains, "mainTitle"))
+      .map(res => this.itemsTitle = res as Item[]);
   }
 
   ngOnInit() {
-    this.borrower = this.dataService.borrower;
   }
 
-  public typeaheadOnSelect(itemTypeahead: TypeaheadMatch): void {
+  public typeaheadOnSelectBarCode(itemTypeahead: TypeaheadMatch): void {
     this.selectedItem = itemTypeahead.item;
   }
 
-  public changeTypeaheadNoResults(e: boolean): void {
+  public changeTypeaheadNoResultsBarCode(e: boolean): void {
     if (!this.barCode) {
-      this.items = [];
+      this.itemsBarCode = [];
+    }
+  }
+
+  public typeaheadOnSelectTitle(itemTypeahead: TypeaheadMatch): void {
+    this.selectedItem = itemTypeahead.item;
+  }
+
+  public changeTypeaheadNoResultsTitle(e: boolean): void {
+    if (!this.title) {
+      this.itemsTitle = [];
     }
   }
 
@@ -69,8 +89,13 @@ export class CirculationCheckOutComponent implements OnInit {
     loan.item = new Item();
     loan.borrower = new Borrower();
     loan.returned = false;
-    loan.borrower.id = this.borrower.id;
+    loan.borrower.id = this.dataService.borrower.id;
 
+    if (this.itemsBarCode) {
+      this.items = this.itemsBarCode;
+    } else if (this.title) {
+      this.items = this.itemsTitle;
+    }
     if (this.internalId) {
       let observable = this.itemService.searchItemByInternalId(this.internalId)
         .catch(err => {
@@ -92,7 +117,6 @@ export class CirculationCheckOutComponent implements OnInit {
       item = this.selectedItem;
       loan.item.id = item.id;
       this.BorrowDocument(item, loan);
-
     } else if (this.items) {
       if (this.items.length == 0) {
         if (this.barCode) {
@@ -131,6 +155,16 @@ export class CirculationCheckOutComponent implements OnInit {
           this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème', {toastLife: 2000});
           return Observable.throw(err); // observable needs to be returned or exception raised
         }))
-      .subscribe(response => this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000}));
+      .subscribe(response => {
+        console.log(response.json());
+        this.loanService.find(response.json().id).then(succes => {
+          if (!this.dataService.borrower.loans){
+            this.dataService.borrower.loans = [];
+          }
+          this.dataService.borrower.loans.push(succes);
+        });
+
+        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000})
+      });
   }
 }

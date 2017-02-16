@@ -16,6 +16,13 @@ export class LoanService {
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
 
+  find(id: number): Promise<Loan> {
+    return this.http.get(`${this.loanUrl}/${id}`)
+      .toPromise()
+      .then(response => response.json() as Loan)
+      .catch(error => this.httpLogger.error(error));
+  }
+
   saveEnd(loan: Loan): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
     let patch = {"end" : loan.end};

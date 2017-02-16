@@ -13,16 +13,25 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <template #customItemTemplate let-model="item" let-index="index">
+            <label for="internalId">Indentifiant du document</label>
+            <input [(ngModel)]="internalId" id="internalId" type="number" class="form-control form-control-sm"
+                   placeholder="Identifiant du document">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <template #barCodeItemTemplate let-model="item" let-index="index">
               <h5>{{model.record.identifier.barCode}} <small class="text-muted">{{model.record.title.mainTitle}}</small></h5>
             </template>
-            <label for="internalId">Serial</label>
+            <label>Serial</label>
             <input [(ngModel)]="barCode"
-                   [typeahead]="dataSource"
-                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   [typeahead]="dataSourceSerial"
+                   (typeaheadNoResults)="changeTypeaheadNoResultsBarCode($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelectBarCode($event)"
                    typeaheadOptionsLimit="25"
-                   [typeaheadItemTemplate]="customItemTemplate"
+                   [typeaheadItemTemplate]="barCodeItemTemplate"
                    typeaheadOptionField="model.record.identifier.barCode"
                    [typeaheadWaitMs]="300"
                    placeholder="Serial"
@@ -33,18 +42,20 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="internalId">Indentifiant du document</label>
-            <input [(ngModel)]="internalId" id="internalId" type="number" class="form-control form-control-sm"
-                   placeholder="Identifiant du document">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="title">Titre</label>
-            <input [(ngModel)]="title" id="title" type="text" class="form-control form-control-sm"
-                   placeholder="Titre">
+            <template #titleItemTemplate let-model="item" let-index="index">
+              <h5>{{model.record.title.mainTitle}} <small class="text-muted">{{model.record.identifier.barCode}}</small></h5>
+            </template>
+            <label>Titre</label>
+            <input [(ngModel)]="title"
+                   [typeahead]="dataSourceTitle"
+                   (typeaheadNoResults)="changeTypeaheadNoResultsTitle($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelectTitle($event)"
+                   typeaheadOptionsLimit="25"
+                   [typeaheadItemTemplate]="titleItemTemplate"
+                   typeaheadOptionField="model.record.title.mainTitle"
+                   [typeaheadWaitMs]="300"
+                   placeholder="Title"
+                   class="form-control form-control-sm">
           </div>
         </div>
       </div>

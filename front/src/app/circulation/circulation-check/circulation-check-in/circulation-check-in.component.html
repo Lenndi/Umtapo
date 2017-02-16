@@ -2,10 +2,10 @@
   <div class="card-block">
     <div class="container-fluid">
       <div class="row justify-content-between">
-        <div class="col-11">
+        <div class="col-10">
           <h4 class="card-title">Retours</h4>
         </div>
-        <div class="col-1">
+        <div class="col-2">
           <button (click)="checkBySerialOrInternalId()" type="button" class="btn btn-warning"><i
             class="fa fa-arrow-down" aria-hidden="true"></i></button>
         </div>
@@ -38,7 +38,7 @@
           <button (click)="returnAllBooks()" type="button" class="btn btn-warning">Tout retourner</button>
         </div>
       </div>
-      <div *ngFor="let loan of borrower.loans">
+      <div *ngFor="let loan of dataService.borrower.loans">
         <ul class="list-group">
           <li class="list-group-item">
             <div class="col-12 col-md-1 icon">

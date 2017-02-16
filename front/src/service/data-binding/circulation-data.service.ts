@@ -5,5 +5,4 @@ import {Loan} from "../../entity/loan";
 @Injectable()
 export class CirculationDataService {
   borrower: Borrower;
-  loans: Loan[];
 }
