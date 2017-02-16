@@ -2,6 +2,7 @@ package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,13 @@ public class Description {
     private String secondaryPhysicalDescription;
     private String format;
     private String associatedMaterial;
+
+    /**
+     * Instantiates a new Description.
+     */
+    public Description() {
+        this.otherDescriptions = new ArrayList<>();
+    }
 
     /**
      * Gets main description.

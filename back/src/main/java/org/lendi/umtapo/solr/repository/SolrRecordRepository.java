@@ -8,12 +8,12 @@ import org.springframework.data.solr.repository.SolrCrudRepository;
 import java.util.List;
 
 /**
- * The interface Solr record repository.
+ * TSolr record repository.
  */
 public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument, String> {
 
     /**
-     * Find by id record document.
+     * Find record document by id.
      *
      * @param id the id
      * @return the record document
@@ -21,7 +21,7 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
     RecordDocument findById(String id);
 
     /**
-     * Find by serial number and serial type list.
+     * Find record documents by serial number and serial type.
      *
      * @param serialNumber the serial number
      * @param serialType   the serial type
@@ -30,7 +30,7 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
     List<RecordDocument> findBySerialNumberAndSerialType(String serialNumber, String serialType);
 
     /**
-     * Find by main title page.
+     * Find record documents by main title.
      *
      * @param title the title
      * @param page  the page

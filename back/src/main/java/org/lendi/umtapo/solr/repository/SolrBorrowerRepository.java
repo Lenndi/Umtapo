@@ -8,21 +8,21 @@ import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
 /**
- * The interface Solr borrower repository.
+ * Solr borrower repository.
  */
 public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocument, String> {
 
     /**
-     * Find by name page.
+     * Find by name.
      *
      * @param name the name
      * @param page the page
      * @return the page
      */
-    Page<BorrowerDocument> findByName(String name, Pageable page);
+    Page<BorrowerDocument> findByNameContaining(String name, Pageable page);
 
     /**
-     * Find all borrowers
+     * Find all borrowers.
      * @param page the page
      * @return all borrowers
      */

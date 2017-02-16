@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
- * The type Borrower index service.
+ * Borrower index service.
  */
 @Service
 public class SolrBorrowerServiceImpl implements SolrBorrowerService {
@@ -43,15 +43,15 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
 
     @Override
     public Page<BorrowerDocument> searchByName(String name, Pageable pageable) {
-        Page<BorrowerDocument> borrowers = null;
-        borrowers = this.documentRepository.findByName(name, pageable);
+        Page<BorrowerDocument> borrowers;
+        borrowers = this.documentRepository.findByNameContaining(name, pageable);
 
         return borrowers;
     }
 
     @Override
     public Page<BorrowerDocument> searchAll(Pageable pageable) {
-        Page<BorrowerDocument> borrowers = null;
+        Page<BorrowerDocument> borrowers;
         borrowers = this.documentRepository.findAll(pageable);
 
         return borrowers;

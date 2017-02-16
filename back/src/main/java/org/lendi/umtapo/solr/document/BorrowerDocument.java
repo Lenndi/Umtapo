@@ -4,10 +4,12 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 /**
- * The type Borrower document.
+ * Flat Borrower representation.
  */
 @SolrDocument(solrCoreName = "borrower")
 public class BorrowerDocument {
@@ -21,8 +23,8 @@ public class BorrowerDocument {
     @Field
     private String comment;
 
-    // TODO: get correct format for solr index
-    private ZonedDateTime birthday;
+    @Field
+    private Date birthday;
 
     @Field
     private Integer quota;
@@ -111,7 +113,7 @@ public class BorrowerDocument {
      * @return the birthday
      */
     public ZonedDateTime getBirthday() {
-        return birthday;
+        return ZonedDateTime.ofInstant(this.birthday.toInstant(), ZoneId.systemDefault());
     }
 
     /**
@@ -120,7 +122,7 @@ public class BorrowerDocument {
      * @param birthday the birthday
      */
     public void setBirthday(ZonedDateTime birthday) {
-        this.birthday = birthday;
+        this.birthday = Date.from(birthday.toInstant());
     }
 
     /**

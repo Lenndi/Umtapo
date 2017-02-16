@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * The type Solr record service.
+ * Solr record service.
  */
 @Service
 public class SolrRecordServiceImpl implements SolrRecordService {

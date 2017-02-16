@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
- * The interface Solr record service.
+ * Solr record service interface.
  */
 public interface SolrRecordService {
 

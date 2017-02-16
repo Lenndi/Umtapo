@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * The interface Borrower index service.
+ * Solr borrwer service interface.
  */
 public interface SolrBorrowerService {
 

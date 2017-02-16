@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 /**
- * The type Contributor document.
+ * Contributor document. Based on Creator bean.
  */
 @SolrDocument(solrCoreName = "record")
 public class ContributorDocument {
@@ -14,7 +14,7 @@ public class ContributorDocument {
      * The Id.
      */
     @Id
-    String id;
+    private String id;
 
     @Field
     private String name;
