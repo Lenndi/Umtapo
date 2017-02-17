@@ -21,7 +21,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * {@inheritDoc}
      */
     @Override
-    Item save(Item library);
+    Item save(Item library) throws InvalidRecordException;
 
     /**
      * Persist a Item from a ItemDto.
@@ -75,6 +75,6 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @throws IOException        the io exception
      * @throws JsonPatchException the json patch exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException, InvalidRecordException;
 
 }

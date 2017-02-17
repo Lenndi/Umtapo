@@ -47,16 +47,21 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         this.solrRecordService = solrRecordService;
     }
 
+    @Override
+    public Item save(Item item) throws InvalidRecordException {
+        if (item.getRecord() != null) {
+            Record record = this.solrRecordService.save(item.getRecord());
+            item.setRecordId(record.getId());
+        }
+
+        return super.save(item);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
-
-        if (itemDto.getRecord() != null) {
-            Record record = this.solrRecordService.save(itemDto.getRecord());
-            itemDto.setRecordId(record.getId());
-        }
 
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
         if (item.getInternalId() == null) {
@@ -68,55 +73,52 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return this.itemMapper.mapItemToItemDto(item);
     }
 
+    @Override
+    public Item findOne(Integer integer) {
+        Item item = super.findOne(integer);
+        this.linkRecord(item);
+
+        return item;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
-        this.linkRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
 
     @Override
-    public List<ItemDto> findAllDto() {
-        List<Item> items = this.findAll();
+    public List<Item> findAll() {
+        List<Item> items = super.findAll();
         items.forEach(this::linkRecord);
 
-        return mapLibrariesToLibrariesDTO(this.findAll());
+        return items;
+    }
+
+    @Override
+    public List<ItemDto> findAllDto() {
+        return mapItemsToItemsDto(this.findAll());
     }
 
     /**
      * {@inheritDoc}
      */
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item)
+            throws IOException, JsonPatchException, InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.mapItemToItemDto(this.save(item));
+        return this.itemMapper.mapItemToItemDto(this.save(item));
     }
 
+    private List<ItemDto> mapItemsToItemsDto(List<Item> items) {
+        List<ItemDto> itemDtos = new ArrayList<>();
+        items.forEach(item -> itemDtos.add(this.itemMapper.mapItemToItemDto(item)));
 
-    private Item mapItemDtoToItem(ItemDto itemDto) {
-        return this.itemMapper.mapItemDtoToItem(itemDto);
-    }
-
-    private ItemDto mapItemToItemDto(Item item) {
-        return this.itemMapper.mapItemToItemDto(item);
-    }
-
-    private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
-        List<Item> libraries = new ArrayList<>();
-        librariesDto.forEach(ItemDto -> libraries.add(mapItemDtoToItem(ItemDto)));
-
-        return libraries;
-    }
-
-    private List<ItemDto> mapLibrariesToLibrariesDTO(List<Item> libraries) {
-        List<ItemDto> librariesDto = new ArrayList<>();
-        libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
-
-        return librariesDto;
+        return itemDtos;
     }
 
     private Item linkRecord(Item item) {
