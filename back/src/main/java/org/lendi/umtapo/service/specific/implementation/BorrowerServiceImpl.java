@@ -9,6 +9,7 @@ import org.lendi.umtapo.mapper.BorrowerMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.BorrowerService;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,7 +63,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      */
     @Override
     @Transactional
-    public BorrowerDto saveDto(BorrowerDto borrowerDto) {
+    public BorrowerDto saveDto(BorrowerDto borrowerDto) throws InvalidRecordException {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
         this.solrBorrowerService.addToIndex(borrower);

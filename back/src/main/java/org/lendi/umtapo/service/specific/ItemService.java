@@ -21,16 +21,24 @@ public interface ItemService extends GenericService<Item, Integer> {
      * {@inheritDoc}
      */
     @Override
-    Item save(Item library) throws InvalidRecordException;
+    Item save(Item item);
+
+    /**
+     * Persist an Item with the associated record.
+     *
+     * @param item item to persist
+     * @return item
+     */
+    Item saveWithRecord(Item item) throws InvalidRecordException;
 
     /**
      * Persist a Item from a ItemDto.
      *
-     * @param libraryDto the library dto
-     * @return library dto
+     * @param itemDto the item dto
+     * @return item dto
      * @throws InvalidRecordException invalid record
      */
-    ItemDto saveDto(ItemDto libraryDto) throws InvalidRecordException;
+    ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException;
 
     /**
      * {@inheritDoc}
@@ -42,7 +50,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * Find a Item by id.
      *
      * @param id the id
-     * @return ItemDto library dto
+     * @return ItemDto item dto
      */
     ItemDto findOneDto(Integer id);
 

@@ -48,13 +48,13 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public Item save(Item item) throws InvalidRecordException {
+    public Item saveWithRecord(Item item) throws InvalidRecordException {
         if (item.getRecord() != null) {
             Record record = this.solrRecordService.save(item.getRecord());
             item.setRecordId(record.getId());
         }
 
-        return super.save(item);
+        return this.save(item);
     }
 
     /**
@@ -68,7 +68,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             Integer previousInternalId = this.itemDao.findTopInternalId();
             item.setInternalId(previousInternalId + 1);
         }
-        item = this.save(item);
+        item = this.saveWithRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
@@ -111,7 +111,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             throws IOException, JsonPatchException, InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.itemMapper.mapItemToItemDto(this.save(item));
+        return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
     }
 
     private List<ItemDto> mapItemsToItemsDto(List<Item> items) {

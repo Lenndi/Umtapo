@@ -5,7 +5,9 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.util.JsonViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,12 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.io.IOException;
@@ -39,7 +36,6 @@ public class BorrowerWebService {
     private final BorrowerService borrowerService;
 
     private final JsonViewResolver jsonViewResolver;
-
 
     /**
      * Instantiates a new Borrower web service.
@@ -125,7 +121,14 @@ public class BorrowerWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
-        borrowerDto = borrowerService.saveDto(borrowerDto);
+        try {
+            borrowerDto = borrowerService.saveDto(borrowerDto);
+        } catch (final InvalidRecordException e) {
+            LOGGER.fatal(e.getMessage());
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+            return new ResponseEntity<>(apiError, apiError.getStatus());
+        }
 
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }

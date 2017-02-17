@@ -5,6 +5,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.service.generic.GenericService;
+import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param entity the entity
      * @return borrower dto
      */
-    BorrowerDto saveDto(BorrowerDto entity);
+    BorrowerDto saveDto(BorrowerDto entity) throws InvalidRecordException;
 
     /**
      * {@inheritDoc}

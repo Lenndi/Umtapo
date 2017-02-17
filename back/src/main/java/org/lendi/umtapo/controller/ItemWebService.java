@@ -13,12 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -105,6 +100,11 @@ public class ItemWebService {
             } catch (final IOException | JsonPatchException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (final InvalidRecordException e) {
+                LOGGER.fatal(e.getMessage());
+                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+                return new ResponseEntity<>(apiError, apiError.getStatus());
             }
         }
 
