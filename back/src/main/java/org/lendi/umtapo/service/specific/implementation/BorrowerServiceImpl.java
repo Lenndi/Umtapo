@@ -101,14 +101,8 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
      * {@inheritDoc}
      */
     @Override
-    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
-        Page<BorrowerDocument> borrowers;
-
-        if (Objects.equals(contains, "")) {
-            borrowers = this.solrBorrowerService.searchAll(pageable);
-        } else {
-            borrowers = this.solrBorrowerService.searchByName(contains, pageable);
-        }
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String name, String email, String city) {
+        Page<BorrowerDocument> borrowers = this.solrBorrowerService.fullSearch(name, email, city, pageable);
 
         return this.borrowerDocumentPageToDtoPage(borrowers, pageable);
     }

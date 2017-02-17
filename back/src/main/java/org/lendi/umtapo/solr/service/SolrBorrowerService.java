@@ -27,12 +27,11 @@ public interface SolrBorrowerService {
     /**
      * Search list.
      *
-     * @param term     the term
+     * @param name     the term
      * @param pageable the pageable
      * @return the list
      */
-    Page<BorrowerDocument> searchByName(String term, Pageable pageable);
-
+    Page<BorrowerDocument> fullSearch(String name, String email, String city, Pageable pageable);
 
     /**
      * Search all page.

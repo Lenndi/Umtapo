@@ -19,7 +19,8 @@ public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocum
      * @param page the page
      * @return the page
      */
-    Page<BorrowerDocument> findByNameContaining(String name, Pageable page);
+    @Query("name:*?0* AND email:*?1* AND city:*test*")
+    Page<BorrowerDocument> fullSearch(String name, String email, String city, Pageable page);
 
     /**
      * Find all borrowers.

@@ -75,26 +75,39 @@ public class BorrowerWebService {
      *
      * @param page     the page
      * @param size     the size
-     * @param contains the contains
+     * @param name the contains
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod
             .GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getBorrowers(@PathParam("page") Integer page, @PathParam("size") Integer size,
-                                       @PathParam("contains") String contains) {
+    public ResponseEntity getBorrowers(@PathParam("page") Integer page,
+                                       @PathParam("size") Integer size,
+                                       @PathParam("name") String name,
+                                       @PathParam("id") String id,
+                                       @PathParam("email") String email,
+                                       @PathParam("city") String city) {
 
         if (size != null && page != null) {
             Page<BorrowerDto> borrowerDtos;
             Pageable pageable = new PageRequest(page, size, new Sort("id"));
 
-            if (contains != null) {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, contains);
-            } else {
-                borrowerDtos = borrowerService.findAllPageableDto(pageable, "");
+            if (name == null) {
+                name = "";
+            }
+            if (email == null) {
+                email = "";
+            }
+            if (id == null) {
+                id ="";
+            }
+            if (city == null) {
+                city = "";
             }
 
+            borrowerDtos = borrowerService.findAllPageableDto(pageable, name, email, city);
+
             if (borrowerDtos == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(borrowerDtos, HttpStatus.OK);
             }
@@ -103,7 +116,7 @@ public class BorrowerWebService {
             borrowerDtos = borrowerService.findAllDto();
 
             if (borrowerDtos.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(borrowerDtos, HttpStatus.NOT_FOUND);
             }

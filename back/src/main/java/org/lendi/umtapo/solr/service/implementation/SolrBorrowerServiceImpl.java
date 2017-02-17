@@ -42,9 +42,9 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public Page<BorrowerDocument> searchByName(String name, Pageable pageable) {
+    public Page<BorrowerDocument> fullSearch(String name, String email, String city, Pageable pageable) {
         Page<BorrowerDocument> borrowers;
-        borrowers = this.documentRepository.findByNameContaining(name, pageable);
+        borrowers = this.documentRepository.fullSearch(name, email, city, pageable);
 
         return borrowers;
     }
