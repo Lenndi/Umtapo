@@ -104,7 +104,6 @@ export class CirculationCheckOutComponent implements OnInit {
         })
         .map(res => {
           if (res.status == 204) {
-            console.log(res.json());
             this.toastr.warning(`Aucun document ne comporte cet identifiant`, 'Non trouvé', {toastLife: 2000});
             observable.unsubscribe();
           }
@@ -156,7 +155,6 @@ export class CirculationCheckOutComponent implements OnInit {
           return Observable.throw(err); // observable needs to be returned or exception raised
         }))
       .subscribe(response => {
-        console.log(response.json());
         this.loanService.find(response.json().id).then(succes => {
           if (!this.dataService.borrower.loans){
             this.dataService.borrower.loans = [];
