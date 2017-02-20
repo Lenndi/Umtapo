@@ -1,0 +1,32 @@
+@startuml
+node Book
+node NFC_Reader
+interface HTTP1
+interface HTTP2
+interface NFC
+interface Websocket
+node Front_App{
+    node Angular2
+}
+node Back_App{
+    database H2 
+    database Solr 
+    node Spring
+}
+
+H2 -- Spring
+Solr -- Spring
+
+Front_App == HTTP1
+HTTP1 == Back_App
+
+NFC_Reader == HTTP2
+HTTP2 == Back_App
+
+Front_App =r= Websocket
+Websocket == Back_App
+
+Book =r= NFC
+NFC =r= NFC_Reader
+
+@enduml
