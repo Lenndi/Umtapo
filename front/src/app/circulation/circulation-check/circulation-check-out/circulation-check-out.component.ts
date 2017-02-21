@@ -7,9 +7,9 @@ import {Item} from '../../../../entity/item';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {TypeaheadMatch} from 'ng2-bootstrap';
 import {ToastsManager} from 'ng2-toastr';
-import {Response, RequestOptions} from "@angular/http";
-import {Loan} from "../../../../entity/loan";
-import {LoanService} from "../../../../service/loan.service";
+import {Response, RequestOptions} from '@angular/http';
+import {Loan} from '../../../../entity/loan';
+import {LoanService} from '../../../../service/loan.service';
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -46,7 +46,8 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.barCode);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains, "barCode"))
+      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains,
+        'barCode'))
       .map(res => this.itemsBarCode = res as Item[]);
 
     this.dataSourceTitle = Observable
@@ -54,7 +55,8 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.title);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains, "mainTitle"))
+      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains,
+        'mainTitle'))
       .map(res => this.itemsTitle = res as Item[]);
   }
 
@@ -121,10 +123,12 @@ export class CirculationCheckOutComponent implements OnInit {
         if (this.barCode) {
           this.toastr.warning(`Aucun document n'est lié à cette information`, 'Pas de document!', {toastLife: 2000});
         } else {
-          this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!', {toastLife: 2000});
+          this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!',
+            {toastLife: 2000});
         }
       } else if (this.items.length > 1) {
-        this.toastr.warning('Plusieurs documents ont ce numéro de série, vous devez en sélectionner un.', 'Plusieurs documents existants!', {toastLife: 2000});
+        this.toastr.warning('Plusieurs documents ont ce numéro de série, vous devez en sélectionner un.',
+          'Plusieurs documents existants!', {toastLife: 2000});
       } else if (this.items.length == 1) {
 
       }
@@ -156,13 +160,13 @@ export class CirculationCheckOutComponent implements OnInit {
         }))
       .subscribe(response => {
         this.loanService.find(response.json().id).then(succes => {
-          if (!this.dataService.borrower.loans){
+          if (!this.dataService.borrower.loans) {
             this.dataService.borrower.loans = [];
           }
           this.dataService.borrower.loans.push(succes);
         });
 
-        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000})
+        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000});
       });
   }
 }

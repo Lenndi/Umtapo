@@ -3,13 +3,13 @@ import {CirculationDataService} from '../../../../service/data-binding/circulati
 import {Borrower} from '../../../../entity/borrower';
 import {DatepickerModule} from 'ng2-bootstrap';
 import {DateFormatter} from '@angular/common/src/pipes/intl';
-import {Loan} from "../../../../entity/loan";
+import {Loan} from '../../../../entity/loan';
 import {conditionEnum} from '../../../../enumeration/fr';
 import {CustomMap} from '../../../../enumeration/custom-map';
-import {ItemService} from "../../../../service/item.service";
-import {Item} from "../../../../entity/item";
+import {ItemService} from '../../../../service/item.service';
+import {Item} from '../../../../entity/item';
 import {LoanService} from '../../../../service/loan.service';
-import {ToastsManager} from "ng2-toastr";
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-circulation-check-in',
@@ -43,8 +43,9 @@ export class CirculationCheckInComponent implements OnInit {
     item.condition = value;
     item.id = id;
     this.itemService.saveCondition(item)
-      .then(res => this.toastr.success(`La condition du livre à été modifier à ` + value, 'Sauvegarder', {toastLife: 2000}))
-      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}))
+      .then(res => this.toastr.success(`La condition du livre à été modifier à ` + value, 'Sauvegarder',
+        {toastLife: 2000}))
+      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}));
   }
 
   saveEnd(value, id) {
@@ -54,7 +55,7 @@ export class CirculationCheckInComponent implements OnInit {
     loan.id = id;
     this.loanService.saveEnd(loan)
       .then(res => this.toastr.success(`La date de retour à été modifier à ` + value, 'Sauvegarder', {toastLife: 2000}))
-      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}))
+      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}));
   }
 
   returnAllBooks() {
@@ -62,13 +63,16 @@ export class CirculationCheckInComponent implements OnInit {
       for (let loan of this.dataService.borrower.loans) {
         this.loanService.returnBookLoan(loan.id)
           .then(ret => this.itemService.returnBookItem(loan.item.id)
-            .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés', {toastLife: 2000})
-              .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés', {toastLife: 2000})))
-            .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés', {toastLife: 2000})))
+            .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés',
+              {toastLife: 2000})
+              .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`,
+                'Documents retournés', {toastLife: 2000})))
+            .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+              {toastLife: 2000})));
       }
       this.dataService.borrower.loans = [];
     } else {
-      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000})
+      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
     }
   }
 
@@ -76,12 +80,15 @@ export class CirculationCheckInComponent implements OnInit {
     if (this.dataService.borrower.loans) {
       this.loanService.returnBookLoan(idLoan)
         .then(ret => this.itemService.returnBookItem(idItem)
-          .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés', {toastLife: 2000})
-            .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés', {toastLife: 2000})))
-          .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés', {toastLife: 2000})));
+          .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés',
+            {toastLife: 2000})
+            .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+              {toastLife: 2000})))
+          .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+            {toastLife: 2000})));
       this.removeLoanById(idLoan);
     } else {
-      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000})
+      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
     }
   }
 

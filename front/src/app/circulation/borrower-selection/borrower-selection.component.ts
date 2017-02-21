@@ -1,13 +1,13 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
-import {Router} from "@angular/router";
-import {MdSnackBar} from "@angular/material";
-import {Borrower} from "../../../entity/borrower";
-import {BorrowerService} from "../../../service/borrower.service";
-import {CirculationDataService} from "../../../service/data-binding/circulation-data.service";
-import {Observable, Subject} from "rxjs"; // <-- import the module
-import {Http} from "@angular/http";
-import {TypeaheadMatch} from "ng2-bootstrap";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
+import {MdSnackBar} from '@angular/material';
+import {Borrower} from '../../../entity/borrower';
+import {BorrowerService} from '../../../service/borrower.service';
+import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
+import {Observable, Subject} from 'rxjs'; // <-- import the module
+import {Http} from '@angular/http';
+import {TypeaheadMatch} from 'ng2-bootstrap';
 
 
 @Component({
@@ -39,7 +39,7 @@ export class BorrowerSelectionComponent implements OnInit {
     this.dataSource = Observable
       .create((observer: any) => {
         // Runs on every search
-        observer.next(this.form.value["borrowerName"]);
+        observer.next(this.form.value['borrowerName']);
       })
       .mergeMap((contains: string) => this.borrowerService.findPaginableByName(this.size, this.page, contains));
   }

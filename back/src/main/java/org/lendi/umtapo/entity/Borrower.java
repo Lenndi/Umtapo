@@ -57,7 +57,6 @@ public class Borrower {
      * @param emailOptin    the email optin
      * @param address       the address
      * @param subscriptions the subscriptions
-     * @param loans         the loans
      * @param library       the library
      */
     public Borrower(
