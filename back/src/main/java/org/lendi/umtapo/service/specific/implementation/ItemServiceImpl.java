@@ -108,7 +108,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
         return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
@@ -165,7 +165,12 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return itemDtos;
     }
 
-        return itemDtos;
+    private Item mapItemDtoToItem(ItemDto itemDto) {
+        return this.itemMapper.mapItemDtoToItem(itemDto);
+    }
+
+    private ItemDto mapItemToItemDto(Item item) {
+        return this.itemMapper.mapItemToItemDto(item);
     }
 
     private Item linkRecord(Item item) {
@@ -173,6 +178,9 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             Record record = this.solrRecordService.findById(item.getRecordId());
             item.setRecord(record);
         }
+
+        return item;
+    }
 
     private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
         List<Item> libraries = new ArrayList<>();

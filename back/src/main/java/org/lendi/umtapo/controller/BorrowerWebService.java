@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
@@ -173,7 +172,7 @@ public class BorrowerWebService {
         } else {
             try {
                 borrowerService.patchBorrower(jsonNodeBorrower, borrower);
-            } catch (final IOException | JsonPatchException e) {
+            } catch (final Exception e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }

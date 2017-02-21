@@ -1,9 +1,12 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.enumeration.ApplicationCodeEnum;
+import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -204,9 +208,6 @@ public class ItemWebService {
             }
             try {
                 itemService.patchItem(jsonNodeItem, item);
-            } catch (final IOException | JsonPatchException e) {
-                LOGGER.error("JsonPatch Error" + e);
-                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             } catch (final InvalidRecordException e) {
                 LOGGER.fatal(e.getMessage());
                 ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");

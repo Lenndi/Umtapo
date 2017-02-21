@@ -97,7 +97,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     /**
      * {@inheritDoc}
      */
-    @Override
     public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String contains) {
         Page<BorrowerDocument> borrowers;
 
@@ -108,6 +107,25 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         }
 
         return this.borrowerDocumentPageToDtoPage(borrowers, pageable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<BorrowerDto> findAllPageableDto(Pageable pageable) {
+
+        Page<Borrower> borrowerDtos = this.findAll(pageable);
+        return this.mapBorrowersToBorrowerDtosPage(borrowerDtos);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains) {
+
+        Page<Borrower> borrowerDtos = borrowerDao.findByNameContainingIgnoreCase(contains, pageable);
+        return this.mapBorrowersToBorrowerDtosPage(borrowerDtos);
     }
 
     /**
@@ -125,6 +143,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
         return this.mapBorrowerToBorrowerDto(this.save(borrower));
     }
+
 
     private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
         return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
@@ -159,5 +178,14 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         );
 
         return new PageImpl<>(borrowerDtos, pageable, borrowersPage.getTotalElements());
+    }
+
+    private Page<BorrowerDto> mapBorrowersToBorrowerDtosPage(Page<Borrower> borrowers) {
+
+        List<BorrowerDto> borrowerDtos = new ArrayList<>();
+        borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
+        Page<BorrowerDto> page = new PageImpl(borrowerDtos);
+
+        return page;
     }
 }

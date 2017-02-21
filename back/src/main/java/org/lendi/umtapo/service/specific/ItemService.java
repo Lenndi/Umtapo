@@ -5,6 +5,8 @@ import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -80,7 +82,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param item         the item
      * @return the borrower
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item);
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException;
 
     /**
      * Find by internal id item dto.
