@@ -22,19 +22,19 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <template #barCodeItemTemplate let-model="item" let-index="index">
-              <h5>{{model.record.identifier.barCode}} <small class="text-muted">{{model.record.title.mainTitle}}</small></h5>
+            <template #serialNumberItemTemplate let-model="item" let-index="index">
+              <h5>{{model.record.identifier.serialNumber}} <small class="text-muted">{{model.record.title.mainTitle}}</small></h5>
             </template>
-            <label>Serial</label>
-            <input [(ngModel)]="barCode"
-                   [typeahead]="dataSourceSerial"
-                   (typeaheadNoResults)="changeTypeaheadNoResultsBarCode($event)"
-                   (typeaheadOnSelect)="typeaheadOnSelectBarCode($event)"
+            <label>ISBN</label>
+            <input [(ngModel)]="serialNumber"
+                   [typeahead]="dataSourceSerialNumber"
+                   (typeaheadNoResults)="changeTypeaheadNoResultsSerialNumber($event)"
+                   (typeaheadOnSelect)="typeaheadOnSelectSerialNumber($event)"
                    typeaheadOptionsLimit="25"
-                   [typeaheadItemTemplate]="barCodeItemTemplate"
-                   typeaheadOptionField="model.record.identifier.barCode"
+                   [typeaheadItemTemplate]="serialNumberItemTemplate"
+                   typeaheadOptionField="model.record.identifier.serialNumber"
                    [typeaheadWaitMs]="300"
-                   placeholder="Serial"
+                   placeholder="serialNumber"
                    class="form-control form-control-sm">
           </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="col">
           <div class="form-group">
             <template #titleItemTemplate let-model="item" let-index="index">
-              <h5>{{model.record.title.mainTitle}} <small class="text-muted">{{model.record.identifier.barCode}}</small></h5>
+              <h5>{{model.record.title.mainTitle}} <small class="text-muted">{{model.record.identifier.serialNumber}}</small></h5>
             </template>
             <label>Titre</label>
             <input [(ngModel)]="title"

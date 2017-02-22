@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -107,7 +106,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param contains the contains
      * @return the page
      */
-    public Page<ItemDto> findAllPageableDtoByRecordIdentifierBarCode(Pageable pageable, String contains);
+    public Page<ItemDto> findAllPageableDtoByRecordIdentifierSerialNumber(Pageable pageable, String contains);
 
 
     /**

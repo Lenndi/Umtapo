@@ -7,7 +7,7 @@ import org.lendi.umtapo.rest.ApiError;
 import org.lendi.umtapo.rest.wrapper.GenericRestWrapper;
 import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.RecordService;
-import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.entity.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

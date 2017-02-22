@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.ShelfMark;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
-import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.entity.Record;
 
 import java.util.List;
 

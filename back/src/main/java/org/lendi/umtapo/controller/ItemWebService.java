@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,8 +118,8 @@ public class ItemWebService {
 
         if (size != null && page != null && contains != null) {
             Pageable pageable = new PageRequest(page, size, new Sort("id"));
-            if (Objects.equals(attribute, "barCode")) {
-                itemDtos = this.itemService.findAllPageableDtoByRecordIdentifierBarCode(pageable, contains);
+            if (Objects.equals(attribute, "serialNumber")) {
+                itemDtos = this.itemService.findAllPageableDtoByRecordIdentifierSerialNumber(pageable, contains);
             } else if (Objects.equals(attribute, "mainTitle")) {
                 itemDtos = this.itemService.findAllPageableDtoByRecordTitelMainTitle(pageable, contains);
             }

@@ -19,7 +19,7 @@ import {LoanService} from '../../../../service/loan.service';
 
 })
 export class CirculationCheckOutComponent implements OnInit {
-  itemsBarCode: Item[] = [];
+  itemsSerialNumber: Item[] = [];
   itemsTitle: Item[] = [];
   items: Item[] = [];
   selectedItem: Item;
@@ -27,9 +27,9 @@ export class CirculationCheckOutComponent implements OnInit {
   size: number = 10;
   internalId: number;
   private searchItems = new Subject<string>();
-  barCode: string;
+  serialNumber: string;
   title: string;
-  public dataSourceSerial: Observable<Item[]>;
+  public dataSourceSerialNumber: Observable<Item[]>;
   public dataSourceTitle: Observable<Item[]>;
 
   constructor(private itemService: ItemService,
@@ -41,14 +41,15 @@ export class CirculationCheckOutComponent implements OnInit {
     this.toastr.setRootViewContainerRef(vRef);
     this.selectedItem = new Item();
 
-    this.dataSourceSerial = Observable
+    this.dataSourceSerialNumber = Observable
       .create((observer: any) => {
         // Runs on every search
-        observer.next(this.barCode);
+        observer.next(this.serialNumber);
       })
       .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains,
-        'barCode'))
-      .map(res => this.itemsBarCode = res as Item[]);
+        'serialNumber'))
+      .catch(err => console.log(err))
+      .map(res => this.itemsSerialNumber = res as Item[]);
 
     this.dataSourceTitle = Observable
       .create((observer: any) => {
@@ -63,13 +64,13 @@ export class CirculationCheckOutComponent implements OnInit {
   ngOnInit() {
   }
 
-  public typeaheadOnSelectBarCode(itemTypeahead: TypeaheadMatch): void {
+  public typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
     this.selectedItem = itemTypeahead.item;
   }
 
-  public changeTypeaheadNoResultsBarCode(e: boolean): void {
-    if (!this.barCode) {
-      this.itemsBarCode = [];
+  public changeTypeaheadNoResultsSerialNumber(e: boolean): void {
+    if (!this.serialNumber) {
+      this.itemsSerialNumber = [];
     }
   }
 
@@ -93,8 +94,8 @@ export class CirculationCheckOutComponent implements OnInit {
     loan.returned = false;
     loan.borrower.id = this.dataService.borrower.id;
 
-    if (this.itemsBarCode) {
-      this.items = this.itemsBarCode;
+    if (this.itemsSerialNumber) {
+      this.items = this.itemsSerialNumber;
     } else if (this.title) {
       this.items = this.itemsTitle;
     }
@@ -112,7 +113,7 @@ export class CirculationCheckOutComponent implements OnInit {
           item = res.json();
           loan.item.id = item.id;
         }).subscribe(x => {
-          this.BorrowDocument(item, loan)
+          this.BorrowDocument(item, loan);
         });
     } else if (this.selectedItem) {
       item = this.selectedItem;
@@ -120,7 +121,7 @@ export class CirculationCheckOutComponent implements OnInit {
       this.BorrowDocument(item, loan);
     } else if (this.items) {
       if (this.items.length == 0) {
-        if (this.barCode) {
+        if (this.serialNumber) {
           this.toastr.warning(`Aucun document n'est lié à cette information`, 'Pas de document!', {toastLife: 2000});
         } else {
           this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!',

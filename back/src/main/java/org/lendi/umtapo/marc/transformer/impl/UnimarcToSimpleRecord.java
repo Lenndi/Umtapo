@@ -8,7 +8,7 @@ import org.lendi.umtapo.solr.document.bean.record.Description;
 import org.lendi.umtapo.solr.document.bean.record.Identifier;
 import org.lendi.umtapo.solr.document.bean.record.Language;
 import org.lendi.umtapo.solr.document.bean.record.Publisher;
-import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.entity.Record;
 import org.lendi.umtapo.solr.document.bean.record.RecordDate;
 import org.lendi.umtapo.solr.document.bean.record.Right;
 import org.lendi.umtapo.solr.document.bean.record.Source;

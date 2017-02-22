@@ -1,5 +1,5 @@
-import {Item} from "./item";
-import {Borrower} from "./borrower";
+import {Item} from './item';
+import {Borrower} from './borrower';
 
 export class Loan {
   id: number;
@@ -7,6 +7,5 @@ export class Loan {
   end: Date;
   borrower: Borrower;
   item: Item;
-  returned: boolean
-
+  returned: boolean;
 }

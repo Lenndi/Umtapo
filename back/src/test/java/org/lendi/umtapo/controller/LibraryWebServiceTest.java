@@ -8,7 +8,10 @@ import org.lendi.umtapo.dto.LibraryDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.mapper.LibraryMapper;
+import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
+import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.LibraryService;
+import org.lendi.umtapo.service.specific.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -48,6 +51,15 @@ public class LibraryWebServiceTest {
 
     @MockBean
     private LibraryService libraryService;
+
+    @MockBean
+    private RecordService recordService;
+
+    @MockBean
+    private Z3950Service z3950Service;
+
+    @MockBean
+    private UnimarcToSimpleRecord unimarcToSimpleRecord;
 
     @Autowired
     private ObjectMapper objectMapper;

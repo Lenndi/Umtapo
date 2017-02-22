@@ -8,7 +8,10 @@ import org.junit.runner.RunWith;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.BorrowerMapper;
+import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
+import org.lendi.umtapo.service.configuration.Z3950Service;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.service.specific.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,6 +52,15 @@ public class BorrowerWebServiceTest {
 
     @MockBean
     private BorrowerService borrowerService;
+
+    @MockBean
+    private RecordService recordService;
+
+    @MockBean
+    private Z3950Service z3950Service;
+
+    @MockBean
+    private UnimarcToSimpleRecord unimarcToSimpleRecord;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -93,7 +105,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
-                .andExpect(jsonPath("$.subscription", nullValue()))
+                .andExpect(jsonPath("$.subscriptions", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
         verify(borrowerService, times(1)).findOneDto(1);
         verifyNoMoreInteractions(borrowerService);
@@ -121,7 +133,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$[0].quota", is(5)))
                 .andExpect(jsonPath("$[0].emailOptin", is(true)))
                 .andExpect(jsonPath("$[0].address", nullValue()))
-                .andExpect(jsonPath("$[0].subscription", nullValue()))
+                .andExpect(jsonPath("$[0].subscriptions", nullValue()))
                 .andExpect(jsonPath("$[0].library", nullValue()))
                 .andExpect(jsonPath("$[1].name", is("NameTest2")))
                 .andExpect(jsonPath("$[1].comment", is("CommentTest2")))
@@ -129,8 +141,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$[1].quota", is(7)))
                 .andExpect(jsonPath("$[1].emailOptin", is(false)))
                 .andExpect(jsonPath("$[1].address", nullValue()))
-                .andExpect(jsonPath("$[1].subscription", nullValue()))
-                .andExpect(jsonPath("$[1].loan", nullValue()))
+                .andExpect(jsonPath("$[1].subscriptions", nullValue()))
                 .andExpect(jsonPath("$[1].library", nullValue()));
         verify(borrowerService, times(1)).findAllDto();
         verifyNoMoreInteractions(borrowerService);
@@ -157,7 +168,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
-                .andExpect(jsonPath("$.subscription", nullValue()))
+                .andExpect(jsonPath("$.subscriptions", nullValue()))
                 .andExpect(jsonPath("$.library", nullValue()));
         verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);

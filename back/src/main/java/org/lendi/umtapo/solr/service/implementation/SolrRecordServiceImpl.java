@@ -3,7 +3,7 @@ package org.lendi.umtapo.solr.service.implementation;
 import org.lendi.umtapo.mapper.RecordMapper;
 import org.lendi.umtapo.solr.document.RecordDocument;
 import org.lendi.umtapo.solr.document.bean.record.Identifier;
-import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.entity.Record;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.repository.SolrRecordRepository;
 import org.lendi.umtapo.solr.service.SolrRecordService;

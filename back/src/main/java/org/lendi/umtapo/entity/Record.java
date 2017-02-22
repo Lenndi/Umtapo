@@ -1,6 +1,19 @@
-package org.lendi.umtapo.solr.document.bean.record;
+package org.lendi.umtapo.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.lendi.umtapo.solr.document.bean.record.Contributor;
+import org.lendi.umtapo.solr.document.bean.record.Coverage;
+import org.lendi.umtapo.solr.document.bean.record.Creator;
+import org.lendi.umtapo.solr.document.bean.record.Description;
+import org.lendi.umtapo.solr.document.bean.record.Identifier;
+import org.lendi.umtapo.solr.document.bean.record.Language;
+import org.lendi.umtapo.solr.document.bean.record.Publisher;
+import org.lendi.umtapo.solr.document.bean.record.RecordDate;
+import org.lendi.umtapo.solr.document.bean.record.Right;
+import org.lendi.umtapo.solr.document.bean.record.Source;
+import org.lendi.umtapo.solr.document.bean.record.Subject;
+import org.lendi.umtapo.solr.document.bean.record.Title;
+import org.lendi.umtapo.solr.document.bean.record.Type;
 
 import java.util.ArrayList;
 import java.util.List;

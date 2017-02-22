@@ -1,7 +1,6 @@
 package org.lendi.umtapo.dao;
 
 import org.lendi.umtapo.entity.Item;
-import org.lendi.umtapo.enumeration.Condition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,7 +37,7 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      * @param pageable the pageable
      * @return the page
      */
-    Page<Item> findByRecordIdentifierBarCodeContainingIgnoreCase(String contains, Pageable pageable);
+    Page<Item> findByRecordIdentifierSerialNumberContainingIgnoreCase(String contains, Pageable pageable);
 
     /**
      * Find by name containing ignore case page.

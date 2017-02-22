@@ -7,7 +7,7 @@ import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.mapper.ItemMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.ItemService;
-import org.lendi.umtapo.solr.document.bean.record.Record;
+import org.lendi.umtapo.entity.Record;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +135,9 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public Page<ItemDto> findAllPageableDtoByRecordIdentifierBarCode(Pageable pageable, String contains) {
+    public Page<ItemDto> findAllPageableDtoByRecordIdentifierSerialNumber(Pageable pageable, String contains) {
 
-        Page<Item> items = itemDao.findByRecordIdentifierBarCodeContainingIgnoreCase(contains, pageable);
+        Page<Item> items = itemDao.findByRecordIdentifierSerialNumberContainingIgnoreCase(contains, pageable);
         return this.mapItemsToItemDtosPage(items);
     }
 

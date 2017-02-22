@@ -42,7 +42,8 @@ export class BorrowerService {
   findPaginableByName(size: number, page: number, contains: string): Observable<Borrower[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/borrowers/searchs?size=${size}&page=${page}&contains=${contains}&attribute=name`, options)
+      .get(`http://localhost:8080/borrowers/searchs?size=${size}&page=${page}&contains=${contains}&attribute=name`,
+        options)
       .map((r: Response) => r.json().content as Borrower[]);
 
   }

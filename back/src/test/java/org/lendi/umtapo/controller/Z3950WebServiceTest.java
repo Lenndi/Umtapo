@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lendi.umtapo.entity.configuration.Z3950;
 import org.lendi.umtapo.entity.configuration.Z3950Configuration;
+import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lendi.umtapo.service.configuration.Z3950Service;
+import org.lendi.umtapo.service.specific.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,6 +43,12 @@ public class Z3950WebServiceTest {
 
     @MockBean
     private Z3950Service z3950Service;
+
+    @MockBean
+    private RecordService recordService;
+
+    @MockBean
+    private UnimarcToSimpleRecord unimarcToSimpleRecord;
 
     @Autowired
     private ObjectMapper objectMapper;

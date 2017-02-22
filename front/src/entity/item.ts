@@ -2,7 +2,7 @@ import {ShelfMark} from './shelfmark';
 import {Loan} from './loan';
 import {Library} from './library';
 import {Record} from './record/record';
-import {Condition} from "./condition";
+import {Condition} from './condition';
 export class Item {
   id: number;
   type: string;

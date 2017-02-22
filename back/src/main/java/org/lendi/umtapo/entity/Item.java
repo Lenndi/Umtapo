@@ -2,7 +2,6 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
-import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
