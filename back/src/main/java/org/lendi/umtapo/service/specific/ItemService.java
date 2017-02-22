@@ -24,13 +24,22 @@ public interface ItemService extends GenericService<Item, Integer> {
     Item save(Item library);
 
     /**
+     * Save with document item.
+     *
+     * @param item the item
+     * @return the item
+     * @throws InvalidRecordException the invalid record exception
+     */
+    Item saveWithDocument(Item item) throws InvalidRecordException;
+
+    /**
      * Persist a Item from a ItemDto.
      *
-     * @param libraryDto the library dto
-     * @return library dto
+     * @param itemDto the item dto
+     * @return item dto
      * @throws InvalidRecordException invalid record
      */
-    ItemDto saveDto(ItemDto libraryDto) throws InvalidRecordException;
+    ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException;
 
     /**
      * {@inheritDoc}
@@ -42,7 +51,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * Find a Item by id.
      *
      * @param id the id
-     * @return ItemDto library dto
+     * @return ItemDto item dto
      */
     ItemDto findOneDto(Integer id);
 
@@ -72,9 +81,10 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
+     * @throws IOException            the io exception
+     * @throws JsonPatchException     the json patch exception
+     * @throws InvalidRecordException the invalid record exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException, InvalidRecordException;
 
 }

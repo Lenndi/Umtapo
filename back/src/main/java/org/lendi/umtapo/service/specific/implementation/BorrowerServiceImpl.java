@@ -13,15 +13,14 @@ import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Borrower service implementation.
@@ -57,15 +56,21 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         this.solrBorrowerService = indexService;
     }
 
+    @Override
+    public Borrower save(Borrower entity) {
+        Borrower borrower = super.save(entity);
+        this.solrBorrowerService.saveToIndex(borrower);
+
+        return borrower;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
         borrower = this.save(borrower);
-        this.solrBorrowerService.addToIndex(borrower);
 
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
@@ -96,22 +101,45 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.mapBorrowersToBorrowerDtos(borrowers);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Page<BorrowerDto> findAllPageableDto(Pageable pageable, String name, String email, String city) {
-        Page<BorrowerDocument> borrowers = this.solrBorrowerService.fullSearch(name, email, city, pageable);
+    public Page<BorrowerDto> findAllDto(Pageable page) {
+        Page<BorrowerDocument> borrowerDocuments = this.solrBorrowerService.searchAll(page);
 
-        return this.borrowerDocumentPageToDtoPage(borrowers, pageable);
+        return this.borrowerDocumentPageToDtoPage(borrowerDocuments);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Page<Borrower> findAllPageable(Pageable pageable) {
+    @Override
+    public Page<BorrowerDto> findAllBorrowerDtoByNameOrEmail(String name, Pageable pageable) {
+        Page<BorrowerDocument> borrowers = this.solrBorrowerService.searchByNameOrEmail(name, pageable);
 
-        return this.findAll(pageable);
+        return this.borrowerDocumentPageToDtoPage(borrowers);
+    }
+
+    @Override
+    public Page<BorrowerDto> findAllBorrowerDtoWithFilters(
+            String name,
+            String email,
+            String city,
+            String id,
+            String fromSubscriptionEnd,
+            String toSubscriptionEnd,
+            Pageable page
+    ) {
+        Page<BorrowerDocument> borrowers = this.solrBorrowerService.fullSearch(
+                name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, page);
+
+        return this.borrowerDocumentPageToDtoPage(borrowers);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Page<Borrower> findAllPageable(Pageable page) {
+
+        return this.findAll(page);
     }
 
     /**
@@ -148,7 +176,8 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerDtos;
     }
 
-    private Page<BorrowerDto> borrowerDocumentPageToDtoPage(Page<BorrowerDocument> borrowersPage, Pageable pageable) {
+    private Page<BorrowerDto> borrowerDocumentPageToDtoPage(Page<BorrowerDocument> borrowersPage) {
+        Pageable page = new PageRequest(borrowersPage.getNumber(), borrowersPage.getSize());
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
         List<BorrowerDocument> borrowers = borrowersPage.getContent();
 
@@ -156,6 +185,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
           borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumenttoBorrowerDto(borrowerDocument))
         );
 
-        return new PageImpl<>(borrowerDtos, pageable, borrowersPage.getTotalElements());
+        return new PageImpl<>(borrowerDtos, page, borrowersPage.getTotalElements());
     }
 }

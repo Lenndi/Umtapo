@@ -39,9 +39,9 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginable(size: number, page: number, contains: string): Observable<Borrower[]> {
+  findPaginable(size: number, page: number, nameOrEmail: string): Observable<Borrower[]> {
     return this.http
-      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&contains=${contains}`)
+      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
       .map((r: Response) => r.json().content as Borrower[]);
 
   }

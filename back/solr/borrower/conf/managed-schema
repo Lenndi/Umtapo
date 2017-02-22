@@ -45,7 +45,7 @@
     that avoids logging every request
 -->
 
-<schema name="example" version="1.6">
+<schema name="borrower" version="1.6">
   <!-- attribute "name" is the name of this schema and is only used for display purposes.
        version="x.y" is Solr's version number for the schema syntax and 
        semantics.  It should not normally be changed by applications.
@@ -134,7 +134,7 @@
    <field name="address1" type="string" multiValued="false" indexed="false" stored="true"/>
    <field name="address2" type="string" multiValued="false" indexed="false" stored="true"/>
    <field name="birthday" type="date" indexed="true" stored="true"/>
-   <field name="city" type="string" multiValued="false" indexed="true" stored="true"/>
+   <field name="city" type="text_general" multiValued="false" indexed="true" stored="true"/>
    <field name="comment" type="text_general" indexed="true" stored="true"/>
    <field name="email" type="text_general" multiValued="false" indexed="true" stored="true"/>
    <field name="emailOptin" type="boolean" indexed="true" stored="true"/>
@@ -142,6 +142,11 @@
    <field name="phone" type="string" multiValued="false" indexed="true" stored="true"/>
    <field name="quota" type="int" indexed="true" stored="true"/>
    <field name="zip" type="string" multiValued="false" indexed="true" stored="true"/>
+   <field name="nbLoans" type="int" multiValued="false" indexed="true" stored="true"/>
+   <field name="tooMuchLoans" type="boolean" multiValued="false" indexed="true" stored="true"/>
+   <field name="olderReturn" type="date" indexed="true" stored="true"/>
+   <field name="subscriptionStart" type="date" indexed="true" stored="true"/>
+   <field name="subscriptionEnd" type="date" indexed="true" stored="true"/>
 
    <!-- index all fields -->
    <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>

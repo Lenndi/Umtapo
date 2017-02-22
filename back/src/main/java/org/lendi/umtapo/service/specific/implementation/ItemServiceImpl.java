@@ -47,23 +47,27 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         this.solrRecordService = solrRecordService;
     }
 
+    @Override
+    public Item saveWithDocument(Item item) throws InvalidRecordException {
+        if (item.getRecord() != null) {
+            Record record = this.solrRecordService.save(item.getRecord());
+            item.setRecordId(record.getId());
+        }
+
+        if (item.getInternalId() == null) {
+            Integer previousInternalId = this.itemDao.findTopInternalId();
+            item.setInternalId(previousInternalId + 1);
+        }
+        return this.save(item);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
-
-        if (itemDto.getRecord() != null) {
-            Record record = this.solrRecordService.save(itemDto.getRecord());
-            itemDto.setRecordId(record.getId());
-        }
-
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
-        if (item.getInternalId() == null) {
-            Integer previousInternalId = this.itemDao.findTopInternalId();
-            item.setInternalId(previousInternalId + 1);
-        }
-        item = this.save(item);
+        item = this.saveWithDocument(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
@@ -90,10 +94,11 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item)
+            throws IOException, JsonPatchException, InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.mapItemToItemDto(this.save(item));
+        return this.mapItemToItemDto(this.saveWithDocument(item));
     }
 
 

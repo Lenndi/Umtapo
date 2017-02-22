@@ -105,6 +105,11 @@ public class ItemWebService {
             } catch (final IOException | JsonPatchException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (final InvalidRecordException e) {
+                LOGGER.fatal(e.getMessage());
+                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+                return new ResponseEntity<>(apiError, apiError.getStatus());
             }
         }
 

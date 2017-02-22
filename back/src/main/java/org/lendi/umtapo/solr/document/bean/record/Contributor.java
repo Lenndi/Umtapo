@@ -11,7 +11,7 @@ public class Contributor extends Creator {
     /**
      * The Id.
      */
-    String id;
+    private String id;
 
     /**
      * Gets id.

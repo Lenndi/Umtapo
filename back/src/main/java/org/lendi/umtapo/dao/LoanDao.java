@@ -34,5 +34,11 @@ public interface LoanDao extends JpaRepository<Loan, Integer> {
      */
     List<Loan> findByBorrowerIdAndReturnedFalse(Integer borrower);
 
-
+    /**
+     * Find first by borrower id and returned false order by end asc loan.
+     *
+     * @param borrowerId the borrower id
+     * @return the loan
+     */
+    Loan findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(Integer borrowerId);
 }
