@@ -21,7 +21,15 @@ public interface ItemService extends GenericService<Item, Integer> {
      * {@inheritDoc}
      */
     @Override
-    Item save(Item library);
+    Item save(Item item);
+
+    /**
+     * Persist an Item with the associated record.
+     *
+     * @param item item to persist
+     * @return item
+     */
+    Item saveWithRecord(Item item) throws InvalidRecordException;
 
     /**
      * Save with document item.
