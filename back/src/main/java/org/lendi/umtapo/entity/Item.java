@@ -126,10 +126,10 @@ public class Item {
     /**
      * Sets loans.
      *
-     * @param loans the loans
+     * @param loanList the loans
      */
-    public void setLoan(List<Loan> loans) {
-        this.loans = loans;
+    public void setLoan(List<Loan> loanList) {
+        this.loans = loanList;
     }
 
     /**

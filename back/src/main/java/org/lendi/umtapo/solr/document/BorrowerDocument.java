@@ -53,6 +53,21 @@ public class BorrowerDocument {
     @Field
     private String email;
 
+    @Field
+    private Integer nbLoans;
+
+    @Field
+    private Boolean tooMuchLoans;
+
+    @Field
+    private Date olderReturn;
+
+    @Field
+    private Date subscriptionStart;
+
+    @Field
+    private Date subscriptionEnd;
+
     /**
      * Gets id.
      *
@@ -285,5 +300,119 @@ public class BorrowerDocument {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Gets nb loans.
+     *
+     * @return the nb loans
+     */
+    public Integer getNbLoans() {
+        return nbLoans;
+    }
+
+    /**
+     * Sets nb loans.
+     *
+     * @param nbLoans the nb loans
+     */
+    public void setNbLoans(Integer nbLoans) {
+        this.nbLoans = nbLoans;
+    }
+
+    /**
+     * Gets too much loans.
+     *
+     * @return the too much loans
+     */
+    public Boolean getTooMuchLoans() {
+        return tooMuchLoans;
+    }
+
+    /**
+     * Sets too much loans.
+     *
+     * @param hasTooMuchLoans the has too much loans
+     */
+    public void setTooMuchLoans(Boolean hasTooMuchLoans) {
+        this.tooMuchLoans = hasTooMuchLoans;
+    }
+
+    /**
+     * Sets older return.
+     *
+     * @param olderReturn the older return
+     */
+    public void setOlderReturn(ZonedDateTime olderReturn) {
+        this.olderReturn = Date.from(birthday.toInstant());
+    }
+
+    /**
+     * Gets older return.
+     *
+     * @return the older return
+     */
+    public ZonedDateTime getOlderReturn() {
+        ZonedDateTime formattedOlderReturn = null;
+
+        if (this.olderReturn != null) {
+            formattedOlderReturn = ZonedDateTime.ofInstant(this.olderReturn.toInstant(), ZoneId.systemDefault());
+        }
+
+        return formattedOlderReturn;
+    }
+
+    /**
+     * Sets subscription start.
+     *
+     * @param subscriptionStart the subscription start
+     */
+    public void setSubscriptionStart(ZonedDateTime subscriptionStart) {
+        this.subscriptionStart = Date.from(subscriptionStart.toInstant());
+    }
+
+    /**
+     * Gets subscription start.
+     *
+     * @return the subscription start
+     */
+    public ZonedDateTime getSubscriptionStart() {
+        ZonedDateTime formattedSubscriptionStart = null;
+
+        if (this.subscriptionStart != null) {
+            formattedSubscriptionStart = ZonedDateTime.ofInstant(
+                    this.subscriptionStart.toInstant(),
+                    ZoneId.systemDefault()
+            );
+        }
+
+        return formattedSubscriptionStart;
+    }
+
+    /**
+     * Sets subscription end.
+     *
+     * @param subscriptionEnd the subscription end
+     */
+    public void setSubscriptionEnd(ZonedDateTime subscriptionEnd) {
+        this.subscriptionEnd = Date.from(subscriptionEnd.toInstant());
+    }
+
+    /**
+     * Gets subscription end.
+     *
+     * @return the subscription end
+     */
+    public ZonedDateTime getSubscriptionEnd() {
+        ZonedDateTime formattedSubscriptionEnd = null;
+
+        if (this.subscriptionEnd != null) {
+            formattedSubscriptionEnd = ZonedDateTime.ofInstant(
+                    this.subscriptionEnd.toInstant(),
+                    ZoneId.systemDefault()
+            );
+        }
+
+        return formattedSubscriptionEnd;
     }
 }

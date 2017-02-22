@@ -33,7 +33,7 @@ public class ItemMapper extends ConfigurableMapper {
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+        converterFactory.registerConverter(new PassThroughConverter(ZonedDateTime.class));
         converterFactory.registerConverter("priceConverter", new PriceConverter());
 
         mapperFactory.classMap(Item.class, ItemDto.class)

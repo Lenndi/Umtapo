@@ -32,6 +32,15 @@ public interface ItemService extends GenericService<Item, Integer> {
     Item saveWithRecord(Item item) throws InvalidRecordException;
 
     /**
+     * Save with document item.
+     *
+     * @param item the item
+     * @return the item
+     * @throws InvalidRecordException the invalid record exception
+     */
+    Item saveWithDocument(Item item) throws InvalidRecordException;
+
+    /**
      * Persist a Item from a ItemDto.
      *
      * @param itemDto the item dto
@@ -80,8 +89,9 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
+     * @throws IOException            the io exception
+     * @throws JsonPatchException     the json patch exception
+     * @throws InvalidRecordException the invalid record exception
      */
     ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException, InvalidRecordException;
 

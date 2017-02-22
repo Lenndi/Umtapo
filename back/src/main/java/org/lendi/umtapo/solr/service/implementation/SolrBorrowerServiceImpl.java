@@ -36,15 +36,38 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
-    public void addToIndex(Borrower borrower) {
-        BorrowerDocument document = this.mapBorrowerToBorrowerDocument(borrower);
-        documentRepository.save(document);
+    public void saveToIndex(Borrower borrower) {
+        BorrowerDocument document = this.borrowerMapper.mapBorrowerToBorrowerDocument(borrower);
+        this.documentRepository.save(document);
     }
 
     @Override
-    public Page<BorrowerDocument> searchByName(String name, Pageable pageable) {
+    public void saveToIndex(BorrowerDocument borrowerDocument) {
+        this.documentRepository.save(borrowerDocument);
+    }
+
+    @Override
+    public BorrowerDocument findById(String id) {
+        return this.documentRepository.findById(id);
+    }
+
+    @Override
+    public Page<BorrowerDocument> searchByNameOrEmail(String nameOrEmail, Pageable page) {
+        return this.documentRepository.findByNameContainingOrEmailContaining(nameOrEmail, nameOrEmail, page);
+    }
+
+    @Override
+    public Page<BorrowerDocument> fullSearch(
+            String name,
+            String email,
+            String city,
+            String id,
+            String fromSubscriptionEnd,
+            String toSubscriptionEnd,
+            Pageable page) {
         Page<BorrowerDocument> borrowers;
-        borrowers = this.documentRepository.findByNameContaining(name, pageable);
+        borrowers = this.documentRepository.fullSearch(
+                name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, page);
 
         return borrowers;
     }
@@ -60,9 +83,5 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     @Override
     public void deleteFromIndex(Integer id) {
         documentRepository.delete(id.toString());
-    }
-
-    private BorrowerDocument mapBorrowerToBorrowerDocument(Borrower borrower) {
-        return this.borrowerMapper.mapBorrowerToBorrowerDocument(borrower);
     }
 }

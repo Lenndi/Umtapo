@@ -8,7 +8,6 @@ import org.lendi.umtapo.util.JsonViewResolver;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-
 /**
  * Dto borrower object
  * <p>
@@ -29,6 +28,11 @@ public class BorrowerDto {
     private AddressDto address;
     private List<SubscriptionDto> subscriptions;
     private LibraryDto library;
+    private Integer nbLoans;
+    private Boolean tooMuchLoans;
+    private Boolean lateness;
+    private ZonedDateTime subscriptionStart;
+    private ZonedDateTime subscriptionEnd;
 
     /**
      * Gets id.
@@ -190,5 +194,95 @@ public class BorrowerDto {
      */
     public void setEmailOptin(Boolean emailOptin) {
         this.emailOptin = emailOptin;
+    }
+
+    /**
+     * Gets nb loans.
+     *
+     * @return the nb loans
+     */
+    public Integer getNbLoans() {
+        return nbLoans;
+    }
+
+    /**
+     * Sets nb loans.
+     *
+     * @param nbLoans the nb loans
+     */
+    public void setNbLoans(Integer nbLoans) {
+        this.nbLoans = nbLoans;
+    }
+
+    /**
+     * Is too much loans boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean isTooMuchLoans() {
+        return tooMuchLoans;
+    }
+
+    /**
+     * Sets too much loans.
+     *
+     * @param tooMuchLoans the too much loans
+     */
+    public void setTooMuchLoans(Boolean tooMuchLoans) {
+        this.tooMuchLoans = tooMuchLoans;
+    }
+
+    /**
+     * Gets lateness.
+     *
+     * @return the lateness
+     */
+    public Boolean getLateness() {
+        return lateness;
+    }
+
+    /**
+     * Sets lateness.
+     *
+     * @param lateness the lateness
+     */
+    public void setLateness(Boolean lateness) {
+        this.lateness = lateness;
+    }
+
+    /**
+     * Gets subscription start.
+     *
+     * @return the subscription start
+     */
+    public ZonedDateTime getSubscriptionStart() {
+        return subscriptionStart;
+    }
+
+    /**
+     * Sets subscription start.
+     *
+     * @param subscriptionStart the subscription start
+     */
+    public void setSubscriptionStart(ZonedDateTime subscriptionStart) {
+        this.subscriptionStart = subscriptionStart;
+    }
+
+    /**
+     * Gets subscription end.
+     *
+     * @return the subscription end
+     */
+    public ZonedDateTime getSubscriptionEnd() {
+        return subscriptionEnd;
+    }
+
+    /**
+     * Sets subscription end.
+     *
+     * @param subscriptionEnd the subscription end
+     */
+    public void setSubscriptionEnd(ZonedDateTime subscriptionEnd) {
+        this.subscriptionEnd = subscriptionEnd;
     }
 }

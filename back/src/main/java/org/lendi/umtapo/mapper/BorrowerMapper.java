@@ -5,11 +5,13 @@ import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
+import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.mapper.converter.LatenessConverter;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +37,9 @@ public class BorrowerMapper extends ConfigurableMapper {
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+        final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
+        converterFactory.registerConverter(new PassThroughConverter(ZonedDateTime.class));
+        converterFactory.registerConverter("latenessConverter", new LatenessConverter());
 
         mapperFactory.classMap(Borrower.class, BorrowerDto.class).exclude("library").byDefault().register();
         DTO_MAPPER = mapperFactory.getMapperFacade();
@@ -53,6 +57,7 @@ public class BorrowerMapper extends ConfigurableMapper {
         DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
+                .fieldMap("lateness", "olderReturn").converter("latenessConverter").add()
                 .field("address.id", "addressId")
                 .field("address.address1", "address1")
                 .field("address.address2", "address2")

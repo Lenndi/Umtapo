@@ -112,7 +112,8 @@
         </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber">
-            <property name="tokens" value="METHOD_DEF"/>
+            <property name="max" value="20"/>
+            <property name="tokens" value="METHOD_DEF,CTOR_DEF"/>
         </module>
 
         <!-- Checks for whitespace                               -->
@@ -175,7 +176,8 @@
         <module name="TodoComment"/>
         <module name="UpperEll"/>
     </module>
+
     <module name="SuppressionFilter">
-        <property name="file" value="excludeCheckstyle.xml" />
+        <property name="file" value="excludeCheckstyle.xml"/>
     </module>
 </module>

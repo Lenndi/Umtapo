@@ -15,7 +15,22 @@ public interface SolrBorrowerService {
      *
      * @param borrower the borrower
      */
-    void addToIndex(Borrower borrower);
+    void saveToIndex(Borrower borrower);
+
+    /**
+     * Save to index.
+     *
+     * @param borrowerDocument the borrower document
+     */
+    void saveToIndex(BorrowerDocument borrowerDocument);
+
+    /**
+     * Find by id borrower document.
+     *
+     * @param id the id
+     * @return the borrower document
+     */
+    BorrowerDocument findById(String id);
 
     /**
      * Delete from index.
@@ -25,14 +40,34 @@ public interface SolrBorrowerService {
     void deleteFromIndex(Integer id);
 
     /**
+     * Search borrower in index by name containing term.
+     *
+     * @param name term
+     * @param page page
+     * @return Borrower page
+     */
+    Page<BorrowerDocument> searchByNameOrEmail(String name, Pageable page);
+
+    /**
      * Search list.
      *
-     * @param term     the term
-     * @param pageable the pageable
+     * @param name                the term
+     * @param email               the email
+     * @param city                the city
+     * @param id                  the id
+     * @param fromSubscriptionEnd the from subscription end
+     * @param toSubscriptionEnd   the to subscription end
+     * @param pageable            the pageable
      * @return the list
      */
-    Page<BorrowerDocument> searchByName(String term, Pageable pageable);
-
+    Page<BorrowerDocument> fullSearch(
+            String name,
+            String email,
+            String city,
+            String id,
+            String fromSubscriptionEnd,
+            String toSubscriptionEnd,
+            Pageable pageable);
 
     /**
      * Search all page.

@@ -48,12 +48,16 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public Item saveWithRecord(Item item) throws InvalidRecordException {
+    public Item saveWithDocument(Item item) throws InvalidRecordException {
         if (item.getRecord() != null) {
             Record record = this.solrRecordService.save(item.getRecord());
             item.setRecordId(record.getId());
         }
 
+        if (item.getInternalId() == null) {
+            Integer previousInternalId = this.itemDao.findTopInternalId();
+            item.setInternalId(previousInternalId + 1);
+        }
         return this.save(item);
     }
 
@@ -62,23 +66,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      */
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
-
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
-        if (item.getInternalId() == null) {
-            Integer previousInternalId = this.itemDao.findTopInternalId();
-            item.setInternalId(previousInternalId + 1);
-        }
-        item = this.saveWithRecord(item);
+        item = this.saveWithDocument(item);
 
         return this.itemMapper.mapItemToItemDto(item);
-    }
-
-    @Override
-    public Item findOne(Integer integer) {
-        Item item = super.findOne(integer);
-        this.linkRecord(item);
-
-        return item;
     }
 
     /**
@@ -87,21 +78,17 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
+        this.linkRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
 
     @Override
-    public List<Item> findAll() {
-        List<Item> items = super.findAll();
+    public List<ItemDto> findAllDto() {
+        List<Item> items = this.findAll();
         items.forEach(this::linkRecord);
 
-        return items;
-    }
-
-    @Override
-    public List<ItemDto> findAllDto() {
-        return mapItemsToItemsDto(this.findAll());
+        return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
     /**
@@ -111,14 +98,30 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             throws IOException, JsonPatchException, InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
+        return this.mapItemToItemDto(this.saveWithDocument(item));
     }
 
-    private List<ItemDto> mapItemsToItemsDto(List<Item> items) {
-        List<ItemDto> itemDtos = new ArrayList<>();
-        items.forEach(item -> itemDtos.add(this.itemMapper.mapItemToItemDto(item)));
 
-        return itemDtos;
+    private Item mapItemDtoToItem(ItemDto itemDto) {
+        return this.itemMapper.mapItemDtoToItem(itemDto);
+    }
+
+    private ItemDto mapItemToItemDto(Item item) {
+        return this.itemMapper.mapItemToItemDto(item);
+    }
+
+    private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
+        List<Item> libraries = new ArrayList<>();
+        librariesDto.forEach(ItemDto -> libraries.add(mapItemDtoToItem(ItemDto)));
+
+        return libraries;
+    }
+
+    private List<ItemDto> mapLibrariesToLibrariesDTO(List<Item> libraries) {
+        List<ItemDto> librariesDto = new ArrayList<>();
+        libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
+
+        return librariesDto;
     }
 
     private Item linkRecord(Item item) {
