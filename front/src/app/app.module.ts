@@ -23,7 +23,8 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
-import {ModalModule, DatepickerModule} from 'ng2-bootstrap';
+import {ModalModule, DatepickerModule, } from 'ng2-bootstrap';
+import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
@@ -40,6 +41,7 @@ import {CirculationCheckOutComponent} from
 import {CirculationComponent} from './circulation/circulation.component';
 import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
+import {ToastModule} from 'ng2-toastr';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import {LoanService} from '../service/loan.service';
     ModalModule.forRoot(),
     MaterialModule.forRoot(),
     DatepickerModule.forRoot(),
+    ToastModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   providers: [
     HttpLoggerService,

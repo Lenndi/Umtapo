@@ -1,9 +1,7 @@
 package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.lendi.umtapo.util.JsonViewResolver;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -16,15 +14,12 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class BorrowerDto {
 
-    @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private Integer id;
-    @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private String name;
     private String comment;
     private ZonedDateTime birthday;
     private Integer quota;
     private Boolean emailOptin;
-    @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private AddressDto address;
     private List<SubscriptionDto> subscriptions;
     private LibraryDto library;

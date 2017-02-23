@@ -1,22 +1,3 @@
-.drop-link {
-  padding: 0.25rem 1rem;
-  display: block;
-}
-
-
-.list-group{
-  position : absolute;
-  z-index: 1;
-  max-height: 200px;
-  overflow-x: hidden;
-}
-
-.list-group{
-  position : absolute;
-  z-index: 1;
-  max-height: 200px;
-  overflow-x: hidden;
-}
 /* Style when highlighting a search. */
 .ui-select-highlight {
   font-weight: bold;

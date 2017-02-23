@@ -1,6 +1,5 @@
 package org.lendi.umtapo.entity;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

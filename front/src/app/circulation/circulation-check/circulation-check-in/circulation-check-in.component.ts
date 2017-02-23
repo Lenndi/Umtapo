@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
 import {DatepickerModule} from 'ng2-bootstrap';
 import {DateFormatter} from '@angular/common/src/pipes/intl';
-import {Loan} from "../../../../entity/loan";
+import {Loan} from '../../../../entity/loan';
 import {conditionEnum} from '../../../../enumeration/fr';
 import {CustomMap} from '../../../../enumeration/custom-map';
-import {ItemService} from "../../../../service/item.service";
-import {Item} from "../../../../entity/item";
+import {ItemService} from '../../../../service/item.service';
+import {Item} from '../../../../entity/item';
 import {LoanService} from '../../../../service/loan.service';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-circulation-check-in',
@@ -17,7 +18,6 @@ import {LoanService} from '../../../../service/loan.service';
   providers: [ItemService, LoanService]
 })
 export class CirculationCheckInComponent implements OnInit {
-  private borrower: Borrower;
   conditionEnum: CustomMap;
   itemId: number;
   serial: string;
@@ -25,25 +25,27 @@ export class CirculationCheckInComponent implements OnInit {
 
   constructor(public dataService: CirculationDataService,
               private itemService: ItemService,
-              private loanService: LoanService) {
+              private loanService: LoanService,
+              public toastr: ToastsManager, vRef: ViewContainerRef) {
     this.conditionEnum = conditionEnum;
+    this.toastr.setRootViewContainerRef(vRef);
   }
 
   ngOnInit() {
-    this.borrower = this.dataService.borrower;
-    this.loanService.findAllDtoByBorrowerIdAndReturned(this.borrower.id)
+    this.loanService.findAllDtoByBorrowerIdAndReturned(this.dataService.borrower.id)
       .then(response => {
-        this.borrower.loans = response;
+        this.dataService.borrower.loans = response;
       });
-
   }
 
   saveCondition(value, id) {
     let item: Item = new Item();
     item.condition = value;
     item.id = id;
-    this.itemService.saveCondition(item);
-    // TODO Toast modification
+    this.itemService.saveCondition(item)
+      .then(res => this.toastr.success(`La condition du livre à été modifier à ` + value, 'Sauvegarder',
+        {toastLife: 2000}))
+      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}));
   }
 
   saveEnd(value, id) {
@@ -51,37 +53,66 @@ export class CirculationCheckInComponent implements OnInit {
     let date = new Date(value);
     loan.end = new Date(date.toISOString());
     loan.id = id;
-    this.loanService.saveEnd(loan);
-    // TODO Toast modification
+    this.loanService.saveEnd(loan)
+      .then(res => this.toastr.success(`La date de retour à été modifier à ` + value, 'Sauvegarder', {toastLife: 2000}))
+      .catch(err => this.toastr.error(`Une erreur est survenue`, 'Erreur', {toastLife: 2000}));
   }
 
-  returnAllBooks(){
-    for (let loan of this.borrower.loans){
-      this.loanService.returnBookLoan(loan.id);
-      this.itemService.returnBookItem(loan.item.id);
+  returnAllBooks() {
+    if (this.dataService.borrower.loans) {
+      for (let loan of this.dataService.borrower.loans) {
+        this.checkInDocument(loan);
+      }
+      this.dataService.borrower.loans = [];
+    } else {
+      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
     }
   }
 
-  returnBook(idLoan, idItem) {
-    this.loanService.returnBookLoan(idLoan);
-    this.itemService.returnBookItem(idItem);
+  returnBook(loan: Loan) {
+    if (this.dataService.borrower.loans) {
+      this.checkInDocument(loan);
+      this.removeLoanById(loan.id);
+    } else {
+      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
+    }
+  }
+
+  checkInDocument(loan: Loan) {
+    this.loanService.returnBookLoan(loan.id)
+      .then(ret => this.itemService.returnBookItem(loan.item.id)
+        .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés',
+          {toastLife: 2000})
+          .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+            {toastLife: 2000})))
+        .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+          {toastLife: 2000})));
+  }
+
+  removeLoanById(id: number) {
+    for (let i = 0; i < this.dataService.borrower.loans.length; i++) {
+      console.log(this.dataService.borrower.loans);
+      if (this.dataService.borrower.loans[i].id == id) {
+        this.dataService.borrower.loans.splice(i, 1);
+      }
+    }
   }
 
   checkBySerialOrInternalId() {
     if (this.itemId !== null) {
-      for (let loan of this.borrower.loans) {
+      for (let loan of this.dataService.borrower.loans) {
         if (loan.item.internalId == this.itemId) {
-          this.loanService.returnBookLoan(loan.id);
-          this.itemService.returnBookItem(loan.item.id);
+          this.checkInDocument(loan);
+          this.removeLoanById(loan.id);
         } else {
-          // TODO TOAST
+          this.toastr.success(`Ce livre n'est pas emprunté`, 'Pas de document', {toastLife: 2000});
         }
       }
     } else if (this.serial !== null) {
       let cnt = 0;
       let loanId;
       let itemId;
-      for (let loan of this.borrower.loans) {
+      for (let loan of this.dataService.borrower.loans) {
         if (loan.item.record.identifier.serialNumber == this.serial) {
           loanId = loan.id;
           itemId = loan.item.id;
@@ -89,9 +120,8 @@ export class CirculationCheckInComponent implements OnInit {
         }
       }
       if (cnt == 1) {
-        this.loanService.returnBookLoan(loanId);
-        this.itemService.returnBookItem(itemId);
-        // TODO Toast
+        // this.checkInDocument(loan);
+        this.removeLoanById(loanId);
       } else if (cnt > 1) {
         // TODO Toast
       } else {

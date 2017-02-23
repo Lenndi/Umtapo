@@ -36,6 +36,15 @@ public interface SolrRecordService {
      */
     void delete(String id);
 
+
+    /**
+     * Find by item id record.
+     *
+     * @param itemId the item id
+     * @return the record
+     */
+    Record findByItemId(Integer itemId);
+
     /**
      * Search by serial number list.
      *
@@ -53,4 +62,23 @@ public interface SolrRecordService {
      * @return the page
      */
     Page<Record> searchByTitle(String title, Pageable pageable);
+
+
+    /**
+     * Search by title list.
+     *
+     * @param title the title
+     * @return the list
+     */
+    List<Record> searchByTitle(String title);
+
+    /**
+     * Find item by serialNumber.
+     *
+     * @param serialNumber the serial number
+     * @param serialType   the serial type
+     * @param page         the page
+     * @return the page
+     */
+    Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page);
 }

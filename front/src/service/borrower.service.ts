@@ -39,21 +39,28 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginable(size: number, page: number, nameOrEmail: string): Observable<Borrower[]> {
+  findPaginable(size: number, page: number, nameOrEmail: string): Observable<Response> {
     return this.http
       .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
-      .map((r: Response) => r.json().content as Borrower[]);
-
+      .map(r => {
+        if (r.status != 200) {
+          return [];
+        } else {
+          console.log(r.json().content);
+          return r.json().content;
+        }
+      });
   }
 
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {
     let uri;
+    let options = new RequestOptions({headers: this.headers});
     if (jsonViewResolver != null) {
       uri = `${this.borrowerUrl}/${id}` + jsonViewResolver;
     } else {
       uri = `${this.borrowerUrl}/${id}`;
     }
-    return this.http.get(uri)
+    return this.http.get(uri, options)
       .toPromise()
       .then(response => response.json() as Borrower)
       .catch(error => this.httpLogger.error(error));

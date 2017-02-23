@@ -1,13 +1,11 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -81,9 +79,8 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param jsonNodeBorrower the json node borrower
      * @param loan             the loan
      * @return the borrower
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
+     * @throws IllegalAccessException the illegal access exception
      */
-    LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IOException, JsonPatchException;
+    LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
 }
 

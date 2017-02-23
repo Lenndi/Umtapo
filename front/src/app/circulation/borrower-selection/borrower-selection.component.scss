@@ -16,3 +16,12 @@
 .umt-details-users{
   color: grey;
 }
+.list-group{
+  position : absolute;
+  z-index: 1;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+.umt-details{
+  color: grey;
+}

@@ -1,14 +1,14 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,18 +27,10 @@ public interface ItemService extends GenericService<Item, Integer> {
      * Persist an Item with the associated record.
      *
      * @param item item to persist
-     * @return item
-     */
-    Item saveWithRecord(Item item) throws InvalidRecordException;
-
-    /**
-     * Save with document item.
-     *
-     * @param item the item
-     * @return the item
+     * @return item item
      * @throws InvalidRecordException the invalid record exception
      */
-    Item saveWithDocument(Item item) throws InvalidRecordException;
+    Item saveWithRecord(Item item) throws InvalidRecordException;
 
     /**
      * Persist a Item from a ItemDto.
@@ -89,10 +81,53 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
-     * @throws IOException            the io exception
-     * @throws JsonPatchException     the json patch exception
      * @throws InvalidRecordException the invalid record exception
+     * @throws IllegalAccessException the illegal access exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws IOException, JsonPatchException, InvalidRecordException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException;
 
+    /**
+     * Find by internal id item dto.
+     *
+     * @param internalId the internal id
+     * @return the item dto
+     */
+    ItemDto findByInternalId(Integer internalId);
+
+    /**
+     * Find all pageable dto page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    Page<ItemDto> findAllPageableDto(Pageable pageable);
+
+    /**
+     * Find all pageable dto by record identifier serial number page.
+     *
+     * @param serialNumber the serial number
+     * @param serialType   the serial type
+     * @param pageable     the pageable
+     * @return the page
+     */
+    Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
+
+
+    /**
+     * Find all pageable dto by record titel main title page.
+     *
+     * @param pageable the pageable
+     * @param contains the contains
+     * @return the page
+     */
+    Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String contains);
+
+
+    /**
+     * Link record item.
+     *
+     * @param item the item
+     * @return the item
+     */
+    Item linkRecord(Item item);
 }

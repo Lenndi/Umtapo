@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
@@ -9,7 +8,6 @@ import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
-import java.io.IOException;
 import java.util.List;
 
 
@@ -25,7 +22,6 @@ import java.util.List;
  * The type Loan web service.
  */
 @RestController
-@CrossOrigin
 public class LoanWebService {
 
     private static final Logger LOGGER = Logger.getLogger(LoanWebService.class);
@@ -54,7 +50,7 @@ public class LoanWebService {
         LoanDto loanDto = loanService.findOneDto(id);
         if (loanDto == null) {
             LOGGER.info("Loan with id " + id + " not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(loanDto, HttpStatus.OK);
     }
@@ -62,17 +58,22 @@ public class LoanWebService {
     /**
      * Gets loans.
      *
-     * @param id the id
+     * @param borrowerId the id
+     * @param page       the page
+     * @param size       the size
+     * @param contains   the contains
      * @return the loans
      */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getLoans(@PathParam("id") Integer id) {
-
+    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId,
+                                   @PathParam("page") Integer page,
+                                   @PathParam("size") Integer size,
+                                   @PathParam("contains") String contains) {
 
         List<LoanDto> loans;
 
-        if (id != null) {
-            loans = loanService.findAllDtoByBorrowerIdAndReturned(id);
+        if (borrowerId != null) {
+            loans = loanService.findAllDtoByBorrowerIdAndReturned(borrowerId);
         } else {
             loans = loanService.findAllDto();
         }
@@ -104,21 +105,18 @@ public class LoanWebService {
      * @param jsonNodeLoan the json node loan
      * @param id           the id
      * @return the response entity
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
      */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
             "application/json", "application/json-patch+json"})
-    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id) throws IOException,
-            JsonPatchException {
+    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id) {
 
         Loan loan = loanService.findOne(id);
         if (loan == null) {
-            return new ResponseEntity<>("This loan do not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("This loan do not exist", HttpStatus.NO_CONTENT);
         } else {
             try {
                 loanService.patchLoan(jsonNodeLoan, loan);
-            } catch (final IOException | JsonPatchException e) {
+            } catch (final IllegalAccessException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }

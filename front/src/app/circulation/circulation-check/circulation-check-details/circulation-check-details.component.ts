@@ -4,7 +4,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Subscription} from '../../../../entity/subscription';
-import {CirculationDataService} from "../../../../service/data-binding/circulation-data.service";
+import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 
 @Component({
   selector: 'umt-circulation-check-details',

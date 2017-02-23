@@ -27,6 +27,5 @@ export class Record {
   right: Right;
 
   constructor () {
-    this.contributors = [];
   }
 }

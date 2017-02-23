@@ -5,6 +5,7 @@ import org.lendi.umtapo.enumeration.ItemType;
 import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,9 +33,11 @@ public class Item {
     private ItemType type;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ShelfMark shelfmark;
+    @Column(unique = true)
     private Integer internalId;
     private Integer purchasePrice;
-    private boolean loanable;
+    private Boolean isLoanable;
+    private Boolean isBorrowed;
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Loan> loans;
     @Enumerated(EnumType.STRING)
@@ -59,21 +62,23 @@ public class Item {
      * @param shelfmark     the shelfmark
      * @param internalId    the internal id
      * @param purchasePrice the purchase price
-     * @param loanable      the loanable
+     * @param isLoanable    the isLoanable
      * @param loans         the loans
      * @param condition     the condition
      * @param currency      the currency
      * @param library       the library
+     * @param isBorrowed    the is borrowed
      */
-    public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, boolean loanable,
-                List<Loan> loans, Condition condition, String currency, Library library) {
+    public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, Boolean isLoanable,
+                List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
-        this.loanable = loanable;
+        this.isLoanable = isLoanable;
         this.loans = loans;
         this.condition = condition;
+        this.isBorrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
     }
@@ -94,6 +99,43 @@ public class Item {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    /**
+     * Is borrowed boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean isBorrowed() {
+        return isBorrowed;
+    }
+
+    /**
+     * Sets borrowed.
+     *
+     * @param borrowed the borrowed
+     */
+    public void setBorrowed(Boolean borrowed) {
+        isBorrowed = borrowed;
+    }
+
+    /**
+     * Gets loans.
+     *
+     * @return the loans
+     */
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    /**
+     * Sets loans.
+     *
+     * @param loans the loans
+     */
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     /**
@@ -186,23 +228,6 @@ public class Item {
         this.purchasePrice = purchasePrice;
     }
 
-    /**
-     * Gets loanable.
-     *
-     * @return the loanable
-     */
-    public boolean getLoanable() {
-        return loanable;
-    }
-
-    /**
-     * Sets loanable.
-     *
-     * @param loanable the loanable
-     */
-    public void setLoanable(boolean loanable) {
-        this.loanable = loanable;
-    }
 
     /**
      * Gets shelfmark.
@@ -292,5 +317,32 @@ public class Item {
      */
     public void setRecordId(String recordId) {
         this.recordId = recordId;
+    }
+
+    /**
+     * Gets loanable.
+     *
+     * @return the loanable
+     */
+    public Boolean getLoanable() {
+        return isLoanable;
+    }
+
+    /**
+     * Sets loanable.
+     *
+     * @param loanable the loanable
+     */
+    public void setLoanable(Boolean loanable) {
+        isLoanable = loanable;
+    }
+
+    /**
+     * Gets borrowed.
+     *
+     * @return the borrowed
+     */
+    public Boolean getBorrowed() {
+        return isBorrowed;
     }
 }

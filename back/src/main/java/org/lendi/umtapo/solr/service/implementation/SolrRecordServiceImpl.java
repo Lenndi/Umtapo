@@ -10,6 +10,7 @@ import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -50,6 +51,13 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     }
 
     @Override
+    public Record findByItemId(Integer itemId) {
+        RecordDocument recordDocument = this.recordRepository.findByItems(itemId.toString());
+
+        return this.recordMapper.mapRecordDocumentToRecord(recordDocument);
+    }
+
+    @Override
     public Record save(Record record) throws InvalidRecordException {
         Identifier identifier = record.getIdentifier();
         if (record.getId() == null) {
@@ -82,7 +90,7 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     public List<Record> searchBySerialNumber(String serialNumber, String serialType) {
         List<RecordDocument> recordDocuments;
         List<Record> records = new ArrayList<>();
-        recordDocuments = this.recordRepository.findBySerialNumberAndSerialType(serialNumber, serialType);
+        recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType);
         recordDocuments.forEach(recordDocument ->
             records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
         );
@@ -92,13 +100,43 @@ public class SolrRecordServiceImpl implements SolrRecordService {
 
     @Override
     public Page<Record> searchByTitle(String title, Pageable pageable) {
-        Page<RecordDocument> recordDocumentsPage = this.recordRepository.findByMainTitle(title, pageable);
-        List<RecordDocument> recordDocuments = recordDocumentsPage.getContent();
+        Page<RecordDocument> recordDocumentsPage = this.recordRepository.findByMainTitleContaining(title, pageable);
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocumentsPage);
+    }
+
+    @Override
+    public List<Record> searchByTitle(String title) {
+        List<RecordDocument> recordDocuments = this.recordRepository.findByMainTitleContaining(title);
+
+        return this.mapRecordDocumentListToRecordList(recordDocuments);
+    }
+
+    @Override
+    public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page) {
+        Page<RecordDocument> recordDocuments =
+                this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType, page);
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocuments);
+    }
+
+    private Page<Record> mapRecordDocumentPageToRecordPage(Page<RecordDocument> recordDocumentPage) {
+        List<RecordDocument> recordDocuments = recordDocumentPage.getContent();
         List<Record> records = new ArrayList<>();
         recordDocuments.forEach(recordDocument ->
-            records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
+                records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
+        );
+        Pageable pageable = new PageRequest(recordDocumentPage.getNumber(), recordDocumentPage.getSize());
+
+        return new PageImpl<>(records, pageable, recordDocumentPage.getTotalElements());
+    }
+
+    private List<Record> mapRecordDocumentListToRecordList(List<RecordDocument> recordDocuments) {
+        List<Record> records = new ArrayList<>();
+        recordDocuments.forEach(recordDocument ->
+                records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
         );
 
-        return new PageImpl<>(records, pageable, recordDocumentsPage.getTotalElements());
+        return records;
     }
 }

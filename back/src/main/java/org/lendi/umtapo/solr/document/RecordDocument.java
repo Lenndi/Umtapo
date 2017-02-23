@@ -136,6 +136,9 @@ public class RecordDocument {
     @Field
     private boolean isModified;
 
+    @Field
+    private ArrayList<String> items;
+
     /**
      * Instantiates a new Record document.
      */
@@ -146,6 +149,7 @@ public class RecordDocument {
         this.types = new ArrayList<>();
         this.subtitles = new ArrayList<>();
         this.others = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -884,5 +888,50 @@ public class RecordDocument {
      */
     public void setIsModified(boolean modified) {
         isModified = modified;
+    }
+
+    /**
+     * Is modified boolean.
+     *
+     * @return the booleanothers
+     */
+    public boolean isModified() {
+        return isModified;
+    }
+
+    /**
+     * Sets modified.
+     *
+     * @param modified the modified
+     */
+    public void setModified(boolean modified) {
+        isModified = modified;
+    }
+
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
+    public ArrayList<String> getItems() {
+        return items;
+    }
+
+    /**
+     * Sets items.
+     *
+     * @param items the items
+     */
+    public void setItems(ArrayList<String> items) {
+        this.items = items;
+    }
+
+    /**
+     * Add item.
+     *
+     * @param itemId the item id
+     */
+    public void addItem(String itemId) {
+        this.items.add(itemId);
     }
 }
