@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.ZonedDateTime;
 
-
 /**
  * Loan dto.
  * <p>
@@ -37,7 +36,13 @@ public class LoanDto {
      * @param returned the returned
      * @param item     the item
      */
-    public LoanDto(Integer id, ZonedDateTime start, ZonedDateTime end, BorrowerDto borrower, Boolean returned, ItemDto item) {
+    public LoanDto(
+            Integer id,
+            ZonedDateTime start,
+            ZonedDateTime end,
+            BorrowerDto borrower,
+            Boolean returned,
+            ItemDto item) {
         this.id = id;
         this.start = start;
         this.end = end;

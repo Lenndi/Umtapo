@@ -81,6 +81,6 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param loan             the loan
      * @return the borrower
      */
-    LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan);
+    LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
 }
 

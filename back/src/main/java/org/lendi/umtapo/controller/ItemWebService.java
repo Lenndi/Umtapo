@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Item web service.
@@ -101,32 +100,40 @@ public class ItemWebService {
     /**
      * Gets item.
      *
-     * @param page      the page
-     * @param size      the size
-     * @param contains  the contains
-     * @param attribute the attribute
+     * @param page         the page
+     * @param size         the size
+     * @param serialNumber the serial number
+     * @param serialType   the serial type
+     * @param mainTitle    the main title
      * @return the item
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<ItemDto> getItemSearchs(@PathParam("page") Integer page,
                                                   @PathParam("size") Integer size,
-                                                  @PathParam("contains") String contains,
-                                                  @PathParam("attribute") String attribute) {
+                                                  @PathParam("serialNumber") String serialNumber,
+                                                  @PathParam("serialType") String serialType,
+                                                  @PathParam("mainTitle") String mainTitle) {
 
         Page<ItemDto> itemDtos = null;
+        Pageable pageable;
 
-        if (size != null && page != null && contains != null) {
-            Pageable pageable = new PageRequest(page, size, new Sort("id"));
-            if (Objects.equals(attribute, "serialNumber")) {
-                itemDtos = this.itemService.findAllPageableDtoByRecordIdentifierSerialNumber(pageable, contains);
-            } else if (Objects.equals(attribute, "mainTitle")) {
-                itemDtos = this.itemService.findAllPageableDtoByRecordTitelMainTitle(pageable, contains);
-            }
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = 100;
+        }
+        pageable = new PageRequest(page, size, new Sort("id"));
+
+        if (serialNumber != null && serialType != null) {
+            itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
+        } else if (mainTitle != null && serialType != null) {
+            itemDtos = this.itemService.findAllPageableDtoByRecordTitelMainTitle(pageable, mainTitle);
         }
         if (itemDtos == null) {
             LOGGER.info("Items not found");
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(itemDtos, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(itemDtos, HttpStatus.OK);
     }
@@ -199,13 +206,16 @@ public class ItemWebService {
                             return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus.ACCEPTED);
                         }
                     }
-                } else if (item.getLoanable() == null || !item.getLoanable()){
+                } else if (item.getLoanable() == null || !item.getLoanable()) {
                     return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus
                             .ACCEPTED);
                 }
             }
             try {
                 itemService.patchItem(jsonNodeItem, item);
+            } catch (final IllegalAccessException e) {
+                LOGGER.error("JsonPatch Error" + e);
+                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             } catch (final InvalidRecordException e) {
                 LOGGER.fatal(e.getMessage());
                 ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");

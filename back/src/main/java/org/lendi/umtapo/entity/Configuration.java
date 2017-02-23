@@ -18,7 +18,6 @@ public class Configuration {
     private Integer id;
     private String masterToken;
 
-
     /**
      * Gets id.
      *

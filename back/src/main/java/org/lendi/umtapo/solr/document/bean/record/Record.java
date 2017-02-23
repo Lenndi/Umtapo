@@ -1,4 +1,4 @@
-package org.lendi.umtapo.entity;
+package org.lendi.umtapo.solr.document.bean.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.lendi.umtapo.solr.document.bean.record.Contributor;
@@ -38,12 +38,14 @@ public class Record {
     private Language language;
     private Coverage coverage;
     private Right right;
+    private List<String> items;
 
     /**
      * Instantiates a new Record document.
      */
     public Record() {
         this.contributors = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -305,5 +307,32 @@ public class Record {
      */
     public void setRight(Right right) {
         this.right = right;
+    }
+
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
+    public List<String> getItems() {
+        return items;
+    }
+
+    /**
+     * Sets items.
+     *
+     * @param items the items
+     */
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
+
+    /**
+     * Add item.
+     *
+     * @param itemId the item id
+     */
+    public void addItem(String itemId) {
+        this.items.add(itemId);
     }
 }

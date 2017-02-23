@@ -8,7 +8,7 @@ import org.lendi.umtapo.solr.document.bean.record.Description;
 import org.lendi.umtapo.solr.document.bean.record.Identifier;
 import org.lendi.umtapo.solr.document.bean.record.Language;
 import org.lendi.umtapo.solr.document.bean.record.Publisher;
-import org.lendi.umtapo.entity.Record;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.lendi.umtapo.solr.document.bean.record.RecordDate;
 import org.lendi.umtapo.solr.document.bean.record.Right;
 import org.lendi.umtapo.solr.document.bean.record.Source;
@@ -34,29 +34,29 @@ public class UnimarcToSimpleRecord implements RecordTransformer<Record> {
     @Override
     public Record transform(org.marc4j.marc.Record baseRecord) {
         this.record = baseRecord;
-        Record record;
+        Record beanRecord;
 
         if (this.record == null) {
-            record = null;
+            beanRecord = null;
         } else {
-            record = new Record();
+            beanRecord = new Record();
 
-            record.setTitle(this.processTitle());
-            record.setCreator(this.processCreator());
-            record.setSubject(this.processSubject());
-            record.setDescription(this.processDescription());
-            record.setPublisher(this.processPublisher());
-            record.setContributors(this.processContributors());
-            record.setDate(this.processDate());
-            record.setType(this.processType());
-            record.setIdentifier(this.processIdentifier());
-            record.setSource(this.processSource());
-            record.setLanguage(this.processLanguage());
-            record.setCoverage(this.processCoverage());
-            record.setRight(this.processRight());
+            beanRecord.setTitle(this.processTitle());
+            beanRecord.setCreator(this.processCreator());
+            beanRecord.setSubject(this.processSubject());
+            beanRecord.setDescription(this.processDescription());
+            beanRecord.setPublisher(this.processPublisher());
+            beanRecord.setContributors(this.processContributors());
+            beanRecord.setDate(this.processDate());
+            beanRecord.setType(this.processType());
+            beanRecord.setIdentifier(this.processIdentifier());
+            beanRecord.setSource(this.processSource());
+            beanRecord.setLanguage(this.processLanguage());
+            beanRecord.setCoverage(this.processCoverage());
+            beanRecord.setRight(this.processRight());
         }
 
-        return record;
+        return beanRecord;
     }
 
     /**

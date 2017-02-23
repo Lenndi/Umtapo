@@ -116,7 +116,7 @@ public class LoanWebService {
         } else {
             try {
                 loanService.patchLoan(jsonNodeLoan, loan);
-            } catch (final Exception e) {
+            } catch (final IllegalAccessException e) {
                 LOGGER.error("JsonPatch Error" + e);
                 return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
             }

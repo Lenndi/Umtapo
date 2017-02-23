@@ -3,13 +3,14 @@ package org.lendi.umtapo.solr.service.implementation;
 import org.lendi.umtapo.mapper.RecordMapper;
 import org.lendi.umtapo.solr.document.RecordDocument;
 import org.lendi.umtapo.solr.document.bean.record.Identifier;
-import org.lendi.umtapo.entity.Record;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.repository.SolrRecordRepository;
 import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -82,7 +83,7 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     public List<Record> searchBySerialNumber(String serialNumber, String serialType) {
         List<RecordDocument> recordDocuments;
         List<Record> records = new ArrayList<>();
-        recordDocuments = this.recordRepository.findBySerialNumberAndSerialType(serialNumber, serialType);
+        recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType);
         recordDocuments.forEach(recordDocument ->
             records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
         );
@@ -93,12 +94,26 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     @Override
     public Page<Record> searchByTitle(String title, Pageable pageable) {
         Page<RecordDocument> recordDocumentsPage = this.recordRepository.findByMainTitle(title, pageable);
-        List<RecordDocument> recordDocuments = recordDocumentsPage.getContent();
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocumentsPage);
+    }
+
+    @Override
+    public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page) {
+        Page<RecordDocument> recordDocuments =
+                this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber,serialType, page);
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocuments);
+    }
+
+    private Page<Record> mapRecordDocumentPageToRecordPage(Page<RecordDocument> recordDocumentPage) {
+        List<RecordDocument> recordDocuments = recordDocumentPage.getContent();
         List<Record> records = new ArrayList<>();
         recordDocuments.forEach(recordDocument ->
-            records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
+                records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
         );
+        Pageable pageable = new PageRequest(recordDocumentPage.getNumber(), recordDocumentPage.getSize());
 
-        return new PageImpl<>(records, pageable, recordDocumentsPage.getTotalElements());
+        return new PageImpl<>(records, pageable, recordDocumentPage.getTotalElements());
     }
 }

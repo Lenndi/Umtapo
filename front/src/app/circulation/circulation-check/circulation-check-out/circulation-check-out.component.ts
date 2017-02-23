@@ -46,8 +46,7 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.serialNumber);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains,
-        'serialNumber'))
+      .switchMap((contains: string) => this.itemService.findPaginableBySerialNumber(this.size, this.page, contains, "ISBN"))
       .catch(err => console.log(err))
       .map(res => this.itemsSerialNumber = res as Item[]);
 
@@ -56,8 +55,8 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.title);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByContains(this.size, this.page, contains,
-        'mainTitle'))
+      .switchMap((contains: string) => this.itemService.findPaginableByMainTitle(this.size, this.page, contains,
+        'ISBN'))
       .map(res => this.itemsTitle = res as Item[]);
   }
 
@@ -68,12 +67,6 @@ export class CirculationCheckOutComponent implements OnInit {
     this.selectedItem = itemTypeahead.item;
   }
 
-  public changeTypeaheadNoResultsSerialNumber(e: boolean): void {
-    if (!this.serialNumber) {
-      this.itemsSerialNumber = [];
-    }
-  }
-
   public typeaheadOnSelectTitle(itemTypeahead: TypeaheadMatch): void {
     this.selectedItem = itemTypeahead.item;
   }
@@ -81,6 +74,12 @@ export class CirculationCheckOutComponent implements OnInit {
   public changeTypeaheadNoResultsTitle(e: boolean): void {
     if (!this.title) {
       this.itemsTitle = [];
+    }
+  }
+  
+  public changeTypeaheadNoResultsSerialNumber(e: boolean): void {
+    if (!this.serialNumber) {
+      this.itemsSerialNumber = [];
     }
   }
 

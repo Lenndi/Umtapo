@@ -7,7 +7,7 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.solr.document.ContributorDocument;
 import org.lendi.umtapo.solr.document.RecordDocument;
 import org.lendi.umtapo.solr.document.bean.record.Contributor;
-import org.lendi.umtapo.entity.Record;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;

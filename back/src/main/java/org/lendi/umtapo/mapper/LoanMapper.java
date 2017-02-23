@@ -8,6 +8,7 @@ import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ import java.util.Map;
  */
 @Component
 public class LoanMapper extends ConfigurableMapper {
+
+    private static final Logger LOGGER = Logger.getLogger(ItemMapper.class);
 
     private static final MapperFacade MAPPER;
     private static final MapperFacade MAPPER_PATCH;
@@ -57,7 +60,7 @@ public class LoanMapper extends ConfigurableMapper {
                                         }
                                         field.set(loan, value);
                                     } catch (final IllegalAccessException e) {
-                                        e.printStackTrace();
+                                        LOGGER.error("Dynamic JsonPatch Failed" + e);
                                     }
                                 }
                             }
@@ -91,7 +94,7 @@ public class LoanMapper extends ConfigurableMapper {
      * @param loan     the loan
      * @param jsonNode the json node
      */
-    public void mergeLoanAndJsonNode(Loan loan, JsonNode jsonNode) {
+    public void mergeLoanAndJsonNode(Loan loan, JsonNode jsonNode) throws IllegalAccessException {
         MAPPER_PATCH.map(loan, jsonNode);
     }
 

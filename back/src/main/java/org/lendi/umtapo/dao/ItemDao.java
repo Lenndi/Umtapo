@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Item Dao.
@@ -47,4 +49,12 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      * @return the page
      */
     Page<Item> findByRecordTitleMainTitleContainingIgnoreCase(String contains, Pageable pageable);
+
+    /**
+     * Find by ids list.
+     *
+     * @param id the id
+     * @return the list
+     */
+    Page<Item> findByIdIn(Collection<Integer> id, Pageable pageable);
 }

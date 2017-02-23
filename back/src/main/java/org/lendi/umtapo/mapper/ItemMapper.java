@@ -9,6 +9,7 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.enumeration.Condition;
@@ -27,13 +28,15 @@ import java.util.Map;
 @Component
 public class ItemMapper extends ConfigurableMapper {
 
+    private static final Logger LOGGER = Logger.getLogger(ItemMapper.class);
+
     private static final MapperFacade MAPPER;
     private static final MapperFacade MAPPER_PATCH;
 
     static {
         final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-        mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+        converterFactory.registerConverter(new PassThroughConverter(ZonedDateTime.class));
         converterFactory.registerConverter("priceConverter", new PriceConverter());
 
         mapperFactory.classMap(Item.class, ItemDto.class)
@@ -67,7 +70,7 @@ public class ItemMapper extends ConfigurableMapper {
                                         }
                                         field.set(item, value);
                                     } catch (final IllegalAccessException e) {
-                                        e.printStackTrace();
+                                        LOGGER.error("Dynamic JsonPatch Failed" + e);
                                     }
                                 }
                             }
@@ -90,7 +93,7 @@ public class ItemMapper extends ConfigurableMapper {
      * @param item     the item
      * @param jsonNode the json node
      */
-    public void mergeItemAndJsonNode(Item item, JsonNode jsonNode) {
+    public void mergeItemAndJsonNode(Item item, JsonNode jsonNode) throws IllegalAccessException {
         MAPPER_PATCH.map(item, jsonNode);
     }
 

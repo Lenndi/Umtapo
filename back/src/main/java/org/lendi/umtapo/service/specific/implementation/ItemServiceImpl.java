@@ -7,7 +7,8 @@ import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.mapper.ItemMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.ItemService;
-import org.lendi.umtapo.entity.Record;
+import org.lendi.umtapo.solr.document.bean.record.Identifier;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.lendi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +50,41 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
+    public int addition(int i, int a) {
+        return i + a;
+    }
+
+    @Override
     public Item saveWithRecord(Item item) throws InvalidRecordException {
+        Record record = null;
+
         if (item.getRecord() != null) {
-            Record record = this.solrRecordService.save(item.getRecord());
+            Identifier identifier = item.getRecord().getIdentifier();
+            String serial = identifier.getSerialNumber();
+            String serialType = identifier.getSerialType();
+            List<Record> records = this.solrRecordService.searchBySerialNumber(serial, serialType);
+
+            if (records.isEmpty()) {
+                record = this.solrRecordService.save(item.getRecord());
+            } else {
+                record = records.get(0);
+            }
+
             item.setRecordId(record.getId());
         }
 
-        return this.save(item);
+        if (item.getInternalId() == null) {
+            Integer previousInternalId = this.itemDao.findTopInternalId();
+            item.setInternalId(previousInternalId + 1);
+        }
+
+        Item savedItem = this.save(item);
+        if (record != null) {
+            record.addItem(item.getId().toString());
+            this.solrRecordService.save(record);
+        }
+
+        return savedItem;
     }
 
     /**
@@ -63,23 +92,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      */
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
-
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
-        if (item.getInternalId() == null) {
-            Integer previousInternalId = this.itemDao.findTopInternalId();
-            item.setInternalId(previousInternalId + 1);
-        }
         item = this.saveWithRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
-    }
-
-    @Override
-    public Item findOne(Integer integer) {
-        Item item = super.findOne(integer);
-        this.linkRecord(item);
-
-        return item;
     }
 
     /**
@@ -88,30 +104,26 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
+        this.linkRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
 
     @Override
-    public List<Item> findAll() {
-        List<Item> items = super.findAll();
+    public List<ItemDto> findAllDto() {
+        List<Item> items = this.findAll();
         items.forEach(this::linkRecord);
 
-        return items;
-    }
-
-    @Override
-    public List<ItemDto> findAllDto() {
-        return mapItemsToItemsDto(this.findAll());
+        return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
     /**
      * {@inheritDoc}
      */
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
+        return this.mapItemToItemDto(this.saveWithRecord(item));
     }
 
     /**
@@ -135,10 +147,28 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public Page<ItemDto> findAllPageableDtoByRecordIdentifierSerialNumber(Pageable pageable, String contains) {
+    public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable) {
 
-        Page<Item> items = itemDao.findByRecordIdentifierSerialNumberContainingIgnoreCase(contains, pageable);
-        return this.mapItemsToItemDtosPage(items);
+        List<Integer> itemIds = new ArrayList<>();
+        Page<Item> items = null;
+        Page<ItemDto> itemDtos = null;
+
+        List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
+        if(records.size() > 0) {
+            Record record = records.get(0);
+            record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
+
+            if (itemIds.size() > 0) {
+                items = this.itemDao.findByIdIn(itemIds, pageable);
+                items.getContent().forEach(item -> item.setRecord(record));
+            }
+        }
+
+        if(items != null){
+            itemDtos = this.mapItemsToItemDtosPage(items);
+        }
+
+        return itemDtos;
     }
 
     /**

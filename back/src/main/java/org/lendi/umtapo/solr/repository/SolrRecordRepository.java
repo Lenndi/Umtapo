@@ -27,7 +27,7 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
      * @param serialType   the serial type
      * @return the list
      */
-    List<RecordDocument> findBySerialNumberAndSerialType(String serialNumber, String serialType);
+    List<RecordDocument> findBySerialNumberContainingAndSerialType(String serialNumber, String serialType);
 
     /**
      * Find record documents by main title.
@@ -37,4 +37,14 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
      * @return the page
      */
     Page<RecordDocument> findByMainTitle(String title, Pageable page);
+
+    /**
+     * Find item by serialNumber.
+     *
+     * @param serialNumber the serial number
+     * @param serialType   the serial type
+     * @param page         the page
+     * @return the page
+     */
+    Page<RecordDocument> findBySerialNumberContainingAndSerialType(String serialNumber, String serialType, Pageable page);
 }

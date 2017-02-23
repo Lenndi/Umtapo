@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
 import {Observable} from 'rxjs';
+import {Item} from "../entity/item";
 
 @Injectable()
 export class BorrowerService {
@@ -39,13 +40,17 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginableByName(size: number, page: number, contains: string): Observable<Borrower[]> {
-    let options = new RequestOptions({headers: this.headers});
+  findPaginable(size: number, page: number, nameOrEmail: string): Observable<Response> {
     return this.http
-      .get(`http://localhost:8080/borrowers/searchs?size=${size}&page=${page}&contains=${contains}&attribute=name`,
-        options)
-      .map((r: Response) => r.json().content as Borrower[]);
-
+      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
+      .map(r => {
+        if(r.status != 200){
+          return [];
+        } else {
+          console.log(r.json().content);
+          return r.json().content;
+        }
+      });
   }
 
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {

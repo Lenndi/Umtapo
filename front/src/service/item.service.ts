@@ -57,12 +57,34 @@ export class ItemService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginableByContains(size: number, page: number, contains: string, attribute: string): Observable<Item[]> {
+  findPaginableBySerialNumber(size: number, page: number, serialNumber: string, serialType: string): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&contains=${contains}&attribute=${attribute}`,
+      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&serialNumber=${serialNumber}&&serialType=${serialType}`,
         options)
-      .map((r: Response) => r.json().content as Item[]);
+      .map(r => {
+        if(r.status != 200){
+          return [];
+        } else {
+          console.log(r.json().content);
+          return r.json().content;
+        }
+      });
+  }
+
+  findPaginableByMainTitle(size: number, page: number, mainTitle: string, serialType: string): Observable<Item[]> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&mainTitle=${mainTitle}&&serialType=${serialType}`,
+        options)
+      .map(r => {
+        if(r.status != 200){
+          return [];
+        } else {
+          console.log(r.json().content);
+          return r.json().content;
+        }
+      });
   }
 
   searchItemByInternalId(itemInternalId: number): Observable<Response> {

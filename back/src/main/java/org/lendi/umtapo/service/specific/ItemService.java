@@ -1,6 +1,7 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ import java.util.List;
  */
 @Service
 public interface ItemService extends GenericService<Item, Integer> {
+
+    public int addition(int i, int a);
 
     /**
      * {@inheritDoc}
@@ -27,7 +31,8 @@ public interface ItemService extends GenericService<Item, Integer> {
      * Persist an Item with the associated record.
      *
      * @param item item to persist
-     * @return item
+     * @return item item
+     * @throws InvalidRecordException the invalid record exception
      */
     Item saveWithRecord(Item item) throws InvalidRecordException;
 
@@ -80,8 +85,10 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
+     * @throws InvalidRecordException the invalid record exception
+     * @throws IllegalAccessException the illegal access exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException;
 
     /**
      * Find by internal id item dto.
@@ -102,11 +109,12 @@ public interface ItemService extends GenericService<Item, Integer> {
     /**
      * Find all pageable dto by record identifier serial number page.
      *
-     * @param pageable the pageable
-     * @param contains the contains
+     * @param serialNumber the serial number
+     * @param serialType   the serial type
+     * @param pageable     the pageable
      * @return the page
      */
-    public Page<ItemDto> findAllPageableDtoByRecordIdentifierSerialNumber(Pageable pageable, String contains);
+    public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
 
 
     /**
@@ -117,4 +125,4 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @return the page
      */
     public Page<ItemDto> findAllPageableDtoByRecordTitelMainTitle(Pageable pageable, String contains);
-    }
+}

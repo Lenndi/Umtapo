@@ -2,6 +2,7 @@ package org.lendi.umtapo.entity;
 
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
+import org.lendi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -167,10 +168,10 @@ public class Item {
     /**
      * Sets loans.
      *
-     * @param loans the loans
+     * @param loanList the loans
      */
-    public void setLoan(List<Loan> loans) {
-        this.loans = loans;
+    public void setLoan(List<Loan> loanList) {
+        this.loans = loanList;
     }
 
     /**

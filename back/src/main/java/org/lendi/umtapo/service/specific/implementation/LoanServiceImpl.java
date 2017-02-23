@@ -7,6 +7,8 @@ import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.mapper.LoanMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.LoanService;
+import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,18 +26,24 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
 
     private final LoanMapper loanMapper;
     private final LoanDao loanDao;
+    private final SolrBorrowerService solrBorrowerService;
 
     /**
      * Instantiates a new Loan service.
      *
      * @param loanMapper the loan mapper
      * @param loanDao    the loan dao
+     * @param solrBorrowerService BorrowerDocument repository
      */
     @Autowired
-    public LoanServiceImpl(LoanMapper loanMapper, LoanDao loanDao) {
-        this.loanDao = loanDao;
+    public LoanServiceImpl(LoanMapper loanMapper, LoanDao loanDao, SolrBorrowerService solrBorrowerService) {
         Assert.notNull(loanMapper);
+        Assert.notNull(loanDao);
+        Assert.notNull(solrBorrowerService);
+
+        this.loanDao = loanDao;
         this.loanMapper = loanMapper;
+        this.solrBorrowerService = solrBorrowerService;
     }
 
     /**
@@ -45,6 +53,20 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     public LoanDto saveDto(LoanDto loanDto) {
         Loan loan = this.loanMapper.mapLoanDtoToLoan(loanDto);
         loan = this.save(loan);
+
+        Integer borrowerId = loanDto.getBorrower().getId();
+        BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
+        borrowerDocument.setNbLoans(this.findAllDtoByBorrowerIdAndReturned(borrowerId).size());
+
+        if (borrowerDocument.getNbLoans() > borrowerDocument.getQuota()) {
+            borrowerDocument.setTooMuchLoans(true);
+        } else {
+            borrowerDocument.setTooMuchLoans(false);
+        }
+
+        Loan olderLoanToReturn = this.loanDao.findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(borrowerId);
+        borrowerDocument.setOlderReturn(olderLoanToReturn.getEnd());
+        this.solrBorrowerService.saveToIndex(borrowerDocument);
 
         return this.loanMapper.mapLoanToLoanDto(loan);
     }
@@ -89,7 +111,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan){
+    public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IllegalAccessException {
 
         loanMapper.mergeLoanAndJsonNode(loan, jsonNodeLoan);
         return this.mapLoanToLoanDto(this.save(loan));
