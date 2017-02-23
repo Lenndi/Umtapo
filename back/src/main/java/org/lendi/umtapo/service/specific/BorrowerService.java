@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.service.generic.GenericService;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,6 +30,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      *
      * @param entity the entity
      * @return borrower dto
+     * @throws InvalidRecordException the invalid record exception
      */
     BorrowerDto saveDto(BorrowerDto entity) throws InvalidRecordException;
 
@@ -68,13 +67,13 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     /**
      * Find all borrower dto with filters page.
      *
-     * @param name                 the name
-     * @param email                the email
-     * @param city                 the city
-     * @param id                   the id
+     * @param name                the name
+     * @param email               the email
+     * @param city                the city
+     * @param id                  the id
      * @param fromSubscriptionEnd the start subscription end
      * @param toSubscriptionEnd   the end subscription end
-     * @param page                 the page
+     * @param page                the page
      * @return the page
      */
     Page<BorrowerDto> findAllBorrowerDtoWithFilters(
@@ -107,8 +106,7 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param jsonNodeBorrower the json node borrower
      * @param borrower         the borrower
      * @return the borrower
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
+     * @throws IllegalAccessException the illegal access exception
      */
     BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException;
 
@@ -119,6 +117,5 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param contains the contains
      * @return the page
      */
-    public Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains);
-
-    }
+    Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains);
+}

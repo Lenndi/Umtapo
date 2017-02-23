@@ -92,6 +92,7 @@ public class ItemMapper extends ConfigurableMapper {
      *
      * @param item     the item
      * @param jsonNode the json node
+     * @throws IllegalAccessException the illegal access exception
      */
     public void mergeItemAndJsonNode(Item item, JsonNode jsonNode) throws IllegalAccessException {
         MAPPER_PATCH.map(item, jsonNode);

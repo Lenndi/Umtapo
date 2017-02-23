@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
@@ -9,7 +8,6 @@ import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
-import java.io.IOException;
 import java.util.List;
 
 
@@ -62,10 +59,15 @@ public class LoanWebService {
      * Gets loans.
      *
      * @param borrowerId the id
+     * @param page       the page
+     * @param size       the size
+     * @param contains   the contains
      * @return the loans
      */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId, @PathParam("page") Integer page, @PathParam("size") Integer size,
+    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId,
+                                   @PathParam("page") Integer page,
+                                   @PathParam("size") Integer size,
                                    @PathParam("contains") String contains) {
 
         List<LoanDto> loans;
@@ -103,12 +105,10 @@ public class LoanWebService {
      * @param jsonNodeLoan the json node loan
      * @param id           the id
      * @return the response entity
-     * @throws IOException        the io exception
-     * @throws JsonPatchException the json patch exception
      */
     @RequestMapping(value = "/loans/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
             "application/json", "application/json-patch+json"})
-    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id){
+    public ResponseEntity patch(@RequestBody JsonNode jsonNodeLoan, @PathVariable Integer id) {
 
         Loan loan = loanService.findOne(id);
         if (loan == null) {

@@ -46,7 +46,10 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.serialNumber);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableBySerialNumber(this.size, this.page, contains, "ISBN"))
+      .switchMap(
+        (contains: string) =>
+          this.itemService.findPaginableBySerialNumber(this.size, this.page, contains, 'ISBN')
+      )
       .catch(err => console.log(err))
       .map(res => this.itemsSerialNumber = res as Item[]);
 
@@ -76,7 +79,7 @@ export class CirculationCheckOutComponent implements OnInit {
       this.itemsTitle = [];
     }
   }
-  
+
   public changeTypeaheadNoResultsSerialNumber(e: boolean): void {
     if (!this.serialNumber) {
       this.itemsSerialNumber = [];

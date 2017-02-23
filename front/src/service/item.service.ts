@@ -57,13 +57,19 @@ export class ItemService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginableBySerialNumber(size: number, page: number, serialNumber: string, serialType: string): Observable<Item[]> {
+  findPaginableBySerialNumber(
+    size: number,
+    page: number,
+    serialNumber: string,
+    serialType: string
+  ): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&serialNumber=${serialNumber}&&serialType=${serialType}`,
+      .get(`http://localhost:8080/items/searchs
+        ?size=${size}&page=${page}&serialNumber=${serialNumber}&serialType=${serialType}`,
         options)
       .map(r => {
-        if(r.status != 200){
+        if (r.status != 200) {
           return [];
         } else {
           console.log(r.json().content);
@@ -75,10 +81,11 @@ export class ItemService {
   findPaginableByMainTitle(size: number, page: number, mainTitle: string, serialType: string): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&mainTitle=${mainTitle}&serialType=${serialType}`,
+      .get(`http://localhost:8080/items/searchs
+          ?size=${size}&page=${page}&mainTitle=${mainTitle}&serialType=${serialType}`,
         options)
       .map(r => {
-        if(r.status != 200){
+        if (r.status != 200) {
           return [];
         } else {
           console.log(r.json().content);

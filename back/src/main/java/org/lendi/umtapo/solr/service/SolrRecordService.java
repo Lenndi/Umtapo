@@ -1,7 +1,6 @@
 package org.lendi.umtapo.solr.service;
 
 import org.lendi.umtapo.solr.document.bean.record.Record;
-import org.lendi.umtapo.solr.document.RecordDocument;
 import org.lendi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +62,15 @@ public interface SolrRecordService {
      * @return the page
      */
     Page<Record> searchByTitle(String title, Pageable pageable);
+
+
+    /**
+     * Search by title list.
+     *
+     * @param title the title
+     * @return the list
+     */
+    List<Record> searchByTitle(String title);
 
     /**
      * Find item by serialNumber.

@@ -20,13 +20,13 @@ import java.io.IOException;
 @Component
 public class SimpleCORSFilter implements Filter {
 
-    private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
     /**
      * Instantiates a new Simple cors filter.
      */
     public SimpleCORSFilter() {
-        log.info("SimpleCORSFilter init");
+        LOG.info("SimpleCORSFilter init");
     }
 
     @Override
@@ -39,8 +39,9 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, " +
-                "X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, X-XSRF-TOKEN");
+        response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, "
+                + "X-Requested-With, Content-Type, Access-Control-Request-Method, "
+                + "Access-Control-Request-Headers, X-XSRF-TOKEN");
         response.setHeader("Access-Control-Expose-Headers", "Location");
 
 

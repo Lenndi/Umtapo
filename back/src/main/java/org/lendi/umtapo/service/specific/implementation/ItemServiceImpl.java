@@ -149,7 +149,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         Page<ItemDto> itemDtos = null;
 
         List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
-        if(records.size() > 0) {
+        if (records.size() > 0) {
             Record record = records.get(0);
             record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
 
@@ -159,7 +159,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             }
         }
 
-        if(items != null) {
+        if (items != null) {
             itemDtos = this.mapItemsToItemDtosPage(items);
         }
 
@@ -170,7 +170,21 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      * {@inheritDoc}
      */
     public Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String title) {
-        Page<Record> records = solrRecordService.searchByTitle(title, pageable);
+        List<Record> records = solrRecordService.searchByTitle(title);
+        List<Integer> itemIds = new ArrayList<>();
+
+        records.forEach(record -> {
+            List<String> itemsIdStr = record.getItems();
+            itemsIdStr.forEach(idStr -> {
+                Integer id = Integer.parseInt(idStr);
+                if (!itemIds.contains(id)) {
+                    itemIds.add(id);
+                }
+            });
+        });
+
+        Page<Item> items = this.itemDao.findByIdIn(itemIds, pageable);
+        items.getContent().forEach(item -> item.setRecord(this.solrRecordService.findById(item.getRecordId())));
 
         return this.mapItemsToItemDtosPage(items);
     }

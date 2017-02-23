@@ -15,6 +15,10 @@ import org.lendi.umtapo.service.specific.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -121,29 +125,31 @@ public class BorrowerWebServiceTest {
     public void testGetBorrowers() throws Exception {
 
         List<BorrowerDto> borrowerDtos = Arrays.asList(borrowerDto, borrowerDto2);
+        Pageable pageable = new PageRequest(0, 100);
+        Page<BorrowerDto> borrowerDtoPage = new PageImpl<BorrowerDto>(borrowerDtos, pageable, 2);
 
-        given(this.borrowerService.findAllDto()).willReturn(borrowerDtos);
+        given(this.borrowerService.findAllDto(pageable)).willReturn(borrowerDtoPage);
 
         this.mockMvc.perform(get("/borrowers")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", is("NameTest")))
-                .andExpect(jsonPath("$[0].comment", is("CommentTest")))
+                .andExpect(jsonPath("$.content[0].name", is("NameTest")))
+                .andExpect(jsonPath("$.content[0].comment", is("CommentTest")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
-                .andExpect(jsonPath("$[0].quota", is(5)))
-                .andExpect(jsonPath("$[0].emailOptin", is(true)))
-                .andExpect(jsonPath("$[0].address", nullValue()))
-                .andExpect(jsonPath("$[0].subscriptions", nullValue()))
-                .andExpect(jsonPath("$[0].library", nullValue()))
-                .andExpect(jsonPath("$[1].name", is("NameTest2")))
-                .andExpect(jsonPath("$[1].comment", is("CommentTest2")))
+                .andExpect(jsonPath("$.content[0].quota", is(5)))
+                .andExpect(jsonPath("$.content[0].emailOptin", is(true)))
+                .andExpect(jsonPath("$.content[0].address", nullValue()))
+                .andExpect(jsonPath("$.content[0].subscriptions", nullValue()))
+                .andExpect(jsonPath("$.content[0].library", nullValue()))
+                .andExpect(jsonPath("$.content[1].name", is("NameTest2")))
+                .andExpect(jsonPath("$.content[1].comment", is("CommentTest2")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
-                .andExpect(jsonPath("$[1].quota", is(7)))
-                .andExpect(jsonPath("$[1].emailOptin", is(false)))
-                .andExpect(jsonPath("$[1].address", nullValue()))
-                .andExpect(jsonPath("$[1].subscriptions", nullValue()))
-                .andExpect(jsonPath("$[1].library", nullValue()));
-        verify(borrowerService, times(1)).findAllDto();
+                .andExpect(jsonPath("$.content[1].quota", is(7)))
+                .andExpect(jsonPath("$.content[1].emailOptin", is(false)))
+                .andExpect(jsonPath("$.content[1].address", nullValue()))
+                .andExpect(jsonPath("$.content[1].subscriptions", nullValue()))
+                .andExpect(jsonPath("$.content[1].library", nullValue()));
+        verify(borrowerService, times(1)).findAllDto(pageable);
         verifyNoMoreInteractions(borrowerService);
     }
 

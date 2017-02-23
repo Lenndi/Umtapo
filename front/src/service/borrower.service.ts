@@ -6,7 +6,6 @@ import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
 import {Observable} from 'rxjs';
-import {Item} from "../entity/item";
 
 @Injectable()
 export class BorrowerService {
@@ -44,7 +43,7 @@ export class BorrowerService {
     return this.http
       .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
       .map(r => {
-        if(r.status != 200){
+        if (r.status != 200) {
           return [];
         } else {
           console.log(r.json().content);

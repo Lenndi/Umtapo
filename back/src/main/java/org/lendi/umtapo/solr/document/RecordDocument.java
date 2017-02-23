@@ -926,6 +926,11 @@ public class RecordDocument {
         this.items = items;
     }
 
+    /**
+     * Add item.
+     *
+     * @param itemId the item id
+     */
     public void addItem(String itemId) {
         this.items.add(itemId);
     }

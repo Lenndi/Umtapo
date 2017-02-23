@@ -100,15 +100,22 @@ public class SolrRecordServiceImpl implements SolrRecordService {
 
     @Override
     public Page<Record> searchByTitle(String title, Pageable pageable) {
-        Page<RecordDocument> recordDocumentsPage = this.recordRepository.findByMainTitle(title, pageable);
+        Page<RecordDocument> recordDocumentsPage = this.recordRepository.findByMainTitleContaining(title, pageable);
 
         return this.mapRecordDocumentPageToRecordPage(recordDocumentsPage);
     }
 
     @Override
+    public List<Record> searchByTitle(String title) {
+        List<RecordDocument> recordDocuments = this.recordRepository.findByMainTitleContaining(title);
+
+        return this.mapRecordDocumentListToRecordList(recordDocuments);
+    }
+
+    @Override
     public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page) {
         Page<RecordDocument> recordDocuments =
-                this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber,serialType, page);
+                this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType, page);
 
         return this.mapRecordDocumentPageToRecordPage(recordDocuments);
     }
@@ -122,5 +129,14 @@ public class SolrRecordServiceImpl implements SolrRecordService {
         Pageable pageable = new PageRequest(recordDocumentPage.getNumber(), recordDocumentPage.getSize());
 
         return new PageImpl<>(records, pageable, recordDocumentPage.getTotalElements());
+    }
+
+    private List<Record> mapRecordDocumentListToRecordList(List<RecordDocument> recordDocuments) {
+        List<Record> records = new ArrayList<>();
+        recordDocuments.forEach(recordDocument ->
+                records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
+        );
+
+        return records;
     }
 }

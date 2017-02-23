@@ -201,9 +201,11 @@ public class ItemWebService {
                 if (jsonNodeItem.get("isBorrowed") != null && item.isBorrowed() != null) {
                     if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
                         if (!item.isBorrowed()) {
-                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_RENDERED.getValue(), HttpStatus.ACCEPTED);
+                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_RENDERED.getValue(),
+                                    HttpStatus.ACCEPTED);
                         } else if (item.isBorrowed()) {
-                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus.ACCEPTED);
+                            return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(),
+                                    HttpStatus.ACCEPTED);
                         }
                     }
                 } else if (item.getLoanable() == null || !item.getLoanable()) {

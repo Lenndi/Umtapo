@@ -93,6 +93,7 @@ public class LoanMapper extends ConfigurableMapper {
      *
      * @param loan     the loan
      * @param jsonNode the json node
+     * @throws IllegalAccessException the illegal access exception
      */
     public void mergeLoanAndJsonNode(Loan loan, JsonNode jsonNode) throws IllegalAccessException {
         MAPPER_PATCH.map(loan, jsonNode);

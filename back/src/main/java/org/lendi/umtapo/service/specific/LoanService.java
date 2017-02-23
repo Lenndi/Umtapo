@@ -6,7 +6,6 @@ import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -80,6 +79,7 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param jsonNodeBorrower the json node borrower
      * @param loan             the loan
      * @return the borrower
+     * @throws IllegalAccessException the illegal access exception
      */
     LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
 }

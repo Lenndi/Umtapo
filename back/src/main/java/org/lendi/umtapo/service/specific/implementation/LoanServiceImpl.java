@@ -6,6 +6,7 @@ import org.lendi.umtapo.dto.LoanDto;
 import org.lendi.umtapo.entity.Loan;
 import org.lendi.umtapo.mapper.LoanMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
+import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.service.specific.LoanService;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
@@ -27,23 +28,32 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     private final LoanMapper loanMapper;
     private final LoanDao loanDao;
     private final SolrBorrowerService solrBorrowerService;
+    private final ItemService itemService;
 
     /**
      * Instantiates a new Loan service.
      *
-     * @param loanMapper the loan mapper
-     * @param loanDao    the loan dao
+     * @param loanMapper          the loan mapper
+     * @param loanDao             the loan dao
      * @param solrBorrowerService BorrowerDocument repository
+     * @param itemService         the item service
      */
     @Autowired
-    public LoanServiceImpl(LoanMapper loanMapper, LoanDao loanDao, SolrBorrowerService solrBorrowerService) {
+    public LoanServiceImpl(
+            LoanMapper loanMapper,
+            LoanDao loanDao,
+            SolrBorrowerService solrBorrowerService,
+            ItemService itemService
+    ) {
         Assert.notNull(loanMapper);
         Assert.notNull(loanDao);
         Assert.notNull(solrBorrowerService);
+        Assert.notNull(itemService);
 
         this.loanDao = loanDao;
         this.loanMapper = loanMapper;
         this.solrBorrowerService = solrBorrowerService;
+        this.itemService = itemService;
     }
 
     /**
@@ -71,6 +81,14 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.loanMapper.mapLoanToLoanDto(loan);
     }
 
+    @Override
+    public Loan findOne(Integer integer) {
+        Loan loan = super.findOne(integer);
+        loan.setItem(this.itemService.linkRecord(loan.getItem()));
+
+        return loan;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -79,6 +97,14 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         Loan loan = this.findOne(id);
 
         return loanMapper.mapLoanToLoanDto(loan);
+    }
+
+    @Override
+    public List<Loan> findAll() {
+        List<Loan> loans = super.findAll();
+        loans.forEach(loan -> loan.setItem(this.itemService.linkRecord(loan.getItem())));
+
+        return loans;
     }
 
     /**
@@ -97,6 +123,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     @Override
     public List<LoanDto> findAllDtoByBorrowerIdAndReturned(Integer id) {
         List<Loan> loans = loanDao.findByBorrowerIdAndReturnedFalse(id);
+        loans.forEach(loan -> loan.setItem(this.itemService.linkRecord(loan.getItem())));
 
         return this.mapLoansToLoanDtos(loans);
     }
