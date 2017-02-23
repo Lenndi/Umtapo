@@ -6,8 +6,6 @@ import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Observable} from 'rxjs';
-import {Loan} from '../entity/loan';
-import {Borrower} from '../entity/borrower';
 
 @Injectable()
 export class ItemService {
@@ -65,8 +63,8 @@ export class ItemService {
   ): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs
-        ?size=${size}&page=${page}&serialNumber=${serialNumber}&serialType=${serialType}`,
+      .get('http://localhost:8080/items/searchs?size=' + size + '&page=' + page + '&serialNumber=' + serialNumber
+          + '&serialType=' + serialType,
         options)
       .map(r => {
         if (r.status != 200) {
@@ -81,8 +79,8 @@ export class ItemService {
   findPaginableByMainTitle(size: number, page: number, mainTitle: string, serialType: string): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs
-          ?size=${size}&page=${page}&mainTitle=${mainTitle}&serialType=${serialType}`,
+      .get('http://localhost:8080/items/searchs?size=' + size + '&page=' + page + '&mainTitle=' + mainTitle
+          + '&serialType=' + serialType,
         options)
       .map(r => {
         if (r.status != 200) {
