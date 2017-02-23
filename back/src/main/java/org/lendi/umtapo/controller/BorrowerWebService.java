@@ -95,7 +95,7 @@ public class BorrowerWebService {
                                        @PathParam("sort") String sort,
                                        @PathParam("order") String order) {
 
-        Page<BorrowerDto> borrowerDtos = null;
+        Page<BorrowerDto> borrowerDtos;
         if (page == null) {
             page = 0;
         }
@@ -142,7 +142,7 @@ public class BorrowerWebService {
                     name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, pageable);
         }
 
-        if (borrowerDtos.getTotalElements() == 0 || borrowerDtos == null) {
+        if (borrowerDtos.getTotalElements() == 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(borrowerDtos, HttpStatus.OK);
