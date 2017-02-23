@@ -75,7 +75,7 @@ export class ItemService {
   findPaginableByMainTitle(size: number, page: number, mainTitle: string, serialType: string): Observable<Item[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&mainTitle=${mainTitle}&&serialType=${serialType}`,
+      .get(`http://localhost:8080/items/searchs?size=${size}&page=${page}&mainTitle=${mainTitle}&serialType=${serialType}`,
         options)
       .map(r => {
         if(r.status != 200){

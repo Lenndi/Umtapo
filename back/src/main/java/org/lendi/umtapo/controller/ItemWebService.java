@@ -33,6 +33,7 @@ import java.util.List;
 public class ItemWebService {
 
     private static final Logger LOGGER = Logger.getLogger(ItemWebService.class);
+    private static final Integer DEFAULT_SIZE = 100;
 
     private final ItemService itemService;
 
@@ -107,8 +108,7 @@ public class ItemWebService {
      * @param mainTitle    the main title
      * @return the item
      */
-    @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE
-    })
+    @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ItemDto> getItemSearchs(@PathParam("page") Integer page,
                                                   @PathParam("size") Integer size,
                                                   @PathParam("serialNumber") String serialNumber,
@@ -122,14 +122,14 @@ public class ItemWebService {
             page = 0;
         }
         if (size == null) {
-            size = 100;
+            size = DEFAULT_SIZE;
         }
         pageable = new PageRequest(page, size, new Sort("id"));
 
         if (serialNumber != null && serialType != null) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
         } else if (mainTitle != null && serialType != null) {
-            itemDtos = this.itemService.findAllPageableDtoByRecordTitelMainTitle(pageable, mainTitle);
+            itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }
         if (itemDtos == null) {
             LOGGER.info("Items not found");

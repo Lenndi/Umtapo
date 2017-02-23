@@ -51,6 +51,13 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     }
 
     @Override
+    public Record findByItemId(Integer itemId) {
+        RecordDocument recordDocument = this.recordRepository.findByItems(itemId.toString());
+
+        return this.recordMapper.mapRecordDocumentToRecord(recordDocument);
+    }
+
+    @Override
     public Record save(Record record) throws InvalidRecordException {
         Identifier identifier = record.getIdentifier();
         if (record.getId() == null) {

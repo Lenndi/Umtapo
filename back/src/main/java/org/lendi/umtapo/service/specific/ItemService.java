@@ -1,7 +1,6 @@
 package org.lendi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatchException;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.service.generic.GenericService;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,8 +16,6 @@ import java.util.List;
  */
 @Service
 public interface ItemService extends GenericService<Item, Integer> {
-
-    public int addition(int i, int a);
 
     /**
      * {@inheritDoc}
@@ -96,7 +92,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param internalId the internal id
      * @return the item dto
      */
-    public ItemDto findByInternalId(Integer internalId);
+    ItemDto findByInternalId(Integer internalId);
 
     /**
      * Find all pageable dto page.
@@ -104,7 +100,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param pageable the pageable
      * @return the page
      */
-    public Page<ItemDto> findAllPageableDto(Pageable pageable);
+    Page<ItemDto> findAllPageableDto(Pageable pageable);
 
     /**
      * Find all pageable dto by record identifier serial number page.
@@ -114,7 +110,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param pageable     the pageable
      * @return the page
      */
-    public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
+    Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
 
 
     /**
@@ -124,5 +120,14 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param contains the contains
      * @return the page
      */
-    public Page<ItemDto> findAllPageableDtoByRecordTitelMainTitle(Pageable pageable, String contains);
+    Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String contains);
+
+
+    /**
+     * Link record item.
+     *
+     * @param item the item
+     * @return the item
+     */
+    Item linkRecord(Item item);
 }

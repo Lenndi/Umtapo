@@ -37,6 +37,15 @@ public interface SolrRecordService {
      */
     void delete(String id);
 
+
+    /**
+     * Find by item id record.
+     *
+     * @param itemId the item id
+     * @return the record
+     */
+    Record findByItemId(Integer itemId);
+
     /**
      * Search by serial number list.
      *

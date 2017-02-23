@@ -21,6 +21,14 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
     RecordDocument findById(String id);
 
     /**
+     * Find by items record document.
+     *
+     * @param id the id
+     * @return the record document
+     */
+    RecordDocument findByItems(String id);
+
+    /**
      * Find record documents by serial number and serial type.
      *
      * @param serialNumber the serial number

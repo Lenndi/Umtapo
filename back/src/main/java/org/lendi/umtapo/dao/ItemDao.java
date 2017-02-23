@@ -42,15 +42,6 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
     Page<Item> findByRecordIdentifierSerialNumberContainingIgnoreCase(String contains, Pageable pageable);
 
     /**
-     * Find by name containing ignore case page.
-     *
-     * @param contains the contains
-     * @param pageable the pageable
-     * @return the page
-     */
-    Page<Item> findByRecordTitleMainTitleContainingIgnoreCase(String contains, Pageable pageable);
-
-    /**
      * Find by ids list.
      *
      * @param id the id

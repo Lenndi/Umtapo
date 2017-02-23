@@ -50,11 +50,6 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public int addition(int i, int a) {
-        return i + a;
-    }
-
-    @Override
     public Item saveWithRecord(Item item) throws InvalidRecordException {
         Record record = null;
 
@@ -164,7 +159,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             }
         }
 
-        if(items != null){
+        if(items != null) {
             itemDtos = this.mapItemsToItemDtosPage(items);
         }
 
@@ -174,10 +169,20 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     /**
      * {@inheritDoc}
      */
-    public Page<ItemDto> findAllPageableDtoByRecordTitelMainTitle(Pageable pageable, String contains) {
+    public Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String title) {
+        Page<Record> records = solrRecordService.searchByTitle(title, pageable);
 
-        Page<Item> items = itemDao.findByRecordTitleMainTitleContainingIgnoreCase(contains, pageable);
         return this.mapItemsToItemDtosPage(items);
+    }
+
+    @Override
+    public Item linkRecord(Item item) {
+        if (item.getRecordId() != null) {
+            Record record = this.solrRecordService.findById(item.getRecordId());
+            item.setRecord(record);
+        }
+
+        return item;
     }
 
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {
@@ -201,15 +206,6 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
     private ItemDto mapItemToItemDto(Item item) {
         return this.itemMapper.mapItemToItemDto(item);
-    }
-
-    private Item linkRecord(Item item) {
-        if (item.getRecordId() != null) {
-            Record record = this.solrRecordService.findById(item.getRecordId());
-            item.setRecord(record);
-        }
-
-        return item;
     }
 
     private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {

@@ -35,7 +35,7 @@ export class LoanService {
   findAllDtoByBorrowerIdAndReturned(borrowerId: number): Promise<Loan[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .get(`${this.loanUrl}?id=${borrowerId}`, options)
+      .get(`${this.loanUrl}?borrowerId=${borrowerId}`, options)
       .toPromise()
       .then(response => response.json() as Loan[])
       .catch(error => this.httpLogger.error(error));

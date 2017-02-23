@@ -61,17 +61,17 @@ public class LoanWebService {
     /**
      * Gets loans.
      *
-     * @param id the id
+     * @param borrowerId the id
      * @return the loans
      */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getLoans(@PathParam("id") Integer id, @PathParam("page") Integer page, @PathParam("size") Integer size,
+    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId, @PathParam("page") Integer page, @PathParam("size") Integer size,
                                    @PathParam("contains") String contains) {
 
         List<LoanDto> loans;
 
-        if (id != null) {
-            loans = loanService.findAllDtoByBorrowerIdAndReturned(id);
+        if (borrowerId != null) {
+            loans = loanService.findAllDtoByBorrowerIdAndReturned(borrowerId);
         } else {
             loans = loanService.findAllDto();
         }
