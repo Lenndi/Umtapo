@@ -109,7 +109,7 @@ public class ItemWebService {
      * @return the item
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ItemDto> getItemSearchs(@PathParam("page") Integer page,
+    public ResponseEntity getItemSearchs(@PathParam("page") Integer page,
                                                   @PathParam("size") Integer size,
                                                   @PathParam("serialNumber") String serialNumber,
                                                   @PathParam("serialType") String serialType,
@@ -128,14 +128,14 @@ public class ItemWebService {
 
         if (serialNumber != null && serialType != null) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
-        } else if (mainTitle != null && serialType != null) {
+        } else if (mainTitle != null) {
             itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }
         if (itemDtos == null) {
             LOGGER.info("Items not found");
-            return new ResponseEntity(itemDtos, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity(itemDtos, HttpStatus.OK);
+        return new ResponseEntity<>(itemDtos, HttpStatus.OK);
     }
 
     /**
@@ -197,13 +197,13 @@ public class ItemWebService {
         if (item == null) {
             return new ResponseEntity<>("This item do not exist", HttpStatus.NO_CONTENT);
         } else {
-            if (item.isBorrowed() != null) {
-                if (jsonNodeItem.get("isBorrowed") != null && item.isBorrowed() != null) {
-                    if (item.isBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
-                        if (!item.isBorrowed()) {
+            if (item.getBorrowed() != null) {
+                if (jsonNodeItem.get("isBorrowed") != null && item.getBorrowed() != null) {
+                    if (item.getBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
+                        if (!item.getBorrowed()) {
                             return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_RENDERED.getValue(),
                                     HttpStatus.ACCEPTED);
-                        } else if (item.isBorrowed()) {
+                        } else if (item.getBorrowed()) {
                             return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(),
                                     HttpStatus.ACCEPTED);
                         }
