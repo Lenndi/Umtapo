@@ -110,10 +110,10 @@ public class ItemWebService {
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getItemSearchs(@PathParam("page") Integer page,
-                                         @PathParam("size") Integer size,
-                                         @PathParam("serialNumber") String serialNumber,
-                                         @PathParam("serialType") String serialType,
-                                         @PathParam("mainTitle") String mainTitle) {
+                                                  @PathParam("size") Integer size,
+                                                  @PathParam("serialNumber") String serialNumber,
+                                                  @PathParam("serialType") String serialType,
+                                                  @PathParam("mainTitle") String mainTitle) {
 
         Page<ItemDto> itemDtos = null;
         Pageable pageable;
@@ -128,7 +128,7 @@ public class ItemWebService {
 
         if (serialNumber != null && serialType != null) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
-        } else if (mainTitle != null) {
+        } else if (mainTitle != null && serialType != null) {
             itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }
         if (itemDtos == null) {
