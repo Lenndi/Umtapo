@@ -1,6 +1,5 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +22,10 @@ public class Loan {
     private ZonedDateTime start;
     private ZonedDateTime end;
     private Boolean returned;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
     private Borrower borrower;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @PrimaryKeyJoinColumn(name = "ITEMID", referencedColumnName = "ID")
     private Item item;
 

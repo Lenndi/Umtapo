@@ -29,6 +29,22 @@ public interface LoanService extends GenericService<Loan, Integer> {
     LoanDto saveDto(LoanDto entity);
 
     /**
+     * Save loan dto to loan loan.
+     *
+     * @param loanDto the loan dto
+     * @return the loan
+     */
+    Loan saveLoanDtoToLoan(LoanDto loanDto);
+
+    /**
+     * Save loan to loan dto loan.
+     *
+     * @param loan the loan
+     * @return the loan
+     */
+    LoanDto saveLoanToLoanDto(Loan loan);
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -63,7 +79,7 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param id the id
      * @return the list
      */
-    List<LoanDto> findAllDtoByBorrowerIdAndReturned(Integer id);
+    List<LoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id);
 
     /**
      * Item End Date change.
@@ -82,5 +98,13 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @throws IllegalAccessException the illegal access exception
      */
     LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
+
+    /**
+     * Map loan to loan dto loan dto.
+     *
+     * @param loan the loan
+     * @return the loan dto
+     */
+    LoanDto mapLoanToLoanDto(Loan loan);
 }
 

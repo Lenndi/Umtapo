@@ -20,8 +20,8 @@ public class ItemDto {
     private ShelfMark shelfmark;
     private Integer internalId;
     private Float purchasePrice;
-    private Boolean isLoanable;
-    private Boolean isBorrowed;
+    private Boolean loanable;
+    private Boolean borrowed;
     private List<LoanDto> loans;
     private Condition condition;
     private String currency;
@@ -43,7 +43,7 @@ public class ItemDto {
      * @param shelfmark     the shelfmark
      * @param internalId    the internal id
      * @param purchasePrice the purchase price
-     * @param isLoanable    the isLoanable
+     * @param isLoanable    the loanable
      * @param loans         the loans
      * @param condition     the condition
      * @param currency      the currency
@@ -59,10 +59,10 @@ public class ItemDto {
         this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
-        this.isLoanable = isLoanable;
+        this.loanable = isLoanable;
         this.loans = loans;
         this.condition = condition;
-        this.isBorrowed = isBorrowed;
+        this.borrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
         this.record = record;
@@ -92,7 +92,7 @@ public class ItemDto {
      * @return the borrowed
      */
     public Boolean getBorrowed() {
-        return isBorrowed;
+        return borrowed;
     }
 
     /**
@@ -101,7 +101,7 @@ public class ItemDto {
      * @param borrowed the borrowed
      */
     public void setBorrowed(Boolean borrowed) {
-        isBorrowed = borrowed;
+        this.borrowed = borrowed;
     }
 
     /**
@@ -182,7 +182,7 @@ public class ItemDto {
      * @return the loanable
      */
     public Boolean getLoanable() {
-        return isLoanable;
+        return loanable;
     }
 
     /**
@@ -191,7 +191,7 @@ public class ItemDto {
      * @param loanable the loanable
      */
     public void setLoanable(Boolean loanable) {
-        isLoanable = loanable;
+        this.loanable = loanable;
     }
 
     /**

@@ -61,12 +61,18 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
      */
     @Override
     public LoanDto saveDto(LoanDto loanDto) {
+
+        return this.loanMapper.mapLoanToLoanDto(this.saveLoanDtoToLoan(loanDto));
+    }
+
+    @Override
+    public Loan saveLoanDtoToLoan(LoanDto loanDto) {
         Loan loan = this.loanMapper.mapLoanDtoToLoan(loanDto);
         loan = this.save(loan);
 
         Integer borrowerId = loanDto.getBorrower().getId();
         BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
-        borrowerDocument.setNbLoans(this.findAllDtoByBorrowerIdAndReturned(borrowerId).size());
+        borrowerDocument.setNbLoans(this.findAllDtoByBorrowerIdAndNotReturned(borrowerId).size());
 
         if (borrowerDocument.getNbLoans() > borrowerDocument.getQuota()) {
             borrowerDocument.setTooMuchLoans(true);
@@ -77,6 +83,13 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         Loan olderLoanToReturn = this.loanDao.findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(borrowerId);
         borrowerDocument.setOlderReturn(olderLoanToReturn.getEnd());
         this.solrBorrowerService.saveToIndex(borrowerDocument);
+
+        return loan;
+    }
+
+    @Override
+    public LoanDto saveLoanToLoanDto(Loan loan) {
+        loan = this.save(loan);
 
         return this.loanMapper.mapLoanToLoanDto(loan);
     }
@@ -121,7 +134,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
      * {@inheritDoc}
      */
     @Override
-    public List<LoanDto> findAllDtoByBorrowerIdAndReturned(Integer id) {
+    public List<LoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id) {
         List<Loan> loans = loanDao.findByBorrowerIdAndReturnedFalse(id);
         loans.forEach(loan -> loan.setItem(this.itemService.linkRecord(loan.getItem())));
 
@@ -144,12 +157,13 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.mapLoanToLoanDto(this.save(loan));
     }
 
-    private Loan mapLoanDtoToLoan(LoanDto loanDto) {
-        return loanMapper.mapLoanDtoToLoan(loanDto);
+    @Override
+    public LoanDto mapLoanToLoanDto(Loan loan) {
+        return loanMapper.mapLoanToLoanDto(loan);
     }
 
-    private LoanDto mapLoanToLoanDto(Loan loan) {
-        return loanMapper.mapLoanToLoanDto(loan);
+    private Loan mapLoanDtoToLoan(LoanDto loanDto) {
+        return loanMapper.mapLoanDtoToLoan(loanDto);
     }
 
     private List<Loan> mapLoanDtosToLoans(List<LoanDto> loanDtos) {
