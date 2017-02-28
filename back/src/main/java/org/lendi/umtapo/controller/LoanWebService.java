@@ -3,7 +3,11 @@ package org.lendi.umtapo.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LoanDto;
+import org.lendi.umtapo.entity.Item;
+import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.entity.Loan;
+import org.lendi.umtapo.service.specific.ItemService;
+import org.lendi.umtapo.service.specific.LibraryService;
 import org.lendi.umtapo.service.specific.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -27,14 +32,20 @@ public class LoanWebService {
     private static final Logger LOGGER = Logger.getLogger(LoanWebService.class);
 
     private final LoanService loanService;
+    private final LibraryService libraryService;
+    private final ItemService itemService;
 
     /**
      * Instantiates a new Loan web service.
      *
-     * @param loanService the loan service
+     * @param loanService    the loan service
+     * @param libraryService the library service
+     * @param itemService    the item service
      */
-    public LoanWebService(LoanService loanService) {
+    public LoanWebService(LoanService loanService, LibraryService libraryService, ItemService itemService) {
         this.loanService = loanService;
+        this.libraryService = libraryService;
+        this.itemService = itemService;
     }
 
     /**
@@ -59,21 +70,15 @@ public class LoanWebService {
      * Gets loans.
      *
      * @param borrowerId the id
-     * @param page       the page
-     * @param size       the size
-     * @param contains   the contains
      * @return the loans
      */
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId,
-                                   @PathParam("page") Integer page,
-                                   @PathParam("size") Integer size,
-                                   @PathParam("contains") String contains) {
+    public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId) {
 
         List<LoanDto> loans;
 
         if (borrowerId != null) {
-            loans = loanService.findAllDtoByBorrowerIdAndReturned(borrowerId);
+            loans = loanService.findAllDtoByBorrowerIdAndNotReturned(borrowerId);
         } else {
             loans = loanService.findAllDto();
         }
@@ -82,7 +87,7 @@ public class LoanWebService {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
         }
 
-        return new ResponseEntity(loans, HttpStatus.OK);
+        return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
     /**
@@ -95,8 +100,37 @@ public class LoanWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<LoanDto> setLoan(@RequestBody LoanDto loanDto) {
 
-        loanDto = loanService.saveDto(loanDto);
-        return new ResponseEntity<>(loanDto, HttpStatus.CREATED);
+        if (loanDto.getItem() != null && loanDto.getBorrower() != null
+                && loanDto.getItem().getId() != null && loanDto.getBorrower().getId() != null) {
+
+            if (loanDto.getReturned() == null) {
+                loanDto.setReturned(false);
+            }
+            Item item = this.itemService.findOne(loanDto.getItem().getId());
+
+            if (item.getBorrowed()) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
+                item.setBorrowed(true);
+                this.itemService.save(item);
+
+                if (loanDto.getStart() == null) {
+                    loanDto.setStart(ZonedDateTime.now());
+                }
+
+                if (loanDto.getEnd() == null) {
+                    Library library = this.libraryService.findOne(item.getLibrary().getId());
+                    ZonedDateTime end = ZonedDateTime.now();
+                    end = end.plusDays(library.getBorrowDuration());
+                    loanDto.setEnd(end);
+                }
+                loanDto = loanService.saveDto(loanDto);
+
+                return new ResponseEntity<>(loanDto, HttpStatus.CREATED);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

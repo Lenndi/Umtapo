@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -172,8 +173,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     public Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String title) {
         List<Record> records = solrRecordService.searchByTitle(title);
         List<Integer> itemIds = new ArrayList<>();
+        HashMap<String, Record> recordMap = new HashMap<>();
 
         records.forEach(record -> {
+            recordMap.put(record.getId(), record);
             List<String> itemsIdStr = record.getItems();
             itemsIdStr.forEach(idStr -> {
                 Integer id = Integer.parseInt(idStr);
@@ -184,7 +187,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         });
 
         Page<Item> items = this.itemDao.findByIdIn(itemIds, pageable);
-        items.getContent().forEach(item -> item.setRecord(this.solrRecordService.findById(item.getRecordId())));
+        items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
 
         return this.mapItemsToItemDtosPage(items);
     }

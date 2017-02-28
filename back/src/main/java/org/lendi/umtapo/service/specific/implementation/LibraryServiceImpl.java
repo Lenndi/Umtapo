@@ -1,5 +1,6 @@
 package org.lendi.umtapo.service.specific.implementation;
 
+import org.lendi.umtapo.dao.LibraryDao;
 import org.lendi.umtapo.dto.LibraryDto;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.mapper.LibraryMapper;
@@ -19,22 +20,22 @@ import java.util.List;
 public class LibraryServiceImpl extends AbstractGenericService<Library, Integer> implements LibraryService {
 
     private final LibraryMapper libraryMapper;
+    private final LibraryDao libraryDao;
 
     /**
      * Instantiates a new Library service.
      *
      * @param libraryMapper the library mapper
+     * @param libraryDao    the library dao
      */
     @Autowired
-    public LibraryServiceImpl(LibraryMapper libraryMapper) {
+    public LibraryServiceImpl(LibraryMapper libraryMapper, LibraryDao libraryDao) {
         Assert.notNull(libraryMapper, "Argument libraryMapper cannot be null");
 
         this.libraryMapper = libraryMapper;
+        this.libraryDao = libraryDao;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public LibraryDto saveDto(LibraryDto libraryDto) {
         Library library = this.libraryMapper.mapLibraryDtoToLibrary(libraryDto);
@@ -43,9 +44,6 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public LibraryDto findOneDto(Integer id) {
         Library library = this.findOne(id);
@@ -53,20 +51,17 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public Library findOneByBorrowerId(Integer borrowerId) {
+        return this.libraryDao.findByBorrowersId(borrowerId);
+    }
+
     @Override
     public List<LibraryDto> findAllDto() {
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
-    /**
-     * Map LibraryDto entity to Library entity.
-     *
-     * @param libraryDto
-     * @return
-     */
+
     private Library mapLibraryDtoToLibrary(LibraryDto libraryDto) {
         return this.libraryMapper.mapLibraryDtoToLibrary(libraryDto);
     }
@@ -76,12 +71,6 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
         return this.libraryMapper.mapLibraryToLibraryDto(library);
     }
 
-    /**
-     * Map a list of LibraryDto entities to a list of Library entities.
-     *
-     * @param librariesDto
-     * @return
-     */
     private List<Library> mapLibrariesDtoToLibraries(List<LibraryDto> librariesDto) {
         List<Library> libraries = new ArrayList<>();
         librariesDto.forEach(LibraryDto -> libraries.add(mapLibraryDtoToLibrary(LibraryDto)));
@@ -89,12 +78,6 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
         return libraries;
     }
 
-    /**
-     * Map libraries to libraries dto list.
-     *
-     * @param libraries the libraries
-     * @return the list
-     */
     private List<LibraryDto> mapLibrariesToLibrariesDTO(List<Library> libraries) {
         List<LibraryDto> librariesDto = new ArrayList<>();
         libraries.forEach(Library -> librariesDto.add(mapLibraryToLibraryDto(Library)));
