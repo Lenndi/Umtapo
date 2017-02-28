@@ -19,5 +19,9 @@ public enum ItemType {
     /**
      * Video recording item type.
      */
-    VIDEO_RECORDING
+    VIDEO_RECORDING,
+    /**
+     * Initial item added in db to set internalId.
+     */
+    INITIAL_ITEM
 }

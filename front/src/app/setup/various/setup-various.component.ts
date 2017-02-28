@@ -22,8 +22,8 @@ export class SetupVariousComponent implements OnInit, Setup {
   subscriptionDurationMsg: string;
   currency: FormControl;
   currencyMsg: string;
-  itemStartNumber: FormControl;
-  itemStartNumberMsg: string;
+  firstInternalId: FormControl;
+  firstInternalIdMsg: string;
   libraryName: FormControl;
   libraryNameMsg: string;
 
@@ -46,10 +46,10 @@ export class SetupVariousComponent implements OnInit, Setup {
     this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
     this.currency = new FormControl(library != null ? library.currency : '', Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
-    this.itemStartNumber = new FormControl(
-      this.dataService.itemStartNumber != null ? this.dataService.itemStartNumber : '',
+    this.firstInternalId = new FormControl(
+      library != null ? library.firstInternalId : '',
       [Validators.required, VariousValidator.positive]);
-    this.itemStartNumberMsg = `Merci d'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
+    this.firstInternalIdMsg = `Merci d'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
         automatique des documents`;
     this.libraryName = new FormControl(library != null ? library.name : '', Validators.required);
     this.libraryNameMsg = `Merci d'indiquer un nom de bibliothèque`;
@@ -63,7 +63,7 @@ export class SetupVariousComponent implements OnInit, Setup {
       'borrowDuration': this.borrowDuration,
       'subscriptionDuration': this.subscriptionDuration,
       'currency': this.currency,
-      'itemStartNumber': this.itemStartNumber,
+      'firstInternalId': this.firstInternalId,
       'libraryName': this.libraryName
     });
   }
@@ -90,8 +90,8 @@ export class SetupVariousComponent implements OnInit, Setup {
       if (this.form.controls['currency'].invalid) {
         this.snackBar.open(this.currencyMsg, 'OK');
       }
-      if (this.form.controls['itemStartNumber'].invalid) {
-        this.snackBar.open(this.itemStartNumberMsg, 'OK');
+      if (this.form.controls['firstInternalId'].invalid) {
+        this.snackBar.open(this.firstInternalIdMsg, 'OK');
       }
       if (this.form.controls['libraryName'].invalid) {
         this.snackBar.open(this.libraryNameMsg, 'OK');
@@ -101,7 +101,7 @@ export class SetupVariousComponent implements OnInit, Setup {
 
   saveData(): void {
     let value = this.form.value;
-    this.dataService.itemStartNumber = value.itemStartNumber;
+    this.dataService.library.firstInternalId = value.firstInternalId;
     this.dataService.library.borrowDuration = value.borrowDuration;
     this.dataService.library.subscriptionDuration = value.subscriptionDuration;
     this.dataService.library.currency = value.currency;

@@ -63,6 +63,14 @@ public interface LibraryService extends GenericService<Library, Integer> {
     List<LibraryDto> findAllDto();
 
     /**
+     * Transform LibraryDto to Library.
+     *
+     * @param libraryDto library dto
+     * @return library entity
+     */
+    Library mapLibraryDtoToLibrary(LibraryDto libraryDto);
+
+    /**
      * {@inheritDoc}
      */
     @Override

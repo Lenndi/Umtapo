@@ -1,15 +1,18 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lendi.umtapo.dto.LibraryDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.mapper.LibraryMapper;
 import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lendi.umtapo.service.configuration.Z3950Service;
+import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.service.specific.LibraryService;
 import org.lendi.umtapo.service.specific.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import util.UtilCreator;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -53,6 +57,9 @@ public class LibraryWebServiceTest {
     private LibraryService libraryService;
 
     @MockBean
+    private ItemService itemService;
+
+    @MockBean
     private RecordService recordService;
 
     @MockBean
@@ -64,6 +71,7 @@ public class LibraryWebServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private UtilCreator utilCreator;
     private LibraryMapper libraryMapper = new LibraryMapper();
     private LibraryDto libraryDto1;
     private LibraryDto libraryDto2;
@@ -74,6 +82,8 @@ public class LibraryWebServiceTest {
      */
     @Before
     public void setup() {
+        utilCreator = new UtilCreator();
+
         ZonedDateTime zonedDateTime = java.time.ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
                 true, null, null, null, null);
@@ -149,22 +159,24 @@ public class LibraryWebServiceTest {
      */
     @Test
     public void testSetLibrary() throws Exception {
+        LibraryDto libraryDto = utilCreator.createLibraryDto(1);
 
-        given(this.libraryService.saveDto(any(LibraryDto.class))).willReturn(libraryDto1);
+        given(this.libraryService.saveDto(any(LibraryDto.class))).willReturn(libraryDto);
+        given(this.itemService.save(any(Item.class))).willReturn(utilCreator.createItem(1, libraryDto.getFirstInternalId()));
 
         this.mockMvc.perform(post("/libraries")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(this.libraryService.saveDto(new LibraryDto())))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name", is("Library of tests")))
+                .andExpect(jsonPath("$.name", is("Test Library")))
                 .andExpect(jsonPath("$.shelfMarkNb", is(3)))
-                .andExpect(jsonPath("$.useDeweyClassification", is(true)))
+                .andExpect(jsonPath("$.useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))
                 .andExpect(jsonPath("$.borrowDuration", is(30)))
-                .andExpect(jsonPath("$.currency", is("$")))
-                .andExpect(jsonPath("$.defaultZ3950", is(1)));
+                .andExpect(jsonPath("$.currency", is("€")))
+                .andExpect(jsonPath("$.defaultZ3950", is(1)))
+                .andExpect(jsonPath("$.firstInternalId", is(1234)));
         verify(libraryService, times(2)).saveDto(any());
-        verifyNoMoreInteractions(libraryService);
     }
 }

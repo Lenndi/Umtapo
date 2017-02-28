@@ -18,6 +18,7 @@ public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer firstInternalId;
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
@@ -258,5 +259,23 @@ public class Library {
      */
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    /**
+     * Gets first internal id.
+     *
+     * @return the first internal id
+     */
+    public Integer getFirstInternalId() {
+        return firstInternalId;
+    }
+
+    /**
+     * Sets first internal id.
+     *
+     * @param firstInternalId the first internal id
+     */
+    public void setFirstInternalId(Integer firstInternalId) {
+        this.firstInternalId = firstInternalId;
     }
 }

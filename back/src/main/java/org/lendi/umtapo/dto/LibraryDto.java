@@ -14,6 +14,7 @@ import java.util.List;
 public class LibraryDto {
 
     private Integer id;
+    private Integer firstInternalId;
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
@@ -203,5 +204,23 @@ public class LibraryDto {
      */
     public void setSubscriptions(List<SubscriptionDto> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    /**
+     * Gets first internal id.
+     *
+     * @return the first internal id
+     */
+    public Integer getFirstInternalId() {
+        return firstInternalId;
+    }
+
+    /**
+     * Sets first internal id.
+     *
+     * @param firstInternalId the first internal id
+     */
+    public void setFirstInternalId(Integer firstInternalId) {
+        this.firstInternalId = firstInternalId;
     }
 }
