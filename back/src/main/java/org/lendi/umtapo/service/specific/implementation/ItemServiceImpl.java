@@ -151,12 +151,16 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
         List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
         if (records.size() > 0) {
-            Record record = records.get(0);
-            record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
+            HashMap<String, Record> recordMap = new HashMap<>();
+
+            records.forEach(record -> {
+                record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
+                recordMap.put(record.getId(), record);
+            });
 
             if (itemIds.size() > 0) {
                 items = this.itemDao.findByIdIn(itemIds, pageable);
-                items.getContent().forEach(item -> item.setRecord(record));
+                items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
             }
         }
 
