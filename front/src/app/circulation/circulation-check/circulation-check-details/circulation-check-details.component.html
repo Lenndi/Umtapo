@@ -22,7 +22,6 @@
               <td>{{borrower?.address?.email}}</td>
               <td *ngIf="borrower?.loans === null">0/{{borrower?.quota}}</td>
               <td *ngIf="borrower?.loans !== null">{{borrower?.loans?.length}}/{{borrower?.quota}}</td>
-              <td>{{borrower?.loans?.length}}/{{borrower?.quota}}</td>
               <td>{{borrower.subscriptions[borrower.subscriptions.length - 1]?.end | date}}</td>
               <td>{{borrower?.comment}}</td>
             </tr>

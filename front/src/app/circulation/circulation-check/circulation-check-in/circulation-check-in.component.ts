@@ -112,23 +112,27 @@ export class CirculationCheckInComponent implements OnInit {
         this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
       }
     } else if (this.serial != null) {
-      let selectedLoan;
-      let cnt = 0;
-      let loanId;
-      let internalId;
-      for (let loan of this.dataService.borrower.loans) {
-        if (loan.item.record.identifier.serialNumber == this.serial) {
-          selectedLoan = loan;
-          cnt++;
+      if (this.dataService.borrower.loans != null) {
+        let selectedLoan;
+        let cnt = 0;
+        let loanId;
+        let internalId;
+        for (let loan of this.dataService.borrower.loans) {
+          if (loan.item.record.identifier.serialNumber == this.serial) {
+            selectedLoan = loan;
+            cnt++;
+          }
         }
-      }
-      if (cnt == 1) {
-        this.checkInDocument(selectedLoan);
-        this.removeLoanById(selectedLoan.id);
-      } else if (cnt > 1) {
-        this.toastr.warning(`Vous avez plusieurs documents avec le même numéro de série, veuillez renseigner l'id interne`, 'Multiples documents', {toastLife: 2000});
+        if (cnt == 1) {
+          this.checkInDocument(selectedLoan);
+          this.removeLoanById(selectedLoan.id);
+        } else if (cnt > 1) {
+          this.toastr.warning(`Vous avez plusieurs documents avec le même numéro de série, veuillez renseigner l'id interne`, 'Multiples documents', {toastLife: 2000});
+        } else {
+          this.toastr.warning(`L'ISBN que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
+        }
       } else {
-        this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
+        this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000})
       }
     } else {
       this.toastr.warning(`Vous n'avez renseigné aucun champ`, 'Champs vides', {toastLife: 2000});
