@@ -4,11 +4,13 @@ import org.lendi.umtapo.dto.AddressDto;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Address;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.entity.ShelfMark;
+import org.lendi.umtapo.entity.Subscription;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
@@ -120,6 +122,21 @@ public class UtilCreator {
         return library;
     }
 
+    public LibraryDto createLibraryDto(Integer id) {
+        LibraryDto library = new LibraryDto();
+
+        library.setId(id);
+        library.setName("Test Library");
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+
+        return library;
+    }
+
     public Item createItem(Integer id, Integer internalId) {
         Item item = new Item();
         Library library = new Library();
@@ -156,6 +173,30 @@ public class UtilCreator {
         item.setShelfmark(new ShelfMark("TES", "002", "URI"));
 
         return item;
+    }
+
+    public Subscription createSubscription(Integer id, Borrower borrower, Library library) {
+        Subscription subscription = new Subscription();
+        subscription.setId(id);
+        subscription.setContribution(650);
+        subscription.setStart(this.subscriptionStart);
+        subscription.setEnd(this.subscriptionEnd);
+        subscription.setBorrower(borrower);
+        subscription.setLibrary(library);
+
+        return subscription;
+    }
+
+    public SubscriptionDto createSubscriptionDto(Integer id, BorrowerDto borrowerDto, LibraryDto libraryDto) {
+        SubscriptionDto subscription = new SubscriptionDto();
+        subscription.setId(id);
+        subscription.setContribution(6.5f);
+        subscription.setStart(this.subscriptionStart);
+        subscription.setEnd(this.subscriptionEnd);
+        subscription.setBorrower(borrowerDto);
+        subscription.setLibrary(libraryDto);
+
+        return subscription;
     }
 
     public ZonedDateTime getBirthday() {

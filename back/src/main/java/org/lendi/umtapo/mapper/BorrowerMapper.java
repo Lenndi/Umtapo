@@ -42,7 +42,6 @@ public class BorrowerMapper extends ConfigurableMapper {
         converterFactory.registerConverter("latenessConverter", new LatenessConverter());
 
         mapperFactory.classMap(Borrower.class, BorrowerDto.class)
-                .exclude("library.borrowers")
                 .byDefault()
                 .register();
         DTO_MAPPER = mapperFactory.getMapperFacade();
