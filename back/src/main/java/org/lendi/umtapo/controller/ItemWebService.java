@@ -170,6 +170,10 @@ public class ItemWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setItem(@RequestBody ItemDto itemDto) {
 
+        if (itemDto.getBorrowed() == null) {
+            itemDto.setBorrowed(false);
+        }
+
         try {
             itemDto = itemService.saveDto(itemDto);
         } catch (final InvalidRecordException e) {
