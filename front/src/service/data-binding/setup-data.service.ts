@@ -6,6 +6,5 @@ export class SetupDataService {
   library: Library;
   step: number;
   totalStep: number = 2;
-  itemStartNumber: number;
   title: string;
 }

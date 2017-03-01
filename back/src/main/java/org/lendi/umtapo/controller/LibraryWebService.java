@@ -2,6 +2,7 @@ package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.service.specific.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,16 +28,21 @@ public class LibraryWebService {
     private static final Logger LOGGER = Logger.getLogger(LibraryWebService.class);
 
     private final LibraryService libraryService;
+    private final ItemService itemService;
 
     /**
      * Instantiates a new Library web service.
      *
      * @param libraryService the library service
+     * @param itemService    the item service
      */
     @Autowired
-    public LibraryWebService(LibraryService libraryService) {
-        Assert.notNull(libraryService, "Argument libraryService cannot be null.");
+    public LibraryWebService(LibraryService libraryService, ItemService itemService) {
+        Assert.notNull(libraryService);
+        Assert.notNull(itemService);
+
         this.libraryService = libraryService;
+        this.itemService = itemService;
     }
 
     /**
@@ -83,6 +89,7 @@ public class LibraryWebService {
     public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
 
         libraryDto = libraryService.saveDto(libraryDto);
+
         return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);
     }
 }

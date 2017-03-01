@@ -115,8 +115,25 @@ public class UtilCreator {
         library.setDefaultZ3950(1);
         library.setShelfMarkNb(3);
         library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
 
         return library;
+    }
+
+    public LibraryDto createLibraryDto(Integer id) {
+        LibraryDto libraryDto = new LibraryDto();
+
+        libraryDto.setId(id);
+        libraryDto.setName("Test Library");
+        libraryDto.setBorrowDuration(30);
+        libraryDto.setSubscriptionDuration(365);
+        libraryDto.setCurrency("€");
+        libraryDto.setDefaultZ3950(1);
+        libraryDto.setShelfMarkNb(3);
+        libraryDto.setUseDeweyClassification(false);
+        libraryDto.setFirstInternalId(1234);
+
+        return libraryDto;
     }
 
     public Item createItem(Integer id, Integer internalId) {

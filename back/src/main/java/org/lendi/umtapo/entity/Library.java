@@ -1,10 +1,16 @@
 package org.lendi.umtapo.entity;
 
+import org.lendi.umtapo.enumeration.Condition;
+import org.lendi.umtapo.enumeration.ItemType;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +24,7 @@ public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer firstInternalId;
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
@@ -29,13 +36,14 @@ public class Library {
     private List<Subscription> subscription;
     @OneToMany(mappedBy = "library")
     private List<Borrower> borrowers;
-    @OneToMany(mappedBy = "library")
+    @OneToMany(mappedBy = "library", cascade = CascadeType.PERSIST)
     private List<Item> items;
 
     /**
      * Instantiates a new Library.
      */
     public Library() {
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -52,6 +60,7 @@ public class Library {
      */
     public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Integer subscriptionDuration,
                    Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+        this.items = new ArrayList<>();
         this.name = name;
         this.shelfMarkNb = shelfMarkNb;
         this.useDeweyClassification = useDeweyClassification;
@@ -258,5 +267,41 @@ public class Library {
      */
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    /**
+     * Gets first internal id.
+     *
+     * @return the first internal id
+     */
+    public Integer getFirstInternalId() {
+        return firstInternalId;
+    }
+
+    /**
+     * Sets first internal id.
+     *
+     * @param firstInternalId the first internal id
+     */
+    public void setFirstInternalId(Integer firstInternalId) {
+        this.firstInternalId = firstInternalId;
+    }
+
+    /**
+     * Create the first item to initialize the first internalId in Item table.
+     */
+    @PrePersist
+    public void createFirstItem() {
+        if (this.firstInternalId != null) {
+            Item item = new Item();
+            item.setInternalId(this.firstInternalId);
+            item.setLibrary(this);
+            item.setLoanable(false);
+            item.setType(ItemType.INITIAL_ITEM);
+            item.setBorrowed(false);
+            item.setCondition(Condition.SOLD);
+
+            items.add(item);
+        }
     }
 }

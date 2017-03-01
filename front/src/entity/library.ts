@@ -7,4 +7,5 @@ export class Library {
   borrowDuration: number;
   currency: string;
   defaultZ3950: number;
+  firstInternalId: number;
 }
