@@ -115,12 +115,25 @@ export class CirculationCheckOutComponent implements OnInit {
           item = res.json();
           loan.item.id = item.id;
         }).subscribe(x => {
-          this.BorrowDocument(item, loan);
+          this.loanService.createLoan(loan);
         });
     } else if (this.selectedItem) {
       item = this.selectedItem;
       loan.item.id = item.id;
-      this.BorrowDocument(item, loan);
+      let observable = this.loanService.createLoan(loan)
+        .catch(err => {
+          this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème', {toastLife: 2000});
+          return Observable.throw(err); // observable needs to be returned or exception raised
+        })
+        .subscribe(response => {
+          this.loanService.find(response.json().id).then(succes => {
+            if (!this.dataService.borrower.loans) {
+              this.dataService.borrower.loans = [];
+            }
+            this.dataService.borrower.loans.push(succes);
+          });
+          this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000});
+        });
     } else if (this.items) {
       if (this.items.length == 0) {
         if (this.serialNumber) {
@@ -136,40 +149,5 @@ export class CirculationCheckOutComponent implements OnInit {
 
       }
     }
-  }
-
-  public BorrowDocument(itemBorrow: Item, loanBorrow: Loan) {
-    let observable = this.itemService.patchCheckoutItem(itemBorrow.id)
-      .catch(err => {
-        this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème', {toastLife: 2000});
-        return Observable.throw(err);
-      })
-      .map(res => {
-        if (res.status != 200) {
-          if (res.status == 202) {
-            if (res.json() == 1000) {
-              this.toastr.warning(`Le document a déjà été emprunté`, 'Non trouvé', {toastLife: 2000});
-            }
-          } else if (res.status == 204) {
-            this.toastr.warning(`Aucun document ne comporte cet identifiant`, 'Non trouvé', {toastLife: 2000});
-          }
-          observable.unsubscribe();
-        }
-      })
-      .flatMap(item => this.loanService.createLoan(loanBorrow)
-        .catch(err => {
-          this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème', {toastLife: 2000});
-          return Observable.throw(err); // observable needs to be returned or exception raised
-        }))
-      .subscribe(response => {
-        this.loanService.find(response.json().id).then(succes => {
-          if (!this.dataService.borrower.loans) {
-            this.dataService.borrower.loans = [];
-          }
-          this.dataService.borrower.loans.push(succes);
-        });
-
-        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000});
-      });
   }
 }

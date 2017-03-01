@@ -19,7 +19,7 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class CirculationCheckInComponent implements OnInit {
   conditionEnum: CustomMap;
-  itemId: number;
+  internalId: number;
   serial: string;
 
 
@@ -59,13 +59,13 @@ export class CirculationCheckInComponent implements OnInit {
   }
 
   returnAllBooks() {
-    if (this.dataService.borrower.loans) {
+    if (this.dataService.borrower.loans && this.dataService.borrower.loans.length != 0) {
       for (let loan of this.dataService.borrower.loans) {
         this.checkInDocument(loan);
       }
       this.dataService.borrower.loans = [];
     } else {
-      this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
+      this.toastr.warning(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
     }
   }
 
@@ -81,11 +81,11 @@ export class CirculationCheckInComponent implements OnInit {
   checkInDocument(loan: Loan) {
     this.loanService.returnBookLoan(loan.id)
       .then(ret => this.itemService.returnBookItem(loan.item.id)
-        .then(ret => this.toastr.success(`Tous les documents ont bien été retournés`, 'Documents retournés',
+        .then(ret => this.toastr.success(`Le document ` + loan.item.record.title.mainTitle + `a bien été retourné`, 'Document retourné',
           {toastLife: 2000})
-          .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+          .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour',
             {toastLife: 2000})))
-        .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Documents retournés',
+        .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour',
           {toastLife: 2000})));
   }
 
@@ -99,36 +99,39 @@ export class CirculationCheckInComponent implements OnInit {
   }
 
   checkBySerialOrInternalId() {
-    if (this.itemId !== null) {
+    let isLoan = false;
+    if (this.internalId != null) {
       for (let loan of this.dataService.borrower.loans) {
-        if (loan.item.internalId == this.itemId) {
+        if (loan.item.internalId == this.internalId) {
+          isLoan = true;
           this.checkInDocument(loan);
           this.removeLoanById(loan.id);
-        } else {
-          this.toastr.success(`Ce livre n'est pas emprunté`, 'Pas de document', {toastLife: 2000});
         }
       }
-    } else if (this.serial !== null) {
+      if(!isLoan){
+        this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
+      }
+    } else if (this.serial != null) {
+      let selectedLoan;
       let cnt = 0;
       let loanId;
-      let itemId;
+      let internalId;
       for (let loan of this.dataService.borrower.loans) {
         if (loan.item.record.identifier.serialNumber == this.serial) {
-          loanId = loan.id;
-          itemId = loan.item.id;
+          selectedLoan = loan;
           cnt++;
         }
       }
       if (cnt == 1) {
-        // this.checkInDocument(loan);
-        this.removeLoanById(loanId);
+        this.checkInDocument(selectedLoan);
+        this.removeLoanById(selectedLoan.id);
       } else if (cnt > 1) {
-        // TODO Toast
+        this.toastr.warning(`Vous avez plusieurs documents avec le même numéro de série, veuillez renseigner l'id interne`, 'Multiples documents', {toastLife: 2000});
       } else {
-        // TODO Toast
+        this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
       }
     } else {
-      // TODO Toast
+      this.toastr.warning(`Vous n'avez renseigné aucun champ`, 'Champs vides', {toastLife: 2000});
     }
   }
 }
