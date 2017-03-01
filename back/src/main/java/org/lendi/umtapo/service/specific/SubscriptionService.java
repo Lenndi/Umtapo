@@ -1,5 +1,6 @@
 package org.lendi.umtapo.service.specific;
 
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Subscription;
 import org.lendi.umtapo.service.generic.GenericService;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,11 @@ public interface SubscriptionService extends GenericService<Subscription, Intege
     void delete(Integer integer);
 
     /**
-     * Find latest subscription by borrower id subscription.
-     *
-     * @param borrowerId the borrower id
-     * @return the subscription
+     * Save SubscriptionDto
+     * @param subscriptionDto the subscription dto
+     * @return a subscription dto
      */
-    Subscription findLatestSubscriptionByBorrowerId(Integer borrowerId);
+    SubscriptionDto saveDto(SubscriptionDto subscriptionDto);
 
     @Override
     Boolean exists(Integer integer);

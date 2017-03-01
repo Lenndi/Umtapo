@@ -1,7 +1,9 @@
 package org.lendi.umtapo.service.specific.implementation;
 
 import org.lendi.umtapo.dao.SubscriptionDao;
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Subscription;
+import org.lendi.umtapo.mapper.SubscriptionMapper;
 import org.lendi.umtapo.service.generic.AbstractGenericService;
 import org.lendi.umtapo.service.specific.SubscriptionService;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
@@ -17,19 +19,27 @@ public class SubscriptionServiceImpl extends AbstractGenericService<Subscription
         implements SubscriptionService {
 
     private final SubscriptionDao subscriptionDao;
+    private final SubscriptionMapper subscriptionMapper;
     private final SolrBorrowerService solrBorrowerService;
 
     /**
      * Instantiates a new Subscription service.
      *
      * @param subscriptionDao     the subscription dao
+     * @param subscriptionMapper  the subscription mapper
      * @param solrBorrowerService the solr borrower service
      */
-    public SubscriptionServiceImpl(SubscriptionDao subscriptionDao, SolrBorrowerService solrBorrowerService) {
+    public SubscriptionServiceImpl(
+            SubscriptionDao subscriptionDao,
+            SubscriptionMapper subscriptionMapper,
+            SolrBorrowerService solrBorrowerService
+    ) {
         Assert.notNull(subscriptionDao);
+        Assert.notNull(subscriptionMapper);
         Assert.notNull(solrBorrowerService);
 
         this.subscriptionDao = subscriptionDao;
+        this.subscriptionMapper = subscriptionMapper;
         this.solrBorrowerService = solrBorrowerService;
     }
 
@@ -38,21 +48,22 @@ public class SubscriptionServiceImpl extends AbstractGenericService<Subscription
         subscription = super.save(subscription);
 
         Integer borrowerId = subscription.getBorrower().getId();
-        Subscription latestSubscription = this.findLatestSubscriptionByBorrowerId(borrowerId);
+        Subscription latestSubscription = this.subscriptionDao.findFirstByBorrowerIdOrderByStartDesc(borrowerId);
 
-        if (latestSubscription.getStart().isBefore(subscription.getStart())) {
-            BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
-
-            borrowerDocument.setSubscriptionStart(subscription.getStart());
-            borrowerDocument.setSubscriptionEnd(subscription.getEnd());
-            this.solrBorrowerService.saveToIndex(borrowerDocument);
-        }
+        BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
+        borrowerDocument.setSubscriptionStart(latestSubscription.getStart());
+        borrowerDocument.setSubscriptionEnd(latestSubscription.getEnd());
+        borrowerDocument.setLibraryId(latestSubscription.getLibrary().getId());
+        this.solrBorrowerService.saveToIndex(borrowerDocument);
 
         return subscription;
     }
 
     @Override
-    public Subscription findLatestSubscriptionByBorrowerId(Integer borrowerId) {
-        return this.subscriptionDao.findFirstByBorrowerIdOrderByStartDesc(borrowerId);
+    public SubscriptionDto saveDto(SubscriptionDto subscriptionDto) {
+        Subscription subscription = this.subscriptionMapper.mapSubscriptionDtoToSubscription(subscriptionDto);
+        subscription = this.save(subscription);
+
+        return this.subscriptionMapper.mapSubscriptionToSubscriptionDto(subscription);
     }
 }

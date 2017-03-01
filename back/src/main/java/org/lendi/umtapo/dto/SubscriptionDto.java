@@ -16,7 +16,7 @@ public class SubscriptionDto {
     private Integer id;
     private ZonedDateTime start;
     private ZonedDateTime end;
-    private Integer contribution;
+    private Float contribution;
     private BorrowerDto borrower;
     private LibraryDto library;
 
@@ -79,7 +79,7 @@ public class SubscriptionDto {
      *
      * @return the contribution
      */
-    public Integer getContribution() {
+    public Float getContribution() {
         return contribution;
     }
 
@@ -88,7 +88,7 @@ public class SubscriptionDto {
      *
      * @param contribution the contribution
      */
-    public void setContribution(Integer contribution) {
+    public void setContribution(Float contribution) {
         this.contribution = contribution;
     }
 
