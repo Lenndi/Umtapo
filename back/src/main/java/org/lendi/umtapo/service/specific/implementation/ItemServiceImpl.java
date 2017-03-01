@@ -100,7 +100,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
-        this.linkRecord(item);
+
+        if (item != null) {
+            this.linkRecord(item);
+        }
 
         return this.itemMapper.mapItemToItemDto(item);
     }
