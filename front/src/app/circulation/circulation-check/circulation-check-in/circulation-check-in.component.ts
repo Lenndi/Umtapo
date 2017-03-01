@@ -81,7 +81,8 @@ export class CirculationCheckInComponent implements OnInit {
   checkInDocument(loan: Loan) {
     this.loanService.returnBookLoan(loan.id)
       .then(ret => this.itemService.returnBookItem(loan.item.id)
-        .then(ret => this.toastr.success(`Le document ` + loan.item.record.title.mainTitle + `a bien été retourné`, 'Document retourné',
+        .then(ret => this.toastr.success(`Le document ` + loan.item.record.title.mainTitle + `a bien été retourné`,
+          'Document retourné',
           {toastLife: 2000})
           .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour',
             {toastLife: 2000})))
@@ -108,8 +109,9 @@ export class CirculationCheckInComponent implements OnInit {
           this.removeLoanById(loan.id);
         }
       }
-      if(!isLoan){
-        this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
+      if (!isLoan) {
+        this.toastr.warning(`L'identifiant que vous fournissez ne correspond a aucun document`, 'Pas de document',
+          {toastLife: 2000});
       }
     } else if (this.serial != null) {
       if (this.dataService.borrower.loans != null) {
@@ -127,12 +129,14 @@ export class CirculationCheckInComponent implements OnInit {
           this.checkInDocument(selectedLoan);
           this.removeLoanById(selectedLoan.id);
         } else if (cnt > 1) {
-          this.toastr.warning(`Vous avez plusieurs documents avec le même numéro de série, veuillez renseigner l'id interne`, 'Multiples documents', {toastLife: 2000});
+          this.toastr.warning(`Vous avez plusieurs documents avec le même numéro de série, veuillez renseigner l'id 
+          interne`, 'Multiples documents', {toastLife: 2000});
         } else {
-          this.toastr.warning(`L'ISBN que vous fournissez ne correspond a aucun document`, 'Pas de document', {toastLife: 2000});
+          this.toastr.warning(`L'ISBN que vous fournissez ne correspond a aucun document`, 'Pas de document',
+            {toastLife: 2000});
         }
       } else {
-        this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000})
+        this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
       }
     } else {
       this.toastr.warning(`Vous n'avez renseigné aucun champ`, 'Champs vides', {toastLife: 2000});
