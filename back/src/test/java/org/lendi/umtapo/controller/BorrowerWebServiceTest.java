@@ -84,9 +84,9 @@ public class BorrowerWebServiceTest {
     public void setup() {
         zonedDateTime = ZonedDateTime.of(2000, 5, 25, 21, 52, 35, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null, null);
+                true, null, null, null);
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null, null);
+                false, null, null, null);
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }
@@ -109,8 +109,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
-                .andExpect(jsonPath("$.subscriptions", nullValue()))
-                .andExpect(jsonPath("$.library", nullValue()));
+                .andExpect(jsonPath("$.subscriptions", nullValue()));
         verify(borrowerService, times(1)).findOneDto(1);
         verifyNoMoreInteractions(borrowerService);
 
@@ -140,15 +139,13 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.content[0].emailOptin", is(true)))
                 .andExpect(jsonPath("$.content[0].address", nullValue()))
                 .andExpect(jsonPath("$.content[0].subscriptions", nullValue()))
-                .andExpect(jsonPath("$.content[0].library", nullValue()))
                 .andExpect(jsonPath("$.content[1].name", is("NameTest2")))
                 .andExpect(jsonPath("$.content[1].comment", is("CommentTest2")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
                 .andExpect(jsonPath("$.content[1].quota", is(7)))
                 .andExpect(jsonPath("$.content[1].emailOptin", is(false)))
                 .andExpect(jsonPath("$.content[1].address", nullValue()))
-                .andExpect(jsonPath("$.content[1].subscriptions", nullValue()))
-                .andExpect(jsonPath("$.content[1].library", nullValue()));
+                .andExpect(jsonPath("$.content[1].subscriptions", nullValue()));
         verify(borrowerService, times(1)).findAllDto(pageable);
         verifyNoMoreInteractions(borrowerService);
     }
@@ -174,8 +171,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
                 .andExpect(jsonPath("$.address", nullValue()))
-                .andExpect(jsonPath("$.subscriptions", nullValue()))
-                .andExpect(jsonPath("$.library", nullValue()));
+                .andExpect(jsonPath("$.subscriptions", nullValue()));
         verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);
     }

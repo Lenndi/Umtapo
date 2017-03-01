@@ -52,11 +52,6 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
     }
 
     @Override
-    public Library findOneByBorrowerId(Integer borrowerId) {
-        return this.libraryDao.findByBorrowersId(borrowerId);
-    }
-
-    @Override
     public List<LibraryDto> findAllDto() {
         return mapLibrariesToLibrariesDTO(this.findAll());
     }

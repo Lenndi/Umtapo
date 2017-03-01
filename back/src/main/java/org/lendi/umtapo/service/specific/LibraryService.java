@@ -42,14 +42,6 @@ public interface LibraryService extends GenericService<Library, Integer> {
     LibraryDto findOneDto(Integer id);
 
     /**
-     * Find one by borrower id library.
-     *
-     * @param borrowerId the borrower id
-     * @return the library
-     */
-    Library findOneByBorrowerId(Integer borrowerId);
-
-    /**
      * {@inheritDoc}
      */
     @Override

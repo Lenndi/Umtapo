@@ -21,7 +21,6 @@ public class LibraryDto {
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
-    private List<BorrowerDto> borrowers;
     private List<SubscriptionDto> subscriptions;
 
     /**
@@ -167,24 +166,6 @@ public class LibraryDto {
      */
     public void setDefaultZ3950(Integer defaultZ3950) {
         this.defaultZ3950 = defaultZ3950;
-    }
-
-    /**
-     * Gets borrowers.
-     *
-     * @return the borrowers
-     */
-    public List<BorrowerDto> getBorrowers() {
-        return borrowers;
-    }
-
-    /**
-     * Sets borrowers.
-     *
-     * @param borrowers the borrowers
-     */
-    public void setBorrowers(List<BorrowerDto> borrowers) {
-        this.borrowers = borrowers;
     }
 
     /**

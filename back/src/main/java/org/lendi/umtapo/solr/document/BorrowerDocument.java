@@ -68,6 +68,9 @@ public class BorrowerDocument {
     @Field
     private Date subscriptionEnd;
 
+    @Field
+    private Integer libraryId;
+
     /**
      * Gets id.
      *
@@ -414,5 +417,23 @@ public class BorrowerDocument {
         }
 
         return formattedSubscriptionEnd;
+    }
+
+    /**
+     * Gets library id.
+     *
+     * @return the library id
+     */
+    public Integer getLibraryId() {
+        return libraryId;
+    }
+
+    /**
+     * Sets library id.
+     *
+     * @param libraryId the library id
+     */
+    public void setLibraryId(Integer libraryId) {
+        this.libraryId = libraryId;
     }
 }

@@ -76,13 +76,13 @@ public class LibraryWebServiceTest {
     public void setup() {
         ZonedDateTime zonedDateTime = java.time.ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null, null);
+                true, null, null, null);
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null, null);
+                false, null, null, null);
         this.borrowers.add(borrower);
         this.borrowers.add(borrower2);
-        Library library1 = new Library("Library of tests", 3, true, 365, 30, "$", 1, this.borrowers);
-        Library library2 = new Library("L'Îlot livres", 3, false, 365, 15, "€", 1, new ArrayList<>());
+        Library library1 = new Library("Library of tests", 3, true, 365, 30, "$", 1);
+        Library library2 = new Library("L'Îlot livres", 3, false, 365, 15, "€", 1);
         this.libraryDto1 = this.libraryMapper.mapLibraryToLibraryDto(library1);
         this.libraryDto2 = this.libraryMapper.mapLibraryToLibraryDto(library2);
     }

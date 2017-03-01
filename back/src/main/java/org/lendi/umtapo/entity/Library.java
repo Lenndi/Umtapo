@@ -26,9 +26,7 @@ public class Library {
     private String currency;
     private Integer defaultZ3950;
     @OneToMany(mappedBy = "library")
-    private List<Subscription> subscription;
-    @OneToMany(mappedBy = "library")
-    private List<Borrower> borrowers;
+    private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "library")
     private List<Item> items;
 
@@ -44,14 +42,13 @@ public class Library {
      * @param name                   the name
      * @param shelfMarkNb            the shelf mark nb
      * @param useDeweyClassification the use dewey classification
-     * @param subscriptionDuration   the subscription duration
+     * @param subscriptionDuration   the subscriptions duration
      * @param borrowDuration         the borrow duration
      * @param currency               the currency
      * @param defaultZ3950           the default z 3950
-     * @param borrowers              the borrowers
      */
     public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Integer subscriptionDuration,
-                   Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+                   Integer borrowDuration, String currency, Integer defaultZ3950) {
         this.name = name;
         this.shelfMarkNb = shelfMarkNb;
         this.useDeweyClassification = useDeweyClassification;
@@ -59,7 +56,6 @@ public class Library {
         this.borrowDuration = borrowDuration;
         this.currency = currency;
         this.defaultZ3950 = defaultZ3950;
-        this.borrowers = borrowers;
     }
 
     /**
@@ -78,24 +74,6 @@ public class Library {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets borrowers.
-     *
-     * @return the borrowers
-     */
-    public List<Borrower> getBorrowers() {
-        return borrowers;
-    }
-
-    /**
-     * Sets borrowers.
-     *
-     * @param borrowers the borrowers
-     */
-    public void setBorrowers(List<Borrower> borrowers) {
-        this.borrowers = borrowers;
     }
 
     /**
@@ -153,18 +131,18 @@ public class Library {
     }
 
     /**
-     * Gets subscription duration.
+     * Gets subscriptions duration.
      *
-     * @return the subscription duration
+     * @return the subscriptions duration
      */
     public Integer getSubscriptionDuration() {
         return subscriptionDuration;
     }
 
     /**
-     * Sets subscription duration.
+     * Sets subscriptions duration.
      *
-     * @param subscriptionDuration the subscription duration
+     * @param subscriptionDuration the subscriptions duration
      */
     public void setSubscriptionDuration(Integer subscriptionDuration) {
         this.subscriptionDuration = subscriptionDuration;
@@ -225,21 +203,21 @@ public class Library {
     }
 
     /**
-     * Gets subscription.
+     * Gets subscriptions.
      *
-     * @return the subscription
+     * @return the subscriptions
      */
-    public List<Subscription> getSubscription() {
-        return subscription;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
     /**
-     * Sets subscription.
+     * Sets subscriptions.
      *
-     * @param subscription the subscription
+     * @param subscriptions the subscriptions
      */
-    public void setSubscription(List<Subscription> subscription) {
-        this.subscription = subscription;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     /**

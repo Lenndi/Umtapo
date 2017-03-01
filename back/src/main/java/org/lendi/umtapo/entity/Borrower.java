@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.time.ZonedDateTime;
@@ -29,17 +26,10 @@ public class Borrower {
     private Boolean emailOptin;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "BORROWER_SUBSCRIPTION",
-            joinColumns = @JoinColumn(name = "BORROWER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SUBSCRIPTION_ID")
-    )
+    @OneToMany(mappedBy = "borrower")
     private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "borrower")
     private List<Loan> loans;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private Library library;
 
     /**
      * Instantiates a new Borrower.
@@ -58,11 +48,10 @@ public class Borrower {
      * @param address       the address
      * @param subscriptions the subscriptions
      * @param loans         the loans
-     * @param library       the library
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
-            List<Subscription> subscriptions, List<Loan> loans, Library library) {
+            List<Subscription> subscriptions, List<Loan> loans) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -71,7 +60,6 @@ public class Borrower {
         this.address = address;
         this.subscriptions = subscriptions;
         this.loans = loans;
-        this.library = library;
     }
 
     /**
@@ -90,24 +78,6 @@ public class Borrower {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets library.
-     *
-     * @return the library
-     */
-    public Library getLibrary() {
-        return library;
-    }
-
-    /**
-     * Sets library.
-     *
-     * @param library the library
-     */
-    public void setLibrary(Library library) {
-        this.library = library;
     }
 
     /**
