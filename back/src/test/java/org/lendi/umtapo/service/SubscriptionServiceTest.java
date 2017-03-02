@@ -20,12 +20,14 @@ import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import util.UtilCreator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UmtapoApplication.class)
 @ContextConfiguration(classes = SolrTestConfig.class)
+@Sql(value = "classpath:test/truncate.sql")
 public class SubscriptionServiceTest {
 
     @Autowired
@@ -75,7 +77,8 @@ public class SubscriptionServiceTest {
 
     @Test
     public void testSaveDto() throws Exception {
-        SubscriptionDto subscriptionDto = subscriptionService.saveDto(utilCreator.createSubscriptionDto(1, utilCreator.createBorrowerDto(borrower.getId()), utilCreator.createLibraryDto(library.getId())));
+        borrowerDao.findAll();
+        SubscriptionDto subscriptionDto = subscriptionService.saveDto(utilCreator.createSubscriptionDto(1, utilCreator.createBorrowerDto(1), utilCreator.createLibraryDto(1)));
 
         Subscription subscription = subscriptionDao.findOne(subscriptionDto.getId());
 
