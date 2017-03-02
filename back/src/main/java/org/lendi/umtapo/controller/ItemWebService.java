@@ -110,10 +110,10 @@ public class ItemWebService {
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getItemSearchs(@PathParam("page") Integer page,
-                                                  @PathParam("size") Integer size,
-                                                  @PathParam("serialNumber") String serialNumber,
-                                                  @PathParam("serialType") String serialType,
-                                                  @PathParam("mainTitle") String mainTitle) {
+                                         @PathParam("size") Integer size,
+                                         @PathParam("serialNumber") String serialNumber,
+                                         @PathParam("serialType") String serialType,
+                                         @PathParam("mainTitle") String mainTitle) {
 
         Page<ItemDto> itemDtos = null;
         Pageable pageable;
@@ -202,8 +202,8 @@ public class ItemWebService {
             return new ResponseEntity<>("This item do not exist", HttpStatus.NO_CONTENT);
         } else {
             if (item.getBorrowed() != null) {
-                if (jsonNodeItem.get("isBorrowed") != null && item.getBorrowed() != null) {
-                    if (item.getBorrowed() == jsonNodeItem.get("isBorrowed").asBoolean()) {
+                if (jsonNodeItem.get("borrowed") != null && item.getBorrowed() != null) {
+                    if (item.getBorrowed() == jsonNodeItem.get("borrowed").asBoolean()) {
                         if (!item.getBorrowed()) {
                             return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_RENDERED.getValue(),
                                     HttpStatus.ACCEPTED);
@@ -212,9 +212,6 @@ public class ItemWebService {
                                     HttpStatus.ACCEPTED);
                         }
                     }
-                } else if (item.getLoanable() == null || !item.getLoanable()) {
-                    return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus
-                            .ACCEPTED);
                 }
             }
             try {
