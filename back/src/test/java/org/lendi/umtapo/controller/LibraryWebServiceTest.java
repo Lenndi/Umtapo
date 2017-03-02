@@ -1,7 +1,6 @@
 package org.lendi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
