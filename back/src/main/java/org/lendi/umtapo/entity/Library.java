@@ -34,8 +34,6 @@ public class Library {
     private Integer defaultZ3950;
     @OneToMany(mappedBy = "library")
     private List<Subscription> subscription;
-    @OneToMany(mappedBy = "library")
-    private List<Borrower> borrowers;
     @OneToMany(mappedBy = "library", cascade = CascadeType.PERSIST)
     private List<Item> items;
 
@@ -56,10 +54,9 @@ public class Library {
      * @param borrowDuration         the borrow duration
      * @param currency               the currency
      * @param defaultZ3950           the default z 3950
-     * @param borrowers              the borrowers
      */
     public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Integer subscriptionDuration,
-                   Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+                   Integer borrowDuration, String currency, Integer defaultZ3950) {
         this.items = new ArrayList<>();
         this.name = name;
         this.shelfMarkNb = shelfMarkNb;
@@ -68,7 +65,6 @@ public class Library {
         this.borrowDuration = borrowDuration;
         this.currency = currency;
         this.defaultZ3950 = defaultZ3950;
-        this.borrowers = borrowers;
     }
 
     /**
@@ -87,24 +83,6 @@ public class Library {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets borrowers.
-     *
-     * @return the borrowers
-     */
-    public List<Borrower> getBorrowers() {
-        return borrowers;
-    }
-
-    /**
-     * Sets borrowers.
-     *
-     * @param borrowers the borrowers
-     */
-    public void setBorrowers(List<Borrower> borrowers) {
-        this.borrowers = borrowers;
     }
 
     /**

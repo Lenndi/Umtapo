@@ -71,6 +71,7 @@ public class SubscriptionWebService {
             }
 
             subscriptionDto = this.subscriptionService.saveDto(subscriptionDto);
+            LOGGER.info("Subscription " + subscriptionDto.getId() + " inserted in database.");
 
             return new ResponseEntity<>(subscriptionDto, HttpStatus.CREATED);
         } else {
