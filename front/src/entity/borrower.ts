@@ -1,4 +1,3 @@
-import {Library} from './library';
 import {Address} from './address';
 import {Subscription} from './subscription';
 import {Loan} from './loan';
@@ -13,7 +12,6 @@ export class Borrower {
   address: Address;
   subscriptions: Subscription[];
   loans: Loan[];
-  library: Library;
 
   constructor() {
     this.subscriptions = [];
