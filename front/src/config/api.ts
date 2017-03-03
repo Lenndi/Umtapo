@@ -4,5 +4,6 @@ export const api = {
   borrower: 'borrowers',
   record: 'records',
   item: 'items',
-  loan: 'loans'
+  loan: 'loans',
+  subscription: 'subscriptions'
 };
