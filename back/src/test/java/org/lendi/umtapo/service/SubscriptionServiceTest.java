@@ -24,11 +24,15 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import util.UtilCreator;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UmtapoApplication.class)
 @ContextConfiguration(classes = SolrTestConfig.class)
 @Sql(value = "classpath:test/truncate.sql")
 public class SubscriptionServiceTest {
+    public static final String BAD_SUBSCRIPTION_DATE = "org.lendi.umtapo.exception.BadSubscriptionDateException";
 
     @Autowired
     private SubscriptionService subscriptionService;
@@ -77,7 +81,6 @@ public class SubscriptionServiceTest {
 
     @Test
     public void testSaveDto() throws Exception {
-        borrowerDao.findAll();
         SubscriptionDto subscriptionDto = subscriptionService.saveDto(utilCreator.createSubscriptionDto(1, utilCreator.createBorrowerDto(1), utilCreator.createLibraryDto(1)));
 
         Subscription subscription = subscriptionDao.findOne(subscriptionDto.getId());
@@ -88,5 +91,91 @@ public class SubscriptionServiceTest {
         Assert.assertEquals(subscription.getEnd(), utilCreator.getSubscriptionEnd());
         Assert.assertEquals(subscription.getLibrary().getId(), library.getId());
         Assert.assertEquals(subscription.getBorrower().getId(), borrower.getId());
+    }
+
+    @Test
+    public void testCantSaveSubscriptionInAnExistingRange() throws Exception {
+        boolean isExceptionThrown = false;
+        String exceptionName = "";
+
+        ZonedDateTime subscriptionStart1 = java.time.ZonedDateTime.of(2016, 10, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionEnd1 = java.time.ZonedDateTime.of(2017, 10, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionStart2 = java.time.ZonedDateTime.of(2016, 12, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionEnd2 = java.time.ZonedDateTime.of(2017, 01, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionStart3 = java.time.ZonedDateTime.of(2018, 10, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionEnd3 = java.time.ZonedDateTime.of(2019, 10, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime subscriptionStart4 = java.time.ZonedDateTime.of(2015, 10, 1, 0, 0, 0, 0, ZoneId.systemDefault());
+
+
+        Subscription subscription = new Subscription();
+        subscription.setLibrary(library);
+        subscription.setBorrower(borrower);
+        subscription.setContribution(10);
+        subscription.setStart(subscriptionStart1);
+        subscription.setEnd(subscriptionEnd1);
+        subscriptionDao.save(subscription);
+
+        Subscription subscription1 = new Subscription();
+        subscription1.setLibrary(library);
+        subscription1.setBorrower(borrower);
+        subscription1.setContribution(10);
+        subscription1.setStart(subscriptionStart2);
+        subscription1.setEnd(subscriptionEnd3);
+        try {
+            subscriptionService.save(subscription1);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            exceptionName = e.getClass().getName();
+        }
+        Assert.assertTrue(isExceptionThrown);
+        Assert.assertEquals(exceptionName, BAD_SUBSCRIPTION_DATE);
+
+        isExceptionThrown = false;
+        exceptionName = "";
+        Subscription subscription2 = new Subscription();
+        subscription2.setLibrary(library);
+        subscription2.setBorrower(borrower);
+        subscription2.setContribution(10);
+        subscription2.setStart(subscriptionStart4);
+        subscription2.setEnd(subscriptionEnd2);
+        try {
+            subscriptionService.save(subscription2);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            exceptionName = e.getClass().getName();
+        }
+        Assert.assertTrue(isExceptionThrown);
+        Assert.assertEquals(exceptionName, BAD_SUBSCRIPTION_DATE);
+
+        isExceptionThrown = false;
+        exceptionName = "";
+        Subscription subscription3 = new Subscription();
+        subscription3.setLibrary(library);
+        subscription3.setBorrower(borrower);
+        subscription3.setContribution(10);
+        subscription3.setStart(subscriptionStart3);
+        subscription3.setEnd(subscriptionEnd1);
+        try {
+            subscriptionService.save(subscription3);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            exceptionName = e.getClass().getName();
+        }
+        Assert.assertTrue(isExceptionThrown);
+        Assert.assertEquals(exceptionName, BAD_SUBSCRIPTION_DATE);
+
+        isExceptionThrown = false;
+        Subscription subscription4 = new Subscription();
+        subscription4.setLibrary(library);
+        subscription4.setBorrower(borrower);
+        subscription4.setContribution(10);
+        subscription4.setStart(subscriptionStart3);
+        subscription4.setEnd(subscriptionEnd3);
+        try {
+            subscriptionService.save(subscription4);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Assert.assertFalse(isExceptionThrown);
     }
 }
