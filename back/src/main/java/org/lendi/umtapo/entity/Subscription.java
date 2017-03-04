@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 /**
@@ -18,11 +19,15 @@ public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotNull
     private ZonedDateTime start;
+    @NotNull
     private ZonedDateTime end;
     private Integer contribution;
+    @NotNull
     @ManyToOne
     private Borrower borrower;
+    @NotNull
     @ManyToOne
     private Library library;
 
