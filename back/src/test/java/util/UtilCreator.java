@@ -156,6 +156,7 @@ public class UtilCreator {
         library.setDefaultZ3950(1);
         library.setShelfMarkNb(3);
         library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
 
         return library;
     }
