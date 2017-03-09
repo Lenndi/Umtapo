@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -88,8 +89,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription latestSubscription = this.subscriptionDao.findFirstByBorrowerIdOrderByStartDesc(borrowerId);
 
         BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
-        borrowerDocument.setSubscriptionStart(latestSubscription.getStart());
-        borrowerDocument.setSubscriptionEnd(latestSubscription.getEnd());
+        borrowerDocument.setSubscriptionStart(Date.from(latestSubscription.getStart().toInstant()));
+        borrowerDocument.setSubscriptionEnd(Date.from(latestSubscription.getEnd().toInstant()));
         borrowerDocument.setLibraryId(latestSubscription.getLibrary().getId());
         this.solrBorrowerService.saveToIndex(borrowerDocument);
 

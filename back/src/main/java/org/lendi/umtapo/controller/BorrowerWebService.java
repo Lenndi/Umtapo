@@ -75,8 +75,6 @@ public class BorrowerWebService {
      * @param id                  the id
      * @param email               the email
      * @param city                the city
-     * @param fromSubscriptionEnd the from subscription end
-     * @param toSubscriptionEnd   the to subscription end
      * @param sort                the sort
      * @param order               the order
      * @return the borrowers
@@ -90,8 +88,6 @@ public class BorrowerWebService {
                                        @PathParam("id") String id,
                                        @PathParam("email") String email,
                                        @PathParam("city") String city,
-                                       @PathParam("fromSubscriptionEnd") String fromSubscriptionEnd,
-                                       @PathParam("toSubscriptionEnd") String toSubscriptionEnd,
                                        @PathParam("sort") String sort,
                                        @PathParam("order") String order) {
 
@@ -131,15 +127,9 @@ public class BorrowerWebService {
             if (city == null) {
                 city = "";
             }
-            if (fromSubscriptionEnd == null) {
-                fromSubscriptionEnd = "";
-            }
-            if (toSubscriptionEnd == null) {
-                toSubscriptionEnd = "";
-            }
 
             borrowerDtos = borrowerService.findAllBorrowerDtoWithFilters(
-                    name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, pageable);
+                    name, email, city, id, pageable);
         }
 
         if (borrowerDtos.getTotalElements() == 0) {
