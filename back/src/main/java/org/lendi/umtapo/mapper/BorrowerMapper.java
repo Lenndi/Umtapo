@@ -12,6 +12,7 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.mapper.converter.LatenessConverter;
+import org.lendi.umtapo.mapper.converter.ZonedDateTimeConverter;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,7 @@ public class BorrowerMapper extends ConfigurableMapper {
         final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
         converterFactory.registerConverter(new PassThroughConverter(ZonedDateTime.class));
         converterFactory.registerConverter("latenessConverter", new LatenessConverter());
+        converterFactory.registerConverter("dateConverter", new ZonedDateTimeConverter());
 
         mapperFactory.classMap(Borrower.class, BorrowerDto.class)
                 .byDefault()
@@ -47,6 +49,7 @@ public class BorrowerMapper extends ConfigurableMapper {
         DTO_MAPPER = mapperFactory.getMapperFacade();
 
         mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
+                .fieldMap("birthday", "birthday").converter("dateConverter").add()
                 .field("address.id", "addressId")
                 .field("address.address1", "address1")
                 .field("address.address2", "address2")
@@ -60,6 +63,9 @@ public class BorrowerMapper extends ConfigurableMapper {
 
         mapperFactory.classMap(BorrowerDto.class, BorrowerDocument.class)
                 .fieldMap("lateness", "olderReturn").converter("latenessConverter").add()
+                .fieldMap("birthday", "birthday").converter("dateConverter").add()
+                .fieldMap("subscriptionStart", "subscriptionStart").converter("dateConverter").add()
+                .fieldMap("subscriptionEnd", "subscriptionEnd").converter("dateConverter").add()
                 .field("address.id", "addressId")
                 .field("address.address1", "address1")
                 .field("address.address2", "address2")
@@ -177,7 +183,7 @@ public class BorrowerMapper extends ConfigurableMapper {
      * @param borrowerDocument the borrower document
      * @return the borrower
      */
-    public BorrowerDto mapBorrowerDocumenttoBorrowerDto(BorrowerDocument borrowerDocument) {
+    public BorrowerDto mapBorrowerDocumentToBorrowerDto(BorrowerDocument borrowerDocument) {
         return DTO_DOCUMENT_MAPPER.map(borrowerDocument, BorrowerDto.class);
     }
 }

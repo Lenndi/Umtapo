@@ -16,6 +16,7 @@ import org.lendi.umtapo.enumeration.ItemType;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -43,7 +44,7 @@ public class UtilCreator {
         borrowerDocument.setId(id);
         borrowerDocument.setName(name);
         borrowerDocument.setComment("Un bien bel usager.");
-        borrowerDocument.setBirthday(birthday);
+        borrowerDocument.setBirthday(Date.from(birthday.toInstant()));
         borrowerDocument.setQuota(5);
         borrowerDocument.setEmailOptin(true);
         borrowerDocument.setAddressId("3");
@@ -56,8 +57,8 @@ public class UtilCreator {
         borrowerDocument.setNbLoans(3);
         borrowerDocument.setTooMuchLoans(false);
         borrowerDocument.setOlderReturn(olderReturn);
-        borrowerDocument.setSubscriptionStart(subscriptionStart);
-        borrowerDocument.setSubscriptionEnd(subscriptionEnd);
+        borrowerDocument.setSubscriptionStart(Date.from(subscriptionStart.toInstant()));
+        borrowerDocument.setSubscriptionEnd(Date.from(subscriptionEnd.toInstant()));
 
         return borrowerDocument;
     }
@@ -101,6 +102,28 @@ public class UtilCreator {
         address.setCity("Rennes");
         address.setPhone("0299813994");
         address.setEmail("michel@test.com");
+        borrower.setAddress(address);
+
+        return borrower;
+    }
+
+    public BorrowerDto createBorrowerDto(Integer id, String name, String email) {
+        AddressDto address = new AddressDto();
+        BorrowerDto borrower = new BorrowerDto();
+
+        borrower.setId(id);
+        borrower.setName(name);
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail(email);
         borrower.setAddress(address);
 
         return borrower;

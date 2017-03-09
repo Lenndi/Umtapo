@@ -122,12 +122,10 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
             String email,
             String city,
             String id,
-            String fromSubscriptionEnd,
-            String toSubscriptionEnd,
             Pageable page
     ) {
         Page<BorrowerDocument> borrowers = this.solrBorrowerService.fullSearch(
-                name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, page);
+                name, email, city, id, page);
 
         return this.borrowerDocumentPageToDtoPage(borrowers);
     }
@@ -188,7 +186,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         List<BorrowerDocument> borrowers = borrowersPage.getContent();
 
         borrowers.forEach(borrowerDocument ->
-          borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumenttoBorrowerDto(borrowerDocument))
+          borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumentToBorrowerDto(borrowerDocument))
         );
 
         return new PageImpl<>(borrowerDtos, page, borrowersPage.getTotalElements());
@@ -198,8 +196,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
 
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
         borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
-        Page<BorrowerDto> page = new PageImpl(borrowerDtos);
 
-        return page;
+        return  new PageImpl<>(borrowerDtos);
     }
 }
