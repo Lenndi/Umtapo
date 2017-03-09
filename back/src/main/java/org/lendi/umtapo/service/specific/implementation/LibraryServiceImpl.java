@@ -56,8 +56,8 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
-
-    private Library mapLibraryDtoToLibrary(LibraryDto libraryDto) {
+    @Override
+    public Library mapLibraryDtoToLibrary(LibraryDto libraryDto) {
         return this.libraryMapper.mapLibraryDtoToLibrary(libraryDto);
     }
 

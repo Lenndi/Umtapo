@@ -16,6 +16,7 @@ import org.lendi.umtapo.entity.Subscription;
 import org.lendi.umtapo.service.specific.SubscriptionService;
 import org.lendi.umtapo.solr.SolrTestConfig;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lendi.umtapo.solr.repository.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import util.UtilCreator;
 
+import java.sql.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -44,14 +46,16 @@ public class SubscriptionServiceTest {
     private SubscriptionDao subscriptionDao;
     @Autowired
     private SolrBorrowerService solrBorrowerService;
+    @Autowired
+    private SolrBorrowerRepository solrBorrowerRepository;
     private UtilCreator utilCreator;
     private Borrower borrower;
     private Library library;
 
     @Before
     public void setup() throws Exception {
+        solrBorrowerRepository.deleteAll();
         this.utilCreator = new UtilCreator();
-        solrBorrowerService.deleteFromIndex(1);
         BorrowerDocument borrowerDocument = new BorrowerDocument();
         borrowerDocument.setId("1");
         solrBorrowerService.saveToIndex(borrowerDocument);
@@ -64,9 +68,7 @@ public class SubscriptionServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        this.subscriptionDao.deleteAll();
-        libraryDao.deleteAll();
-        borrowerDao.deleteAll();
+
     }
 
     @Test
@@ -75,8 +77,8 @@ public class SubscriptionServiceTest {
         subscriptionService.save(subscription);
 
         BorrowerDocument borrowerDocument1 = solrBorrowerService.findById("1");
-        Assert.assertEquals(subscription.getEnd(), borrowerDocument1.getSubscriptionEnd());
-        Assert.assertEquals(subscription.getStart(), borrowerDocument1.getSubscriptionStart());
+        Assert.assertEquals(Date.from(subscription.getEnd().toInstant()), borrowerDocument1.getSubscriptionEnd());
+        Assert.assertEquals(Date.from(subscription.getStart().toInstant()), borrowerDocument1.getSubscriptionStart());
     }
 
     @Test
