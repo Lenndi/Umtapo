@@ -212,6 +212,9 @@ public class ItemWebService {
                                     HttpStatus.ACCEPTED);
                         }
                     }
+                } else if (item.getLoanable() == null || !item.getLoanable()) {
+                    return new ResponseEntity<>(ApplicationCodeEnum.DOCUMENT_ALREADY_BORROWED.getValue(), HttpStatus
+                            .ACCEPTED);
                 }
             }
             try {
