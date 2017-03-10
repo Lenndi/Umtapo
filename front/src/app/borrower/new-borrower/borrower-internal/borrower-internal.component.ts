@@ -42,7 +42,7 @@ export class BorrowerInternalComponent implements OnInit {
     let subscription: Subscription = this.dataService.subscription;
 
     this.startSubscription = new FormControl(
-      subscription.start != null ? subscription.start : '',
+      subscription != null ? subscription.start : new Date().toJSON().split('T')[0],
       [Validators.required, ValidationService.dateValidator]);
     this.contribution = new FormControl(
       subscription.contribution != null ? subscription.contribution : '',
