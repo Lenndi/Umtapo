@@ -74,7 +74,9 @@ export class BorrowerPersonalComponent implements OnInit, NewBorrower {
 
     if (this.form.valid) {
       logger.info('valid form :', value);
+
       this.saveData();
+
       this.router.navigate(['borrowers/new/' + (this.dataService.step + 1)]);
     } else {
       logger.info('Invalid form :', value);
@@ -95,7 +97,6 @@ export class BorrowerPersonalComponent implements OnInit, NewBorrower {
     }
     this.dataService.borrower.name = value.name;
     this.dataService.borrower.birthday = new Date(value.birthday);
-    this.dataService.borrower.quota = value.quota;
     this.dataService.borrower.emailOptin = value.emailOptin;
 
     if (!this.dataService.borrower.address) {

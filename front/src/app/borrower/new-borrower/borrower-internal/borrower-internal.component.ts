@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import {MdSnackBar} from '@angular/material';
@@ -9,6 +9,7 @@ import {Library} from '../../../../entity/library';
 import {LibraryService} from '../../../../service/library.service';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {Borrower} from '../../../../entity/borrower';
+import {NewBorrower} from '../new-borrower.interface';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -16,7 +17,7 @@ import {Borrower} from '../../../../entity/borrower';
   styleUrls: ['./borrower-internal.component.scss'],
   providers: [BorrowerService]
 })
-export class BorrowerInternalComponent implements OnInit {
+export class BorrowerInternalComponent implements OnInit, NewBorrower {
   form: FormGroup;
   library: Library;
   startSubscription: FormControl;
@@ -39,7 +40,7 @@ export class BorrowerInternalComponent implements OnInit {
       subscription = borrower.subscriptions[0];
     }
     this.startSubscription = new FormControl(
-      subscription != null ? subscription.start : '',
+      subscription != null ? new Date(subscription.start).toJSON().split('T')[0] : '',
       [Validators.required, ValidationService.dateValidator]);
     this.quota = new FormControl(borrower != null ? borrower.quota : '', Validators.required);
     this.contribution = new FormControl(subscription != null ? subscription.contribution : '', Validators.required);
@@ -64,16 +65,8 @@ export class BorrowerInternalComponent implements OnInit {
 
     if (this.form.valid) {
       logger.info('valid form :', value);
-      this.dataService.borrower.quota = value.quota;
-      this.dataService.borrower.emailOptin = value.emailOptin;
 
-      let subscription: Subscription = new Subscription();
-      subscription.start = new Date(value.startSubscription);
-      this.setEndSubscriptionDate();
-      subscription.end = this.endSubscription;
-      subscription.contribution = value.contribution;
-
-      this.dataService.borrower.subscriptions.push(subscription);
+      this.saveData();
 
       this.borrowerService
         .save(this.dataService.borrower)
@@ -94,5 +87,21 @@ export class BorrowerInternalComponent implements OnInit {
     date.setDate(date.getDate() + this.library.subscriptionDuration);
 
     this.endSubscription = date;
+  }
+
+  saveData(): void {
+    let value = this.form.value;
+
+    this.dataService.borrower.quota = value.quota;
+    this.dataService.borrower.emailOptin = value.emailOptin;
+    this.dataService.borrower.comment = value.comment;
+
+    let subscription: Subscription = new Subscription();
+    subscription.start = new Date(value.startSubscription);
+    this.setEndSubscriptionDate();
+    subscription.end = this.endSubscription;
+    subscription.contribution = value.contribution;
+
+    this.dataService.borrower.subscriptions[0] = subscription;
   }
 }
