@@ -8,6 +8,7 @@ import {Library} from '../../../../entity/library';
 import {LibraryService} from '../../../../service/library.service';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {Borrower} from '../../../../entity/borrower';
+import {NewBorrower} from '../new-borrower.interface';
 import {SubscriptionService} from '../../../../service/subscription.service';
 import {logger} from '../../../../environments/environment';
 
@@ -17,7 +18,7 @@ import {logger} from '../../../../environments/environment';
   styleUrls: ['./borrower-internal.component.scss'],
   providers: [BorrowerService, SubscriptionService]
 })
-export class BorrowerInternalComponent implements OnInit {
+export class BorrowerInternalComponent implements OnInit, NewBorrower {
   form: FormGroup;
   library: Library;
   startSubscription: FormControl;
@@ -42,7 +43,7 @@ export class BorrowerInternalComponent implements OnInit {
     let subscription: Subscription = this.dataService.subscription;
 
     this.startSubscription = new FormControl(
-      subscription != null ? subscription.start : new Date().toJSON().split('T')[0],
+      subscription != null ? new Date(subscription.start).toJSON().split('T')[0] : new Date().toJSON().split('T')[0],
       [Validators.required, ValidationService.dateValidator]);
     this.contribution = new FormControl(
       subscription.contribution != null ? subscription.contribution : '',
@@ -69,13 +70,8 @@ export class BorrowerInternalComponent implements OnInit {
 
     if (this.form.valid) {
       logger.info('valid form :', value);
-      this.dataService.borrower.quota = value.quota;
-      this.dataService.borrower.emailOptin = value.emailOptin;
-      this.dataService.borrower.comment = value.comment;
 
-      this.dataService.subscription.start = new Date(value.startSubscription);
-      this.dataService.subscription.contribution = value.contribution;
-      this.dataService.subscription.library = this.library;
+      this.saveData();
 
       this.borrowerService
         .save(this.dataService.borrower)
@@ -111,5 +107,19 @@ export class BorrowerInternalComponent implements OnInit {
     date.setDate(date.getDate() + this.library.subscriptionDuration);
 
     this.endSubscription = date;
+  }
+
+  saveData(): void {
+    let value = this.form.value;
+
+    this.dataService.borrower.quota = value.quota;
+    this.dataService.borrower.emailOptin = value.emailOptin;
+    this.dataService.borrower.comment = value.comment;
+
+    this.dataService.subscription.start = new Date(value.startSubscription);
+    this.dataService.subscription.contribution = value.contribution;
+    this.dataService.subscription.library = this.library;
+
+    this.dataService.borrower.subscriptions[0] = subscription;
   }
 }
