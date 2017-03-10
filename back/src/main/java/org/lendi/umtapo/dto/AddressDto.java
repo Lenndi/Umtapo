@@ -1,8 +1,6 @@
 package org.lendi.umtapo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.util.JsonViewResolver;
 
 import javax.persistence.GeneratedValue;
@@ -14,7 +12,6 @@ import javax.persistence.Id;
  * <p>
  * Created by axel on 29/11/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class AddressDto {
 
     @Id

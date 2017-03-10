@@ -4,16 +4,19 @@ import org.lendi.umtapo.dto.AddressDto;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Address;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.entity.ShelfMark;
+import org.lendi.umtapo.entity.Subscription;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -41,7 +44,7 @@ public class UtilCreator {
         borrowerDocument.setId(id);
         borrowerDocument.setName(name);
         borrowerDocument.setComment("Un bien bel usager.");
-        borrowerDocument.setBirthday(birthday);
+        borrowerDocument.setBirthday(Date.from(birthday.toInstant()));
         borrowerDocument.setQuota(5);
         borrowerDocument.setEmailOptin(true);
         borrowerDocument.setAddressId("3");
@@ -54,8 +57,8 @@ public class UtilCreator {
         borrowerDocument.setNbLoans(3);
         borrowerDocument.setTooMuchLoans(false);
         borrowerDocument.setOlderReturn(olderReturn);
-        borrowerDocument.setSubscriptionStart(subscriptionStart);
-        borrowerDocument.setSubscriptionEnd(subscriptionEnd);
+        borrowerDocument.setSubscriptionStart(Date.from(subscriptionStart.toInstant()));
+        borrowerDocument.setSubscriptionEnd(Date.from(subscriptionEnd.toInstant()));
 
         return borrowerDocument;
     }
@@ -104,6 +107,28 @@ public class UtilCreator {
         return borrower;
     }
 
+    public BorrowerDto createBorrowerDto(Integer id, String name, String email) {
+        AddressDto address = new AddressDto();
+        BorrowerDto borrower = new BorrowerDto();
+
+        borrower.setId(id);
+        borrower.setName(name);
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail(email);
+        borrower.setAddress(address);
+
+        return borrower;
+    }
+
     public Library createLibrary(Integer id) {
         Library library = new Library();
 
@@ -121,19 +146,19 @@ public class UtilCreator {
     }
 
     public LibraryDto createLibraryDto(Integer id) {
-        LibraryDto libraryDto = new LibraryDto();
+        LibraryDto library = new LibraryDto();
 
-        libraryDto.setId(id);
-        libraryDto.setName("Test Library");
-        libraryDto.setBorrowDuration(30);
-        libraryDto.setSubscriptionDuration(365);
-        libraryDto.setCurrency("€");
-        libraryDto.setDefaultZ3950(1);
-        libraryDto.setShelfMarkNb(3);
-        libraryDto.setUseDeweyClassification(false);
-        libraryDto.setFirstInternalId(1234);
+        library.setId(id);
+        library.setName("Test Library");
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
 
-        return libraryDto;
+        return library;
     }
 
     public Item createItem(Integer id, Integer internalId) {
@@ -172,6 +197,30 @@ public class UtilCreator {
         item.setShelfmark(new ShelfMark("TES", "002", "URI"));
 
         return item;
+    }
+
+    public Subscription createSubscription(Integer id, Borrower borrower, Library library) {
+        Subscription subscription = new Subscription();
+        subscription.setId(id);
+        subscription.setContribution(650);
+        subscription.setStart(this.subscriptionStart);
+        subscription.setEnd(this.subscriptionEnd);
+        subscription.setBorrower(borrower);
+        subscription.setLibrary(library);
+
+        return subscription;
+    }
+
+    public SubscriptionDto createSubscriptionDto(Integer id, BorrowerDto borrowerDto, LibraryDto libraryDto) {
+        SubscriptionDto subscription = new SubscriptionDto();
+        subscription.setId(id);
+        subscription.setContribution(6.5f);
+        subscription.setStart(this.subscriptionStart);
+        subscription.setEnd(this.subscriptionEnd);
+        subscription.setBorrower(borrowerDto);
+        subscription.setLibrary(libraryDto);
+
+        return subscription;
     }
 
     public ZonedDateTime getBirthday() {

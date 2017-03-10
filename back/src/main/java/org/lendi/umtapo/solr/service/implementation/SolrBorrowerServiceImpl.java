@@ -62,14 +62,9 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
             String email,
             String city,
             String id,
-            String fromSubscriptionEnd,
-            String toSubscriptionEnd,
             Pageable page) {
-        Page<BorrowerDocument> borrowers;
-        borrowers = this.documentRepository.fullSearch(
-                name, email, city, id, fromSubscriptionEnd, toSubscriptionEnd, page);
-
-        return borrowers;
+        return this.documentRepository.fullSearch(
+                name, email, city, id, page);
     }
 
     @Override

@@ -26,10 +26,6 @@ Return borrowers.
 
 `city=[string]` Filter borrowers with city containing term.
 
-`fromEndSubscription=[date]` Starting range for end subscription search.
-
-`toEndSubscription=[date]` Ending range for end subscription search.
-
 ### Success Response
 
   * **Code:** 200 <br>

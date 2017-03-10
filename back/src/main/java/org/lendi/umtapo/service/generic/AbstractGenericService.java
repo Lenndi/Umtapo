@@ -70,5 +70,4 @@ public abstract class AbstractGenericService<T, ID extends Serializable> impleme
     public Boolean exists(ID id) {
         return this.repository.exists(id);
     }
-
 }
