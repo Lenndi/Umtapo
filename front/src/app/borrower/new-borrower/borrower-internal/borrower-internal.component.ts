@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import {MdSnackBar} from '@angular/material';
@@ -11,6 +11,7 @@ import {Borrower} from '../../../../entity/borrower';
 import {NewBorrower} from '../new-borrower.interface';
 import {SubscriptionService} from '../../../../service/subscription.service';
 import {logger} from '../../../../environments/environment';
+import {ModalDirective} from 'ng2-bootstrap';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -19,6 +20,7 @@ import {logger} from '../../../../environments/environment';
   providers: [BorrowerService, SubscriptionService]
 })
 export class BorrowerInternalComponent implements OnInit, NewBorrower {
+  @ViewChild('confirmationModal') public confirmationModal: ModalDirective;
   form: FormGroup;
   library: Library;
   startSubscription: FormControl;
@@ -79,7 +81,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
           this.dataService.subscription.borrower = borrower;
           this.subscriptionService
             .save(this.dataService.subscription)
-            .then(subscription => this.snackBar.open('Usager créé', 'OK'))
+            .then(subscription => this.confirmationModal.show())
             .catch(response => {
               logger.error(response);
               this.snackBar.open('Usager créé, problème durant l\'enregistrement de l\'abonnement', 'OK');

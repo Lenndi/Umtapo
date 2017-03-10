@@ -50,3 +50,57 @@
     <button type="submit" class="btn btn-warning">Terminer</button>
   </div>
 </form>
+
+<div bsModal #confirmationModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true" *ngIf="dataService.borrower">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Usager enregistré</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-3">
+            <span>Identifiant</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.id}}</span>
+          </div>
+          <div class="col-3">
+            <span>Nom</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.name}}</span>
+          </div>
+          <div class="col-3">
+            <span>Email</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.address.email}}</span>
+          </div>
+          <div class="col-3">
+            <span>Ville</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.address.city}}</span>
+          </div>
+          <div class="col-3">
+            <span>Début de l'adhésion</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.subscriptions[0].start}}</span>
+          </div>
+          <div class="col-3">
+            <span>Fin de l'adhésion</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.borrower.subscriptions[0].end}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" (click)="toSearchView()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
