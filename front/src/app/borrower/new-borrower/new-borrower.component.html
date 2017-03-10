@@ -18,7 +18,7 @@
       </div>
       <div class="card-block">
         <h5 class="card-title">{{dataService.title}}</h5>
-        <router-outlet></router-outlet>
+        <router-outlet (activate)="newBorrowerChild = $event"></router-outlet>
       </div>
     </div>
   </div>
