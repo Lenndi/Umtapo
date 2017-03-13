@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import {MdSnackBar} from '@angular/material';
@@ -12,6 +12,8 @@ import {NewBorrower} from '../new-borrower.interface';
 import {SubscriptionService} from '../../../../service/subscription.service';
 import {logger} from '../../../../environments/environment';
 import {ModalDirective} from 'ng2-bootstrap';
+import {Router} from '@angular/router';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -29,6 +31,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   contribution: FormControl;
   comment: FormControl;
   emailOptin: FormControl;
+  isRegistered: boolean;
 
   constructor(
     public dataService: NewBorrowerDataService,
@@ -36,19 +39,21 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     private snackBar: MdSnackBar,
     private libraryService: LibraryService,
     private borrowerService: BorrowerService,
-    private subscriptionService: SubscriptionService
+    private subscriptionService: SubscriptionService,
+    private router: Router,
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef
   ) {
+    this.toastr.setRootViewContainerRef(vRef);
+    this.isRegistered = false;
     let borrower: Borrower = this.dataService.borrower;
-    if (!this.dataService.subscription) {
-      this.dataService.subscription = new Subscription();
-    }
     let subscription: Subscription = this.dataService.subscription;
 
     this.startSubscription = new FormControl(
       subscription != null ? new Date(subscription.start).toJSON().split('T')[0] : new Date().toJSON().split('T')[0],
       [Validators.required, ValidationService.dateValidator]);
     this.contribution = new FormControl(
-      subscription.contribution != null ? subscription.contribution : '',
+      subscription != null ? subscription.contribution : '',
       Validators.required);
     this.quota = new FormControl(borrower != null ? borrower.quota : '', Validators.required);
     this.comment = new FormControl(borrower != null ? borrower.comment : '');
@@ -56,6 +61,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
 
     this.library = this.libraryService.findLocally();
     this.dataService.step = 2;
+    this.setEndSubscriptionDate();
   }
 
   ngOnInit() {
@@ -78,17 +84,22 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
       this.borrowerService
         .save(this.dataService.borrower)
         .then(borrower => {
+          this.dataService.borrower = borrower;
           this.dataService.subscription.borrower = borrower;
           this.subscriptionService
             .save(this.dataService.subscription)
-            .then(subscription => this.confirmationModal.show())
+            .then(subscription => {
+              this.isRegistered = true;
+              this.dataService.subscription = subscription;
+              this.confirmationModal.show();
+            })
             .catch(response => {
               logger.error(response);
-              this.snackBar.open('Usager créé, problème durant l\'enregistrement de l\'abonnement', 'OK');
+              this.toastr.error(`Problème durant l\'enregistrement de l\'utilisateur`, 'Problème', {toastLife: 2000});
             });
         })
         .catch(response => {
-          this.snackBar.open('Problème durant la création de l\'usager', 'OK');
+          this.toastr.error(`Problème durant l\'enregistrement de l\'abonnement`, 'Problème', {toastLife: 2000});
           logger.error(response);
         });
     } else {
@@ -118,10 +129,16 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     this.dataService.borrower.emailOptin = value.emailOptin;
     this.dataService.borrower.comment = value.comment;
 
-    this.dataService.subscription.start = new Date(value.startSubscription);
-    this.dataService.subscription.contribution = value.contribution;
-    this.dataService.subscription.library = this.library;
+    let subscription: Subscription = new Subscription();
+    subscription.start = new Date(value.startSubscription);
+    subscription.contribution = value.contribution;
+    subscription.library = this.library;
 
-    this.dataService.borrower.subscriptions[0] = subscription;
+    this.dataService.subscription = subscription;
+  }
+
+  flushForm(): void {
+    this.dataService.flush();
+    this.router.navigate(['borrowers/new']);
   }
 }
