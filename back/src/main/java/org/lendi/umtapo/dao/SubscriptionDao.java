@@ -26,13 +26,16 @@ public interface SubscriptionDao extends JpaRepository<Subscription, Integer> {
     /**
      * Retrieve by dates included in range list.
      *
-     * @param start the start
-     * @param end   the end
+     * @param start      the start
+     * @param end        the end
+     * @param borrowerId the borrower id
      * @return the list
      */
     @Query("SELECT s FROM Subscription s "
-            + "WHERE (:start > s.start AND :start < s.end) OR (:end > s.start AND :end < s.end)")
+            + "WHERE (:start > s.start AND :start < s.end) OR (:end > s.start AND :end < s.end) "
+            + "AND s.borrower.id = :borrowerId")
     List<Subscription> retrieveByDatesIncludedInRange(
             @Param("start") ZonedDateTime start,
-            @Param("end") ZonedDateTime end);
+            @Param("end") ZonedDateTime end,
+            @Param("borrowerId") Integer borrowerId);
 }

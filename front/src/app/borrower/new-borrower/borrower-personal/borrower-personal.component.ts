@@ -7,13 +7,14 @@ import {Address} from '../../../../entity/address';
 import {MdSnackBar} from '@angular/material';
 import {Borrower} from '../../../../entity/borrower';
 import {Router} from '@angular/router';
+import {NewBorrower} from '../new-borrower.interface';
 
 @Component({
   selector: 'umt-borrower-personal',
   templateUrl: './borrower-personal.component.html',
   styleUrls: ['./borrower-personal.component.scss']
 })
-export class BorrowerPersonalComponent implements OnInit {
+export class BorrowerPersonalComponent implements OnInit, NewBorrower {
   form: FormGroup;
   name: FormControl;
   email: FormControl;
@@ -73,21 +74,9 @@ export class BorrowerPersonalComponent implements OnInit {
 
     if (this.form.valid) {
       logger.info('valid form :', value);
-      this.dataService.borrower = new Borrower();
-      this.dataService.borrower.name = value.name;
-      this.dataService.borrower.birthday = new Date(value.birthday);
-      this.dataService.borrower.quota = value.quota;
-      this.dataService.borrower.emailOptin = value.emailOptin;
 
-      let address: Address = new Address();
-      address.address1 = value.address1;
-      address.address2 = value.address2;
-      address.zip = value.zip;
-      address.city = value.city;
-      address.phone = value.phone;
-      address.email = value.email;
+      this.saveData();
 
-      this.dataService.borrower.address = address;
       this.router.navigate(['borrowers/new/' + (this.dataService.step + 1)]);
     } else {
       logger.info('Invalid form :', value);
@@ -98,5 +87,27 @@ export class BorrowerPersonalComponent implements OnInit {
         this.snackBar.open(ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'OK');
       }
     }
+  }
+
+  saveData(): void {
+    let value = this.form.value;
+
+    if (!this.dataService.borrower) {
+      this.dataService.borrower = new Borrower();
+    }
+    this.dataService.borrower.name = value.name;
+    this.dataService.borrower.birthday = new Date(value.birthday);
+    this.dataService.borrower.emailOptin = value.emailOptin;
+
+    if (!this.dataService.borrower.address) {
+      this.dataService.borrower.address = new Address();
+    }
+
+    this.dataService.borrower.address.address1 = value.address1;
+    this.dataService.borrower.address.address2 = value.address2;
+    this.dataService.borrower.address.zip = value.zip;
+    this.dataService.borrower.address.city = value.city;
+    this.dataService.borrower.address.phone = value.phone;
+    this.dataService.borrower.address.email = value.email;
   }
 }

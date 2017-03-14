@@ -68,6 +68,9 @@ public class SubscriptionWebService {
                 if (library != null) {
                     subscriptionDto.setEnd(subscriptionDto.getStart().plusDays(library.getSubscriptionDuration()));
                 } else {
+                    ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST,
+                            "Library does not exists",
+                            "Library with id " + subscriptionDto.getLibrary().getId() + "does not exists");
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
             }
