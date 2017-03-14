@@ -77,8 +77,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new BadSubscriptionDateException("Subscription end date cannot be after start date.");
         }
 
-        List<Subscription> subscriptions =
-                this.subscriptionDao.retrieveByDatesIncludedInRange(subscription.getStart(), subscription.getEnd());
+        List<Subscription> subscriptions = this.subscriptionDao.retrieveByDatesIncludedInRange(
+                subscription.getStart(),
+                subscription.getEnd(),
+                subscription.getBorrower().getId());
         if (subscriptions.size() > 0) {
             throw new BadSubscriptionDateException("Start date or end date is in an existing subscription date range.");
         }
