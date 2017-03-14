@@ -40,9 +40,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     private libraryService: LibraryService,
     private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService,
-    private router: Router,
-    private toastr: ToastsManager,
-    private vRef: ViewContainerRef
+    private router: Router
   ) {
     this.toastr.setRootViewContainerRef(vRef);
     this.isRegistered = false;
@@ -99,8 +97,8 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
             });
         })
         .catch(response => {
-          this.toastr.error(`Problème durant la création de l'usager`, 'Problème', {toastLife: 2000});
           logger.error(response);
+          this.toastr.error(`Problème durant la création de l'usager`, 'Problème', {toastLife: 2000});
         });
     } else {
       logger.info('Invalid form :', value);
