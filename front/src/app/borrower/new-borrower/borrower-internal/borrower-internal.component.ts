@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
-import {MdSnackBar} from '@angular/material';
 import {ValidationService} from '../../../../validator/validationService';
 import {Subscription} from '../../../../entity/subscription';
 import {Library} from '../../../../entity/library';
@@ -10,6 +9,7 @@ import {BorrowerService} from '../../../../service/borrower.service';
 import {Borrower} from '../../../../entity/borrower';
 import {SubscriptionService} from '../../../../service/subscription.service';
 import {logger} from '../../../../environments/environment';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -30,7 +30,8 @@ export class BorrowerInternalComponent implements OnInit {
   constructor(
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
-    private snackBar: MdSnackBar,
+    public toastr: ToastsManager,
+    public vRef: ViewContainerRef,
     private libraryService: LibraryService,
     private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService
@@ -83,22 +84,29 @@ export class BorrowerInternalComponent implements OnInit {
           this.dataService.subscription.borrower = borrower;
           this.subscriptionService
             .save(this.dataService.subscription)
-            .then(subscription => this.snackBar.open('Usager créé', 'OK'))
+            .then(subscription => this.toastr.error('Usager créé', 'Oops', {toastLife: 2000}))
             .catch(response => {
               logger.error(response);
-              this.snackBar.open('Usager créé, problème durant l\'enregistrement de l\'abonnement', 'OK');
+              this.toastr.error(
+                'Usager créé, problème durant l\'enregistrement de l\'abonnement', 'Oops',
+                {toastLife: 2000}
+              );
             });
         })
         .catch(response => {
-          this.snackBar.open('Problème durant la création de l\'usager', 'OK');
+          this.toastr.error(
+            'Problème durant la création de l\'usager', 'Oops',
+            {toastLife: 2000}
+          );
           logger.error(response);
         });
     } else {
       logger.info('Invalid form :', value);
       if (this.form.controls['startSubscription'].invalid) {
-        this.snackBar.open(
-          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription',
-          'OK');
+        this.toastr.error(
+          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'Oops',
+          {toastLife: 2000}
+          );
       }
     }
   }

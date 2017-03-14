@@ -28,6 +28,7 @@ public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocum
      * @param page  the page
      * @return the page
      */
+    @Query("name:*?0* OR email:*?1*")
     Page<BorrowerDocument> findByNameContainingOrEmailContaining(String name, String email, Pageable page);
 
     /**

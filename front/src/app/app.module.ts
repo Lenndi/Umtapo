@@ -78,7 +78,6 @@ import {ToastModule} from 'ng2-toastr';
     FormsModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
-    MaterialModule.forRoot(),
     DatepickerModule.forRoot(),
     ToastModule.forRoot(),
     TypeaheadModule.forRoot()

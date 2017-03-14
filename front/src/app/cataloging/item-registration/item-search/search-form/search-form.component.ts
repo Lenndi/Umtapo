@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
-import {MdSnackBar} from '@angular/material';
 import {RecordService} from '../../../../../service/record.service';
 import {ItemRegistrationDataService} from '../../../../../service/data-binding/item-registration-data.service';
 import {HttpLoggerService} from '../../../../../service/http-logger.service';
@@ -8,6 +7,7 @@ import {Router} from '@angular/router';
 import {IsbnValidator} from '../../../../../validator/isbn.validator';
 import {logger} from '../../../../../environments/environment';
 import * as isbnUtils from 'isbn-utils';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-search-form',
@@ -20,7 +20,8 @@ export class SearchFormComponent implements OnInit {
   title: FormControl;
 
   constructor (
-    private snackBar: MdSnackBar,
+    public toastr: ToastsManager,
+    public vRef: ViewContainerRef,
     private formBuilder: FormBuilder,
     private recordService: RecordService,
     public dataService: ItemRegistrationDataService,
@@ -49,13 +50,13 @@ export class SearchFormComponent implements OnInit {
       } else if (value.title) {
         this.searchByTitle(value.title);
       } else {
-        this.snackBar.open('Merci d\'indiquer un titre ou un numéro ISBN', 'OK');
+        this.toastr.error('Merci d\'indiquer un titre ou un numéro ISBN', 'Oops', {toastLife: 2000});
       }
     } else {
       logger.info('Invalid form :', this.form);
 
       if (this.form.controls['isbn'].invalid) {
-        this.snackBar.open('Numéro ISBN invalide', 'OK');
+        this.toastr.error('Numéro ISBN invalide', 'Oops', {toastLife: 2000});
       }
     }
   }
@@ -78,7 +79,7 @@ export class SearchFormComponent implements OnInit {
           this.dataService.searchMessage = `Aucun résultat avec le titre ${title}`;
         } else {
           this.httpLogger.error(error);
-          this.snackBar.open('Une erreur est survenue avec la bibliothèque distante', 'OK');
+          this.toastr.error('Une erreur est survenue avec la bibliothèque distante', 'Oops', {toastLife: 2000});
         }
         this.dataService.isSearching = false;
       });
@@ -98,10 +99,10 @@ export class SearchFormComponent implements OnInit {
       })
       .catch(error => {
         if (error.status === 404) {
-          this.snackBar.open('Nous n\'avons pas trouvé d\'ISBN correspondant', 'OK');
+          this.toastr.error('Nous n\'avons pas trouvé d\'ISBN correspondant', 'Oops', {toastLife: 2000});
         } else {
           this.httpLogger.error(error);
-          this.snackBar.open('Une erreur est survenue avec la bibliothèque distante', 'OK');
+          this.toastr.error('Une erreur est survenue avec la bibliothèque distante', 'Oops', {toastLife: 2000});
         }
         this.dataService.isSearching = false;
       });
@@ -119,7 +120,7 @@ export class SearchFormComponent implements OnInit {
       })
       .catch( error => {
         this.httpLogger.error(error);
-        this.snackBar.open('Une erreur est survenue avec la bibliothèque distante', 'OK');
+        this.toastr.error('Une erreur est survenue avec la bibliothèque distante', 'Oops', {toastLife: 2000});
         this.dataService.hasMoreRecords = false;
       });
   }
