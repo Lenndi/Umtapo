@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
 import {VariousValidator} from '../../../validator/various-validator';
 import {Setup} from '../setup.interface';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-setup-various',
@@ -32,7 +32,8 @@ export class SetupVariousComponent implements OnInit, Setup {
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
     public dataService: SetupDataService,
-    private snackBar: MdSnackBar
+    public toastr: ToastsManager,
+    public vRef: ViewContainerRef
   ) {
     let library = this.dataService.library;
 
@@ -82,19 +83,19 @@ export class SetupVariousComponent implements OnInit, Setup {
       logger.info('Invalid form :', this.form);
 
       if (this.form.controls['borrowDuration'].invalid) {
-        this.snackBar.open(this.borrowDurationMsg, 'OK');
+        this.toastr.error(this.borrowDurationMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['subscriptionDuration'].invalid) {
-        this.snackBar.open(this.subscriptionDurationMsg, 'OK');
+        this.toastr.error(this.subscriptionDurationMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['currency'].invalid) {
-        this.snackBar.open(this.currencyMsg, 'OK');
+        this.toastr.error(this.currencyMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['firstInternalId'].invalid) {
-        this.snackBar.open(this.firstInternalIdMsg, 'OK');
+        this.toastr.error(this.firstInternalIdMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['libraryName'].invalid) {
-        this.snackBar.open(this.libraryNameMsg, 'OK');
+        this.toastr.error(this.libraryNameMsg, 'Oops', {toastLife: 2000});
       }
     }
   }

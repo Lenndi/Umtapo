@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Borrower} from '../../../../entity/borrower';
 import {Router, ActivatedRoute} from '@angular/router';
 import {BorrowerService} from '../../../../service/borrower.service';
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 import {Subscription} from '../../../../entity/subscription';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-circulation-check-details',
@@ -14,14 +14,14 @@ import {CirculationDataService} from '../../../../service/data-binding/circulati
 export class CirculationCheckDetailsComponent implements OnInit {
   private id: number;
   private borrower: Borrower;
-  private config = new MdSnackBarConfig();
   private subscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private borrowerService: BorrowerService,
               public dataService: CirculationDataService,
-              private snackBar: MdSnackBar) {
+              public toastr: ToastsManager,
+              public vRef: ViewContainerRef) {
   }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class CirculationCheckDetailsComponent implements OnInit {
    * If Find Borrower Promise is not successful .
    */
   findBorrowerError() {
-    this.snackBar.open(`L'emprunteur n'a pas été trouvé`, 'OK', this.config);
+    this.toastr.error(`L'emprunteur n'a pas été trouvé`, 'Oops', {toastLife: 2000});
   }
 
   backToCirculationComponent() {
