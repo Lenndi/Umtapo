@@ -1,13 +1,12 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ViewChild} from '@angular/core';
 import {ItemService} from '../../../../service/item.service';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
-import {Observable, Subject, Observer} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Item} from '../../../../entity/item';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {TypeaheadMatch} from 'ng2-bootstrap';
 import {ToastsManager} from 'ng2-toastr';
-import {Response, RequestOptions} from '@angular/http';
 import {Loan} from '../../../../entity/loan';
 import {LoanService} from '../../../../service/loan.service';
 

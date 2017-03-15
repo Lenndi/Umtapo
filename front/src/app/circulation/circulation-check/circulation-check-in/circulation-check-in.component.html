@@ -1,12 +1,13 @@
 <div class="card">
   <div class="card-block">
-    <div class="container-fluid">
+    <form>
+      <div class="container-fluid">
       <div class="row justify-content-between">
         <div class="col-10">
           <h4>Retours</h4>
         </div>
         <div class="col-2">
-          <button (click)="checkBySerialOrInternalId()" type="button" class="btn btn-warning"><i
+          <button (click)="checkBySerialOrInternalId()" type="submit" class="btn btn-warning"><i
             class="fa fa-arrow-down" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -14,7 +15,7 @@
         <div class="col-4">
           <div class="form-group">
             <label for="serial">ISBN</label>
-            <input [(ngModel)]="serial" id="serial" type="text" class="form-control form-control-sm"
+            <input [(ngModel)]="serial" id="serial" name="serial" type="text" class="form-control form-control-sm"
                    placeholder="Serial">
             <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
           </div>
@@ -24,7 +25,7 @@
         <div class="col-4">
           <div class="form-group">
             <label for="internalId">Identifiant bibliothèque</label>
-            <input [(ngModel)]="internalId" id="internalId" type="number" class="form-control form-control-sm"
+            <input [(ngModel)]="internalId" id="internalId" name="serial" type="number" class="form-control form-control-sm"
                    placeholder="Identifiant du document">
             <!--[class.form-control-danger]="name.invalid && name.dirty" formControlName="serial">-->
             <div>
@@ -76,5 +77,6 @@
         </ul>
       </div>
     </div>
+    </form>
   </div>
 </div>

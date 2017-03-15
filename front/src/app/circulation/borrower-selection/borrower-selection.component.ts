@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
 import {Borrower} from '../../../entity/borrower';
 import {BorrowerService} from '../../../service/borrower.service';
 import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
-import {Observable, Subject} from 'rxjs'; // <-- import the module
+import {Observable} from 'rxjs'; // <-- import the module
 import {Http} from '@angular/http';
 import {TypeaheadMatch} from 'ng2-bootstrap';
+import {ToastsManager} from 'ng2-toastr';
 
 
 @Component({
@@ -29,7 +29,8 @@ export class BorrowerSelectionComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private borrowerService: BorrowerService,
               private router: Router,
-              private snackBar: MdSnackBar,
+              public toastr: ToastsManager,
+              public vRef: ViewContainerRef,
               public dataService: CirculationDataService,
               private http: Http) {
     this.selectedBorrower = new Borrower();
@@ -74,10 +75,10 @@ export class BorrowerSelectionComponent implements OnInit {
           this.dataService.borrower = response;
           this.router.navigate(['circulation/check/']);
         })
-        .catch(error => this.snackBar.open(`Cet identifiant n'existe pas`, 'OK'));
+        .catch(error => this.toastr.error(`Cet identifiant n'existe pas`, 'Oops', {toastLife: 2000}));
 
     } else {
-      this.snackBar.open('Les champs du formulaire sont vides', 'OK');
+      this.toastr.error('Les champs du formulaire sont vides', 'Oops', {toastLife: 2000});
     }
   }
 }

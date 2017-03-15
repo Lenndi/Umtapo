@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
-import {MdSnackBar} from '@angular/material';
 import {ValidationService} from '../../../../validator/validationService';
 import {Subscription} from '../../../../entity/subscription';
 import {Library} from '../../../../entity/library';
@@ -36,13 +35,12 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   constructor(
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
-    private snackBar: MdSnackBar,
+    public toastr: ToastsManager,
+    public vRef: ViewContainerRef,
     private libraryService: LibraryService,
     private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService,
-    private router: Router,
-    private toastr: ToastsManager,
-    private vRef: ViewContainerRef
+    private router: Router
   ) {
     this.toastr.setRootViewContainerRef(vRef);
     this.isRegistered = false;
@@ -95,19 +93,20 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
             })
             .catch(response => {
               logger.error(response);
-              this.toastr.error(`Problème durant l\'enregistrement de l\'utilisateur`, 'Problème', {toastLife: 2000});
+              this.toastr.error(`Problème durant l'enregistrement de l'abbonnement`, 'Problème', {toastLife: 2000});
             });
         })
         .catch(response => {
-          this.toastr.error(`Problème durant l\'enregistrement de l\'abonnement`, 'Problème', {toastLife: 2000});
           logger.error(response);
+          this.toastr.error(`Problème durant la création de l'usager`, 'Problème', {toastLife: 2000});
         });
     } else {
       logger.info('Invalid form :', value);
       if (this.form.controls['startSubscription'].invalid) {
-        this.snackBar.open(
-          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription',
-          'OK');
+        this.toastr.error(
+          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'Oops',
+          {toastLife: 2000}
+          );
       }
     }
   }

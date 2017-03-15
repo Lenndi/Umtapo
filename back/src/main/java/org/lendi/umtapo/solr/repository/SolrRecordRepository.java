@@ -3,6 +3,7 @@ package org.lendi.umtapo.solr.repository;
 import org.lendi.umtapo.solr.document.RecordDocument;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.solr.repository.Query;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
      * @param title the title
      * @return the list
      */
+    @Query("mainTitle:*?0*")
     List<RecordDocument> findByMainTitleContaining(String title);
 
     /**
