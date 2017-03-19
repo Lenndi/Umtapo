@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -19,11 +20,17 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    @NotNull
     private Integer shelfMarkNb;
+    @NotNull
     private Boolean useDeweyClassification;
+    @NotNull
     private Integer subscriptionDuration;
+    @NotNull
     private Integer borrowDuration;
+    @NotNull
     private String currency;
+    @NotNull
     private Integer defaultZ3950;
     @OneToMany(mappedBy = "library")
     private List<Subscription> subscription;
