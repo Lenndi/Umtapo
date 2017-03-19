@@ -10,6 +10,7 @@ import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.sql.Date;
@@ -72,6 +73,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public Subscription save(Subscription subscription) throws BadSubscriptionDateException {
         if (subscription.getEnd().isBefore(subscription.getStart())) {
             throw new BadSubscriptionDateException("Subscription end date cannot be after start date.");

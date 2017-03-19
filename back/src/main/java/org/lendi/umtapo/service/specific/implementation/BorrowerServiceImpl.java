@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     @Override
+    @Transactional
     public Borrower save(Borrower entity) {
         Borrower borrower = super.save(entity);
         this.solrBorrowerService.saveToIndex(borrower);
@@ -74,6 +76,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     @Override
+    @Transactional
     public void delete(Integer borrowerId) {
         this.solrBorrowerService.deleteFromIndex(borrowerId);
         super.delete(borrowerId);

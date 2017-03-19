@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
+    @Transactional
     public Item saveWithRecord(Item item) throws InvalidRecordException {
         Record record = null;
 
@@ -214,7 +216,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         List<ItemDto> itemDtos = new ArrayList<>();
         items.forEach(item -> itemDtos.add(mapItemToItemDto(item)));
 
-        return (Page<ItemDto>) new PageImpl(itemDtos);
+        return new PageImpl<>(itemDtos);
     }
 
     private List<ItemDto> mapItemsToItemsDto(List<Item> items) {

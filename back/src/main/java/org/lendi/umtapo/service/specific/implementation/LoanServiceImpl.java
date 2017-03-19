@@ -12,6 +12,7 @@ import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     }
 
     @Override
+    @Transactional
     public Loan saveLoanDtoToLoan(LoanDto loanDto) {
         Loan loan = this.loanMapper.mapLoanDtoToLoan(loanDto);
         loan = this.save(loan);
