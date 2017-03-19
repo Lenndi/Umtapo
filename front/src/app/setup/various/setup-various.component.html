@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <div class="form-group" [class.has-danger]="libraryName.invalid && libraryName.dirty">
+    <label for="library-name">Nom de la bibliothèque</label>
+    <input id="library-name" type="text" class="form-control" placeholder="Nom de la bibliothèque" required
+           [class.form-control-danger]="libraryName.invalid && libraryName.dirty"
+           formControlName="libraryName">
+    <div class="form-control-feedback" *ngIf="libraryName.invalid && libraryName.dirty">
+      {{libraryNameMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="borrowDuration.invalid && borrowDuration.dirty">
+    <label for="borrow-duration">Durée d'emprunt par défaut (jours)</label>
+    <input id="borrow-duration" type="number" class="form-control" placeholder="Durée d'emprunt par défaut" required
+           [class.form-control-danger]="borrowDuration.invalid && borrowDuration.dirty"
+           formControlName="borrowDuration">
+    <div class="form-control-feedback" *ngIf="borrowDuration.invalid && borrowDuration.dirty">
+      {{borrowDurationMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="subscriptionDuration.invalid && subscriptionDuration.dirty">
+    <label for="subscription-duration">Durée d'abonnement par défaut (jours)</label>
+    <input id="subscription-duration" type="number" class="form-control" placeholder="Durée d'abonnement par défaut"
+           required [class.form-control-danger]="subscriptionDuration.invalid && subscriptionDuration.dirty"
+           formControlName="subscriptionDuration">
+    <div class="form-control-feedback" *ngIf="subscriptionDuration.invalid && subscriptionDuration.dirty">
+      {{subscriptionDurationMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="currency.invalid && currency.dirty">
+    <label for="currency">Monnaie</label>
+    <input id="currency" type="text" class="form-control" placeholder="Monnaie" required
+           [class.form-control-danger]="currency.invalid && currency.dirty" formControlName="currency">
+    <div class="form-control-feedback" *ngIf="currency.invalid && currency.dirty">
+      {{currencyMsg}}
+    </div>
+  </div>
+  <div class="form-group" [class.has-danger]="firstInternalId.invalid && firstInternalId.dirty">
+    <label for="item-start-number">Identifiant de départ</label>
+    <input id="item-start-number" type="number" class="form-control" placeholder="Identifiant de départ" required
+           [class.form-control-danger]="firstInternalId.invalid && firstInternalId.dirty"
+           formControlName="firstInternalId">
+    <div class="form-control-feedback" *ngIf="firstInternalId.invalid && firstInternalId.dirty">
+      {{firstInternalIdMsg}}
+    </div>
+    <small class="form-text text-muted">
+      Il s'agit du numéro d'identification à partir duquel les nouveaux items seront enregistrés
+    </small>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-warning">Terminer</button>
+  </div>
+</form>

@@ -1,0 +1,157 @@
+<div class="card">
+  <div class="card-block">
+    <h5 class="card-title">Informations internes</h5>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-9 col-form-label-sm">Identifiant pré-existant</div>
+        <div class="col-3">
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="has-custom-id"
+                   (change)="switchCustomId()">
+            <label class="onoffswitch-label" for="has-custom-id"></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="hasCustomId">
+        <input id="isbn" type="text" class="form-control form-control-sm" placeholder="Identifiant du document"
+               formControlName="internalId">
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <label class="col-form-label-sm">Cote</label>
+        </div>
+        <div class="form-group col">
+          <input id="shelfmark1" type="text" class="form-control form-control-sm" placeholder="Champ 1"
+                 formControlName="shelfmark1">
+        </div>
+        <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 1">
+          <input id="shelfmark2" type="text" class="form-control form-control-sm" placeholder="Champ 2"
+                 formControlName="shelfmark2">
+        </div>
+        <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 2">
+          <input id="shelfmark3" type="text" class="form-control form-control-sm" placeholder="Champ 3"
+                 formControlName="shelfmark3">
+        </div>
+        <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 3">
+          <input id="shelfmark4" type="text" class="form-control form-control-sm" placeholder="Champ 4"
+                 formControlName="shelfmark4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="purchase-price" class="col-form-label-sm">Prix d'achat</label>
+        <input id="purchase-price" type="text" class="form-control  form-control-sm" placeholder="Prix d'achat"
+               formControlName="purchasePrice">
+      </div>
+      <div class="row">
+        <div class="col-10 col-form-label-sm">Document diponible à l'emprunt</div>
+        <div class="col-2">
+          <div class="umt-check-right">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" checked>
+              <span class="custom-control-indicator"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="condition" class="col-form-label-sm">État</label>
+        <select id="condition" class="form-control  form-control-sm custom-select" required
+                formControlName="condition">
+          <option *ngFor="let condition of conditionEnum.array" [value]="condition.key">{{condition.value}}</option>
+        </select>
+      </div>
+      <!--<div class="row">
+        <div class="col-9 col-form-label-sm">Document externe à la bibliothèque</div>
+        <div class="col-3">
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="is-external-item"
+                   (change)="switchExternalLibrary()">
+            <label class="onoffswitch-label" for="is-external-item"></label>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isExternalItem">
+        <div class="form-group col-10">
+          <label for="external-library" class="sr-only">Bibliothèque externe</label>
+          <select id="external-library" class="form-control form-control-sm custom-select" required
+                  formControlName="library">
+            <option *ngFor="let externalLibrary of externalLibraries" [value]="externalLibrary.id">
+              {{externalLibrary.name}}
+            </option>
+          </select>
+        </div>
+        <div class="col-2 text-center">
+          <div id="umt-add-library">
+            <a (click)="toDo()"><i class="fa fa-plus text-warning" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>-->
+      <div class="umt-card-footer text-right">
+        <a class="btn btn-sm btn-secondary" routerLink="/cataloging/registration/search" role="button">Annuler</a>
+        <button type="submit" class="btn btn-sm btn-warning">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div bsModal #confirmationModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true" *ngIf="dataService.record">
+  <div class="modal-dialog modal-lg" *ngIf="dataService.item">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Document enregistré</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-3">
+            <span>Titre</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.record.title.mainTitle}}</span>
+          </div>
+          <div class="col-3">
+            <span>Identifiant</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.item.internalId}}</span>
+          </div>
+          <div class="col-3">
+            <span>Cote</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{formatCotation()}}</span>
+          </div>
+          <div class="col-3">
+            <span>Prix d'achat</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.item.purchasePrice}} {{localLibrary.currency}}</span>
+          </div>
+          <div class="col-3">
+            <span>État</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{conditionEnum.get(dataService.item.condition).value}}</span>
+          </div>
+          <div class="col-3">
+            <span>Empruntable ?</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.item.loanable}}</span>
+          </div>
+          <div class="col-3">
+            <span>Propriétaire</span>
+          </div>
+          <div class="col-9">
+            <span class="text-muted">{{dataService.item.library.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" (click)="toSearchView()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

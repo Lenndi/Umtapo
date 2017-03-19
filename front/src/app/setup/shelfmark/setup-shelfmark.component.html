@@ -1,0 +1,19 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+  <div class="form-group" [class.has-danger]="shelfMarkNb.invalid && shelfMarkNb.dirty">
+    <label for="shelfmark-nb">Nombre de champs</label>
+    <input id="shelfmark-nb" type="number" class="form-control" placeholder="Nombre de champs" required
+           [class.form-control-danger]="shelfMarkNb.invalid && shelfMarkNb.dirty" formControlName="shelfMarkNb">
+    <div class="form-control-feedback" *ngIf="shelfMarkNb.invalid && shelfMarkNb.dirty">{{shelfMarkNbMsg}}</div>
+  </div>
+  <div class="form-group" [class.has-danger]="defaultZ3950.invalid && defaultZ3950.dirty">
+    <label for="default-z3950">Source ISBN préférée</label>
+    <select id="default-z3950" class="form-control custom-select" required formControlName="defaultZ3950">
+      <option *ngFor="let z3950Source of z3950Sources" [value]="z3950Source.id">
+        {{z3950Source.name}}
+      </option>
+    </select>
+  </div>
+  <div class="text-right">
+    <button type="submit" class="btn btn-secondary">Suivant</button>
+  </div>
+</form>

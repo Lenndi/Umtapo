@@ -1,2 +1,27 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+lib/
+umtapo.mv.db
+umtapo.trace.db
+back/solr/**/data
+
+### STS ###
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
 .idea
-src/main/deploy
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/

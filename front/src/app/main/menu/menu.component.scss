@@ -1,0 +1,17 @@
+@import "../../../sass/variables.scss";
+
+.umt-category {
+  h6 {
+    color: #000000;
+    padding-top: 1em;
+  }
+  .umt-current {
+    color: $primary;
+  }
+}
+
+.nav-link {
+  color: $disable;
+  padding: .25em 1em;
+  font-size: 0.9em;
+}

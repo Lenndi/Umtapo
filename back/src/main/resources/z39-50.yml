@@ -1,0 +1,14 @@
+providers:
+  1:
+    id: 1
+    name: Bibliothèque Nationale de France
+    url: z3950.bnf.fr
+    port: 2211
+    syntax: 1.2.840.10003.5.1
+    ttl: 600000
+    database:
+      name: TOUT-UTF8
+      password: Z3950_BNF
+      username: Z3950
+    options:
+      elementSetName: F
