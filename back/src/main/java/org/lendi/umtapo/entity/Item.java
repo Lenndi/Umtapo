@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class Item {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ShelfMark shelfmark;
     @Column(unique = true)
+    @NotNull
     private Integer internalId;
     private Integer purchasePrice;
     private Boolean loanable;

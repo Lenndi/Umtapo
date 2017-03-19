@@ -2,6 +2,7 @@ package org.lendi.umtapo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class Address {
     private String zip;
     private String city;
     private String phone;
+    @Email
     private String email;
 
     /**

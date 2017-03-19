@@ -1,0 +1,6 @@
+@startuml
+Front -> Back: get devices
+Front <- Back: sent devices
+Front -> Back: Pair device and front in database
+
+@enduml

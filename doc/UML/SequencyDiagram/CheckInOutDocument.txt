@@ -1,0 +1,8 @@
+@startuml
+Device -> MQTT_Server: send Object ID in his topic
+MQTT_Server -> Back: send Object ID
+Back -> Back: Process ID
+Back -> MQTT_Server: send borrower id in front topic
+MQTT_Server -> Front: send borrower ID to front
+Front -> Front: display check-in, check-out view
+@enduml

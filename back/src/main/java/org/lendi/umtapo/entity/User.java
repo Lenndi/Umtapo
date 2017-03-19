@@ -1,5 +1,6 @@
 package org.lendi.umtapo.entity;
 
+import org.hibernate.validator.constraints.Email;
 import org.lendi.umtapo.enumeration.State;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,9 +29,11 @@ public class User {
     private Integer id;
 
     @Column(name = "SSO_ID", unique = true, nullable = false)
+    @NotNull
     private String ssoId;
 
     @Column(name = "PASSWORD", nullable = false)
+    @NotNull
     private String password;
 
     @Column(name = "FIRST_NAME", nullable = false)
@@ -39,6 +43,7 @@ public class User {
     private String lastName;
 
     @Column(name = "EMAIL", nullable = false)
+    @Email
     private String email;
 
     @Column(name = "STATE", nullable = false)
