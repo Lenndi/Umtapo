@@ -71,8 +71,6 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param email               the email
      * @param city                the city
      * @param id                  the id
-     * @param fromSubscriptionEnd the start subscription end
-     * @param toSubscriptionEnd   the end subscription end
      * @param page                the page
      * @return the page
      */
@@ -81,8 +79,6 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
             String email,
             String city,
             String id,
-            String fromSubscriptionEnd,
-            String toSubscriptionEnd,
             Pageable page);
 
     /**

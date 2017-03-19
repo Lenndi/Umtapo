@@ -28,6 +28,7 @@ public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocum
      * @param page  the page
      * @return the page
      */
+    @Query("name:*?0* OR email:*?1*")
     Page<BorrowerDocument> findByNameContainingOrEmailContaining(String name, String email, Pageable page);
 
     /**
@@ -37,19 +38,15 @@ public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocum
      * @param email               the email
      * @param city                the city
      * @param id                  the id
-     * @param fromSubscriptionEnd the from subscription end
-     * @param toSubscriptionEnd   the to subscription end
      * @param page                the page
      * @return the page
      */
-    @Query("name:*?0* AND email:*?1* AND city:*?2* AND id:*?3* AND subscriptionEnd:[?4 TO ?5]")
+    @Query("name:*?0* AND email:*?1* AND city:*?2* AND id:*?3*")
     Page<BorrowerDocument> fullSearch(
             String name,
             String email,
             String city,
             String id,
-            String fromSubscriptionEnd,
-            String toSubscriptionEnd,
             Pageable page);
 
     /**

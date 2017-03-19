@@ -6,7 +6,7 @@ addons:
       - oracle-java8-installer
 language: node_js java
 node_js:
-  - "4"
+  - "7"
 jdk:
   - oraclejdk8
 os:
@@ -25,7 +25,7 @@ before_install:
   - if [[ "$NG_SCRIPT" ]]; then echo "Starting front tests..."; fi
   - if [[ "$NG_SCRIPT" ]]; then cd front; fi
   - if [[ "$NG_SCRIPT" ]]; then npm install -g npm; fi
-  - if [[ "$NG_SCRIPT" ]]; then npm install -g angular-cli; fi
+  - if [[ "$NG_SCRIPT" ]]; then npm install -g @angular/cli; fi
   - if [[ "$NG_SCRIPT" ]]; then export CHROME_BIN=chromium-browser; fi
   - if [[ "$NG_SCRIPT" ]]; then echo "--no-sandbox" > ~/.config/chromium-flags.conf; fi
   - if [[ "$NG_SCRIPT" ]]; then npm config set spin false; fi

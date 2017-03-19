@@ -1,0 +1,6 @@
+@startuml
+Device -> MQTT_Server: send register request (topic ID device)
+MQTT_Server -> Back: send register request (topic ID device)
+Back -> Back: Register new device in the database
+
+@enduml

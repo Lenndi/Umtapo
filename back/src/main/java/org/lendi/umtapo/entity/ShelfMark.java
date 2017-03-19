@@ -25,6 +25,60 @@ public class ShelfMark {
     private String field4;
 
     /**
+     * Instantiates a new Shelf mark.
+     */
+    public ShelfMark() {
+    }
+
+    /**
+     * Instantiates a new Shelf mark.
+     *
+     * @param field1 the field 1
+     */
+    public ShelfMark(String field1) {
+        this.field1 = field1;
+    }
+
+    /**
+     * Instantiates a new Shelf mark.
+     *
+     * @param field1 the field 1
+     * @param field2 the field 2
+     */
+    public ShelfMark(String field1, String field2) {
+        this.field1 = field1;
+        this.field2 = field2;
+    }
+
+    /**
+     * Instantiates a new Shelf mark.
+     *
+     * @param field1 the field 1
+     * @param field2 the field 2
+     * @param field3 the field 3
+     */
+    public ShelfMark(String field1, String field2, String field3) {
+        this.field1 = field1;
+        this.field2 = field2;
+        this.field3 = field3;
+    }
+
+    /**
+     * Instantiates a new Shelf mark.
+     *
+     * @param field1 the field 1
+     * @param field2 the field 2
+     * @param field3 the field 3
+     * @param field4 the field 4
+     */
+    public ShelfMark(String field1, String field2, String field3, String field4) {
+        this.field1 = field1;
+        this.field2 = field2;
+        this.field3 = field3;
+        this.field4 = field4;
+    }
+
+    /**
      * Gets id.
      *
      * @return the id

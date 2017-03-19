@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -34,10 +35,11 @@ public class Item {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ShelfMark shelfmark;
     @Column(unique = true)
+    @NotNull
     private Integer internalId;
     private Integer purchasePrice;
-    private Boolean isLoanable;
-    private Boolean isBorrowed;
+    private Boolean loanable;
+    private Boolean borrowed;
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Loan> loans;
     @Enumerated(EnumType.STRING)
@@ -62,7 +64,7 @@ public class Item {
      * @param shelfmark     the shelfmark
      * @param internalId    the internal id
      * @param purchasePrice the purchase price
-     * @param isLoanable    the isLoanable
+     * @param isLoanable    the loanable
      * @param loans         the loans
      * @param condition     the condition
      * @param currency      the currency
@@ -75,10 +77,10 @@ public class Item {
         this.shelfmark = shelfmark;
         this.internalId = internalId;
         this.purchasePrice = purchasePrice;
-        this.isLoanable = isLoanable;
+        this.loanable = isLoanable;
         this.loans = loans;
         this.condition = condition;
-        this.isBorrowed = isBorrowed;
+        this.borrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
     }
@@ -107,8 +109,8 @@ public class Item {
      *
      * @return the boolean
      */
-    public Boolean isBorrowed() {
-        return isBorrowed;
+    public Boolean getBorrowed() {
+        return borrowed;
     }
 
     /**
@@ -117,7 +119,7 @@ public class Item {
      * @param borrowed the borrowed
      */
     public void setBorrowed(Boolean borrowed) {
-        isBorrowed = borrowed;
+        this.borrowed = borrowed;
     }
 
     /**
@@ -325,7 +327,7 @@ public class Item {
      * @return the loanable
      */
     public Boolean getLoanable() {
-        return isLoanable;
+        return loanable;
     }
 
     /**
@@ -334,15 +336,6 @@ public class Item {
      * @param loanable the loanable
      */
     public void setLoanable(Boolean loanable) {
-        isLoanable = loanable;
-    }
-
-    /**
-     * Gets borrowed.
-     *
-     * @return the borrowed
-     */
-    public Boolean getBorrowed() {
-        return isBorrowed;
+        this.loanable = loanable;
     }
 }

@@ -1,10 +1,16 @@
 package org.lendi.umtapo.entity;
 
+import org.lendi.umtapo.enumeration.Condition;
+import org.lendi.umtapo.enumeration.ItemType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.persistence.PrePersist;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,17 +24,22 @@ public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer firstInternalId;
     private String name;
+    @NotNull
     private Integer shelfMarkNb;
+    @NotNull
     private Boolean useDeweyClassification;
+    @NotNull
     private Integer subscriptionDuration;
+    @NotNull
     private Integer borrowDuration;
+    @NotNull
     private String currency;
+    @NotNull
     private Integer defaultZ3950;
     @OneToMany(mappedBy = "library")
-    private List<Subscription> subscription;
-    @OneToMany(mappedBy = "library")
-    private List<Borrower> borrowers;
+    private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "library")
     private List<Item> items;
 
@@ -36,6 +47,7 @@ public class Library {
      * Instantiates a new Library.
      */
     public Library() {
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -44,14 +56,13 @@ public class Library {
      * @param name                   the name
      * @param shelfMarkNb            the shelf mark nb
      * @param useDeweyClassification the use dewey classification
-     * @param subscriptionDuration   the subscription duration
+     * @param subscriptionDuration   the subscriptions duration
      * @param borrowDuration         the borrow duration
      * @param currency               the currency
      * @param defaultZ3950           the default z 3950
-     * @param borrowers              the borrowers
      */
     public Library(String name, Integer shelfMarkNb, Boolean useDeweyClassification, Integer subscriptionDuration,
-                   Integer borrowDuration, String currency, Integer defaultZ3950, List<Borrower> borrowers) {
+                   Integer borrowDuration, String currency, Integer defaultZ3950) {
         this.name = name;
         this.shelfMarkNb = shelfMarkNb;
         this.useDeweyClassification = useDeweyClassification;
@@ -59,7 +70,6 @@ public class Library {
         this.borrowDuration = borrowDuration;
         this.currency = currency;
         this.defaultZ3950 = defaultZ3950;
-        this.borrowers = borrowers;
     }
 
     /**
@@ -78,24 +88,6 @@ public class Library {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets borrowers.
-     *
-     * @return the borrowers
-     */
-    public List<Borrower> getBorrowers() {
-        return borrowers;
-    }
-
-    /**
-     * Sets borrowers.
-     *
-     * @param borrowers the borrowers
-     */
-    public void setBorrowers(List<Borrower> borrowers) {
-        this.borrowers = borrowers;
     }
 
     /**
@@ -153,18 +145,18 @@ public class Library {
     }
 
     /**
-     * Gets subscription duration.
+     * Gets subscriptions duration.
      *
-     * @return the subscription duration
+     * @return the subscriptions duration
      */
     public Integer getSubscriptionDuration() {
         return subscriptionDuration;
     }
 
     /**
-     * Sets subscription duration.
+     * Sets subscriptions duration.
      *
-     * @param subscriptionDuration the subscription duration
+     * @param subscriptionDuration the subscriptions duration
      */
     public void setSubscriptionDuration(Integer subscriptionDuration) {
         this.subscriptionDuration = subscriptionDuration;
@@ -225,21 +217,21 @@ public class Library {
     }
 
     /**
-     * Gets subscription.
+     * Gets subscriptions.
      *
-     * @return the subscription
+     * @return the subscriptions
      */
-    public List<Subscription> getSubscription() {
-        return subscription;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
     /**
-     * Sets subscription.
+     * Sets subscriptions.
      *
-     * @param subscription the subscription
+     * @param subscriptions the subscriptions
      */
-    public void setSubscription(List<Subscription> subscription) {
-        this.subscription = subscription;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     /**
@@ -258,5 +250,41 @@ public class Library {
      */
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    /**
+     * Gets first internal id.
+     *
+     * @return the first internal id
+     */
+    public Integer getFirstInternalId() {
+        return firstInternalId;
+    }
+
+    /**
+     * Sets first internal id.
+     *
+     * @param firstInternalId the first internal id
+     */
+    public void setFirstInternalId(Integer firstInternalId) {
+        this.firstInternalId = firstInternalId;
+    }
+
+    /**
+     * Create the first item to initialize the first internalId in Item table.
+     */
+    @PrePersist
+    public void createFirstItem() {
+        if (this.firstInternalId != null) {
+            Item item = new Item();
+            item.setInternalId(this.firstInternalId);
+            item.setLibrary(this);
+            item.setLoanable(false);
+            item.setType(ItemType.INITIAL_ITEM);
+            item.setBorrowed(false);
+            item.setCondition(Condition.SOLD);
+
+            items.add(item);
+        }
     }
 }
