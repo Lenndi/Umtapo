@@ -41,6 +41,9 @@ public class ItemMapper extends ConfigurableMapper {
 
         mapperFactory.classMap(Item.class, ItemDto.class)
                 .fieldMap("purchasePrice", "purchasePrice").converter("priceConverter").add()
+                .exclude("library")
+                .fieldMap("library.id", "library.id").add()
+                .fieldMap("library.name", "library.name").add()
                 .byDefault()
                 .register();
         MAPPER = mapperFactory.getMapperFacade();

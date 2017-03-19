@@ -68,6 +68,9 @@ public class BorrowerDocument {
     @Field
     private Date subscriptionEnd;
 
+    @Field
+    private Integer libraryId;
+
     /**
      * Gets id.
      *
@@ -127,8 +130,8 @@ public class BorrowerDocument {
      *
      * @return the birthday
      */
-    public ZonedDateTime getBirthday() {
-        return ZonedDateTime.ofInstant(this.birthday.toInstant(), ZoneId.systemDefault());
+    public Date getBirthday() {
+        return birthday;
     }
 
     /**
@@ -136,8 +139,8 @@ public class BorrowerDocument {
      *
      * @param birthday the birthday
      */
-    public void setBirthday(ZonedDateTime birthday) {
-        this.birthday = Date.from(birthday.toInstant());
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     /**
@@ -367,8 +370,8 @@ public class BorrowerDocument {
      *
      * @param subscriptionStart the subscription start
      */
-    public void setSubscriptionStart(ZonedDateTime subscriptionStart) {
-        this.subscriptionStart = Date.from(subscriptionStart.toInstant());
+    public void setSubscriptionStart(Date subscriptionStart) {
+        this.subscriptionStart = subscriptionStart;
     }
 
     /**
@@ -376,17 +379,8 @@ public class BorrowerDocument {
      *
      * @return the subscription start
      */
-    public ZonedDateTime getSubscriptionStart() {
-        ZonedDateTime formattedSubscriptionStart = null;
-
-        if (this.subscriptionStart != null) {
-            formattedSubscriptionStart = ZonedDateTime.ofInstant(
-                    this.subscriptionStart.toInstant(),
-                    ZoneId.systemDefault()
-            );
-        }
-
-        return formattedSubscriptionStart;
+    public Date getSubscriptionStart() {
+        return subscriptionStart;
     }
 
     /**
@@ -394,8 +388,8 @@ public class BorrowerDocument {
      *
      * @param subscriptionEnd the subscription end
      */
-    public void setSubscriptionEnd(ZonedDateTime subscriptionEnd) {
-        this.subscriptionEnd = Date.from(subscriptionEnd.toInstant());
+    public void setSubscriptionEnd(Date subscriptionEnd) {
+        this.subscriptionEnd = subscriptionEnd;
     }
 
     /**
@@ -403,16 +397,25 @@ public class BorrowerDocument {
      *
      * @return the subscription end
      */
-    public ZonedDateTime getSubscriptionEnd() {
-        ZonedDateTime formattedSubscriptionEnd = null;
+    public Date getSubscriptionEnd() {
+        return subscriptionEnd;
+    }
 
-        if (this.subscriptionEnd != null) {
-            formattedSubscriptionEnd = ZonedDateTime.ofInstant(
-                    this.subscriptionEnd.toInstant(),
-                    ZoneId.systemDefault()
-            );
-        }
+    /**
+     * Gets library id.
+     *
+     * @return the library id
+     */
+    public Integer getLibraryId() {
+        return libraryId;
+    }
 
-        return formattedSubscriptionEnd;
+    /**
+     * Sets library id.
+     *
+     * @param libraryId the library id
+     */
+    public void setLibraryId(Integer libraryId) {
+        this.libraryId = libraryId;
     }
 }

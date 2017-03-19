@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {logger} from '../../../environments/environment';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
 import {VariousValidator} from '../../../validator/various-validator';
 import {Setup} from '../setup.interface';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'umt-setup-various',
@@ -22,8 +22,8 @@ export class SetupVariousComponent implements OnInit, Setup {
   subscriptionDurationMsg: string;
   currency: FormControl;
   currencyMsg: string;
-  itemStartNumber: FormControl;
-  itemStartNumberMsg: string;
+  firstInternalId: FormControl;
+  firstInternalIdMsg: string;
   libraryName: FormControl;
   libraryNameMsg: string;
 
@@ -32,7 +32,8 @@ export class SetupVariousComponent implements OnInit, Setup {
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
     public dataService: SetupDataService,
-    private snackBar: MdSnackBar
+    public toastr: ToastsManager,
+    public vRef: ViewContainerRef
   ) {
     let library = this.dataService.library;
 
@@ -46,10 +47,10 @@ export class SetupVariousComponent implements OnInit, Setup {
     this.subscriptionDurationMsg = 'Merci d\'indiquer une durée d\'abonnement par défaut';
     this.currency = new FormControl(library != null ? library.currency : '', Validators.required);
     this.currencyMsg = 'Merci d\'indiquer une monnaie';
-    this.itemStartNumber = new FormControl(
-      this.dataService.itemStartNumber != null ? this.dataService.itemStartNumber : '',
+    this.firstInternalId = new FormControl(
+      library != null ? library.firstInternalId : '',
       [Validators.required, VariousValidator.positive]);
-    this.itemStartNumberMsg = `Merci d'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
+    this.firstInternalIdMsg = `Merci d'indiquer un identifiant numérique à partir duquel seront créé la numérotation 
         automatique des documents`;
     this.libraryName = new FormControl(library != null ? library.name : '', Validators.required);
     this.libraryNameMsg = `Merci d'indiquer un nom de bibliothèque`;
@@ -63,7 +64,7 @@ export class SetupVariousComponent implements OnInit, Setup {
       'borrowDuration': this.borrowDuration,
       'subscriptionDuration': this.subscriptionDuration,
       'currency': this.currency,
-      'itemStartNumber': this.itemStartNumber,
+      'firstInternalId': this.firstInternalId,
       'libraryName': this.libraryName
     });
   }
@@ -82,26 +83,26 @@ export class SetupVariousComponent implements OnInit, Setup {
       logger.info('Invalid form :', this.form);
 
       if (this.form.controls['borrowDuration'].invalid) {
-        this.snackBar.open(this.borrowDurationMsg, 'OK');
+        this.toastr.error(this.borrowDurationMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['subscriptionDuration'].invalid) {
-        this.snackBar.open(this.subscriptionDurationMsg, 'OK');
+        this.toastr.error(this.subscriptionDurationMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['currency'].invalid) {
-        this.snackBar.open(this.currencyMsg, 'OK');
+        this.toastr.error(this.currencyMsg, 'Oops', {toastLife: 2000});
       }
-      if (this.form.controls['itemStartNumber'].invalid) {
-        this.snackBar.open(this.itemStartNumberMsg, 'OK');
+      if (this.form.controls['firstInternalId'].invalid) {
+        this.toastr.error(this.firstInternalIdMsg, 'Oops', {toastLife: 2000});
       }
       if (this.form.controls['libraryName'].invalid) {
-        this.snackBar.open(this.libraryNameMsg, 'OK');
+        this.toastr.error(this.libraryNameMsg, 'Oops', {toastLife: 2000});
       }
     }
   }
 
   saveData(): void {
     let value = this.form.value;
-    this.dataService.itemStartNumber = value.itemStartNumber;
+    this.dataService.library.firstInternalId = value.firstInternalId;
     this.dataService.library.borrowDuration = value.borrowDuration;
     this.dataService.library.subscriptionDuration = value.subscriptionDuration;
     this.dataService.library.currency = value.currency;

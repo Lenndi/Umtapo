@@ -1,8 +1,5 @@
 package org.lendi.umtapo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -11,7 +8,6 @@ import java.util.List;
  * <p>
  * Created by axel on 29/11/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class BorrowerDto {
 
     private Integer id;
@@ -22,7 +18,7 @@ public class BorrowerDto {
     private Boolean emailOptin;
     private AddressDto address;
     private List<SubscriptionDto> subscriptions;
-    private LibraryDto library;
+    private Integer libraryId;
     private Integer nbLoans;
     private Boolean tooMuchLoans;
     private Boolean lateness;
@@ -63,24 +59,6 @@ public class BorrowerDto {
      */
     public void setBirthday(ZonedDateTime birthday) {
         this.birthday = birthday;
-    }
-
-    /**
-     * Gets library.
-     *
-     * @return the library
-     */
-    public LibraryDto getLibrary() {
-        return library;
-    }
-
-    /**
-     * Sets library.
-     *
-     * @param library the library
-     */
-    public void setLibrary(LibraryDto library) {
-        this.library = library;
     }
 
     /**
@@ -279,5 +257,23 @@ public class BorrowerDto {
      */
     public void setSubscriptionEnd(ZonedDateTime subscriptionEnd) {
         this.subscriptionEnd = subscriptionEnd;
+    }
+
+    /**
+     * Gets library id.
+     *
+     * @return the library id
+     */
+    public Integer getLibraryId() {
+        return libraryId;
+    }
+
+    /**
+     * Sets library id.
+     *
+     * @param libraryId the library id
+     */
+    public void setLibraryId(Integer libraryId) {
+        this.libraryId = libraryId;
     }
 }

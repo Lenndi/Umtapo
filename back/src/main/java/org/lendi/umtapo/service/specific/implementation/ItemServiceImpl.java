@@ -16,9 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,6 +52,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
+    @Transactional
     public Item saveWithRecord(Item item) throws InvalidRecordException {
         Record record = null;
 
@@ -99,7 +102,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
-        this.linkRecord(item);
+
+        if (item != null) {
+            this.linkRecord(item);
+        }
 
         return this.itemMapper.mapItemToItemDto(item);
     }
@@ -150,12 +156,16 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
         List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
         if (records.size() > 0) {
-            Record record = records.get(0);
-            record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
+            HashMap<String, Record> recordMap = new HashMap<>();
+
+            records.forEach(record -> {
+                record.getItems().forEach(item -> itemIds.add(Integer.parseInt(item)));
+                recordMap.put(record.getId(), record);
+            });
 
             if (itemIds.size() > 0) {
                 items = this.itemDao.findByIdIn(itemIds, pageable);
-                items.getContent().forEach(item -> item.setRecord(record));
+                items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
             }
         }
 
@@ -172,8 +182,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     public Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String title) {
         List<Record> records = solrRecordService.searchByTitle(title);
         List<Integer> itemIds = new ArrayList<>();
+        HashMap<String, Record> recordMap = new HashMap<>();
 
         records.forEach(record -> {
+            recordMap.put(record.getId(), record);
             List<String> itemsIdStr = record.getItems();
             itemsIdStr.forEach(idStr -> {
                 Integer id = Integer.parseInt(idStr);
@@ -184,7 +196,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         });
 
         Page<Item> items = this.itemDao.findByIdIn(itemIds, pageable);
-        items.getContent().forEach(item -> item.setRecord(this.solrRecordService.findById(item.getRecordId())));
+        items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
 
         return this.mapItemsToItemDtosPage(items);
     }
@@ -204,7 +216,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         List<ItemDto> itemDtos = new ArrayList<>();
         items.forEach(item -> itemDtos.add(mapItemToItemDto(item)));
 
-        return (Page<ItemDto>) new PageImpl(itemDtos);
+        return new PageImpl<>(itemDtos);
     }
 
     private List<ItemDto> mapItemsToItemsDto(List<Item> items) {

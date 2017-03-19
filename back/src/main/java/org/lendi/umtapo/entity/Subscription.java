@@ -1,6 +1,5 @@
 package org.lendi.umtapo.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,30 +25,17 @@ public class Subscription {
     @NotNull
     private ZonedDateTime end;
     private Integer contribution;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
-    private Borrower borrower;
+    @NotNull
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "LIBRARYID", referencedColumnName = "ID")
+    private Borrower borrower;
+    @NotNull
+    @ManyToOne
     private Library library;
 
     /**
      * Instantiates a new Subscription.
      */
     public Subscription() {
-    }
-
-    /**
-     * Instantiates a new Subscription.
-     *
-     * @param start        the start
-     * @param end          the end
-     * @param contribution the contribution
-     */
-    public Subscription(ZonedDateTime start, ZonedDateTime end, Integer contribution) {
-        this.start = start;
-        this.end = end;
-        this.contribution = contribution;
     }
 
     /**

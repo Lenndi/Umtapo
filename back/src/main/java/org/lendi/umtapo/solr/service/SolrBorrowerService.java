@@ -55,8 +55,6 @@ public interface SolrBorrowerService {
      * @param email               the email
      * @param city                the city
      * @param id                  the id
-     * @param fromSubscriptionEnd the from subscription end
-     * @param toSubscriptionEnd   the to subscription end
      * @param pageable            the pageable
      * @return the list
      */
@@ -65,8 +63,6 @@ public interface SolrBorrowerService {
             String email,
             String city,
             String id,
-            String fromSubscriptionEnd,
-            String toSubscriptionEnd,
             Pageable pageable);
 
     /**

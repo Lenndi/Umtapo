@@ -47,9 +47,10 @@ export class ItemService {
 
   returnBookItem(id: number): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
-    let patch = {'isBorrowed': false};
+    let patch = {'borrowed': false};
+
     return this.http
-      .patch(`${this.itemUrl}/${id}`, JSON.stringify(patch), options)
+      .patch(`${this.itemUrl}/${id}`, patch, options)
       .toPromise()
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));
@@ -96,14 +97,6 @@ export class ItemService {
     let options = new RequestOptions({headers: this.headers});
 
     return this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options)
-      .map((r: Response) => r);
-  }
-
-  patchCheckoutItem(itemId: number): Observable<Response> {
-    let options = new RequestOptions({headers: this.headers});
-    let patchItem = {'isBorrowed': true};
-
-    return this.http.patch(`${this.itemUrl}/${itemId}`, patchItem, options)
       .map((r: Response) => r);
   }
 }

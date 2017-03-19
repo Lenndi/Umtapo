@@ -34,13 +34,13 @@
       {{currencyMsg}}
     </div>
   </div>
-  <div class="form-group" [class.has-danger]="itemStartNumber.invalid && itemStartNumber.dirty">
+  <div class="form-group" [class.has-danger]="firstInternalId.invalid && firstInternalId.dirty">
     <label for="item-start-number">Identifiant de départ</label>
     <input id="item-start-number" type="number" class="form-control" placeholder="Identifiant de départ" required
-           [class.form-control-danger]="itemStartNumber.invalid && itemStartNumber.dirty"
-           formControlName="itemStartNumber">
-    <div class="form-control-feedback" *ngIf="itemStartNumber.invalid && itemStartNumber.dirty">
-      {{itemStartNumberMsg}}
+           [class.form-control-danger]="firstInternalId.invalid && firstInternalId.dirty"
+           formControlName="firstInternalId">
+    <div class="form-control-feedback" *ngIf="firstInternalId.invalid && firstInternalId.dirty">
+      {{firstInternalIdMsg}}
     </div>
     <small class="form-text text-muted">
       Il s'agit du numéro d'identification à partir duquel les nouveaux items seront enregistrés

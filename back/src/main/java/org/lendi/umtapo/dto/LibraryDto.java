@@ -1,7 +1,6 @@
 package org.lendi.umtapo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.List;
@@ -15,6 +14,7 @@ import java.util.List;
 public class LibraryDto {
 
     private Integer id;
+    private Integer firstInternalId;
     private String name;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
@@ -22,8 +22,6 @@ public class LibraryDto {
     private Integer borrowDuration;
     private String currency;
     private Integer defaultZ3950;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<BorrowerDto> borrowers;
     private List<SubscriptionDto> subscriptions;
 
     /**
@@ -172,24 +170,6 @@ public class LibraryDto {
     }
 
     /**
-     * Gets borrowers.
-     *
-     * @return the borrowers
-     */
-    public List<BorrowerDto> getBorrowers() {
-        return borrowers;
-    }
-
-    /**
-     * Sets borrowers.
-     *
-     * @param borrowers the borrowers
-     */
-    public void setBorrowers(List<BorrowerDto> borrowers) {
-        this.borrowers = borrowers;
-    }
-
-    /**
      * Gets subscriptions.
      *
      * @return the subscriptions
@@ -205,5 +185,23 @@ public class LibraryDto {
      */
     public void setSubscriptions(List<SubscriptionDto> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+    /**
+     * Gets first internal id.
+     *
+     * @return the first internal id
+     */
+    public Integer getFirstInternalId() {
+        return firstInternalId;
+    }
+
+    /**
+     * Sets first internal id.
+     *
+     * @param firstInternalId the first internal id
+     */
+    public void setFirstInternalId(Integer firstInternalId) {
+        this.firstInternalId = firstInternalId;
     }
 }

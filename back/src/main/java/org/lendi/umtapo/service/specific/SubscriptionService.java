@@ -1,7 +1,8 @@
 package org.lendi.umtapo.service.specific;
 
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Subscription;
-import org.lendi.umtapo.service.generic.GenericService;
+import org.lendi.umtapo.exception.BadSubscriptionDateException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,28 +11,53 @@ import java.util.List;
  * The interface Subscription service.
  */
 @Service
-public interface SubscriptionService extends GenericService<Subscription, Integer> {
+public interface SubscriptionService {
 
-    @Override
-    Subscription save(Subscription entity);
+    /**
+     * Save subscription.
+     *
+     * @param entity the entity
+     * @return the subscription
+     * @throws BadSubscriptionDateException the bad subscription date exception
+     */
+    Subscription save(Subscription entity) throws BadSubscriptionDateException;
 
-    @Override
+    /**
+     * Find one subscription.
+     *
+     * @param integer the integer
+     * @return the subscription
+     */
     Subscription findOne(Integer integer);
 
-    @Override
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     List<Subscription> findAll();
 
-    @Override
+    /**
+     * Delete.
+     *
+     * @param integer the integer
+     */
     void delete(Integer integer);
 
     /**
-     * Find latest subscription by borrower id subscription.
+     * Save SubscriptionDto
      *
-     * @param borrowerId the borrower id
-     * @return the subscription
+     * @param subscriptionDto the subscription dto
+     * @return a subscription dto
+     * @throws BadSubscriptionDateException the bad subscription date exception
      */
-    Subscription findLatestSubscriptionByBorrowerId(Integer borrowerId);
+    SubscriptionDto saveDto(SubscriptionDto subscriptionDto) throws BadSubscriptionDateException;
 
-    @Override
+    /**
+     * Exists boolean.
+     *
+     * @param integer the integer
+     * @return the boolean
+     */
     Boolean exists(Integer integer);
 }
