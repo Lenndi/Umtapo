@@ -69,7 +69,7 @@ export class CirculationCheckInComponent implements OnInit {
     }
   }
 
-  rollback(loan: Loan){
+  rollback(loan: Loan) {
     loan.returned = false;
     this.rollbackDocument(loan);
   }
@@ -99,12 +99,14 @@ export class CirculationCheckInComponent implements OnInit {
   rollbackDocument(loan: Loan) {
     this.loanService.rollbackLoan(loan.id)
       .then(ret => this.itemService.rollbackItem(loan.item.id)
-        .then(ret => this.toastr.success(`Le retour du document ` + loan.item.record.title.mainTitle + `a bien été annulé`,
-          'Annulation retour',
+        .then(ret => this.toastr.success(`Le retour du document ` + loan.item.record.title.mainTitle + `a bien été
+         annulé`, 'Annulation retour',
           {toastLife: 2000})
-          .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`, 'Erreur annulation retour',
+          .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`,
+            'Erreur annulation retour',
             {toastLife: 2000})))
-        .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`, 'Erreur annulation retour',
+        .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`,
+          'Erreur annulation retour',
           {toastLife: 2000})));
   }
 
