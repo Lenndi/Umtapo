@@ -101,7 +101,7 @@ public class BorrowerWebService {
 
         Pageable pageable;
         if (sort != null) {
-            if (order.equals("desc")) {
+            if (order.equals("DESC")) {
                 pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, sort));
             } else {
                 pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC, sort));
