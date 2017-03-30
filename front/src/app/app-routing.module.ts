@@ -15,6 +15,7 @@ import {BorrowerSelectionComponent} from './circulation/borrower-selection/borro
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 
 const routes: Routes = [
   {
@@ -47,7 +48,7 @@ const routes: Routes = [
               {path: '2', component: BorrowerInternalComponent}
             ]
           },
-          {path: 'management', component: TestComponent}
+          {path: 'management', component: BorrowersManagementComponent}
         ]
       },
       {
@@ -57,8 +58,8 @@ const routes: Routes = [
             path: 'registration',
             component: ItemRegistrationComponent,
             children: [
-              {path: '', redirectTo: 'search', pathMatch: 'full'},
-              {path: 'search', component: ItemSearchComponent},
+              {path: '', redirectTo: 'changeFilter', pathMatch: 'full'},
+              {path: 'changeFilter', component: ItemSearchComponent},
               {path: 'save', component: ItemSaveComponent}
             ]
           },
