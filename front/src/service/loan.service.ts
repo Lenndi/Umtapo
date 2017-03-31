@@ -41,9 +41,19 @@ export class LoanService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  returnBookLoan(id: number) {
+  returnLoan(id: number) {
     let options = new RequestOptions({headers: this.headers});
     let patch = {'returned': true};
+    return this.http
+      .patch(`${this.loanUrl}/${id}`, JSON.stringify(patch), options)
+      .toPromise()
+      .then(response => response.status)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  rollbackLoan(id: number) {
+    let options = new RequestOptions({headers: this.headers});
+    let patch = {'returned': false};
     return this.http
       .patch(`${this.loanUrl}/${id}`, JSON.stringify(patch), options)
       .toPromise()
