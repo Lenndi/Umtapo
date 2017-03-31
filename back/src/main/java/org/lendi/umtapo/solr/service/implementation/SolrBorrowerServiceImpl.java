@@ -62,9 +62,27 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
             String email,
             String city,
             String id,
+            Boolean tooMuchLoans,
+            Boolean lateness,
             Pageable page) {
+
+        String tooMuchLoansStr = "*";
+        if (tooMuchLoans != null) {
+            tooMuchLoansStr = tooMuchLoans.toString();
+        }
+
+        String olderReturnFrom = "*";
+        String olderReturnTo = "*";
+        if (lateness != null) {
+            if (lateness) {
+                olderReturnTo = "NOW";
+            } else {
+                olderReturnFrom = "NOW";
+            }
+        }
+
         return this.documentRepository.fullSearch(
-                name, email, city, id, page);
+                name, email, city, id, tooMuchLoansStr, olderReturnFrom, olderReturnTo, page);
     }
 
     @Override

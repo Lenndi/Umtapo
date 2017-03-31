@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         }
 
         Loan olderLoanToReturn = this.loanDao.findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(borrowerId);
-        borrowerDocument.setOlderReturn(olderLoanToReturn.getEnd());
+        borrowerDocument.setOlderReturn(Date.from(olderLoanToReturn.getEnd().toInstant()));
         this.solrBorrowerService.saveToIndex(borrowerDocument);
 
         return loan;

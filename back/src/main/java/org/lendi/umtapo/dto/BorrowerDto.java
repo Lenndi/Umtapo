@@ -19,6 +19,7 @@ public class BorrowerDto {
     private AddressDto address;
     private List<SubscriptionDto> subscriptions;
     private Integer libraryId;
+    private String libraryName;
     private Integer nbLoans;
     private Boolean tooMuchLoans;
     private Boolean lateness;
@@ -275,5 +276,23 @@ public class BorrowerDto {
      */
     public void setLibraryId(Integer libraryId) {
         this.libraryId = libraryId;
+    }
+
+    /**
+     * Gets library name.
+     *
+     * @return the library name
+     */
+    public String getLibraryName() {
+        return libraryName;
+    }
+
+    /**
+     * Sets library name.
+     *
+     * @param libraryName the library name
+     */
+    public void setLibraryName(String libraryName) {
+        this.libraryName = libraryName;
     }
 }
