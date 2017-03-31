@@ -51,11 +51,13 @@ public interface SolrBorrowerService {
     /**
      * Search list.
      *
-     * @param name                the term
-     * @param email               the email
-     * @param city                the city
-     * @param id                  the id
-     * @param pageable            the pageable
+     * @param name         the term
+     * @param email        the email
+     * @param city         the city
+     * @param id           the id
+     * @param tooMuchLoans the too much loans
+     * @param lateness     the lateness
+     * @param pageable     the pageable
      * @return the list
      */
     Page<BorrowerDocument> fullSearch(

@@ -34,11 +34,14 @@ public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocum
     /**
      * Full search page.
      *
-     * @param name                the name
-     * @param email               the email
-     * @param city                the city
-     * @param id                  the id
-     * @param page                the page
+     * @param name            the name
+     * @param email           the email
+     * @param city            the city
+     * @param id              the id
+     * @param tooMuchLoans    the too much loans
+     * @param olderReturnFrom the older return from
+     * @param olderReturnTo   the older return to
+     * @param page            the page
      * @return the page
      */
     @Query("name:*?0* AND email:*?1* AND city:*?2* AND id:?3* AND tooMuchLoans:?4 AND olderReturn:[ ?5 TO ?6]")

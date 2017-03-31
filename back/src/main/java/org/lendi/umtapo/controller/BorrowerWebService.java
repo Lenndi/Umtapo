@@ -68,15 +68,17 @@ public class BorrowerWebService {
     /**
      * Gets borrowers.
      *
-     * @param page                the page
-     * @param size                the size
-     * @param nameOrEmail         the name or email
-     * @param name                the contains
-     * @param id                  the id
-     * @param email               the email
-     * @param city                the city
-     * @param sort                the sort
-     * @param order               the order
+     * @param page         the page
+     * @param size         the size
+     * @param nameOrEmail  the name or email
+     * @param name         the contains
+     * @param id           the id
+     * @param email        the email
+     * @param city         the city
+     * @param lateness     the lateness
+     * @param tooMuchLoans the too much loans
+     * @param sort         the sort
+     * @param order        the order
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod
