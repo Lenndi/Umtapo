@@ -79,6 +79,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
             String email,
             String city,
             String id,
+            Boolean tooMuchLoans,
+            Boolean lateness,
             Pageable page);
 
     /**

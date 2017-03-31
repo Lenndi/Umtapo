@@ -63,6 +63,8 @@ public interface SolrBorrowerService {
             String email,
             String city,
             String id,
+            Boolean tooMuchLoans,
+            Boolean lateness,
             Pageable pageable);
 
     /**

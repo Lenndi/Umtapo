@@ -21,16 +21,7 @@ export class BorrowersManagementComponent implements OnInit {
 
   public constructor(private borrowerService: BorrowerService) {
     this.borrowerFilter = new BorrowerFilter();
-    this.borrowerFilter.id = '';
-    this.borrowerFilter.email = '';
-    this.borrowerFilter.name = '';
-    this.borrowerFilter.city = '';
-
-    this.pageable = new Pageable();
-    this.pageable.page = 0;
-    this.pageable.size = 10;
-    this.pageable.sort = 'id';
-    this.pageable.order = ORDER.ASC;
+    this.pageable = new Pageable('email');
   }
 
   ngOnInit(): void {

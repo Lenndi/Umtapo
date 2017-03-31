@@ -125,10 +125,12 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
             String email,
             String city,
             String id,
+            Boolean tooMuchLoans,
+            Boolean lateness,
             Pageable page
     ) {
         Page<BorrowerDocument> borrowers = this.solrBorrowerService.fullSearch(
-                name, email, city, id, page);
+                name, email, city, id, tooMuchLoans, lateness, page);
 
         return this.borrowerDocumentPageToDtoPage(borrowers);
     }

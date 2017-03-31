@@ -4,8 +4,6 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -70,6 +68,9 @@ public class BorrowerDocument {
 
     @Field
     private Integer libraryId;
+
+    @Field
+    private String libraryName;
 
     /**
      * Gets id.
@@ -346,8 +347,8 @@ public class BorrowerDocument {
      *
      * @param olderReturn the older return
      */
-    public void setOlderReturn(ZonedDateTime olderReturn) {
-        this.olderReturn = Date.from(birthday.toInstant());
+    public void setOlderReturn(Date olderReturn) {
+        this.olderReturn = olderReturn;
     }
 
     /**
@@ -355,14 +356,8 @@ public class BorrowerDocument {
      *
      * @return the older return
      */
-    public ZonedDateTime getOlderReturn() {
-        ZonedDateTime formattedOlderReturn = null;
-
-        if (this.olderReturn != null) {
-            formattedOlderReturn = ZonedDateTime.ofInstant(this.olderReturn.toInstant(), ZoneId.systemDefault());
-        }
-
-        return formattedOlderReturn;
+    public Date getOlderReturn() {
+        return this.olderReturn;
     }
 
     /**
@@ -417,5 +412,23 @@ public class BorrowerDocument {
      */
     public void setLibraryId(Integer libraryId) {
         this.libraryId = libraryId;
+    }
+
+    /**
+     * Gets library name.
+     *
+     * @return the library name
+     */
+    public String getLibraryName() {
+        return libraryName;
+    }
+
+    /**
+     * Sets library name.
+     *
+     * @param libraryName the library name
+     */
+    public void setLibraryName(String libraryName) {
+        this.libraryName = libraryName;
     }
 }

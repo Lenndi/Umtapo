@@ -88,6 +88,8 @@ public class BorrowerWebService {
                                        @PathParam("id") String id,
                                        @PathParam("email") String email,
                                        @PathParam("city") String city,
+                                       @PathParam("lateness") Boolean lateness,
+                                       @PathParam("tooMuchLoans") Boolean tooMuchLoans,
                                        @PathParam("sort") String sort,
                                        @PathParam("order") String order) {
 
@@ -129,7 +131,7 @@ public class BorrowerWebService {
             }
 
             borrowerDtos = borrowerService.findAllBorrowerDtoWithFilters(
-                    name, email, city, id, pageable);
+                    name, email, city, id, tooMuchLoans, lateness, pageable);
         }
 
         if (borrowerDtos.getTotalElements() == 0) {
