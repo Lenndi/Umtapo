@@ -23,6 +23,15 @@ public interface SubscriptionDao extends JpaRepository<Subscription, Integer> {
      */
     Subscription findFirstByBorrowerIdOrderByStartDesc(Integer borrowerId);
 
+
+    /**
+     * Count by borrower id subscription.
+     *
+     * @param borrowerId the borrower id
+     * @return the subscription
+     */
+    Integer countByBorrowerId(Integer borrowerId);
+
     /**
      * Retrieve by dates included in range list.
      *

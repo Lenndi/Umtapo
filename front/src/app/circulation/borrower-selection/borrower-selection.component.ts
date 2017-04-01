@@ -42,7 +42,7 @@ export class BorrowerSelectionComponent implements OnInit {
         // Runs on every search
         observer.next(this.form.value['borrowerName']);
       })
-      .mergeMap((contains: string) => this.borrowerService.findPaginable(this.size, this.page, contains));
+      .mergeMap((contains: string) => this.borrowerService.findByNameOrEmail(this.size, this.page, contains));
   }
 
   ngOnInit() {
