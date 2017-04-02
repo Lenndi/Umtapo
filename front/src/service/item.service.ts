@@ -45,7 +45,7 @@ export class ItemService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  returnItem(id: number): Promise<any> {
+  returnBookItem(id: number): Promise<any> {
     let options = new RequestOptions({headers: this.headers});
     let patch = {'borrowed': false};
 
@@ -55,18 +55,6 @@ export class ItemService {
       .then(response => response.status)
       .catch(error => this.httpLogger.error(error));
   }
-
-  rollbackItem(id: number): Promise<any> {
-    let options = new RequestOptions({headers: this.headers});
-    let patch = {'borrowed': true};
-
-    return this.http
-      .patch(`${this.itemUrl}/${id}`, patch, options)
-      .toPromise()
-      .then(response => response.status)
-      .catch(error => this.httpLogger.error(error));
-  }
-
 
   findPaginableBySerialNumber(
     size: number,
