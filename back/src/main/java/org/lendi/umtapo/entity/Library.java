@@ -28,7 +28,6 @@ public class Library {
     private String name;
     @NotNull
     private Integer shelfMarkNb;
-    @NotNull
     private Boolean useDeweyClassification;
     @NotNull
     private Integer subscriptionDuration;
@@ -70,6 +69,7 @@ public class Library {
         this.borrowDuration = borrowDuration;
         this.currency = currency;
         this.defaultZ3950 = defaultZ3950;
+        this.items = new ArrayList<>();
     }
 
     /**
