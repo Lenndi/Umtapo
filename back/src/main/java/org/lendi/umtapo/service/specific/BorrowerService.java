@@ -67,11 +67,13 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     /**
      * Find all borrower dto with filters page.
      *
-     * @param name                the name
-     * @param email               the email
-     * @param city                the city
-     * @param id                  the id
-     * @param page                the page
+     * @param name         the name
+     * @param email        the email
+     * @param city         the city
+     * @param id           the id
+     * @param tooMuchLoans the too much loans
+     * @param lateness     the lateness
+     * @param page         the page
      * @return the page
      */
     Page<BorrowerDto> findAllBorrowerDtoWithFilters(
@@ -79,6 +81,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
             String email,
             String city,
             String id,
+            Boolean tooMuchLoans,
+            Boolean lateness,
             Pageable page);
 
     /**

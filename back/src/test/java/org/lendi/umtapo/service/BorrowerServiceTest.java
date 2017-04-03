@@ -7,9 +7,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.lendi.umtapo.UmtapoApplication;
 import org.lendi.umtapo.dao.BorrowerDao;
+import org.lendi.umtapo.dao.LibraryDao;
 import org.lendi.umtapo.dto.BorrowerDto;
+import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Borrower;
+import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lendi.umtapo.service.specific.LibraryService;
+import org.lendi.umtapo.service.specific.SubscriptionService;
 import org.lendi.umtapo.solr.SolrTestConfig;
 import org.lendi.umtapo.solr.repository.SolrBorrowerRepository;
 import org.lendi.umtapo.solr.repository.SolrRecordRepository;
@@ -33,6 +39,10 @@ public class BorrowerServiceTest {
     private BorrowerDao borrowerDao;
     @Autowired
     private BorrowerService borrowerService;
+    @Autowired
+    private SubscriptionService subscriptionService;
+    @Autowired
+    private LibraryService libraryService;
     private UtilCreator utilCreator;
     @Autowired
     SolrBorrowerRepository solrBorrowerRepository;
@@ -98,17 +108,22 @@ public class BorrowerServiceTest {
 
     @Test
     public void testFindAllBorrowerDtoWithFilters() throws Exception {
+        LibraryDto library = this.libraryService.saveDto(this.utilCreator.createLibraryDto(1));
+
         BorrowerDto borrower = this.utilCreator.createBorrowerDto(1, "Michel Test", "michel@test.com");
         BorrowerDto borrower1 = this.utilCreator.createBorrowerDto(2, "Francis test", "francis@test.com");
-
         this.borrowerService.saveDto(borrower);
         this.borrowerService.saveDto(borrower1);
+        SubscriptionDto subscription = this.utilCreator.createSubscriptionDto(1, borrower, library);
+        SubscriptionDto subscription1 = this.utilCreator.createSubscriptionDto(2, borrower1, library);
+        this.subscriptionService.saveDto(subscription);
+        this.subscriptionService.saveDto(subscription1);
 
         Pageable page = new PageRequest(0, 10);
-        Page<BorrowerDto> borrowerDtoPage = this.borrowerService.findAllBorrowerDtoWithFilters("", "", "Rennes", "", page);
+        Page<BorrowerDto> borrowerDtoPage = this.borrowerService.findAllBorrowerDtoWithFilters("", "", "Rennes", "", null, null, page);
         Assert.assertEquals(2, borrowerDtoPage.getTotalElements());
 
-        borrowerDtoPage = this.borrowerService.findAllBorrowerDtoWithFilters("", "francis", "Rennes", "", page);
+        borrowerDtoPage = this.borrowerService.findAllBorrowerDtoWithFilters("", "francis", "Rennes", "", null, null, page);
         Assert.assertEquals(1, borrowerDtoPage.getTotalElements());
     }
 }

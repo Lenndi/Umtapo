@@ -160,7 +160,7 @@ export class InternalInformationsComponent implements OnInit {
   }
 
   toSearchView(): void {
-    this.router.navigate(['cataloging/registration/search']);
+    this.router.navigate(['cataloging/registration/changeFilter']);
   }
 /*
   toDo(): void {

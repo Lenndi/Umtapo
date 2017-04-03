@@ -79,6 +79,8 @@ public class SubscriptionServiceTest {
         BorrowerDocument borrowerDocument1 = solrBorrowerService.findById("1");
         Assert.assertEquals(Date.from(subscription.getEnd().toInstant()), borrowerDocument1.getSubscriptionEnd());
         Assert.assertEquals(Date.from(subscription.getStart().toInstant()), borrowerDocument1.getSubscriptionStart());
+        Assert.assertEquals(borrowerDocument1.getLibraryId().longValue(), 1);
+        Assert.assertEquals(borrowerDocument1.getLibraryName(), "Test Library");
     }
 
     @Test

@@ -22,8 +22,8 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
-import {ModalModule, DatepickerModule, } from 'ng2-bootstrap';
-import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
+import {ModalModule, DatepickerModule, DropdownModule} from 'ng2-bootstrap';
+import {TypeaheadModule} from 'ng2-bootstrap/typeahead';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
@@ -31,16 +31,17 @@ import {InternalInformationsComponent}
   from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
 import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
-import {CirculationCheckDetailsComponent} from
-  './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
-import {CirculationCheckInComponent} from
-  './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
-import {CirculationCheckOutComponent} from
-  './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
+import {CirculationCheckDetailsComponent}
+  from './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
+import {CirculationCheckInComponent}
+  from './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
+import {CirculationCheckOutComponent}
+  from './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 import {CirculationComponent} from './circulation/circulation.component';
 import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {ToastModule} from 'ng2-toastr';
+import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {ToastModule} from 'ng2-toastr';
     CirculationCheckDetailsComponent,
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
-    ConditionEnum
+    ConditionEnum,
+    BorrowersManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,8 @@ import {ToastModule} from 'ng2-toastr';
     ModalModule.forRoot(),
     DatepickerModule.forRoot(),
     ToastModule.forRoot(),
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    DropdownModule.forRoot()
   ],
   providers: [
     HttpLoggerService,

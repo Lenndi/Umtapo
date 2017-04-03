@@ -68,15 +68,17 @@ public class BorrowerWebService {
     /**
      * Gets borrowers.
      *
-     * @param page                the page
-     * @param size                the size
-     * @param nameOrEmail         the name or email
-     * @param name                the contains
-     * @param id                  the id
-     * @param email               the email
-     * @param city                the city
-     * @param sort                the sort
-     * @param order               the order
+     * @param page         the page
+     * @param size         the size
+     * @param nameOrEmail  the name or email
+     * @param name         the contains
+     * @param id           the id
+     * @param email        the email
+     * @param city         the city
+     * @param lateness     the lateness
+     * @param tooMuchLoans the too much loans
+     * @param sort         the sort
+     * @param order        the order
      * @return the borrowers
      */
     @RequestMapping(value = "/borrowers", method = RequestMethod
@@ -88,6 +90,8 @@ public class BorrowerWebService {
                                        @PathParam("id") String id,
                                        @PathParam("email") String email,
                                        @PathParam("city") String city,
+                                       @PathParam("lateness") Boolean lateness,
+                                       @PathParam("tooMuchLoans") Boolean tooMuchLoans,
                                        @PathParam("sort") String sort,
                                        @PathParam("order") String order) {
 
@@ -101,7 +105,7 @@ public class BorrowerWebService {
 
         Pageable pageable;
         if (sort != null) {
-            if (order.equals("desc")) {
+            if (order.equals("DESC")) {
                 pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, sort));
             } else {
                 pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC, sort));
@@ -129,7 +133,7 @@ public class BorrowerWebService {
             }
 
             borrowerDtos = borrowerService.findAllBorrowerDtoWithFilters(
-                    name, email, city, id, pageable);
+                    name, email, city, id, tooMuchLoans, lateness, pageable);
         }
 
         if (borrowerDtos.getTotalElements() == 0) {

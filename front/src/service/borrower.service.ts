@@ -6,6 +6,9 @@ import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
 import {Observable} from 'rxjs';
+import {Page} from '../util/page';
+import {BorrowerFilter} from './various/borrower-filter';
+import {Pageable} from '../util/pageable';
 
 @Injectable()
 export class BorrowerService {
@@ -39,9 +42,9 @@ export class BorrowerService {
       .catch(error => this.httpLogger.error(error));
   }
 
-  findPaginable(size: number, page: number, nameOrEmail: string): Observable<Response> {
+  findByNameOrEmail(size: number, page: number, nameOrEmail: string): Observable<Response> {
     return this.http
-      .get(`http://localhost:8080/borrowers?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
+      .get(`${this.borrowerUrl}?size=${size}&page=${page}&nameOrEmail=${nameOrEmail}`)
       .map(r => {
         if (r.status != 200) {
           return [];
@@ -50,6 +53,13 @@ export class BorrowerService {
           return r.json().content;
         }
       });
+  }
+
+  findWithFilters(pageable: Pageable, borrowFilter: BorrowerFilter): Observable<Page<Borrower>> {
+    return this.http
+      .get(`${this.borrowerUrl}?${pageable.getQueryString()}&${borrowFilter.getQueryString()}`)
+      .map(response => response.json() as Page<Borrower>)
+      .catch(error => this.httpLogger.error(error));
   }
 
   find(id: number, jsonViewResolver?: string): Promise<Borrower> {

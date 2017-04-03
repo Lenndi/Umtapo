@@ -2,9 +2,11 @@ package org.lendi.umtapo.service.specific.implementation;
 
 import org.lendi.umtapo.dao.SubscriptionDao;
 import org.lendi.umtapo.dto.SubscriptionDto;
+import org.lendi.umtapo.entity.Library;
 import org.lendi.umtapo.entity.Subscription;
 import org.lendi.umtapo.exception.BadSubscriptionDateException;
 import org.lendi.umtapo.mapper.SubscriptionMapper;
+import org.lendi.umtapo.service.specific.LibraryService;
 import org.lendi.umtapo.service.specific.SubscriptionService;
 import org.lendi.umtapo.solr.document.BorrowerDocument;
 import org.lendi.umtapo.solr.service.SolrBorrowerService;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,10 +25,13 @@ import java.util.List;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
+    private static final int UNDEFINED_FUTUR = 10;
+
     private final SubscriptionDao subscriptionDao;
     private final SubscriptionMapper subscriptionMapper;
     private final JpaRepository<Subscription, Integer> repository;
     private final SolrBorrowerService solrBorrowerService;
+    private final LibraryService libraryService;
 
     /**
      * Instantiates a new Subscription service.
@@ -34,22 +40,26 @@ public class SubscriptionServiceImpl implements SubscriptionService {
      * @param subscriptionMapper               the subscription mapper
      * @param subscriptionIntegerJpaRepository the subscription integer jpa repository
      * @param solrBorrowerService              the solr borrower service
+     * @param libraryService                   the library service
      */
     public SubscriptionServiceImpl(
             SubscriptionDao subscriptionDao,
             SubscriptionMapper subscriptionMapper,
             JpaRepository<Subscription, Integer> subscriptionIntegerJpaRepository,
-            SolrBorrowerService solrBorrowerService
+            SolrBorrowerService solrBorrowerService,
+            LibraryService libraryService
     ) {
         Assert.notNull(subscriptionDao);
         Assert.notNull(subscriptionMapper);
         Assert.notNull(subscriptionIntegerJpaRepository);
         Assert.notNull(solrBorrowerService);
+        Assert.notNull(libraryService);
 
         this.subscriptionDao = subscriptionDao;
         this.subscriptionMapper = subscriptionMapper;
         this.repository = subscriptionIntegerJpaRepository;
         this.solrBorrowerService = solrBorrowerService;
+        this.libraryService = libraryService;
     }
 
     @Override
@@ -91,11 +101,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         Integer borrowerId = subscription.getBorrower().getId();
         Subscription latestSubscription = this.subscriptionDao.findFirstByBorrowerIdOrderByStartDesc(borrowerId);
+        Library latestLibrary = libraryService.findOne(latestSubscription.getLibrary().getId());
 
         BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
         borrowerDocument.setSubscriptionStart(Date.from(latestSubscription.getStart().toInstant()));
         borrowerDocument.setSubscriptionEnd(Date.from(latestSubscription.getEnd().toInstant()));
-        borrowerDocument.setLibraryId(latestSubscription.getLibrary().getId());
+        borrowerDocument.setLibraryId(latestLibrary.getId());
+        borrowerDocument.setLibraryName(latestLibrary.getName());
+        if (this.isFirstSubscription(subscription)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new java.util.Date());
+            calendar.add(Calendar.YEAR, UNDEFINED_FUTUR);
+
+            borrowerDocument.setNbLoans(0);
+            borrowerDocument.setTooMuchLoans(false);
+            borrowerDocument.setOlderReturn(calendar.getTime());
+        }
         this.solrBorrowerService.saveToIndex(borrowerDocument);
 
         return subscription;
@@ -107,5 +128,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription = this.save(subscription);
 
         return this.subscriptionMapper.mapSubscriptionToSubscriptionDto(subscription);
+    }
+
+    private boolean isFirstSubscription(Subscription subscription) {
+        return this.subscriptionDao.countByBorrowerId(subscription.getBorrower().getId()) < 2;
     }
 }

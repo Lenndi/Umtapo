@@ -40,6 +40,7 @@ public class UtilCreator {
     }
 
     public BorrowerDocument createBorrowerDocument(String id, String name, String email) {
+        Library library = this.createLibrary(1);
         BorrowerDocument borrowerDocument = new BorrowerDocument();
         borrowerDocument.setId(id);
         borrowerDocument.setName(name);
@@ -56,9 +57,11 @@ public class UtilCreator {
         borrowerDocument.setEmail(email);
         borrowerDocument.setNbLoans(3);
         borrowerDocument.setTooMuchLoans(false);
-        borrowerDocument.setOlderReturn(olderReturn);
+        borrowerDocument.setOlderReturn(Date.from(olderReturn.toInstant()));
         borrowerDocument.setSubscriptionStart(Date.from(subscriptionStart.toInstant()));
         borrowerDocument.setSubscriptionEnd(Date.from(subscriptionEnd.toInstant()));
+        borrowerDocument.setLibraryId(1);
+        borrowerDocument.setLibraryName(library.getName());
 
         return borrowerDocument;
     }

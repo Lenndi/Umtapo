@@ -1,0 +1,158 @@
+<div id="borrower-management" class="row justify-content-center">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-block">
+        <h5 class="card-title">Gestion des usagers</h5>
+        <table class="table table-hover table-bordered table-sm umt-datatable" *ngIf="pageable">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th class="umt-pointer" [class.text-primary]="pageable.sort === 'name'"
+                  (click)="changeSort('name')">Nom
+                <ng-container *ngIf="pageable.sort === 'name'">
+                  <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+                  <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+                </ng-container>
+              </th>
+              <th class="umt-pointer" [class.text-primary]="pageable.sort === 'email'"
+                  (click)="changeSort('email')">Email
+                <ng-container *ngIf="pageable.sort === 'email'">
+                  <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+                  <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+                </ng-container>
+              </th>
+              <th class="umt-pointer" [class.text-primary]="pageable.sort === 'city'"
+                  (click)="changeSort('city');">Ville
+                <ng-container *ngIf="pageable.sort === 'city'">
+                  <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+                  <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+                </ng-container>
+              </th>
+              <th class="umt-pointer" [class.text-primary]="pageable.sort === 'lateness'"
+                  (click)="changeSort('lateness');">Retard
+                <ng-container *ngIf="pageable.sort === 'lateness'">
+                  <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+                  <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+                </ng-container>
+              </th>
+              <th class="umt-pointer" [class.text-primary]="pageable.sort === 'tooMuchLoans'"
+                  (click)="changeSort('tooMuchLoans');">Emprunts
+                <ng-container *ngIf="pageable.sort === 'tooMuchLoans'">
+                  <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+                  <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+                </ng-container>
+              </th>
+              <th>Affichage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input placeholder="identifiant" class="form-control form-control-sm umt-input-table"
+                    [(ngModel)]="borrowerFilter.id" (keyup)="changeFilter()">
+              </td>
+              <td>
+                <input placeholder="nom" class="form-control form-control-sm umt-input-table"
+                    [(ngModel)]="borrowerFilter.name" (keyup)="changeFilter()">
+              </td>
+              <td>
+                <input placeholder="email" class="form-control form-control-sm umt-input-table"
+                    [(ngModel)]="borrowerFilter.email" (keyup)="changeFilter()">
+              </td>
+              <td>
+                <input placeholder="ville" class="form-control form-control-sm umt-input-table"
+                    [(ngModel)]="borrowerFilter.city" (keyup)="changeFilter()">
+              </td>
+              <td>
+                <select class="form-control form-control-sm"
+                    [(ngModel)]="borrowerFilter.lateness" (change)="changeFilter()">
+                  <option value="" selected>les deux</option>
+                  <option value="true">oui</option>
+                  <option value="false">non</option>
+                </select>
+              </td>
+              <td>
+                <select class="form-control form-control-sm"
+                    [(ngModel)]="borrowerFilter.tooMuchLoans" (change)="changeFilter()">
+                  <option value="" selected>les deux</option>
+                  <option value="true">oui</option>
+                  <option value="false">non</option>
+                </select>
+              </td>
+              <td>
+                <select class="form-control form-control-sm" [(ngModel)]="pageable.size" (change)="changeFilter()">
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                </select>
+              </td>
+            </tr>
+            <ng-container *ngIf="page">
+              <tr *ngFor="let borrower of page.content" (click)="onCellClick()">
+                <td scope="row">{{borrower.id}}</td>
+                <td>{{borrower.name}}</td>
+                <td>{{borrower.address.email}}</td>
+                <td>{{borrower.address.city}}</td>
+                <td class="text-center">
+                  <span *ngIf="borrower.lateness">oui</span>
+                  <span *ngIf="!borrower.lateness">non</span>
+                </td>
+                <td class="text-center">
+                  <span [class.text-danger]="borrower.tooMuchLoans">{{borrower.nbLoans}}/{{borrower.quota}}</span>
+                </td>
+                <td class="text-center">
+                  <span class="btn-group" dropdown>
+                    <button id="edit-dropdown" class="btn btn-sm btn-secondary dropdown-toggle" dropdownToggle>Éditer</button>
+                    <div class="dropdown-menu-right" dropdownMenu aria-labelledby="edit-dropdown">
+                      <a class="dropdown-item umt-pointer">Réabonner</a>
+                      <a class="dropdown-item umt-pointer">Modifier</a>
+                      <a class="dropdown-item umt-pointer">Supprimer</a>
+                    </div>
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <nav aria-label="Borrowers navigation" *ngIf="page && page.totalPages > 1">
+          <ul class="pagination pagination-sm">
+            <ng-container *ngIf="!page.first">
+              <li class="page-item">
+                <a class="page-link umt-pointer" (click)="changePage(0)" aria-label="First">
+                  <span aria-hidden="true">&lt;&lt;</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link umt-pointer" (click)="changePage(page.number - 1)" aria-label="Previous">
+                  <span aria-hidden="true">&lt;</span>
+                </a>
+              </li>
+            </ng-container>
+
+            <ng-container *ngFor="let pageIndex of pageIndex()">
+              <li class="page-item" [class.active]="isCurrentPage(pageIndex)" *ngIf="pageIndex >= 0">
+                <a class="page-link umt-pointer" (click)="changePage(pageIndex)">{{pageIndex + 1}}</a>
+              </li>
+              <li class="page-item" *ngIf="pageIndex < 0">
+                <a class="page-link umt-pointer" (click)="changePage(0)" *ngIf="pageIndex === -1">…</a>
+                <a class="page-link umt-pointer" (click)="changePage(page.totalPages - 1)" *ngIf="pageIndex === -2">…</a>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="!page.last">
+              <li class="page-item">
+                <a class="page-link umt-pointer" (click)="changePage(page.number + 1)" aria-label="Next">
+                  <span aria-hidden="true">&gt;</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link umt-pointer" (click)="changePage(page.totalPages - 1)" aria-label="Next">
+                  <span aria-hidden="true">&gt;&gt;</span>
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
