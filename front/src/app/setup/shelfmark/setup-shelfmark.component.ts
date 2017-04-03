@@ -48,6 +48,7 @@ export class SetupShelfmarkComponent implements OnInit, Setup {
 
     if (!this.dataService.library) {
       this.dataService.library = new Library();
+      this.dataService.library.external = false;
     }
 
     this.z3950Service.findAll()
