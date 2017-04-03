@@ -2,7 +2,6 @@ package org.lendi.umtapo.controller;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.LibraryDto;
-import org.lendi.umtapo.service.specific.ItemService;
 import org.lendi.umtapo.service.specific.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -28,21 +28,17 @@ public class LibraryWebService {
     private static final Logger LOGGER = Logger.getLogger(LibraryWebService.class);
 
     private final LibraryService libraryService;
-    private final ItemService itemService;
 
     /**
      * Instantiates a new Library web service.
      *
      * @param libraryService the library service
-     * @param itemService    the item service
      */
     @Autowired
-    public LibraryWebService(LibraryService libraryService, ItemService itemService) {
+    public LibraryWebService(LibraryService libraryService) {
         Assert.notNull(libraryService);
-        Assert.notNull(itemService);
 
         this.libraryService = libraryService;
-        this.itemService = itemService;
     }
 
     /**
@@ -66,12 +62,20 @@ public class LibraryWebService {
     /**
      * Gets libraries.
      *
+     * @param external the external
      * @return the libraries
      */
     @RequestMapping(value = "/libraries", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<LibraryDto>> getLibraries() {
+    public ResponseEntity<List<LibraryDto>> getLibraries(@PathParam("external") Boolean external) {
 
-        List<LibraryDto> librariesDto = this.libraryService.findAllDto();
+        List<LibraryDto> librariesDto;
+
+        if (external) {
+            librariesDto = this.libraryService.findAllExternal();
+        } else {
+            librariesDto = this.libraryService.findAllPartner();
+        }
+
         if (librariesDto.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -79,15 +83,36 @@ public class LibraryWebService {
     }
 
     /**
-     * Sets library.
+     * Create a partner library.
      *
      * @param libraryDto the library dto
      * @return the library
      */
-    @RequestMapping(value = "/libraries", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
+    @RequestMapping(value = "/libraries/partner",
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LibraryDto> setLibrary(@RequestBody LibraryDto libraryDto) {
+    public ResponseEntity<LibraryDto> setPartnerLibrary(@RequestBody LibraryDto libraryDto) {
 
+        libraryDto.setExternal(false);
+        libraryDto = libraryService.saveDto(libraryDto);
+
+        return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);
+    }
+
+    /**
+     * Create an external library.
+     *
+     * @param libraryDto the library dto
+     * @return the library
+     */
+    @RequestMapping(value = "/libraries/external",
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<LibraryDto> setExternalLibrary(@RequestBody LibraryDto libraryDto) {
+
+        libraryDto.setExternal(true);
         libraryDto = libraryService.saveDto(libraryDto);
 
         return new ResponseEntity<>(libraryDto, HttpStatus.CREATED);

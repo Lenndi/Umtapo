@@ -26,6 +26,7 @@ public class ItemDto {
     private Condition condition;
     private String currency;
     private LibraryDto library;
+    private LibraryDto externalLibrary;
     private String recordId;
     private Record record;
 
@@ -264,6 +265,24 @@ public class ItemDto {
      */
     public void setLibrary(LibraryDto library) {
         this.library = library;
+    }
+
+    /**
+     * Gets external library.
+     *
+     * @return the external library
+     */
+    public LibraryDto getExternalLibrary() {
+        return externalLibrary;
+    }
+
+    /**
+     * Sets external library.
+     *
+     * @param externalLibrary the external library
+     */
+    public void setExternalLibrary(LibraryDto externalLibrary) {
+        this.externalLibrary = externalLibrary;
     }
 
     /**

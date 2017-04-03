@@ -57,6 +57,16 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
     }
 
     @Override
+    public List<LibraryDto> findAllExternal() {
+        return this.mapLibrariesToLibrariesDTO(this.libraryDao.findByExternalTrue());
+    }
+
+    @Override
+    public List<LibraryDto> findAllPartner() {
+        return this.mapLibrariesToLibrariesDTO(this.libraryDao.findByExternalFalse());
+    }
+
+    @Override
     public Library mapLibraryDtoToLibrary(LibraryDto libraryDto) {
         return this.libraryMapper.mapLibraryDtoToLibrary(libraryDto);
     }

@@ -59,7 +59,7 @@ public class SubscriptionServiceTest {
         BorrowerDocument borrowerDocument = new BorrowerDocument();
         borrowerDocument.setId("1");
         solrBorrowerService.saveToIndex(borrowerDocument);
-        library = utilCreator.createLibrary(1);
+        library = utilCreator.createLibrary(1, false);
         borrower = utilCreator.createBorrower(1);
         library = libraryDao.save(library);
         borrower = borrowerDao.save(borrower);
