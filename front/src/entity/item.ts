@@ -14,6 +14,7 @@ export class Item {
   condition: Condition;
   currency: string;
   library: Library;
+  externalLibrary: Library;
   record: Record;
 
   constructor () {

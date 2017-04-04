@@ -108,7 +108,7 @@ public class BorrowerServiceTest {
 
     @Test
     public void testFindAllBorrowerDtoWithFilters() throws Exception {
-        LibraryDto library = this.libraryService.saveDto(this.utilCreator.createLibraryDto(1));
+        LibraryDto library = this.libraryService.saveDto(this.utilCreator.createLibraryDto(1, false));
 
         BorrowerDto borrower = this.utilCreator.createBorrowerDto(1, "Michel Test", "michel@test.com");
         BorrowerDto borrower1 = this.utilCreator.createBorrowerDto(2, "Francis test", "francis@test.com");

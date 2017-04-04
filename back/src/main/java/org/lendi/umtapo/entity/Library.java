@@ -3,13 +3,14 @@ package org.lendi.umtapo.entity;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +26,16 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer firstInternalId;
+    @Column(unique = true)
+    @NotNull
     private String name;
     @NotNull
+    private Boolean external;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
-    @NotNull
     private Integer subscriptionDuration;
-    @NotNull
     private Integer borrowDuration;
-    @NotNull
     private String currency;
-    @NotNull
     private Integer defaultZ3950;
     @OneToMany(mappedBy = "library")
     private List<Subscription> subscriptions;
@@ -106,6 +106,24 @@ public class Library {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets external.
+     *
+     * @return the external
+     */
+    public Boolean getExternal() {
+        return external;
+    }
+
+    /**
+     * Sets external.
+     *
+     * @param external the external
+     */
+    public void setExternal(Boolean external) {
+        this.external = external;
     }
 
     /**
