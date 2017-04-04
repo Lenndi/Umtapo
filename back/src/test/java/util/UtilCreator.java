@@ -40,7 +40,7 @@ public class UtilCreator {
     }
 
     public BorrowerDocument createBorrowerDocument(String id, String name, String email) {
-        Library library = this.createLibrary(1);
+        Library library = this.createLibrary(1, false);
         BorrowerDocument borrowerDocument = new BorrowerDocument();
         borrowerDocument.setId(id);
         borrowerDocument.setName(name);
@@ -132,7 +132,7 @@ public class UtilCreator {
         return borrower;
     }
 
-    public Library createLibrary(Integer id) {
+    public Library createLibrary(Integer id, boolean external) {
         Library library = new Library();
 
         library.setId(id);
@@ -144,6 +144,24 @@ public class UtilCreator {
         library.setShelfMarkNb(3);
         library.setUseDeweyClassification(false);
         library.setFirstInternalId(1234);
+        library.setExternal(external);
+
+        return library;
+    }
+
+    public Library createLibrary(Integer id, String name, boolean external) {
+        Library library = new Library();
+
+        library.setId(id);
+        library.setName(name);
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
+        library.setExternal(external);
 
         return library;
     }
@@ -160,6 +178,23 @@ public class UtilCreator {
         library.setShelfMarkNb(3);
         library.setUseDeweyClassification(false);
         library.setFirstInternalId(1234);
+
+        return library;
+    }
+
+    public LibraryDto createLibraryDto(Integer id, Boolean external) {
+        LibraryDto library = new LibraryDto();
+
+        library.setId(id);
+        library.setName("Test Library");
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
+        library.setExternal(external);
 
         return library;
     }

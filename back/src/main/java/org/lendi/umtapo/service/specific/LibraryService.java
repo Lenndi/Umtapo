@@ -55,6 +55,20 @@ public interface LibraryService extends GenericService<Library, Integer> {
     List<LibraryDto> findAllDto();
 
     /**
+     * Find all external list.
+     *
+     * @return the list
+     */
+    List<LibraryDto> findAllExternal();
+
+    /**
+     * Find all partner list.
+     *
+     * @return the list
+     */
+    List<LibraryDto> findAllPartner();
+
+    /**
      * Transform LibraryDto to Library.
      *
      * @param libraryDto library dto

@@ -71,7 +71,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             item.setRecordId(record.getId());
         }
 
-        if (item.getInternalId() == null) {
+        if (item.getInternalId() == null && item.getExternalLibrary() == null) {
             Integer previousInternalId = this.itemDao.findTopInternalId();
             item.setInternalId(previousInternalId + 1);
         }

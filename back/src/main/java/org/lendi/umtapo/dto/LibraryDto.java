@@ -1,8 +1,5 @@
 package org.lendi.umtapo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.util.List;
 
 /**
@@ -10,12 +7,12 @@ import java.util.List;
  * <p>
  * Created by axel on 29/11/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class LibraryDto {
 
     private Integer id;
     private Integer firstInternalId;
     private String name;
+    private Boolean external;
     private Integer shelfMarkNb;
     private Boolean useDeweyClassification;
     private Integer subscriptionDuration;
@@ -59,6 +56,24 @@ public class LibraryDto {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets external.
+     *
+     * @return the external
+     */
+    public Boolean getExternal() {
+        return external;
+    }
+
+    /**
+     * Sets external.
+     *
+     * @param external the external
+     */
+    public void setExternal(Boolean external) {
+        this.external = external;
     }
 
     /**
