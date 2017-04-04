@@ -30,10 +30,33 @@ export class LibraryService {
       .catch(error => this.httpLogger.error(error));
   }
 
+  findExternalLibraries(): Promise<Library[]> {
+    return this.http.get(`${this.libraryUrl}?external=true`)
+      .toPromise()
+      .then(response => response.json() as Library[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  findPartnerLibraries(): Promise<Library[]> {
+    return this.http.get(`${this.libraryUrl}?external=false`)
+      .toPromise()
+      .then(response => response.json() as Library[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
   save(library: Library): Promise<Library> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .post(this.libraryUrl, JSON.stringify(library), options)
+      .post(`${this.libraryUrl}/partner`, JSON.stringify(library), options)
+      .toPromise()
+      .then(response => response.json() as Library)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  saveExternal(library: Library): Promise<Library> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .post(`${this.libraryUrl}/external`, JSON.stringify(library), options)
       .toPromise()
       .then(response => response.json() as Library)
       .catch(error => this.httpLogger.error(error));

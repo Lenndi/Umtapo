@@ -1,7 +1,5 @@
 package org.lendi.umtapo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.lendi.umtapo.entity.ShelfMark;
 import org.lendi.umtapo.enumeration.Condition;
 import org.lendi.umtapo.enumeration.ItemType;
@@ -12,7 +10,6 @@ import java.util.List;
 /**
  * The type Item dto.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
 public class ItemDto {
 
     private Integer id;
@@ -26,6 +23,7 @@ public class ItemDto {
     private Condition condition;
     private String currency;
     private LibraryDto library;
+    private LibraryDto externalLibrary;
     private String recordId;
     private Record record;
 
@@ -264,6 +262,24 @@ public class ItemDto {
      */
     public void setLibrary(LibraryDto library) {
         this.library = library;
+    }
+
+    /**
+     * Gets external library.
+     *
+     * @return the external library
+     */
+    public LibraryDto getExternalLibrary() {
+        return externalLibrary;
+    }
+
+    /**
+     * Sets external library.
+     *
+     * @param externalLibrary the external library
+     */
+    public void setExternalLibrary(LibraryDto externalLibrary) {
+        this.externalLibrary = externalLibrary;
     }
 
     /**
