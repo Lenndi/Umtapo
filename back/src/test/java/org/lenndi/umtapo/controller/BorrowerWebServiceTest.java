@@ -28,6 +28,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -36,8 +37,10 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -174,5 +177,39 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.subscriptions", nullValue()));
         verify(borrowerService, times(2)).saveDto(any(BorrowerDto.class));
         verifyNoMoreInteractions(borrowerService);
+    }
+
+    @Test
+    public void testUpdateBorrower() throws Exception {
+
+        given(this.borrowerService.findOne(1)).willReturn(null);
+        this.mockMvc.perform(put("/borrowers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(this.borrowerDto2))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        this.borrowerDto.setId(2);
+        given(this.borrowerService.saveDto(any(BorrowerDto.class))).willReturn(this.borrowerDto);
+        given(this.borrowerService.findOne(2)).willReturn(this.borrowerMapper.mapBorrowerDtoToBorrower(this.borrowerDto));
+        this.mockMvc.perform(put("/borrowers/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(this.borrowerDto))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("NameTest")))
+                .andExpect(jsonPath("$.comment", is("CommentTest")))
+                .andExpect(jsonPath("$.quota", is(5)))
+                .andExpect(jsonPath("$.emailOptin", is(true)))
+                .andExpect(jsonPath("$.address", nullValue()))
+                .andExpect(jsonPath("$.subscriptions", nullValue()));
+    }
+
+    @Test
+    public void testDeleteBorrower() throws Exception {
+
+        this.mockMvc.perform(delete("/borrowers/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }

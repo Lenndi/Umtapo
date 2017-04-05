@@ -130,4 +130,23 @@ public class BorrowerServiceTest {
         borrowerDtoPage = this.borrowerService.findAllBorrowerDtoWithFilters("", "francis", "Rennes", "", null, null, page);
         Assert.assertEquals(1, borrowerDtoPage.getTotalElements());
     }
+
+    @Test
+    public void testDelete() throws Exception {
+        BorrowerDto borrowerDto = this.utilCreator.createBorrowerDto(1);
+        this.borrowerService.saveDto(borrowerDto);
+
+        Assert.assertNotNull(this.solrBorrowerRepository.findById("1"));
+
+        this.borrowerService.delete(1);
+        Borrower deletedBorrower = this.borrowerDao.findOne(1);
+
+        Assert.assertEquals(false, deletedBorrower.getActive());
+        Assert.assertEquals("Anonymous", deletedBorrower.getName());
+        Assert.assertEquals("ano@ny.mous", deletedBorrower.getAddress().getEmail());
+        Assert.assertEquals("anonymous", deletedBorrower.getAddress().getAddress1());
+        Assert.assertEquals("", deletedBorrower.getAddress().getAddress2());
+        Assert.assertEquals("0000000000", deletedBorrower.getAddress().getPhone());
+        Assert.assertNull(this.solrBorrowerRepository.findById("1"));
+    }
 }

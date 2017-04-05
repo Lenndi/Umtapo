@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.util.NoSuchElementException;
 
 /**
  * The type Borrower web service.
@@ -153,8 +154,9 @@ public class BorrowerWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
+        borrowerDto.setActive(true);
         try {
-            borrowerDto = borrowerService.saveDto(borrowerDto);
+            borrowerDto = this.borrowerService.saveDto(borrowerDto);
         } catch (final InvalidRecordException e) {
             LOGGER.fatal(e.getMessage());
             ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
@@ -172,8 +174,10 @@ public class BorrowerWebService {
      * @param id               the id
      * @return the response entity
      */
-    @RequestMapping(value = "/borrowers/{id}", method = RequestMethod.PATCH, consumes = "application/json", produces = {
-            "application/json", "application/json-patch+json"})
+    @RequestMapping(value = "/borrowers/{id}",
+            method = RequestMethod.PATCH,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, "application/json-patch+json"})
     public ResponseEntity patch(@RequestBody JsonNode jsonNodeBorrower, @PathVariable Integer id) {
 
         Borrower borrower = borrowerService.findOne(id);
@@ -189,5 +193,53 @@ public class BorrowerWebService {
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    /**
+     * Update borrower.
+     *
+     * @param borrower the borrower
+     * @param id       the id
+     * @return 200 if updated without error
+     */
+    @RequestMapping(value = "/borrowers/{id}",
+            method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateBorrower(@RequestBody BorrowerDto borrower, @PathVariable Integer id) {
+
+        if (!id.equals(borrower.getId()) || this.borrowerService.findOne(id) == null) {
+            return new ResponseEntity<>("This borrower does not exist", HttpStatus.NOT_FOUND);
+        }
+        try {
+            borrower = this.borrowerService.saveDto(borrower);
+        } catch (final InvalidRecordException e) {
+            LOGGER.fatal(e.getMessage());
+            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+
+            return new ResponseEntity<>(apiError, apiError.getStatus());
+        }
+
+        return new ResponseEntity<>(borrower, HttpStatus.OK);
+    }
+
+    /**
+     * Delete borrower setting activate field to false.
+     *
+     * @param id the id
+     * @return 204 response entity
+     */
+    @RequestMapping(value = "borrowers/{id}",
+            method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity deleteBorrower(@PathVariable Integer id) {
+
+        try {
+            this.borrowerService.delete(id);
+
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (final NoSuchElementException e) {
+            return new ResponseEntity<>("Borrower not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
