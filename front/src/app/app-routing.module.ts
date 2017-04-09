@@ -16,11 +16,17 @@ import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-intern
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
+import {LoginComponent} from "./login/login.component";
+import {AuthGuard} from "../service/auth-guard.service";
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '',
-    component: AppComponent
+    component: LoginComponent,
   },
   {
     path: '',
@@ -49,7 +55,7 @@ const routes: Routes = [
             ]
           },
           {path: 'management', component: BorrowersManagementComponent}
-        ]
+        ],
       },
       {
         path: 'cataloging',
@@ -64,7 +70,7 @@ const routes: Routes = [
             ]
           },
           {path: 'management', component: TestComponent}
-        ]
+        ],
       },
     ]
   },

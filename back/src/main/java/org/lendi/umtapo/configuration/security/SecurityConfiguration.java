@@ -59,7 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers("/consoleh2/**").hasRole(UserProfileType.ADMIN.getUserProfileType())
                 .anyRequest().authenticated()
                 .and().httpBasic().authenticationEntryPoint(getBasicAuthEntryPoint())
@@ -87,6 +86,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password("password").roles(UserProfileType.ADMIN.getUserProfileType());
+                .withUser("aze").password("aze").roles(UserProfileType.ADMIN.getUserProfileType());
     }
 }

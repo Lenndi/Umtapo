@@ -17,32 +17,47 @@ import java.util.Collections;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-  public JWTLoginFilter(String url, AuthenticationManager authManager) {
-    super(new AntPathRequestMatcher(url));
-    setAuthenticationManager(authManager);
-  }
+    public JWTLoginFilter(String url, AuthenticationManager authManager) {
+        super(new AntPathRequestMatcher(url));
+        setAuthenticationManager(authManager);
+    }
 
-  @Override
-  public Authentication attemptAuthentication(
-      HttpServletRequest req, HttpServletResponse res)
-      throws AuthenticationException, IOException, ServletException {
-    AccountCredentials creds = new ObjectMapper()
-        .readValue(req.getInputStream(), AccountCredentials.class);
-    return getAuthenticationManager().authenticate(
-        new UsernamePasswordAuthenticationToken(
-            creds.getUsername(),
-            creds.getPassword(),
-            Collections.emptyList()
-        )
-    );
-  }
+    @Override
+    public Authentication attemptAuthentication(
+            HttpServletRequest req, HttpServletResponse res)
+            throws AuthenticationException, IOException, ServletException {
 
-  @Override
-  protected void successfulAuthentication(
-      HttpServletRequest req,
-      HttpServletResponse res, FilterChain chain,
-      Authentication auth) throws IOException, ServletException {
-    TokenAuthenticationService
-        .addAuthentication(res, auth.getName());
-  }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
+        res.setHeader("Access-Control-Max-Age", "3600");
+        res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, "
+                + "X-Requested-With, Content-Type, Access-Control-Request-Method, "
+                + "Access-Control-Request-Headers, X-XSRF-TOKEN, Authorization");
+        res.setHeader("Access-Control-Expose-Headers", "Location");
+
+        if (req.getMethod().equals("OPTIONS")) {
+            try {
+                res.getWriter().print("OK");
+                res.getWriter().flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
+
+        return getAuthenticationManager().authenticate(
+                new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword(), Collections.emptyList()));
+    }
+
+    @Override
+    protected void successfulAuthentication(
+            HttpServletRequest req,
+            HttpServletResponse res, FilterChain chain,
+            Authentication auth) throws IOException, ServletException {
+        TokenAuthenticationService
+                .addAuthentication(res, auth.getName());
+    }
 }

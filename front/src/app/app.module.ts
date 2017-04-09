@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {Http, HttpModule, RequestOptions} from '@angular/http';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MainComponent} from './main/main.component';
@@ -42,9 +42,23 @@ import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {ToastModule} from 'ng2-toastr';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import {LoginComponent} from "./login/login.component";
+import {AuthGuard} from "../service/auth-guard.service";
+import {LoginService} from "../service/login.service";
+
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+    tokenName: 'id_token',
+    tokenGetter: (() => sessionStorage.getItem('id_token')),
+    globalHeaders: [{'Content-Type':'application/json'}],
+  }), http, options);
+}
 
 @NgModule({
   declarations: [
+    LoginComponent,
     AppComponent,
     MainComponent,
     TestComponent,
@@ -85,6 +99,13 @@ import {BorrowersManagementComponent} from './borrower/borrowers-management/borr
     DropdownModule.forRoot()
   ],
   providers: [
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
+    AuthGuard,
+    LoginService,
     HttpLoggerService,
     LibraryService,
     Z3950Service,
