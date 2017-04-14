@@ -157,6 +157,11 @@
 			<artifactId>spring-data-solr</artifactId>
 			<version>${spring-data-solr.version}.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.paho</groupId>
+			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
