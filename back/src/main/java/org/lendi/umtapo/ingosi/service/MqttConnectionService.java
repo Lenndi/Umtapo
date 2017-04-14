@@ -46,7 +46,7 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
             LOGGER.info("Connecting to broker: " + broker + port);
             sampleClient.connect(connOpts);
             LOGGER.info("Connected");
-        } catch (MqttException me) {
+        } catch (final MqttException me) {
             LOGGER.info("reason " + me.getReasonCode());
             LOGGER.info("msg " + me.getMessage());
             LOGGER.info("loc " + me.getLocalizedMessage());
