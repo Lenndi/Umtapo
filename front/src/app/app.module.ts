@@ -50,7 +50,7 @@ import {LoginService} from "../service/login.service";
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
-    tokenName: 'id_token',
+    tokenName: 'Authorization',
     tokenGetter: (() => sessionStorage.getItem('id_token')),
     globalHeaders: [{'Content-Type':'application/json'}],
   }), http, options);

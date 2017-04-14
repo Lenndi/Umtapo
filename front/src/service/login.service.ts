@@ -27,9 +27,9 @@ export class LoginService {
         data => {
           this.token = data.json();
           sessionStorage.setItem('id_token', this.token.Authorization);
-          console.log(this.jwtHelper.decodeToken(this.token.Authorization));
-          console.log(this.jwtHelper.getTokenExpirationDate(this.token.Authorization));
-          console.log(this.jwtHelper.isTokenExpired(this.token.Authorization));
+          // console.log(this.jwtHelper.decodeToken(this.token.Authorization));
+          // console.log(this.jwtHelper.getTokenExpirationDate(this.token.Authorization));
+          // console.log(this.jwtHelper.isTokenExpired(this.token.Authorization));
         });
   }
 }

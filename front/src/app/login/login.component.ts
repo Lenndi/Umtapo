@@ -25,9 +25,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.login).subscribe(
       data => { this.router.navigate(['circulation']);
       },
-      err => console.log("nop"),
-      () => console.log("finish")
-    );
+      err => console.log("nop"));
   }
 
 }

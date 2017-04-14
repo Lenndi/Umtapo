@@ -27,10 +27,12 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
     component: MainComponent,
+    canActivate: [AuthGuard],
     children: [
       {path: '', redirectTo: 'circulation', pathMatch: 'full'},
       {
