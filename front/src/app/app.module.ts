@@ -43,16 +43,15 @@ import {LoanService} from '../service/loan.service';
 import {ToastModule} from 'ng2-toastr';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import {LoginComponent} from "./login/login.component";
-import {AuthGuard} from "../service/auth-guard.service";
-import {LoginService} from "../service/login.service";
-
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from '../service/auth-guard.service';
+import {LoginService} from '../service/login.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
     tokenName: 'Authorization',
     tokenGetter: (() => sessionStorage.getItem('id_token')),
-    globalHeaders: [{'Content-Type':'application/json'}],
+    globalHeaders: [{'Content-Type': 'application/json'}],
   }), http, options);
 }
 

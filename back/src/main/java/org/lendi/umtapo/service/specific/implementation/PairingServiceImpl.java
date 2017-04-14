@@ -11,6 +11,7 @@ import java.util.TimerTask;
 @Service
 public class PairingServiceImpl {
 
+    private static final Integer PERIOD = 5000;
     private static Integer userId;
     private Integer deviceId;
 
@@ -27,10 +28,10 @@ public class PairingServiceImpl {
     /**
      * Sets user id.
      *
-     * @param userId the user id
+     * @param fUserId the user id
      */
-    public void setUserIdFuture(Integer userId) {
-        PairingServiceImpl.userId = userId;
+    public void setUserIdFuture(Integer fUserId) {
+        PairingServiceImpl.userId = fUserId;
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -39,11 +40,11 @@ public class PairingServiceImpl {
             public void run() {
                 PairingServiceImpl.userId = null;
             }
-        }, 0, 5000);
+        }, 0, PERIOD);
     }
 
     private void setUserIdNull() {
-        this.userId = null;
+        userId = null;
     }
 
     /**

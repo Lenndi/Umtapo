@@ -13,24 +13,28 @@ import java.util.Date;
 
 import static java.util.Collections.emptyList;
 
-class TokenAuthenticationService {
+public final class TokenAuthenticationService {
+
   static final long EXPIRATIONTIME = 864_000_000; // 10 days
   static final String SECRET = "ThisIsASecret";
   static final String TOKEN_PREFIX = "Bearer";
   static final String HEADER_STRING = "Authorization";
 
+  private TokenAuthenticationService() {
+  }
+
   static void addAuthentication(HttpServletResponse res, String username) {
-    String JWT = Jwts.builder()
+    String jwt = Jwts.builder()
         .setSubject(username)
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
         .signWith(SignatureAlgorithm.HS512, SECRET)
         .compact();
 
     try {
-      res.getWriter().write("{ \"" + HEADER_STRING +"\" : \""+TOKEN_PREFIX + " " + JWT + "\" }");
+      res.getWriter().write("{ \"" + HEADER_STRING + "\" : \"" + TOKEN_PREFIX + " " + jwt + "\" }");
       res.getWriter().flush();
       res.getWriter().close();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
     }
   }
@@ -45,10 +49,13 @@ class TokenAuthenticationService {
           .getBody()
           .getSubject();
 
-      return user != null ?
-          new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
-          null;
+      if (user != null) {
+          new UsernamePasswordAuthenticationToken(user, null, emptyList());
+      } else {
+          return null;
+      }
     }
+
     return null;
   }
 }

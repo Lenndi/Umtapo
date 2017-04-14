@@ -33,14 +33,14 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
       try {
         res.getWriter().print("OK");
         res.getWriter().flush();
-      } catch (IOException e) {
+      } catch (final IOException e) {
         e.printStackTrace();
       }
     } else {
-      Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest)req);
+      Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) req);
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      filterChain.doFilter(req,res);
+      filterChain.doFilter(req, res);
     }
   }
 }

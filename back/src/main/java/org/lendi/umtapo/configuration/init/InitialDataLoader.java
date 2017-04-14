@@ -60,6 +60,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         UserProfile adminRole = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
         User user = new User();
+        user.setId(1);
         user.setFirstName("Test");
         user.setSsoId("Test");
         user.setLastName("Test");

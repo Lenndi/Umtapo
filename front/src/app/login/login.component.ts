@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Login} from "../dto/login";
-import { AuthHttp } from 'angular2-jwt';
-import {LoginService} from "../../service/login.service";
+import {Component} from '@angular/core';
+import {Login} from '../../util/login';
+import {LoginService} from '../../service/login.service';
 import {Router} from '@angular/router';
+import {logger} from '../../environments/environment';
 
 @Component({
   selector: 'umt-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   login: Login = new Login;
 
@@ -18,14 +18,9 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  authenticate() {
+    this.loginService.login(this.login)
+      .then(data => this.router.navigate(['circulation']))
+      .catch(error => logger.error(error));
   }
-
-  authenticate(){
-    this.loginService.login(this.login).subscribe(
-      data => { this.router.navigate(['circulation']);
-      },
-      err => console.log("nop"));
-  }
-
 }

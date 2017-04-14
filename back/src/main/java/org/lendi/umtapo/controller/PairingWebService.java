@@ -20,14 +20,25 @@ public class PairingWebService {
     private final UserService userService;
     private final PairingServiceImpl pairingServiceImpl;
 
+    /**
+     * Instantiates a new Pairing web service.
+     *
+     * @param userService        the user service
+     * @param pairingServiceImpl the pairing service
+     */
     public PairingWebService(UserService userService, PairingServiceImpl pairingServiceImpl) {
         this.userService = userService;
         this.pairingServiceImpl = pairingServiceImpl;
     }
 
+    /**
+     * Set pairing user response entity.
+     *
+     * @return the response entity
+     */
     @Post
     @RequestMapping("/pairing")
-    public ResponseEntity setPairingUser(){
+    public ResponseEntity setPairingUser() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findBySso(auth.getPrincipal().toString());

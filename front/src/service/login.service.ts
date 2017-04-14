@@ -1,11 +1,11 @@
-import {AuthHttp, JwtHelper} from 'angular2-jwt';
-import {Injectable} from "@angular/core";
-import {api} from "../config/api";
-import {Http, Headers} from "@angular/http";
-import {HttpLoggerService} from "./http-logger.service";
-import {environment} from "../environments/environment";
-import {Login} from "../app/dto/login";
-import {Token} from "../app/dto/token";
+import {Injectable} from '@angular/core';
+import {api} from '../config/api';
+import {Http, Headers, RequestOptions} from '@angular/http';
+import {HttpLoggerService} from './http-logger.service';
+import {environment, logger} from '../environments/environment';
+import {Login} from '../util/login';
+import {Token} from '../util/token';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class LoginService {
@@ -13,24 +13,22 @@ export class LoginService {
   private headers: Headers;
   private token: Token;
 
-  jwtHelper: JwtHelper = new JwtHelper();
-
-
   constructor(public http: Http, private httpLogger: HttpLoggerService) {
     this.loginUrl = environment.api_url + api.login;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
 
-  login(login: Login): any {
-    return this.http.post(this.loginUrl, login, this.headers)
-      .map(
+  login(login: Login): Promise<any> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .post(this.loginUrl, JSON.stringify(login), options)
+      .toPromise()
+      .then(
         data => {
           this.token = data.json();
-          sessionStorage.setItem('id_token', this.token.Authorization);
-          // console.log(this.jwtHelper.decodeToken(this.token.Authorization));
-          // console.log(this.jwtHelper.getTokenExpirationDate(this.token.Authorization));
-          // console.log(this.jwtHelper.isTokenExpired(this.token.Authorization));
-        });
+          localStorage.setItem('id_token', this.token.Authorization);
+        })
+      .catch(error => logger.error(error));
   }
 }
 
