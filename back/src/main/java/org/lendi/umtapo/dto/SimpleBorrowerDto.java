@@ -1,14 +1,13 @@
 package org.lendi.umtapo.dto;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * Dto borrower object
  * <p>
  * Created by axel on 29/11/16.
  */
-public class BorrowerDto {
+public class SimpleBorrowerDto {
 
     private Integer id;
     private String name;
@@ -17,7 +16,6 @@ public class BorrowerDto {
     private Integer quota;
     private Boolean emailOptin;
     private AddressDto address;
-    private List<SimpleSubscriptionDto> subscriptions;
     private Integer libraryId;
     private String libraryName;
     private Integer nbLoans;
@@ -78,24 +76,6 @@ public class BorrowerDto {
      */
     public void setAddress(AddressDto address) {
         this.address = address;
-    }
-
-    /**
-     * Gets subscriptions.
-     *
-     * @return the subscriptions
-     */
-    public List<SimpleSubscriptionDto> getSubscriptions() {
-        return subscriptions;
-    }
-
-    /**
-     * Sets subscriptions.
-     *
-     * @param subscriptions the subscriptions
-     */
-    public void setSubscriptions(List<SimpleSubscriptionDto> subscriptions) {
-        this.subscriptions = subscriptions;
     }
 
     /**

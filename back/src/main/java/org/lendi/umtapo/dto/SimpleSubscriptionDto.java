@@ -1,5 +1,8 @@
 package org.lendi.umtapo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.time.ZonedDateTime;
 
 /**
@@ -7,13 +10,13 @@ import java.time.ZonedDateTime;
  * <p>
  * Created by axel on 29/11/16.
  */
-public class SubscriptionDto {
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idIdentify")
+public class SimpleSubscriptionDto {
 
     private Integer id;
     private ZonedDateTime start;
     private ZonedDateTime end;
     private Float contribution;
-    private SimpleBorrowerDto borrower;
     private SimpleLibraryDto library;
 
     /**
@@ -86,24 +89,6 @@ public class SubscriptionDto {
      */
     public void setContribution(Float contribution) {
         this.contribution = contribution;
-    }
-
-    /**
-     * Gets borrower.
-     *
-     * @return the borrower
-     */
-    public SimpleBorrowerDto getBorrower() {
-        return borrower;
-    }
-
-    /**
-     * Sets borrower.
-     *
-     * @param borrower the borrower
-     */
-    public void setBorrower(SimpleBorrowerDto borrower) {
-        this.borrower = borrower;
     }
 
     /**

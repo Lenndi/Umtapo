@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.dto.LoanDto;
+import org.lendi.umtapo.dto.LoanItemDto;
+import org.lendi.umtapo.dto.SimpleBorrowerDto;
 import org.lendi.umtapo.entity.Item;
 import org.lendi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lendi.umtapo.service.configuration.Z3950Service;
@@ -90,17 +92,19 @@ public class LoanWebServiceTest {
     @Test
     public void testPostLoan() throws Exception {
         LoanDto loanDto = new LoanDto();
+        LoanItemDto loanItemDto = new LoanItemDto();
         ItemDto itemDto = new ItemDto();
-        BorrowerDto borrowerDto = new BorrowerDto();
+        itemDto.setId(1);
+        SimpleBorrowerDto borrowerDto = new SimpleBorrowerDto();
 
         // General case, expect item.borrowed = true
-        itemDto.setId(1);
+        loanItemDto.setId(1);
         borrowerDto.setId(1);
         loanDto.setId(1);
         loanDto.setStart(utilCreator.getLoanStart());
         loanDto.setEnd(utilCreator.getLoanEnd());
         loanDto.setReturned(false);
-        loanDto.setItem(itemDto);
+        loanDto.setItem(loanItemDto);
         loanDto.setBorrower(borrowerDto);
 
         given(this.loanService.saveDto(any(LoanDto.class))).willReturn(loanDto);
@@ -123,7 +127,7 @@ public class LoanWebServiceTest {
         Assert.assertEquals(true, item.getBorrowed());
 
         loanService.delete(1);
-        itemDto.setBorrowed(false);
+        loanItemDto.setBorrowed(false);
         itemService.saveDto(itemDto);
 
         // No borrower or library informations case
@@ -136,8 +140,8 @@ public class LoanWebServiceTest {
                 .andExpect(status().isBadRequest());
 
         // No borrower id or library id case
-        loanDto.setItem(itemDto);
-        loanDto.setBorrower(new BorrowerDto());
+        loanDto.setItem(loanItemDto);
+        loanDto.setBorrower(new SimpleBorrowerDto());
 
         this.mockMvc.perform(post("/loans")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -146,7 +150,7 @@ public class LoanWebServiceTest {
                 .andExpect(status().isBadRequest());
 
         // Item is already borrowed
-        itemDto.setBorrowed(true);
+        loanItemDto.setBorrowed(true);
         itemService.saveDto(itemDto);
 
         loanDto.setBorrower(borrowerDto);
