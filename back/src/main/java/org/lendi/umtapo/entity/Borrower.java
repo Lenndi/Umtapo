@@ -20,6 +20,7 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    private String nfcId;
     private String comment;
     private ZonedDateTime birthday;
     private Integer quota;
@@ -51,7 +52,7 @@ public class Borrower {
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
-            List<Subscription> subscriptions, List<Loan> loans) {
+            List<Subscription> subscriptions, List<Loan> loans, String nfcId) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -60,6 +61,7 @@ public class Borrower {
         this.address = address;
         this.subscriptions = subscriptions;
         this.loans = loans;
+        this.nfcId = nfcId;
     }
 
     /**
@@ -222,5 +224,23 @@ public class Borrower {
      */
     public void setEmailOptin(Boolean emailOptin) {
         this.emailOptin = emailOptin;
+    }
+
+    /**
+     * Gets nfc tag.
+     *
+     * @return the nfc tag
+     */
+    public String getNfcId() {
+        return nfcId;
+    }
+
+    /**
+     * Sets nfc tag.
+     *
+     * @param nfcId the nfc tag
+     */
+    public void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
     }
 }

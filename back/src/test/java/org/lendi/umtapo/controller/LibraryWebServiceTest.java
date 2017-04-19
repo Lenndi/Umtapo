@@ -86,9 +86,9 @@ public class LibraryWebServiceTest {
 
         ZonedDateTime zonedDateTime = java.time.ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null);
+                true, null, null, null, "nfcId");
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null);
+                false, null, null, null, "nfcId");
         this.borrowers.add(borrower);
         this.borrowers.add(borrower2);
         Library library1 = utilCreator.createLibrary(1, false);
@@ -110,6 +110,7 @@ public class LibraryWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Test Library")))
+                .andExpect(jsonPath("$.nfcId", is("nfcId")))
                 .andExpect(jsonPath("$.shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$.useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))
@@ -135,6 +136,7 @@ public class LibraryWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is("Test Library")))
+                .andExpect(jsonPath("$[0].nfcId", is("nfcId")))
                 .andExpect(jsonPath("$[0].shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$[0].useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$[0].subscriptionDuration", is(365)))
@@ -160,6 +162,7 @@ public class LibraryWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is("Test Library")))
+                .andExpect(jsonPath("$[0].nfcId", is("nfcId")))
                 .andExpect(jsonPath("$[0].shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$[0].useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$[0].subscriptionDuration", is(365)))
@@ -189,6 +192,7 @@ public class LibraryWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("Test Library")))
+                .andExpect(jsonPath("$.nfcId", is("nfcId")))
                 .andExpect(jsonPath("$.shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$.useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))
@@ -218,6 +222,7 @@ public class LibraryWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("Test Library")))
+                .andExpect(jsonPath("$nfcId", is("nfcId")))
                 .andExpect(jsonPath("$.shelfMarkNb", is(3)))
                 .andExpect(jsonPath("$.useDeweyClassification", is(false)))
                 .andExpect(jsonPath("$.subscriptionDuration", is(365)))

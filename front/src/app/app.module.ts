@@ -42,6 +42,7 @@ import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {ToastModule} from 'ng2-toastr';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
+import {PairingService} from "../service/pairing.service";
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import {BorrowersManagementComponent} from './borrower/borrowers-management/borr
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
     ConditionEnum,
-    BorrowersManagementComponent
+    BorrowersManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +91,7 @@ import {BorrowersManagementComponent} from './borrower/borrowers-management/borr
     Z3950Service,
     SetupDataService,
     BorrowerService,
+    PairingService,
     LoanService
   ],
   bootstrap: [AppComponent],
