@@ -5,13 +5,14 @@ import org.lendi.umtapo.dto.PairingDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.enumeration.PairingType;
 import org.lendi.umtapo.service.specific.BorrowerService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by axel on 14/04/17.
  */
 @Service
-public class PairingServiceImpl {
+public class PairingServiceImpl extends Thread {
 
     private static final Logger LOGGER = Logger.getLogger(PairingServiceImpl.class);
 
@@ -19,6 +20,8 @@ public class PairingServiceImpl {
     private Integer id;
     private String tagId;
     private PairingType pairingType;
+    @Value("${pairing.timeout}")
+    private Integer timeout;
 
     private final BorrowerService borrowerService;
 
@@ -31,7 +34,7 @@ public class PairingServiceImpl {
      *
      * @return the id
      */
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
@@ -58,8 +61,20 @@ public class PairingServiceImpl {
      *
      * @param tagId the tag id
      */
-    public void setTagId(String tagId) {
+    public synchronized void setTagId(String tagId) {
         this.tagId = tagId;
+
+        if (readyToPair()) {
+            try {
+                Borrower borrower = this.borrowerService.findOne(this.id);
+                borrower.setNfcId(this.tagId);
+                this.borrowerService.save(borrower);
+                this.setPropertiesNull();
+                notify();
+            } catch (Exception e) {
+                LOGGER.error("Error during setPairingDto : " + e);
+            }
+        }
     }
 
     /**
@@ -91,30 +106,19 @@ public class PairingServiceImpl {
      *
      * @param pairingDto the pairing dto
      */
-    public void setPairingDto(PairingDto pairingDto) {
+    public synchronized void setPairingDto(PairingDto pairingDto) {
 
         this.pairingType = pairingDto.getPairingType();
+        this.id = pairingDto.getId();
 
-        if (pairingDto.getPairingType().equals(PairingType.BORROWER)) {
-            this.id = pairingDto.getId();
-        }
-        if (pairingDto.getPairingType().equals(PairingType.CARD)) {
-            this.tagId = pairingDto.getTagId();
-        }
-
-        if (readyToPair()) {
-            try {
-                Borrower borrower = this.borrowerService.findOne(this.id);
-                borrower.setNfcId(this.tagId);
-                this.borrowerService.save(borrower);
-                this.setPropertiesNull();
-            } catch (Exception e) {
-                LOGGER.error("Error during setPairingDto : " + e);
-            }
+        try {
+            wait(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    private Boolean readyToPair() {
+    public Boolean readyToPair() {
 
         Boolean result = false;
 

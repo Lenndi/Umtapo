@@ -13,8 +13,8 @@ import {logger} from '../../../../environments/environment';
 import {ModalDirective} from 'ng2-bootstrap';
 import {Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
-import {PairingService} from "../../../../service/pairing.service";
-import {Pairing} from "../../../../util/pairing";
+import {PairingService} from '../../../../service/pairing.service';
+import {Pairing} from '../../../../util/pairing';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -36,17 +36,15 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   isPairing: boolean = false;
   pairing: Pairing;
 
-  constructor(
-    public dataService: NewBorrowerDataService,
-    private formBuilder: FormBuilder,
-    public toastr: ToastsManager,
-    public vRef: ViewContainerRef,
-    private libraryService: LibraryService,
-    private pairingService: PairingService,
-    private borrowerService: BorrowerService,
-    private subscriptionService: SubscriptionService,
-    private router: Router
-  ) {
+  constructor(public dataService: NewBorrowerDataService,
+              private formBuilder: FormBuilder,
+              public toastr: ToastsManager,
+              public vRef: ViewContainerRef,
+              private libraryService: LibraryService,
+              private pairingService: PairingService,
+              private borrowerService: BorrowerService,
+              private subscriptionService: SubscriptionService,
+              private router: Router) {
     this.toastr.setRootViewContainerRef(vRef);
     this.isRegistered = false;
     let borrower: Borrower = this.dataService.borrower;
@@ -112,7 +110,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
         this.toastr.error(
           ValidationService.getValidatorErrorMessage('invalidDate', true) + ' StartSubscription', 'Oops',
           {toastLife: 2000}
-          );
+        );
       }
     }
   }
@@ -147,17 +145,19 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     this.router.navigate(['borrowers/new']);
   }
 
-  pairingCardAndBorrower(){
+  pairingCardAndBorrower() {
     this.isPairing = true;
     this.pairing.pairingType = 'BORROWER';
     this.pairing.id = this.dataService.borrower.id;
     this.pairingService.pairingCardAndBorrower(this.pairing)
-      .then( res => {this.isPairing = false;
+      .then(res => {
+        this.isPairing = false;
         this.toastr.success('Succès', 'Emprunteur lié à la carte', {toastLife: 2000});
       })
-      .catch( err=> {this.isPairing = false;
+      .catch(err => {
+        this.isPairing = false;
         this.toastr.error('Erreur', 'Emprunteur non lié à la carte', {toastLife: 2000});
-      })
+      });
 
   }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by axel on 14/04/17.
  */
 @RestController
-public class PairingWebService {
+public class PairingWebService extends Thread{
 
     private final PairingServiceImpl pairingService;
 

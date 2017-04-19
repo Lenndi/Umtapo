@@ -89,12 +89,10 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-
+        System.out.println(mqttMessage);
+        System.out.println(topic);
         if (topic.equals(this.pairingTopic)) {
-            PairingDto pairingDto = new PairingDto();
-            pairingDto.setPairingType(PairingType.CARD);
-            pairingDto.setTagId(mqttMessage.toString());
-            this.pairingServiceImpl.setPairingDto(pairingDto);
+            this.pairingServiceImpl.setTagId(mqttMessage.toString());
         }
     }
 }

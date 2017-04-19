@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {Page} from '../util/page';
 import {BorrowerFilter} from './various/borrower-filter';
 import {Pageable} from '../util/pageable';
-import {Pairing} from "../util/pairing";
+import {Pairing} from '../util/pairing';
 
 @Injectable()
 export class PairingService {

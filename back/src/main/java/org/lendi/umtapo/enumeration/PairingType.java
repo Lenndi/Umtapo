@@ -13,9 +13,5 @@ public enum PairingType {
     /**
      * Good condition.
      */
-    BORROWER,
-    /**
-     * Card pairing type.
-     */
-    CARD
+    BORROWER
 }
