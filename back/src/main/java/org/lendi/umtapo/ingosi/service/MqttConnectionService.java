@@ -8,8 +8,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.lendi.umtapo.dto.PairingDto;
-import org.lendi.umtapo.enumeration.PairingType;
 import org.lendi.umtapo.service.specific.implementation.PairingServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -41,6 +39,11 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
     private MemoryPersistence persistence = new MemoryPersistence();
     private final PairingServiceImpl pairingServiceImpl;
 
+    /**
+     * Instantiates a new Mqtt connection service.
+     *
+     * @param pairingServiceImpl the pairing service
+     */
     public MqttConnectionService(PairingServiceImpl pairingServiceImpl) {
         this.pairingServiceImpl = pairingServiceImpl;
     }
@@ -84,14 +87,12 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
 
     @Override
     public void connectionLost(Throwable throwable) {
-
     }
 
     @Override
-    public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        System.out.println(mqttMessage);
-        System.out.println(topic);
-        if (topic.equals(this.pairingTopic)) {
+    public void messageArrived(String topicName, MqttMessage mqttMessage) throws Exception {
+
+        if (topicName.equals(this.pairingTopic)) {
             this.pairingServiceImpl.setTagId(mqttMessage.toString());
         }
     }

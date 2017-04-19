@@ -49,6 +49,7 @@ public class Borrower {
      * @param address       the address
      * @param subscriptions the subscriptions
      * @param loans         the loans
+     * @param nfcId         the nfc id
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,

@@ -25,6 +25,11 @@ public class PairingServiceImpl extends Thread {
 
     private final BorrowerService borrowerService;
 
+    /**
+     * Instantiates a new Pairing service.
+     *
+     * @param borrowerService the borrower service
+     */
     public PairingServiceImpl(BorrowerService borrowerService) {
         this.borrowerService = borrowerService;
     }
@@ -71,7 +76,7 @@ public class PairingServiceImpl extends Thread {
                 this.borrowerService.save(borrower);
                 this.setPropertiesNull();
                 notify();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOGGER.error("Error during setPairingDto : " + e);
             }
         }
@@ -113,11 +118,16 @@ public class PairingServiceImpl extends Thread {
 
         try {
             wait(timeout);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Ready to pair boolean.
+     *
+     * @return the boolean
+     */
     public Boolean readyToPair() {
 
         Boolean result = false;

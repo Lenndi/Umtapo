@@ -14,14 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by axel on 14/04/17.
  */
 @RestController
-public class PairingWebService extends Thread{
+public class PairingWebService extends Thread {
 
     private final PairingServiceImpl pairingService;
 
+    /**
+     * Instantiates a new Pairing web service.
+     *
+     * @param pairingService the pairing service
+     */
     public PairingWebService(PairingServiceImpl pairingService) {
         this.pairingService = pairingService;
     }
 
+    /**
+     * Sets pairing.
+     *
+     * @param pairingDto the pairing dto
+     * @return the pairing
+     */
     @RequestMapping(value = "/pairing", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setPairing(@RequestBody PairingDto pairingDto) {
 
