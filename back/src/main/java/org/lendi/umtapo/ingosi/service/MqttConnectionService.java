@@ -62,7 +62,7 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
             sampleClient.subscribe(topic);
             LOGGER.info("Connecting to topic: " + topic);
             LOGGER.info("Connected");
-        } catch (MqttException me) {
+        } catch (final MqttException me) {
             LOGGER.info("reason " + me.getReasonCode());
             LOGGER.info("msg " + me.getMessage());
             LOGGER.info("loc " + me.getLocalizedMessage());
