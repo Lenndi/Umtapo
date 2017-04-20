@@ -9,7 +9,6 @@ import {Http} from '@angular/http';
 import {TypeaheadMatch} from 'ng2-bootstrap';
 import {ToastsManager} from 'ng2-toastr';
 
-
 @Component({
   selector: 'umt-borrower-selection',
   templateUrl: './borrower-selection.component.html',
@@ -31,8 +30,7 @@ export class BorrowerSelectionComponent implements OnInit {
               private router: Router,
               public toastr: ToastsManager,
               public vRef: ViewContainerRef,
-              public dataService: CirculationDataService,
-              private http: Http) {
+              public dataService: CirculationDataService) {
     this.selectedBorrower = new Borrower();
     this.showDetails = false;
     this.borrowerId = new FormControl('');
