@@ -10,6 +10,8 @@ import org.lendi.umtapo.dao.BorrowerDao;
 import org.lendi.umtapo.dao.LibraryDao;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.dto.SimpleBorrowerDto;
+import org.lendi.umtapo.dto.SimpleLibraryDto;
 import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.entity.Library;
@@ -108,14 +110,19 @@ public class BorrowerServiceTest {
 
     @Test
     public void testFindAllBorrowerDtoWithFilters() throws Exception {
-        LibraryDto library = this.libraryService.saveDto(this.utilCreator.createLibraryDto(1, false));
+        this.libraryService.save(this.utilCreator.createLibrary(1, false));
+        SimpleLibraryDto library = this.utilCreator.createSimpleLibraryDto(1, false);
 
-        BorrowerDto borrower = this.utilCreator.createBorrowerDto(1, "Michel Test", "michel@test.com");
-        BorrowerDto borrower1 = this.utilCreator.createBorrowerDto(2, "Francis test", "francis@test.com");
-        this.borrowerService.saveDto(borrower);
-        this.borrowerService.saveDto(borrower1);
-        SubscriptionDto subscription = this.utilCreator.createSubscriptionDto(1, borrower, library);
-        SubscriptionDto subscription1 = this.utilCreator.createSubscriptionDto(2, borrower1, library);
+        BorrowerDto borrowerDto = this.utilCreator.createBorrowerDto(1, "Michel Test", "michel@test.com");
+        BorrowerDto borrowerDto1 = this.utilCreator.createBorrowerDto(2, "Francis test", "francis@test.com");
+        this.borrowerService.saveDto(borrowerDto);
+        this.borrowerService.saveDto(borrowerDto1);
+
+        SimpleBorrowerDto simpleBorrowerDto = this.utilCreator.createSimpleBorrowerDto(1, "Michel Test", "michel@test.com");
+        SimpleBorrowerDto simpleBorrowerDto1 = this.utilCreator.createSimpleBorrowerDto(2, "Francis test", "francis@test.com");
+
+        SubscriptionDto subscription = this.utilCreator.createSubscriptionDto(1, simpleBorrowerDto, library);
+        SubscriptionDto subscription1 = this.utilCreator.createSubscriptionDto(2, simpleBorrowerDto1, library);
         this.subscriptionService.saveDto(subscription);
         this.subscriptionService.saveDto(subscription1);
 

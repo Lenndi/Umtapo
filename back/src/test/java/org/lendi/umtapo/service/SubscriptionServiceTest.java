@@ -85,7 +85,7 @@ public class SubscriptionServiceTest {
 
     @Test
     public void testSaveDto() throws Exception {
-        SubscriptionDto subscriptionDto = subscriptionService.saveDto(utilCreator.createSubscriptionDto(1, utilCreator.createBorrowerDto(1), utilCreator.createLibraryDto(1)));
+        SubscriptionDto subscriptionDto = subscriptionService.saveDto(utilCreator.createSubscriptionDto(1, utilCreator.createSimpleBorrowerDto(1), utilCreator.createSimpleLibraryDto(1)));
 
         Subscription subscription = subscriptionDao.findOne(subscriptionDto.getId());
 

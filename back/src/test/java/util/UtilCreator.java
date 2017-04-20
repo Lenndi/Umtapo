@@ -4,6 +4,8 @@ import org.lendi.umtapo.dto.AddressDto;
 import org.lendi.umtapo.dto.BorrowerDto;
 import org.lendi.umtapo.dto.ItemDto;
 import org.lendi.umtapo.dto.LibraryDto;
+import org.lendi.umtapo.dto.SimpleBorrowerDto;
+import org.lendi.umtapo.dto.SimpleLibraryDto;
 import org.lendi.umtapo.dto.SubscriptionDto;
 import org.lendi.umtapo.entity.Address;
 import org.lendi.umtapo.entity.Borrower;
@@ -110,9 +112,53 @@ public class UtilCreator {
         return borrower;
     }
 
+    public SimpleBorrowerDto createSimpleBorrowerDto(Integer id) {
+        AddressDto address = new AddressDto();
+        SimpleBorrowerDto borrower = new SimpleBorrowerDto();
+
+        borrower.setId(id);
+        borrower.setName("Michel Test");
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail("michel@test.com");
+        borrower.setAddress(address);
+
+        return borrower;
+    }
+
     public BorrowerDto createBorrowerDto(Integer id, String name, String email) {
         AddressDto address = new AddressDto();
         BorrowerDto borrower = new BorrowerDto();
+
+        borrower.setId(id);
+        borrower.setName(name);
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail(email);
+        borrower.setAddress(address);
+
+        return borrower;
+    }
+
+    public SimpleBorrowerDto createSimpleBorrowerDto(Integer id, String name, String email) {
+        AddressDto address = new AddressDto();
+        SimpleBorrowerDto borrower = new SimpleBorrowerDto();
 
         borrower.setId(id);
         borrower.setName(name);
@@ -182,8 +228,41 @@ public class UtilCreator {
         return library;
     }
 
+    public SimpleLibraryDto createSimpleLibraryDto(Integer id) {
+        SimpleLibraryDto library = new SimpleLibraryDto();
+
+        library.setId(id);
+        library.setName("Test Library");
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
+
+        return library;
+    }
+
     public LibraryDto createLibraryDto(Integer id, Boolean external) {
         LibraryDto library = new LibraryDto();
+
+        library.setId(id);
+        library.setName("Test Library");
+        library.setBorrowDuration(30);
+        library.setSubscriptionDuration(365);
+        library.setCurrency("€");
+        library.setDefaultZ3950(1);
+        library.setShelfMarkNb(3);
+        library.setUseDeweyClassification(false);
+        library.setFirstInternalId(1234);
+        library.setExternal(external);
+
+        return library;
+    }
+
+    public SimpleLibraryDto createSimpleLibraryDto(Integer id, Boolean external) {
+        SimpleLibraryDto library = new SimpleLibraryDto();
 
         library.setId(id);
         library.setName("Test Library");
@@ -249,7 +328,7 @@ public class UtilCreator {
         return subscription;
     }
 
-    public SubscriptionDto createSubscriptionDto(Integer id, BorrowerDto borrowerDto, LibraryDto libraryDto) {
+    public SubscriptionDto createSubscriptionDto(Integer id, SimpleBorrowerDto borrowerDto, SimpleLibraryDto libraryDto) {
         SubscriptionDto subscription = new SubscriptionDto();
         subscription.setId(id);
         subscription.setContribution(6.5f);

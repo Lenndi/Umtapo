@@ -29,10 +29,6 @@ public class SubscriptionMapper extends ConfigurableMapper {
 
         mapperFactory.classMap(Subscription.class, SubscriptionDto.class)
                 .fieldMap("contribution", "contribution").converter("priceConverter").add()
-                .exclude("borrower")
-                .fieldMap("borrower.id", "borrower.id").add()
-                .exclude("library")
-                .fieldMap("library.id", "library.id").add()
                 .byDefault()
                 .register();
         MAPPER = mapperFactory.getMapperFacade();

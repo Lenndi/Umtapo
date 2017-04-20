@@ -9,13 +9,14 @@ import {Observable} from 'rxjs';
 import {Page} from '../util/page';
 import {BorrowerFilter} from './various/borrower-filter';
 import {Pageable} from '../util/pageable';
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
 
 @Injectable()
 export class BorrowerService {
   private borrowerUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.borrowerUrl = environment.api_url + api.borrower;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
