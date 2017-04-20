@@ -211,16 +211,9 @@ public class BorrowerWebService {
         if (!id.equals(borrower.getId()) || this.borrowerService.findOne(id) == null) {
             return new ResponseEntity<>("This borrower does not exist", HttpStatus.NOT_FOUND);
         }
-        try {
-            borrower = this.borrowerService.saveDto(borrower);
-        } catch (final InvalidRecordException e) {
-            LOGGER.fatal(e.getMessage());
-            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
+        this.borrowerService.updateDto(borrower);
 
-            return new ResponseEntity<>(apiError, apiError.getStatus());
-        }
-
-        return new ResponseEntity<>(borrower, HttpStatus.OK);
+        return new ResponseEntity<>(borrower, HttpStatus.NO_CONTENT);
     }
 
     /**

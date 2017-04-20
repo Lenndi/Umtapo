@@ -77,4 +77,19 @@ public class SolrBorrowerServiceTest {
         Assert.assertEquals(2, solrBorrowerService.searchByNameOrEmail("test", page).getNumberOfElements());
         Assert.assertEquals(0, solrBorrowerService.searchByNameOrEmail("yop", page).getNumberOfElements());
     }
+
+    @Test
+    public void testUpdate() throws Exception {
+        BorrowerDocument borrowerDocument = this.utilCreator.createBorrowerDocument("1", "Michel Test", "michel@test.com");
+        this.solrBorrowerRepository.save(borrowerDocument);
+
+        borrowerDocument.setName("Gudule");
+        borrowerDocument.setTooMuchLoans(null);
+
+        solrBorrowerRepository.update(borrowerDocument);
+        BorrowerDocument updatedBorrower = solrBorrowerService.findById("1");
+
+        Assert.assertEquals("Gudule", updatedBorrower.getName());
+        Assert.assertNotNull(updatedBorrower.getTooMuchLoans());
+    }
 }

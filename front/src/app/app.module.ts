@@ -45,6 +45,9 @@ import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 import {AuthConfig, AuthHttp} from 'angular2-jwt';
+import {BorrowerDatatableComponent}
+  from './borrower/borrowers-management/borrower-datatable/borrower-datatable.component';
+import {BorrowerEditComponent} from './borrower/borrowers-management/borrower-edit/borrower-edit.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from '../service/auth-guard.service';
 import {LoginService} from '../service/login.service';
@@ -87,7 +90,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
     ConditionEnum,
-    BorrowersManagementComponent
+    BorrowersManagementComponent,
+    BorrowerDatatableComponent,
+    BorrowerEditComponent
   ],
   imports: [
     BrowserModule,

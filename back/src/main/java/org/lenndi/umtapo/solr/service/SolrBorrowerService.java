@@ -39,6 +39,14 @@ public interface SolrBorrowerService {
      */
     void deleteFromIndex(Integer id);
 
+
+    /**
+     * Update to index.
+     *
+     * @param borrower the borrower
+     */
+    void updateToIndex(Borrower borrower);
+
     /**
      * Search borrower in index by name containing term.
      *

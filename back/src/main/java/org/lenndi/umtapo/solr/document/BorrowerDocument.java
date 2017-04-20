@@ -12,6 +12,8 @@ import java.util.Date;
 @SolrDocument(solrCoreName = "borrower")
 public class BorrowerDocument {
 
+    public static final String CORE_NAME = "borrower";
+
     @Id
     private String id;
 

@@ -111,6 +111,13 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      */
     BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException;
 
+    /**
+     * Update dto.
+     *
+     * @param borrowerDto the borrower dto
+     */
+    void updateDto(BorrowerDto borrowerDto);
+
     @Override
     void delete(Integer integer) throws NoSuchElementException;
 

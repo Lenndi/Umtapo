@@ -149,4 +149,17 @@ public class BorrowerServiceTest {
         Assert.assertEquals("0000000000", deletedBorrower.getAddress().getPhone());
         Assert.assertNull(this.solrBorrowerRepository.findById("1"));
     }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Borrower borrower = this.utilCreator.createBorrower(1);
+        this.borrowerDao.save(borrower);
+
+        BorrowerDto borrowerDto = this.utilCreator.createBorrowerDto(1);
+        this.borrowerService.updateDto(borrowerDto);
+        borrower = this.borrowerDao.findOne(1);
+
+        Assert.assertEquals("Gudule", borrower.getName());
+        Assert.assertEquals("Un bien bel usager.", borrower.getComment());
+    }
 }

@@ -76,6 +76,17 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public void updateDto(BorrowerDto borrowerDto) {
+        Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
+        borrower = this.save(borrower);
+        this.solrBorrowerService.updateToIndex(borrower);
+    }
+
     @Override
     @Transactional
     public void delete(Integer borrowerId) throws NoSuchElementException {

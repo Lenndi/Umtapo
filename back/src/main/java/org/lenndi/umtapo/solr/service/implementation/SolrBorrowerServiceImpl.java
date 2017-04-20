@@ -94,6 +94,12 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
+    public void updateToIndex(Borrower borrower) {
+        BorrowerDocument document = this.borrowerMapper.mapBorrowerToBorrowerDocument(borrower);
+        this.documentRepository.update(document);
+    }
+
+    @Override
     public void deleteFromIndex(Integer id) {
         documentRepository.delete(id.toString());
     }

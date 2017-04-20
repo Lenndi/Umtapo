@@ -196,7 +196,7 @@ public class BorrowerWebServiceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(this.borrowerDto))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.name", is("NameTest")))
                 .andExpect(jsonPath("$.comment", is("CommentTest")))
                 .andExpect(jsonPath("$.quota", is(5)))

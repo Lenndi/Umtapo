@@ -5,13 +5,11 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
-import org.xml.sax.SAXException;
 
 import javax.annotation.Resource;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 /**
  * Solr configuration. Set solr.embedded to true in application.properties to use Solr Embedded server.
@@ -27,14 +25,10 @@ public class SolrConfig {
      * Solr client.
      *
      * @return the solr client, embedded or HTTP
-     * @throws IOException                  the io exception
-     * @throws IllegalStateException        the illegal state exception
-     * @throws SAXException                 the sax exception
-     * @throws ParserConfigurationException the parser configuration exception
+     * @throws Exception exception
      */
     @Bean
-    public SolrClient solrClient()
-            throws IOException, IllegalStateException, SAXException, ParserConfigurationException {
+    public SolrClient solrClient() throws Exception {
         SolrClient solrClient;
 
         if (env.getRequiredProperty("solr.embedded").equals("true")) {
@@ -46,5 +40,16 @@ public class SolrConfig {
         }
 
         return solrClient;
+    }
+
+    /**
+     * Solr template.
+     *
+     * @return the solr template
+     * @throws Exception exception
+     */
+    @Bean
+    public SolrTemplate solrTemplate() throws Exception {
+        return new SolrTemplate(solrClient());
     }
 }
