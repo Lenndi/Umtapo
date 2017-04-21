@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.Resource;
 
 /**
  * Spring security configuration class.
@@ -24,6 +26,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+
+    @Resource
+    private Environment env;
 
     /**
      * Instantiates a new Security configuration.
@@ -59,11 +64,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     /** {@inheritDoc} */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        if (env.getRequiredProperty("security.environment").equals("dev")) {
+            http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll();
+        } else {
+            http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/consoleh2/**").hasRole(UserProfileType.ADMIN.getUserProfileType())
+                .antMatchers("/consoleh2/**").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic().authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and()
@@ -71,10 +82,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 // And filter other requests to check the presence of JWT in header
-                .addFilterBefore(new JWTAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        }
         http.headers().frameOptions().disable();
-
     }
 
     /**
@@ -86,10 +96,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
+            .inMemoryAuthentication()
+            .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
         auth
-                .inMemoryAuthentication()
-                .withUser("aze").password("aze").roles(UserProfileType.ADMIN.getUserProfileType());
+            .inMemoryAuthentication()
+            .withUser("aze").password("aze").roles(UserProfileType.ADMIN.getUserProfileType());
     }
 }

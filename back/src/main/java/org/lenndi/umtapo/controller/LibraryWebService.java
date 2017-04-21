@@ -70,7 +70,7 @@ public class LibraryWebService {
 
         List<LibraryDto> librariesDto;
 
-        if (external) {
+        if (external != null && external) {
             librariesDto = this.libraryService.findAllExternal();
         } else {
             librariesDto = this.libraryService.findAllPartner();

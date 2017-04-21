@@ -48,6 +48,4 @@ public class AccountCredentials {
     public String toString() {
         return "AccountCredentials [username=" + username + ", password=" + password + "]";
     }
-
-
 }

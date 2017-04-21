@@ -15,10 +15,10 @@ import static java.util.Collections.emptyList;
 
 public final class TokenAuthenticationService {
 
-  static final long EXPIRATIONTIME = 864_000_000; // 10 days
-  static final String SECRET = "ThisIsASecret";
-  static final String TOKEN_PREFIX = "Bearer";
-  static final String HEADER_STRING = "Authorization";
+  private static final long EXPIRATIONTIME = 864_000_000; // 10 days
+  private static final String SECRET = "ThisIsASecret";
+  private static final String TOKEN_PREFIX = "Bearer";
+  private static final String HEADER_STRING = "Authorization";
 
   private TokenAuthenticationService() {
   }
@@ -42,7 +42,6 @@ public final class TokenAuthenticationService {
   static Authentication getAuthentication(HttpServletRequest request) {
     String token = request.getHeader(HEADER_STRING);
     if (token != null) {
-      // parse the token.
       String user = Jwts.parser()
           .setSigningKey(SECRET)
           .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
@@ -50,7 +49,7 @@ public final class TokenAuthenticationService {
           .getSubject();
 
       if (user != null) {
-          new UsernamePasswordAuthenticationToken(user, null, emptyList());
+          return new UsernamePasswordAuthenticationToken(user, null, emptyList());
       } else {
           return null;
       }
