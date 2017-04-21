@@ -7,7 +7,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  loggedIn() {
+  static loggedIn() {
     console.log('LoggedIn ' + tokenNotExpired('id_token'));
     return tokenNotExpired('id_token');
   }
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate() {
-    if (this.loggedIn()) {
+    if (AuthGuard.loggedIn()) {
       return true;
     } else {
       this.router.navigate(['login']);

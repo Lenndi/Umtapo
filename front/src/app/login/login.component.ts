@@ -3,6 +3,7 @@ import {Login} from '../../util/login';
 import {LoginService} from '../../service/login.service';
 import {Router} from '@angular/router';
 import {logger} from '../../environments/environment';
+import {LibraryService} from '../../service/library.service';
 
 @Component({
   selector: 'umt-login',
@@ -15,12 +16,19 @@ export class LoginComponent {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private libraryService: LibraryService
   ) { }
 
   authenticate() {
     this.loginService.login(this.login)
-      .then(data => this.router.navigate(['circulation']))
+      .then(data => {
+        if (this.libraryService.findLocally()) {
+          this.router.navigate(['circulation']);
+        } else {
+          this.router.navigate(['setup']);
+        }
+      })
       .catch(error => logger.error(error));
   }
 }

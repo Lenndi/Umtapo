@@ -1,12 +1,11 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Borrower} from '../../../entity/borrower';
 import {BorrowerService} from '../../../service/borrower.service';
 import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
-import {Observable} from 'rxjs'; // <-- import the module
-import {Http} from '@angular/http';
-import {TypeaheadMatch} from 'ng2-bootstrap';
+import {Observable} from 'rxjs';
+import {TypeaheadMatch} from 'ngx-bootstrap';
 import {ToastsManager} from 'ng2-toastr';
 
 @Component({

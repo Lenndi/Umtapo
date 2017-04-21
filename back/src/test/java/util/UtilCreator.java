@@ -1,21 +1,21 @@
 package util;
 
-import org.lendi.umtapo.dto.AddressDto;
-import org.lendi.umtapo.dto.BorrowerDto;
-import org.lendi.umtapo.dto.ItemDto;
-import org.lendi.umtapo.dto.LibraryDto;
-import org.lendi.umtapo.dto.SimpleBorrowerDto;
-import org.lendi.umtapo.dto.SimpleLibraryDto;
-import org.lendi.umtapo.dto.SubscriptionDto;
-import org.lendi.umtapo.entity.Address;
-import org.lendi.umtapo.entity.Borrower;
-import org.lendi.umtapo.entity.Item;
-import org.lendi.umtapo.entity.Library;
-import org.lendi.umtapo.entity.ShelfMark;
-import org.lendi.umtapo.entity.Subscription;
-import org.lendi.umtapo.enumeration.Condition;
-import org.lendi.umtapo.enumeration.ItemType;
-import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lenndi.umtapo.dto.AddressDto;
+import org.lenndi.umtapo.dto.BorrowerDto;
+import org.lenndi.umtapo.dto.ItemDto;
+import org.lenndi.umtapo.dto.LibraryDto;
+import org.lenndi.umtapo.dto.SimpleBorrowerDto;
+import org.lenndi.umtapo.dto.SimpleLibraryDto;
+import org.lenndi.umtapo.dto.SubscriptionDto;
+import org.lenndi.umtapo.entity.Address;
+import org.lenndi.umtapo.entity.Borrower;
+import org.lenndi.umtapo.entity.Item;
+import org.lenndi.umtapo.entity.Library;
+import org.lenndi.umtapo.entity.ShelfMark;
+import org.lenndi.umtapo.entity.Subscription;
+import org.lenndi.umtapo.enumeration.Condition;
+import org.lenndi.umtapo.enumeration.ItemType;
+import org.lenndi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
