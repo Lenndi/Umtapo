@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
 import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class LibraryService {
   private libraryUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.libraryUrl = environment.api_url + api.library;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }

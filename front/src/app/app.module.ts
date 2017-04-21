@@ -22,8 +22,10 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
-import {ModalModule, DatepickerModule, DropdownModule} from 'ng2-bootstrap';
-import {TypeaheadModule} from 'ng2-bootstrap/typeahead';
+import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
+import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import {ModalModule} from 'ngx-bootstrap/modal';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
@@ -49,9 +51,10 @@ import {LoginService} from '../service/login.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
-    tokenName: 'Authorization',
-    tokenGetter: (() => sessionStorage.getItem('id_token')),
-    globalHeaders: [{'Content-Type': 'application/json'}],
+    headerName: 'Authorization',
+    tokenName: 'id_toker',
+    tokenGetter: (() => localStorage.getItem('id_token')),
+    globalHeaders: [{'Content-Type': 'application/json'}]
   }), http, options);
 }
 
@@ -95,7 +98,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DatepickerModule.forRoot(),
     ToastModule.forRoot(),
     TypeaheadModule.forRoot(),
-    DropdownModule.forRoot()
+    BsDropdownModule.forRoot()
   ],
   providers: [
     {

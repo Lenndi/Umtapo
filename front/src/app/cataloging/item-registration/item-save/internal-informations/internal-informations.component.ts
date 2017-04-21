@@ -7,7 +7,7 @@ import {Item} from '../../../../../entity/item';
 import {ItemRegistrationDataService} from '../../../../../service/data-binding/item-registration-data.service';
 import {ItemService} from '../../../../../service/item.service';
 import {logger} from '../../../../../environments/environment';
-import {ModalDirective} from 'ng2-bootstrap';
+import {ModalDirective} from 'ngx-bootstrap';
 import {ShelfMark} from '../../../../../entity/shelfmark';
 import {CustomMap} from '../../../../../enumeration/custom-map';
 import {conditionEnum} from '../../../../../enumeration/fr';
