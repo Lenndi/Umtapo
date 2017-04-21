@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions, Response} from '@angular/http';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {Page} from '../util/page';
 import {BorrowerFilter} from './various/borrower-filter';
 import {Pageable} from '../util/pageable';
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class BorrowerService {

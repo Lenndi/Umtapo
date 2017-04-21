@@ -34,7 +34,7 @@ const routes: Routes = [
     component: MainComponent,
     canActivate: [AuthGuard],
     children: [
-      {path: '', redirectTo: 'circulation', pathMatch: 'full'},
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
       {
         path: 'circulation',
         component: CirculationComponent,

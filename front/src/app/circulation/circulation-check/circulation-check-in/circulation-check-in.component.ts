@@ -1,8 +1,5 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
-import {Borrower} from '../../../../entity/borrower';
-import {DatepickerModule} from 'ng2-bootstrap';
-import {DateFormatter} from '@angular/common/src/pipes/intl';
 import {Loan} from '../../../../entity/loan';
 import {conditionEnum} from '../../../../enumeration/fr';
 import {CustomMap} from '../../../../enumeration/custom-map';

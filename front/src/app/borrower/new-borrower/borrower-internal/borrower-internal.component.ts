@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
-import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ValidationService} from '../../../../validator/validationService';
 import {Subscription} from '../../../../entity/subscription';
 import {Library} from '../../../../entity/library';
@@ -10,7 +10,7 @@ import {Borrower} from '../../../../entity/borrower';
 import {NewBorrower} from '../new-borrower.interface';
 import {SubscriptionService} from '../../../../service/subscription.service';
 import {logger} from '../../../../environments/environment';
-import {ModalDirective} from 'ng2-bootstrap';
+import {ModalDirective} from 'ngx-bootstrap';
 import {Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
 

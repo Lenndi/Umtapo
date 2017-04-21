@@ -5,7 +5,7 @@ import {Borrower} from '../../../../entity/borrower';
 import {Observable, Subject} from 'rxjs';
 import {Item} from '../../../../entity/item';
 import {BorrowerService} from '../../../../service/borrower.service';
-import {ModalDirective, TypeaheadMatch} from 'ng2-bootstrap';
+import {ModalDirective, TypeaheadMatch} from 'ngx-bootstrap';
 import {ToastsManager} from 'ng2-toastr';
 import {Loan} from '../../../../entity/loan';
 import {LoanService} from '../../../../service/loan.service';
