@@ -69,24 +69,42 @@ export class CirculationCheckInComponent implements OnInit {
     }
   }
 
-  returnBook(loan: Loan) {
+  rollback(loan: Loan){
+    loan.returned = false;
+    this.rollbackDocument(loan);
+  }
+
+  returnDocument(loan: Loan) {
     if (this.dataService.borrower.loans) {
       this.checkInDocument(loan);
-      this.removeLoanById(loan.id);
+      loan.returned = true;
+      // this.removeLoanById(loan.id);
     } else {
       this.toastr.success(`Vous n'avez aucun livre à retourner`, 'Pas de document', {toastLife: 2000});
     }
   }
 
   checkInDocument(loan: Loan) {
-    this.loanService.returnBookLoan(loan.id)
-      .then(ret => this.itemService.returnBookItem(loan.item.id)
+    this.loanService.returnLoan(loan.id)
+      .then(ret => this.itemService.returnItem(loan.item.id)
         .then(ret => this.toastr.success(`Le document ` + loan.item.record.title.mainTitle + `a bien été retourné`,
           'Document retourné',
           {toastLife: 2000})
           .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour',
             {toastLife: 2000})))
         .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour',
+          {toastLife: 2000})));
+  }
+
+  rollbackDocument(loan: Loan) {
+    this.loanService.rollbackLoan(loan.id)
+      .then(ret => this.itemService.rollbackItem(loan.item.id)
+        .then(ret => this.toastr.success(`Le retour du document ` + loan.item.record.title.mainTitle + `a bien été annulé`,
+          'Annulation retour',
+          {toastLife: 2000})
+          .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`, 'Erreur annulation retour',
+            {toastLife: 2000})))
+        .catch(err => this.toastr.error(`Une erreur est survenue lors de l'annulation du retour du document`, 'Erreur annulation retour',
           {toastLife: 2000})));
   }
 
