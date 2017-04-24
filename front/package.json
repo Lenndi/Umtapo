@@ -11,7 +11,10 @@
     "style-lint": "stylelint \"src/**/*.scss\" --syntax scss",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "update-project": "npm-check-updates -u && npm install"
+    "update-project": "npm-check-updates -u && npm install",
+    "electron-postbuild": "cp -a electron/. dist",
+    "electron-build": "ng build --aot && npm run electron-postbuild",
+    "electron": "electron dist"
   },
   "private": true,
   "dependencies": {
