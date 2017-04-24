@@ -8,7 +8,6 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthGuard implements CanActivate {
 
   static loggedIn() {
-    console.log('LoggedIn ' + tokenNotExpired('id_token'));
     return tokenNotExpired('id_token');
   }
 
