@@ -13,7 +13,7 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class CirculationCheckDetailsComponent implements OnInit {
   private id: number;
-  private borrower: Borrower;
+  public borrower: Borrower;
   private subscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,

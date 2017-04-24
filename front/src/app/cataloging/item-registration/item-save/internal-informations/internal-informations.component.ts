@@ -132,14 +132,14 @@ export class InternalInformationsComponent implements OnInit {
 
       if (this.itemForm.controls['purchasePrice'].invalid) {
         this.toastr.error(`Le prix d'achat indiqué n'est pas conforme`, 'Oops', {toastLife: 2000});
-        logger.alert('Bad purchasePrice', this.itemForm.value.purchasePrice);
+        logger.warn('Bad purchasePrice', this.itemForm.value.purchasePrice);
       } else if (this.itemForm.controls['condition'].invalid) {
         this.toastr.error(`Veuillez indiquer l'état du document`, 'Oops', {toastLife: 2000});
-        logger.alert('Bad condition', this.itemForm.value.condition);
+        logger.warn('Bad condition', this.itemForm.value.condition);
       } else if (this.itemForm.controls['shelfmark1'].invalid || this.itemForm.controls['shelfmark2'].invalid
           || this.itemForm.controls['shelfmark3'].invalid || this.itemForm.controls['shelfmark4'].invalid) {
         this.toastr.error(`Le format de cotation est incorrect`, 'Oops', {toastLife: 2000});
-        logger.alert('Bad shelfmark');
+        logger.warn('Bad shelfmark');
       } else {
         this.toastr.error(`Impossible d'enregistrer le document`, 'Oops', {toastLife: 2000});
       }
