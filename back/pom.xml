@@ -162,6 +162,11 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.7.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.ladutsko</groupId>
+			<artifactId>isbn-core</artifactId>
+			<version>1.0.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
