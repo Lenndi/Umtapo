@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {RecordService} from '../../../../../service/record.service';
 import {ItemRegistrationDataService} from '../../../../../service/data-binding/item-registration-data.service';
 import {HttpLoggerService} from '../../../../../service/http-logger.service';
@@ -64,12 +64,12 @@ export class SearchFormComponent implements OnInit {
   private searchByTitle(title: string) {
     this.dataService.isSearching = true;
     this.dataService.searchResults = [];
-    this.recordService.findByTitle(title, 10, 1)
+    this.recordService.findByTitle(title, 10, 0)
       .then(response => {
-        this.dataService.searchResults = response.data;
+        this.dataService.searchResults = response.content;
         this.dataService.isSearching = false;
 
-        if (response.totalPage > 1) {
+        if (response.totalPages > 1) {
           this.dataService.hasMoreRecords = true;
           this.getMoreRecords(title, 2);
         }
@@ -111,8 +111,8 @@ export class SearchFormComponent implements OnInit {
   private getMoreRecords(title: string, page: number) {
     this.recordService.findByTitle(title, 10, page)
       .then(response => {
-        this.dataService.searchResults = this.dataService.searchResults.concat(response.data);
-        if (response.totalPage > page) {
+        this.dataService.searchResults = this.dataService.searchResults.concat(response.content);
+        if (response.totalPages > page) {
           this.getMoreRecords(title, page + 1);
         } else {
           this.dataService.hasMoreRecords = false;
