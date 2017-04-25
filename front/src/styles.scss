@@ -1,6 +1,10 @@
 // Start custom
 @import "sass/common";
 
+body {
+  overflow: hidden;
+}
+
 .umt-input-table {
   width: auto;
 }
