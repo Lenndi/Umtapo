@@ -1,5 +1,7 @@
 package org.lenndi.umtapo.service.specific.implementation;
 
+import com.github.ladutsko.isbn.ISBN;
+import com.github.ladutsko.isbn.ISBNException;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.configuration.Z3950;
 import org.lenndi.umtapo.marc.Connection;
@@ -33,6 +35,10 @@ import java.util.Map;
 public class RecordServiceImpl implements RecordService {
     private static final Logger LOGGER = Logger.getLogger(RecordServiceImpl.class);
 
+    private static final int EAN_SIZE = 13;
+    public static final int ISBN13_SIZE = 13;
+    public static final int ISBN10_SIZE = 10;
+
     private Z3950 library;
     private Map<Integer, Z3950> libraries;
     private Connection connection;
@@ -50,20 +56,45 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
+    public Record findByRawISBN(String rawIsbn) throws ZoomException, ISBNException {
+        Record record;
+
+        if (ISBN.isValid(rawIsbn)) {
+            if (ISBN.isIsbn13(rawIsbn)) {
+                record = this.findByEAN(ISBN.normalize(rawIsbn));
+
+                if (record == null) {
+                    ISBN isbn = ISBN.parseIsbn(rawIsbn);
+                    record = this.findByISBN(isbn.getIsbn10());
+                }
+            } else {
+                record = this.findByISBN(ISBN.normalize(rawIsbn));
+            }
+        } else {
+            throw new ISBNException(rawIsbn + " is not a valid ISBN number.");
+        }
+
+        return record;
+    }
+
+    @Override
     public Record findByISBN(String isbn) throws ZoomException {
         this.createConnection();
-        Record record = null;
 
         Query query = new PrefixQuery("@attr 1=7 " + isbn);
         ResultSet set = this.safeSearch(query);
 
-        if (set.getHitCount() > 0) {
-            InputStream input = new ByteArrayInputStream(set.getRecord(0).getContent());
-            MarcReader reader = new MarcStreamReader(input, "UTF-8");
-            record = reader.next();
-        }
+        return this.getFirstRecordFromSet(set);
+    }
 
-        return record;
+    @Override
+    public Record findByEAN(String ean) throws ZoomException {
+        this.createConnection();
+
+        Query query = new PrefixQuery("@attr 1=1214 " + ean);
+        ResultSet set = this.safeSearch(query);
+
+       return this.getFirstRecordFromSet(set);
     }
 
     @Override
@@ -72,7 +103,7 @@ public class RecordServiceImpl implements RecordService {
         int start = pageable.getPageSize() * pageable.getPageNumber();
         int count = pageable.getPageSize();
 
-        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
+        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\" @attr 2=3");
         ResultSet set = this.safeSearch(query);
         LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 
@@ -148,6 +179,16 @@ public class RecordServiceImpl implements RecordService {
         });
 
         return marcRecords;
+    }
+
+    private Record getFirstRecordFromSet(ResultSet set) throws ZoomException {
+        if (set.getHitCount() > 0) {
+            InputStream input = new ByteArrayInputStream(set.getRecord(0).getContent());
+            MarcReader reader = new MarcStreamReader(input, "UTF-8");
+            return reader.next();
+        } else {
+            return null;
+        }
     }
 
     private boolean isConnectionAlive() {

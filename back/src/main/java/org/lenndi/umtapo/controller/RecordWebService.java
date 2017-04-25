@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.controller;
 
+import com.github.ladutsko.isbn.ISBNException;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.configuration.Z3950;
 import org.lenndi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
@@ -37,6 +38,7 @@ import java.util.List;
 public class RecordWebService extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = Logger.getLogger(RecordWebService.class);
     private static final int DEFAULT_RESULT_SIZE = 10;
+    private static final int DEFAULT_PAGE = 1;
 
     private final RecordService recordService;
     private final UnimarcToSimpleRecord unimarcToSimpleRecord;
@@ -78,7 +80,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         String isbn = webRequest.getParameter("isbn");
         Z3950 z3950;
         int size = DEFAULT_RESULT_SIZE;
-        int page = 1;
+        int page = DEFAULT_PAGE;
 
         if (webRequest.getParameter("result-size") != null) {
             size = Integer.parseInt(webRequest.getParameter("result-size"));
@@ -101,14 +103,18 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
 
         if (isbn != null) {
             try {
-                org.marc4j.marc.Record record = this.recordService.findByISBN(isbn);
+                org.marc4j.marc.Record record = this.recordService.findByRawISBN(isbn);
                 if (record != null) {
                     records.add(record);
                 } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             } catch (final ZoomException e) {
+                logger.error(e.getMessage());
                 return this.zoomExceptionHandling(e);
+            } catch (final ISBNException e) {
+                logger.error(e.getMessage());
+                return new ResponseEntity<>("Bad ISBN format", HttpStatus.BAD_REQUEST);
             }
         } else if (title != null) {
             try {

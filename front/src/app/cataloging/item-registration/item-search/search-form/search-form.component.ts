@@ -6,7 +6,6 @@ import {HttpLoggerService} from '../../../../../service/http-logger.service';
 import {Router} from '@angular/router';
 import {IsbnValidator} from '../../../../../validator/isbn.validator';
 import {logger} from '../../../../../environments/environment';
-import * as isbnUtils from 'isbn-utils';
 import {ToastsManager} from 'ng2-toastr';
 
 @Component({
@@ -87,10 +86,8 @@ export class SearchFormComponent implements OnInit {
 
   private searchByIsbn(isbn: string) {
     this.dataService.isSearching = true;
-    let parsedIsbn = isbnUtils.parse(isbn);
-    let normalizedIsbn = parsedIsbn.isIsbn13() ? parsedIsbn.asIsbn13() : parsedIsbn.asIsbn10();
 
-    this.recordService.findByIsbn(normalizedIsbn)
+    this.recordService.findByIsbn(isbn)
       .then(response => {
         this.dataService.record = response;
         this.dataService.isSearching = false;

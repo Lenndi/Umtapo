@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.service.specific;
 
+import com.github.ladutsko.isbn.ISBNException;
 import org.marc4j.marc.Record;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,25 @@ public interface RecordService {
      * @throws ZoomException the zoom exception
      */
     Record findByISBN(String isbn) throws ZoomException;
+
+    /**
+     * Find record by raw ISBN number.
+     *
+     * @param isbn Non formatted isbn number (could be an EAN)
+     * @return Record
+     * @throws ZoomException Exception
+     * @throws ISBNException Exception
+     */
+    Record findByRawISBN(String isbn) throws ZoomException, ISBNException;
+
+    /**
+     * Find record by EAN.
+     *
+     * @param ean EAN number.
+     * @return Marc4j record. Null if no record.
+     * @throws ZoomException Exception
+     */
+    Record findByEAN(String ean) throws ZoomException;
 
     /**
      * Find records by title.
