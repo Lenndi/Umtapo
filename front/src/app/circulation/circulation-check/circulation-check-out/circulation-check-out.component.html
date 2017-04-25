@@ -12,6 +12,25 @@
             </button>
           </div>
         </div>
+        <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Quota atteint</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Le quota maximal est déjà atteint pour cet utilisateur, voulez vous tout de même emprunter le document ?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="borrowOverQuota()">Emprunté</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hideChildModal()">Annuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col">
             <div class="form-group">

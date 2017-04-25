@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions, Response} from '@angular/http';
 import {Item} from '../entity/item';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
 import {Observable} from 'rxjs';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class ItemService {
@@ -13,7 +14,7 @@ export class ItemService {
   private loanUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.itemUrl = environment.api_url + api.item;
     this.loanUrl = environment.api_url + api.loan;
     this.headers = new Headers({'Content-Type': 'application/json'});
@@ -96,7 +97,7 @@ export class ItemService {
   searchItemByInternalId(itemInternalId: number): Observable<Response> {
     let options = new RequestOptions({headers: this.headers});
 
-    return this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options)
+    return this.http.get(this.itemUrl + '/changeFilter?internalId=' + itemInternalId, options)
       .map((r: Response) => r);
   }
 }

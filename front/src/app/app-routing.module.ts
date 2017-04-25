@@ -15,17 +15,26 @@ import {BorrowerSelectionComponent} from './circulation/borrower-selection/borro
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from '../service/auth-guard.service';
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '',
-    component: AppComponent
+    component: LoginComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
     component: MainComponent,
+    canActivate: [AuthGuard],
     children: [
-      {path: '', redirectTo: 'circulation', pathMatch: 'full'},
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
       {
         path: 'circulation',
         component: CirculationComponent,
@@ -47,8 +56,8 @@ const routes: Routes = [
               {path: '2', component: BorrowerInternalComponent}
             ]
           },
-          {path: 'management', component: TestComponent}
-        ]
+          {path: 'management', component: BorrowersManagementComponent}
+        ],
       },
       {
         path: 'cataloging',
@@ -57,13 +66,13 @@ const routes: Routes = [
             path: 'registration',
             component: ItemRegistrationComponent,
             children: [
-              {path: '', redirectTo: 'search', pathMatch: 'full'},
-              {path: 'search', component: ItemSearchComponent},
+              {path: '', redirectTo: 'changeFilter', pathMatch: 'full'},
+              {path: 'changeFilter', component: ItemSearchComponent},
               {path: 'save', component: ItemSaveComponent}
             ]
           },
           {path: 'management', component: TestComponent}
-        ]
+        ],
       },
     ]
   },

@@ -24,7 +24,7 @@
 		<java.version>1.8</java.version>
         <solr.version>5.5.4</solr.version>
         <jackson.version>2.8.5</jackson.version>
-        <spring-data-solr.version>2.0.7</spring-data-solr.version>
+        <spring-data-solr.version>2.0.8</spring-data-solr.version>
 	</properties>
 
 	<dependencies>
@@ -156,6 +156,11 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-solr</artifactId>
 			<version>${spring-data-solr.version}.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.7.0</version>
 		</dependency>
 	</dependencies>
 	<build>
