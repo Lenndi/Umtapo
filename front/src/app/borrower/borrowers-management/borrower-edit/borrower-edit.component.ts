@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild, OnDestroy, ViewContainerRef} from '@angular/core';
+import {Component, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
 import {BorrowerService} from '../../../../service/borrower.service';
-import {ModalDirective} from 'ng2-bootstrap';
-import {FormGroup, FormControl, FormBuilder, Validators, Validator} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
 import {Subscription} from 'rxjs';
 import {Borrower} from '../../../../entity/borrower';
 import {ValidationService} from '../../../../validator/validationService';
 import {logger} from 'codelyzer/util/logger';
 import {ToastsManager} from 'ng2-toastr';
+import {ModalDirective} from 'ngx-bootstrap';
 
 @Component({
   selector: 'umt-borrower-edit',

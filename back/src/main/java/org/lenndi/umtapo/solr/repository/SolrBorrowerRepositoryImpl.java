@@ -1,6 +1,6 @@
-package org.lendi.umtapo.solr.repository;
+package org.lenndi.umtapo.solr.repository;
 
-import org.lendi.umtapo.solr.document.BorrowerDocument;
+import org.lenndi.umtapo.solr.document.BorrowerDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.PartialUpdate;

@@ -96,14 +96,16 @@
           <span [class.text-danger]="borrower.tooMuchLoans">{{borrower.nbLoans}}/{{borrower.quota}}</span>
         </td>
         <td class="text-center">
-          <span class="btn-group" dropdown>
-            <button id="edit-dropdown" class="btn btn-sm btn-secondary dropdown-toggle" dropdownToggle>Éditer</button>
-            <div class="dropdown-menu-right" dropdownMenu aria-labelledby="edit-dropdown">
-              <a class="dropdown-item umt-pointer">Réabonner</a>
-              <a class="dropdown-item umt-pointer" (click)="onEditBorrower(borrower.id)">Modifier</a>
-              <a class="dropdown-item umt-pointer">Supprimer</a>
-            </div>
-          </span>
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-sm btn-secondary dropdown-toggle">
+              Éditer <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu umt-align-right" role="menu">
+              <li role="menuitem"><a class="dropdown-item" href="#">Réabonner</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Modifier</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Supprimer</a></li>
+            </ul>
+          </div>
         </td>
       </tr>
     </ng-container>

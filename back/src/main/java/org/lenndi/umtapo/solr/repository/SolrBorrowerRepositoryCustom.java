@@ -1,6 +1,7 @@
-package org.lendi.umtapo.solr.repository;
+package org.lenndi.umtapo.solr.repository;
 
-import org.lendi.umtapo.solr.document.BorrowerDocument;
+
+import org.lenndi.umtapo.solr.document.BorrowerDocument;
 
 /**
  * The interface Solr borrower repository custom.
