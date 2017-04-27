@@ -83,7 +83,7 @@
       </td>
     </tr>
     <ng-container *ngIf="page">
-      <tr *ngFor="let borrower of page.content" (click)="onEditBorrower(borrower.id)">
+      <tr *ngFor="let borrower of page.content">
         <td scope="row">{{borrower.id}}</td>
         <td>{{borrower.name}}</td>
         <td>{{borrower.address.email}}</td>
@@ -101,9 +101,9 @@
               Éditer <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu umt-align-right" role="menu">
-              <li role="menuitem"><a class="dropdown-item" href="#">Réabonner</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Modifier</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Supprimer</a></li>
+              <li role="menuitem"><a class="dropdown-item umt-pointer">Réabonner</a></li>
+              <li role="menuitem" (click)="onEditBorrower(borrower.id)"><a class="dropdown-item umt-pointer">Modifier</a></li>
+              <li role="menuitem"><a class="dropdown-item umt-pointer">Supprimer</a></li>
             </ul>
           </div>
         </td>

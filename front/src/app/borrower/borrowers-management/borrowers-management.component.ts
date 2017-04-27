@@ -9,12 +9,5 @@ import {Borrower} from '../../../entity/borrower';
   styleUrls: ['./borrowers-management.component.scss'],
   providers: [BorrowerService, BorrowerDataService]
 })
-export class BorrowersManagementComponent implements OnInit {
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
+export class BorrowersManagementComponent {
 }

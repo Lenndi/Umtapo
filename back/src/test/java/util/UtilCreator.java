@@ -71,6 +71,28 @@ public class UtilCreator {
         return borrowerDocument;
     }
 
+    public Borrower createBorrower(Integer id, String name, String email) {
+        Address address = new Address();
+        Borrower borrower = new Borrower();
+
+        borrower.setId(id);
+        borrower.setName(name);
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail(email);
+        borrower.setAddress(address);
+
+        return borrower;
+    }
+
     public Borrower createBorrower(Integer id) {
         Address address = new Address();
         Borrower borrower = new Borrower();

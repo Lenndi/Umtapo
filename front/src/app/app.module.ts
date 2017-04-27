@@ -53,6 +53,7 @@ import {AuthGuard} from '../service/auth-guard.service';
 import {LoginService} from '../service/login.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {BorrowerDeleteComponent} from './borrower/borrowers-management/borrower-delete/borrower-delete.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -92,7 +93,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ConditionEnum,
     BorrowersManagementComponent,
     BorrowerDatatableComponent,
-    BorrowerEditComponent
+    BorrowerEditComponent,
+    BorrowerDeleteComponent
   ],
   imports: [
     BrowserModule,

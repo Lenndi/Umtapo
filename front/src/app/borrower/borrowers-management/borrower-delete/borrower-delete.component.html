@@ -1,0 +1,12 @@
+<div bsModal #borrowerDeleteModal="bs-modal" class="modal modal-sm fade show" tabindex="-1" role="dialog"
+     aria-labelledby="borrowerDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" *ngIf="selectedBorrower">
+    <div class="modal-content">
+      <p>Êtes-vous sûr de vouloir effacer l'usager {{selectedBorrower.name}} ?</p>
+      <div>
+        <button type="button" class="btn btn-sm btn-secondary" (click)="borrowerDeleteModal.hide()">Annuler</button>
+        <button type="button" class="btn btn-sm btn-warning" (click)="onDelete()">Effacer</button>
+      </div>
+    </div>
+  </div>
+</div>

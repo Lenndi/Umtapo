@@ -1,5 +1,5 @@
 <div bsModal #borrowerEditModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
-     aria-labelledby="borrowerEditModal" aria-hidden="true">
+     aria-labelledby="borrowerEditModalLabel" aria-hidden="true">
   <div class="modal-dialog" *ngIf="selectedBorrower">
     <div class="modal-content">
       <form [formGroup]="borrowerForm" (ngSubmit)="onSubmit(borrowerForm.value)">
@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" (click)="onCancel()">Annuler</button>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="borrowerEditModal.hide()">Annuler</button>
           <button type="submit" class="btn btn-sm btn-warning">Mettre à jour</button>
         </div>
       </form>

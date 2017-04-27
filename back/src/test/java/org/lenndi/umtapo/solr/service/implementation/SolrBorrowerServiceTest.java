@@ -83,13 +83,11 @@ public class SolrBorrowerServiceTest {
         BorrowerDocument borrowerDocument = this.utilCreator.createBorrowerDocument("1", "Michel Test", "michel@test.com");
         this.solrBorrowerRepository.save(borrowerDocument);
 
-        borrowerDocument.setName("Gudule");
-        borrowerDocument.setTooMuchLoans(null);
+        Borrower borrower = this.utilCreator.createBorrower(1, "Gudule", "gudule@test.com");
+        this.solrBorrowerService.updateToIndex(borrower);
+        borrowerDocument = this.solrBorrowerRepository.findById("1");
 
-        solrBorrowerRepository.update(borrowerDocument);
-        BorrowerDocument updatedBorrower = solrBorrowerService.findById("1");
-
-        Assert.assertEquals("Gudule", updatedBorrower.getName());
-        Assert.assertNotNull(updatedBorrower.getTooMuchLoans());
+        Assert.assertEquals("Gudule", borrowerDocument.getName());
+        Assert.assertNotNull(borrowerDocument.getNbLoans());
     }
 }

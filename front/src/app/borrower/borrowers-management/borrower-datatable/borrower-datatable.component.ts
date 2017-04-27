@@ -7,6 +7,7 @@ import {Pageable, ORDER} from '../../../../util/pageable';
 import {Page} from '../../../../util/page';
 import {logger} from '../../../../environments/environment';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
+import {Action} from '../../../../enumeration/Action';
 
 @Component({
   selector: 'umt-borrower-datatable',
@@ -65,10 +66,15 @@ export class BorrowerDatatableComponent implements OnInit {
     }
     this.changeFilter();
   }
+
   onEditBorrower(borrowerId: number): void {
-    this.borrowerService.find(borrowerId)
-      .then(borrower => this.dataService.changeSelectedBorrower(borrower))
-      .catch(error => logger.error(error));
+    this.dataService.action = Action.EDIT;
+    this.notifyBorrower(borrowerId);
+  }
+
+  onDeleteBorrower(borrowerId: number): void {
+    this.dataService.action = Action.DELETE;
+    this.notifyBorrower(borrowerId);
   }
 
   pageIndex(): any[] {
@@ -105,5 +111,13 @@ export class BorrowerDatatableComponent implements OnInit {
 
   isCurrentPage(pageIndex: number): boolean {
     return pageIndex === this.page.number;
+  }
+
+  private notifyBorrower(borrowerId: number): void {
+    this.borrowerService.find(borrowerId)
+      .then(borrower => {
+        this.dataService.changeSelectedBorrower(borrower);
+      })
+      .catch(error => logger.error(error));
   }
 }

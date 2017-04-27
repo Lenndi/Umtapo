@@ -8,6 +8,7 @@ import {ValidationService} from '../../../../validator/validationService';
 import {logger} from 'codelyzer/util/logger';
 import {ToastsManager} from 'ng2-toastr';
 import {ModalDirective} from 'ngx-bootstrap';
+import {Action} from '../../../../enumeration/Action';
 
 @Component({
   selector: 'umt-borrower-edit',
@@ -40,9 +41,11 @@ export class BorrowerEditComponent implements OnDestroy {
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(
       borrower => {
-        this.selectedBorrower = borrower;
-        this.populateForm();
-        this.borrowerEditModal.show();
+        if (this.dataService.action === Action.EDIT) {
+          this.selectedBorrower = borrower;
+          this.populateForm();
+          this.borrowerEditModal.show();
+        }
       }
     );
   }
@@ -76,10 +79,6 @@ export class BorrowerEditComponent implements OnDestroy {
     }
   }
 
-  onCancel(): void {
-    this.borrowerEditModal.hide();
-  }
-
   onSubmit(value: any): void {
     if (this.borrowerForm.valid) {
       logger.info('valid form :', value);
@@ -91,7 +90,7 @@ export class BorrowerEditComponent implements OnDestroy {
         .then(borrower => {
           this.borrowerEditModal.hide();
           this.dataService.notifyUpdatedBorrower(borrower);
-          // TODO: this.toastr.info(`L'usager a été mis à jour`, 'OK', {toastLife: 2000});
+          this.toastr.info(`L'usager a été mis à jour`, 'OK', {toastLife: 2000});
         })
         .catch(response => {
           logger.error(response);

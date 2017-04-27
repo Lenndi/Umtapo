@@ -10,9 +10,7 @@ import org.springframework.data.solr.repository.SolrCrudRepository;
 /**
  * Solr borrower repository.
  */
-public interface SolrBorrowerRepository extends
-        SolrCrudRepository<BorrowerDocument, String>,
-        SolrBorrowerRepositoryCustom {
+public interface SolrBorrowerRepository extends SolrCrudRepository<BorrowerDocument, String> {
 
     /**
      * Find by id borrower document.

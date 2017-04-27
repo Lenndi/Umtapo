@@ -153,13 +153,15 @@ public class BorrowerServiceTest {
     @Test
     public void testUpdate() throws Exception {
         Borrower borrower = this.utilCreator.createBorrower(1);
-        this.borrowerDao.save(borrower);
+        this.borrowerService.save(borrower);
 
         BorrowerDto borrowerDto = this.utilCreator.createBorrowerDto(1);
+        borrowerDto.setName("Gudule");
+        borrowerDto.setComment("Une aimable personne.");
         this.borrowerService.updateDto(borrowerDto);
         borrower = this.borrowerDao.findOne(1);
 
         Assert.assertEquals("Gudule", borrower.getName());
-        Assert.assertEquals("Un bien bel usager.", borrower.getComment());
+        Assert.assertEquals("Une aimable personne.", borrower.getComment());
     }
 }
