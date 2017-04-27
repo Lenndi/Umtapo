@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PriceValidator} from '../../../../../validator/price.validator';
 import {LibraryService} from '../../../../../service/library.service';
 import {Library} from '../../../../../entity/library';
@@ -12,7 +12,7 @@ import {ShelfMark} from '../../../../../entity/shelfmark';
 import {CustomMap} from '../../../../../enumeration/custom-map';
 import {conditionEnum} from '../../../../../enumeration/fr';
 import {Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-internal-informations',
@@ -47,8 +47,7 @@ export class InternalInformationsComponent implements OnInit {
     public dataService: ItemRegistrationDataService,
     private itemService: ItemService,
     private router: Router,
-    public toastr: ToastsManager,
-    public vRef: ViewContainerRef
+    public toastr: ToastrService
   ) {
     this.localLibrary = this.libraryService.findLocally();
     this.internalId = new FormControl('');
@@ -131,17 +130,17 @@ export class InternalInformationsComponent implements OnInit {
       logger.info('Invalid form :', this.itemForm);
 
       if (this.itemForm.controls['purchasePrice'].invalid) {
-        this.toastr.error(`Le prix d'achat indiqué n'est pas conforme`, 'Oops', {toastLife: 2000});
+        this.toastr.error(`Le prix d'achat indiqué n'est pas conforme`, 'Oops');
         logger.warn('Bad purchasePrice', this.itemForm.value.purchasePrice);
       } else if (this.itemForm.controls['condition'].invalid) {
-        this.toastr.error(`Veuillez indiquer l'état du document`, 'Oops', {toastLife: 2000});
+        this.toastr.error(`Veuillez indiquer l'état du document`, 'Oops');
         logger.warn('Bad condition', this.itemForm.value.condition);
       } else if (this.itemForm.controls['shelfmark1'].invalid || this.itemForm.controls['shelfmark2'].invalid
           || this.itemForm.controls['shelfmark3'].invalid || this.itemForm.controls['shelfmark4'].invalid) {
-        this.toastr.error(`Le format de cotation est incorrect`, 'Oops', {toastLife: 2000});
+        this.toastr.error(`Le format de cotation est incorrect`, 'Oops');
         logger.warn('Bad shelfmark');
       } else {
-        this.toastr.error(`Impossible d'enregistrer le document`, 'Oops', {toastLife: 2000});
+        this.toastr.error(`Impossible d'enregistrer le document`, 'Oops');
       }
     }
   }
@@ -159,13 +158,13 @@ export class InternalInformationsComponent implements OnInit {
 
       this.libraryService.saveExternal(library)
         .then(library => {
-          this.toastr.info(`Bibliothèque ${library.name} ajoutée`, 'Nouvelle bibliothèque', {toastLife: 2000});
+          this.toastr.info(`Bibliothèque ${library.name} ajoutée`, 'Nouvelle bibliothèque');
           this.populateExternalLibraries();
           this.externalLibraryModal.hide();
         })
         .catch(error => logger.error(error));
     } else {
-      this.toastr.error('Impossible de créer la bibliothèque tiers', 'Oops', {toastLife: 2000});
+      this.toastr.error('Impossible de créer la bibliothèque tiers', 'Oops');
       logger.info('Invalid form :', this.externalLibraryForm);
     }
   }
