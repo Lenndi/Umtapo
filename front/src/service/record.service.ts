@@ -4,10 +4,10 @@ import {HttpLoggerService} from './http-logger.service';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import {Record} from '../entity/record/record';
-import {GenericRestWrapper} from '../entity/generic-rest-wrapper';
 import {Library} from '../entity/library';
 import {LibraryService} from './library.service';
 import {AuthHttp} from 'angular2-jwt';
+import {Page} from '../util/page';
 
 @Injectable()
 export class RecordService {
@@ -19,12 +19,12 @@ export class RecordService {
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
 
-  findByTitle(title: string, resultSize: number, page: number): Promise<GenericRestWrapper<Record>> {
+  findByTitle(title: string, resultSize: number, page: number): Promise<Page<Record>> {
     let z3950Param = this.getZ3950Param();
 
     return this.http.get(`${this.recordUrl}?title=${title}&result-size=${resultSize}&page=${page}${z3950Param}`)
       .toPromise()
-      .then(response => response.json() as GenericRestWrapper<Record>)
+      .then(response => response.json() as Page<Record>)
       .catch(error => this.httpLogger.error(error));
   }
 
@@ -33,7 +33,7 @@ export class RecordService {
 
     return this.http.get(`${this.recordUrl}?isbn=${isbn}${z3950Param}`)
       .toPromise()
-      .then(response => response.json().data[0] as Record)
+      .then(response => response.json() as Record)
       .catch(error => this.httpLogger.error(error));
   }
 
