@@ -6,7 +6,7 @@ import {LibraryService} from '../../../service/library.service';
 import {Router} from '@angular/router';
 import {VariousValidator} from '../../../validator/various-validator';
 import {Setup} from '../setup.interface';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-setup-various',
@@ -32,8 +32,7 @@ export class SetupVariousComponent implements OnInit, Setup {
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
     public dataService: SetupDataService,
-    public toastr: ToastsManager,
-    public vRef: ViewContainerRef
+    public toastr: ToastrService
   ) {
     let library = this.dataService.library;
 
@@ -83,19 +82,19 @@ export class SetupVariousComponent implements OnInit, Setup {
       logger.info('Invalid form :', this.form);
 
       if (this.form.controls['borrowDuration'].invalid) {
-        this.toastr.error(this.borrowDurationMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.borrowDurationMsg, 'Oops');
       }
       if (this.form.controls['subscriptionDuration'].invalid) {
-        this.toastr.error(this.subscriptionDurationMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.subscriptionDurationMsg, 'Oops');
       }
       if (this.form.controls['currency'].invalid) {
-        this.toastr.error(this.currencyMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.currencyMsg, 'Oops');
       }
       if (this.form.controls['firstInternalId'].invalid) {
-        this.toastr.error(this.firstInternalIdMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.firstInternalIdMsg, 'Oops');
       }
       if (this.form.controls['libraryName'].invalid) {
-        this.toastr.error(this.libraryNameMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.libraryNameMsg, 'Oops');
       }
     }
   }
