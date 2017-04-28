@@ -6,9 +6,9 @@ import {Subscription} from 'rxjs';
 import {Borrower} from '../../../../entity/borrower';
 import {ValidationService} from '../../../../validator/validationService';
 import {logger} from 'codelyzer/util/logger';
-import {ToastsManager} from 'ng2-toastr';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Action} from '../../../../enumeration/Action';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-borrower-edit',
@@ -36,8 +36,7 @@ export class BorrowerEditComponent implements OnDestroy {
       private formBuilder: FormBuilder,
       private borrowerService: BorrowerService,
       private dataService: BorrowerDataService,
-      public toastr: ToastsManager,
-      public vRef: ViewContainerRef
+      public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(
       borrower => {
@@ -90,16 +89,16 @@ export class BorrowerEditComponent implements OnDestroy {
         .then(borrower => {
           this.borrowerEditModal.hide();
           this.dataService.notifyUpdatedBorrower(borrower);
-          this.toastr.info(`L'usager a été mis à jour`, 'OK', {toastLife: 2000});
+          this.toastr.info(`L'usager a été mis à jour`, 'OK');
         })
         .catch(response => {
           logger.error(response);
           this.borrowerEditModal.hide();
-          this.toastr.error(`Problème durant la mise à jour de l'usager`, 'Problème', {toastLife: 2000});
+          this.toastr.error(`Problème durant la mise à jour de l'usager`, 'Problème');
         });
     } else {
       logger.info('Invalid form :', value);
-      this.toastr.error(`Le formulaire n'est pas valide`, 'Erreur', {toastLife: 2000});
+      this.toastr.error(`Le formulaire n'est pas valide`, 'Erreur');
     }
   }
 

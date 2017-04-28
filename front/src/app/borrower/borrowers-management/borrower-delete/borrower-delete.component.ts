@@ -1,12 +1,12 @@
-import {Component, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Subscription} from 'rxjs/Subscription';
 import {Borrower} from '../../../../entity/borrower';
-import {ToastsManager} from 'ng2-toastr';
 import {logger} from '../../../../environments/environment';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
 import {Action} from '../../../../enumeration/Action';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-borrower-delete',
@@ -22,8 +22,7 @@ export class BorrowerDeleteComponent {
   constructor(
     private borrowerService: BorrowerService,
     private dataService: BorrowerDataService,
-    public toastr: ToastsManager,
-    public vRef: ViewContainerRef
+    public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(
       borrower => {
@@ -41,12 +40,12 @@ export class BorrowerDeleteComponent {
       .then(borrower => {
         this.borrowerDeleteModal.hide();
         this.dataService.notifyUpdatedBorrower(borrower);
-        this.toastr.info(`L'usager a été effacé`, 'OK', {toastLife: 2000});
+        this.toastr.info(`L'usager a été effacé`, 'OK');
       })
       .catch(response => {
         logger.error(response);
         this.borrowerDeleteModal.hide();
-        this.toastr.error(`Problème durant la suppression de l'usager`, 'Oops', {toastLife: 2000});
+        this.toastr.error(`Problème durant la suppression de l'usager`, 'Oops');
       });
   }
 
