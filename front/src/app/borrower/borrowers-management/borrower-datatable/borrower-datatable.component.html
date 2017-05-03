@@ -101,9 +101,15 @@
               Éditer <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu umt-align-right" role="menu">
-              <li role="menuitem"><a class="dropdown-item umt-pointer">Réabonner</a></li>
-              <li role="menuitem" (click)="onEditBorrower(borrower.id)"><a class="dropdown-item umt-pointer">Modifier</a></li>
-              <li role="menuitem"><a class="dropdown-item umt-pointer">Supprimer</a></li>
+              <li role="menuitem" (click)="onRenewalSubscription(borrower.id)">
+                <a class="dropdown-item umt-pointer">Réabonner</a>
+              </li>
+              <li role="menuitem" (click)="onEditBorrower(borrower.id)">
+                <a class="dropdown-item umt-pointer">Modifier</a>
+              </li>
+              <li role="menuitem" (click)="onDeleteBorrower(borrower.id)">
+                <a class="dropdown-item umt-pointer">Supprimer</a>
+              </li>
             </ul>
           </div>
         </td>

@@ -1,8 +1,8 @@
-<div bsModal #borrowerEditModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
-     aria-labelledby="borrowerEditModalLabel" aria-hidden="true">
-  <div class="modal-dialog" *ngIf="selectedBorrower">
+<div *ngIf="dataService.isEditShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+     #borrowerEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
     <div class="modal-content">
-      <form [formGroup]="borrowerForm" (ngSubmit)="onSubmit(borrowerForm.value)">
+      <form [formGroup]="borrowerForm" (ngSubmit)="onUpdate(borrowerForm.value)">
         <div class="modal-header">
           <h4 class="modal-title pull-left">Édition</h4>
         </div>
@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" (click)="borrowerEditModal.hide()">Annuler</button>
+          <button type="button" class="btn btn-sm btn-secondary" (click)="hideModal()">Annuler</button>
           <button type="submit" class="btn btn-sm btn-warning">Mettre à jour</button>
         </div>
       </form>

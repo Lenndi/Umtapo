@@ -3,7 +3,7 @@ import {Borrower} from '../../../../entity/borrower';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {BorrowerFilter} from '../../../../service/various/borrower-filter';
 import {Subject, Subscription} from 'rxjs';
-import {Pageable, ORDER} from '../../../../util/pageable';
+import {ORDER, Pageable} from '../../../../util/pageable';
 import {Page} from '../../../../util/page';
 import {logger} from '../../../../environments/environment';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
@@ -27,9 +27,7 @@ export class BorrowerDatatableComponent implements OnInit {
     this.pageable = new Pageable('email');
 
     this.updatedBorrowerSubscription = this.dataService.updatedBorrower$.subscribe(
-      borrower => {
-        this.changeFilter();
-      }
+      borrower => this.changeFilter()
     );
   }
 
@@ -68,13 +66,15 @@ export class BorrowerDatatableComponent implements OnInit {
   }
 
   onEditBorrower(borrowerId: number): void {
-    this.dataService.action = Action.EDIT;
-    this.notifyBorrower(borrowerId);
+    this.notifyBorrower(borrowerId, Action.EDIT);
   }
 
   onDeleteBorrower(borrowerId: number): void {
-    this.dataService.action = Action.DELETE;
-    this.notifyBorrower(borrowerId);
+    this.notifyBorrower(borrowerId, Action.DELETE);
+  }
+
+  onRenewalSubscription(borrowerId: number): void {
+    this.notifyBorrower(borrowerId, Action.RENEWAL);
   }
 
   pageIndex(): any[] {
@@ -113,10 +113,10 @@ export class BorrowerDatatableComponent implements OnInit {
     return pageIndex === this.page.number;
   }
 
-  private notifyBorrower(borrowerId: number): void {
+  notifyBorrower(borrowerId: number, action: Action) {
     this.borrowerService.find(borrowerId)
       .then(borrower => {
-        this.dataService.changeSelectedBorrower(borrower);
+        this.dataService.changeSelectedBorrower(borrower, action);
       })
       .catch(error => logger.error(error));
   }

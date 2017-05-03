@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
@@ -7,7 +7,6 @@ import {Borrower} from '../../../../entity/borrower';
 import {ValidationService} from '../../../../validator/validationService';
 import {logger} from 'codelyzer/util/logger';
 import {ModalDirective} from 'ngx-bootstrap';
-import {Action} from '../../../../enumeration/Action';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -29,27 +28,56 @@ export class BorrowerEditComponent implements OnDestroy {
   zip: FormControl;
   city: FormControl;
   quota: FormControl;
+  comment: FormControl;
   borrowerSubscription: Subscription;
   selectedBorrower: Borrower;
 
   constructor(
       private formBuilder: FormBuilder,
       private borrowerService: BorrowerService,
-      private dataService: BorrowerDataService,
+      public dataService: BorrowerDataService,
       public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(
       borrower => {
-        if (this.dataService.action === Action.EDIT) {
           this.selectedBorrower = borrower;
           this.populateForm();
-          this.borrowerEditModal.show();
-        }
       }
     );
   }
 
-  populateForm(): void {
+  onUpdate(value: any): void {
+    if (this.borrowerForm.valid) {
+      logger.info('valid form :', value);
+      this.saveData(value);
+
+      this.borrowerService
+        .update(this.selectedBorrower)
+        .then(borrower => {
+          this.hideModal();
+          this.dataService.notifyUpdatedBorrower(borrower);
+          this.toastr.info(`L'usager a été mis à jour`, 'OK');
+        })
+        .catch(response => {
+          logger.error(response);
+          this.hideModal();
+          this.toastr.error(`Problème durant la mise à jour de l'usager`, 'Problème');
+        });
+    } else {
+      logger.info('Invalid form :', value);
+      this.toastr.error(`Le formulaire n'est pas valide`, 'Erreur');
+    }
+  }
+
+  public hideModal(): void {
+    this.borrowerEditModal.hide();
+  }
+
+  public onHidden(): void {
+    this.dataService.isEditShown = false;
+  }
+
+  private populateForm(): void {
     this.name = new FormControl(this.selectedBorrower.name, Validators.required);
     this.birthday = new FormControl(this.selectedBorrower.birthday.toString().split('T')[0], Validators.required);
     this.email = new FormControl(this.selectedBorrower.address.email,
@@ -61,6 +89,7 @@ export class BorrowerEditComponent implements OnDestroy {
     this.city = new FormControl(this.selectedBorrower.address.city, Validators.required);
     this.quota = new FormControl(this.selectedBorrower.quota, Validators.required);
     this.emailOptin = new FormControl(this.selectedBorrower.emailOptin);
+    this.comment = new FormControl(this.selectedBorrower.comment);
 
     if (!this.borrowerForm) {
       this.borrowerForm = this.formBuilder.group({
@@ -73,36 +102,13 @@ export class BorrowerEditComponent implements OnDestroy {
         'zip': this.zip,
         'city': this.city,
         'quota': this.quota,
-        'emailOptin': this.emailOptin
+        'emailOptin': this.emailOptin,
+        'comment': this.comment
       });
     }
   }
 
-  onSubmit(value: any): void {
-    if (this.borrowerForm.valid) {
-      logger.info('valid form :', value);
-
-      this.saveData(value);
-
-      this.borrowerService
-        .update(this.selectedBorrower)
-        .then(borrower => {
-          this.borrowerEditModal.hide();
-          this.dataService.notifyUpdatedBorrower(borrower);
-          this.toastr.info(`L'usager a été mis à jour`, 'OK');
-        })
-        .catch(response => {
-          logger.error(response);
-          this.borrowerEditModal.hide();
-          this.toastr.error(`Problème durant la mise à jour de l'usager`, 'Problème');
-        });
-    } else {
-      logger.info('Invalid form :', value);
-      this.toastr.error(`Le formulaire n'est pas valide`, 'Erreur');
-    }
-  }
-
-  saveData(value: any) {
+  private saveData(value: any) {
     this.selectedBorrower.name = value.name;
     this.selectedBorrower.birthday = new Date(value.birthday);
     this.selectedBorrower.address.email = value.email;

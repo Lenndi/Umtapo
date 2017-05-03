@@ -32,8 +32,7 @@ import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-s
 import {InternalInformationsComponent}
   from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
 import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
-import {CirculationCheckComponent}
-  from './circulation/circulation-check/circulation-check.component';
+import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
 import {CirculationCheckDetailsComponent}
   from './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
 import {CirculationCheckInComponent}
@@ -54,6 +53,7 @@ import {LoginService} from '../service/login.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {BorrowerDeleteComponent} from './borrower/borrowers-management/borrower-delete/borrower-delete.component';
+import { BorrowerRenewalComponent } from './borrower/borrowers-management/borrower-renewal/borrower-renewal.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -94,7 +94,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BorrowersManagementComponent,
     BorrowerDatatableComponent,
     BorrowerEditComponent,
-    BorrowerDeleteComponent
+    BorrowerDeleteComponent,
+    BorrowerRenewalComponent
   ],
   imports: [
     BrowserModule,

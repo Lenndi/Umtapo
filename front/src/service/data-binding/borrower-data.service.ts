@@ -9,11 +9,27 @@ export class BorrowerDataService {
   private selectedBorrowerSource = new Subject<Borrower>();
   private updatedBorrowerSource = new Subject<Borrower>();
   public action: Action;
+  public isEditShown: boolean = false;
+  public isDeleteShown: boolean = false;
+  public isRenewalShown: boolean = false;
 
   selectedBorrower$ = this.selectedBorrowerSource.asObservable();
   updatedBorrower$ = this.updatedBorrowerSource.asObservable();
 
-  public changeSelectedBorrower(borrower: Borrower) {
+  public changeSelectedBorrower(borrower: Borrower, action: Action) {
+    switch (action) {
+      case Action.EDIT:
+        this.isEditShown = true;
+        break;
+      case Action.DELETE:
+        this.isDeleteShown = true;
+        break;
+      case Action.RENEWAL:
+        this.isRenewalShown = true;
+        break;
+      default:
+        console.debug('Argument action is missing…');
+    }
     this.selectedBorrowerSource.next(borrower);
   }
 

@@ -5,7 +5,6 @@ import {Borrower} from '../../../../entity/borrower';
 import {logger} from '../../../../environments/environment';
 import {BorrowerService} from '../../../../service/borrower.service';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
-import {Action} from '../../../../enumeration/Action';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
@@ -21,16 +20,11 @@ export class BorrowerDeleteComponent {
 
   constructor(
     private borrowerService: BorrowerService,
-    private dataService: BorrowerDataService,
+    public dataService: BorrowerDataService,
     public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(
-      borrower => {
-        if (this.dataService.action === Action.DELETE) {
-          this.selectedBorrower = borrower;
-          this.borrowerDeleteModal.show();
-        }
-      }
+      borrower => this.selectedBorrower = borrower
     );
   }
 
@@ -38,15 +32,23 @@ export class BorrowerDeleteComponent {
     this.borrowerService
       .remove(this.selectedBorrower.id)
       .then(borrower => {
-        this.borrowerDeleteModal.hide();
+        this.hideModal();
         this.dataService.notifyUpdatedBorrower(borrower);
         this.toastr.info(`L'usager a été effacé`, 'OK');
       })
       .catch(response => {
         logger.error(response);
-        this.borrowerDeleteModal.hide();
+        this.hideModal();
         this.toastr.error(`Problème durant la suppression de l'usager`, 'Oops');
       });
+  }
+
+  public hideModal(): void {
+    this.borrowerDeleteModal.hide();
+  }
+
+  public onHidden(): void {
+    this.dataService.isDeleteShown = false;
   }
 
   ngOnDestroy() {
