@@ -30,6 +30,7 @@ public class Borrower {
     private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "borrower")
     private List<Loan> loans;
+    private Boolean active;
 
     /**
      * Instantiates a new Borrower.
@@ -222,5 +223,23 @@ public class Borrower {
      */
     public void setEmailOptin(Boolean emailOptin) {
         this.emailOptin = emailOptin;
+    }
+
+    /**
+     * Gets active.
+     *
+     * @return the active
+     */
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
+     * Sets active.
+     *
+     * @param active the active
+     */
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

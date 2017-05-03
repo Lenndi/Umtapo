@@ -25,6 +25,7 @@ public class BorrowerDto {
     private Boolean lateness;
     private ZonedDateTime subscriptionStart;
     private ZonedDateTime subscriptionEnd;
+    private Boolean active;
 
     /**
      * Gets id.
@@ -294,5 +295,23 @@ public class BorrowerDto {
      */
     public void setLibraryName(String libraryName) {
         this.libraryName = libraryName;
+    }
+
+    /**
+     * Gets active.
+     *
+     * @return the active
+     */
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
+     * Sets active.
+     *
+     * @param active the active
+     */
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
