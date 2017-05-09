@@ -42,7 +42,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     public toastr: ToastrService,
     private libraryService: LibraryService,
     private pairingService: PairingService,
-              privateborrowerService: BorrowerService,
+    private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService,
     private router: Router
   ) {
@@ -151,11 +151,11 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     this.pairingService.pairingCardAndBorrower(this.pairing)
       .then(res => {
         this.isPairing = false;
-        this.toastr.success('Succès', 'Emprunteur lié à la carte', {toastLife: 2000});
+        this.toastr.success('Succès', 'Emprunteur lié à la carte');
       })
       .catch(err => {
         this.isPairing = false;
-        this.toastr.error('Erreur', 'Emprunteur non lié à la carte', {toastLife: 2000});
+        this.toastr.error('Erreur', 'Emprunteur non lié à la carte');
       });
 
   }

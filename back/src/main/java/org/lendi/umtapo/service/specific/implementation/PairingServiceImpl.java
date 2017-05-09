@@ -2,9 +2,9 @@ package org.lendi.umtapo.service.specific.implementation;
 
 import org.apache.log4j.Logger;
 import org.lendi.umtapo.dto.PairingDto;
-import org.lendi.umtapo.entity.Borrower;
 import org.lendi.umtapo.enumeration.PairingType;
-import org.lendi.umtapo.service.specific.BorrowerService;
+import org.lenndi.umtapo.entity.Borrower;
+import org.lenndi.umtapo.service.specific.BorrowerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

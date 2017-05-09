@@ -96,7 +96,7 @@ import {PairingService} from '../service/pairing.service';
     BorrowerDatatableComponent,
     BorrowerEditComponent,
     BorrowerDeleteComponent,
-    BorrowerRenewalComponent
+    BorrowerRenewalComponent,
     BorrowersManagementComponent,
   ],
   imports: [
