@@ -1,0 +1,101 @@
+<div *ngIf="dataService.isEditShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+     #borrowerEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="borrowerForm" (ngSubmit)="onUpdate(borrowerForm.value)">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Édition</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="name.invalid && name.dirty">
+                <label for="name">Nom</label>
+                <input id="name" type="text" class="form-control form-control-sm" placeholder="Nom" required
+                       [class.form-control-danger]="name.invalid && name.dirty" formControlName="name">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="birthday.invalid && birthday.dirty">
+                <label for="birthday">Date de naissance</label>
+                <input id="birthday" type="date" class="form-control form-control-sm"
+                       placeholder="Date de naissance" required
+                       [class.form-control-danger]="birthday.invalid && birthday.dirty" formControlName="birthday">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="email.invalid && email.dirty">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-control form-control-sm" placeholder="Email" required
+                       [class.form-control-danger]="email.invalid && email.dirty" formControlName="email">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="phone.invalid && phone.dirty">
+                <label for="phone">Téléphone</label>
+                <input id="phone" type="tel" class="form-control form-control-sm" placeholder="Téléphone" required
+                       [class.form-control-danger]="phone.invalid && phone.dirty" formControlName="phone">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="address1.invalid && address1.dirty">
+                <label for="address1">Adresse 1</label>
+                <input id="address1" type="text" class="form-control form-control-sm" placeholder="Adresse 1" required
+                       [class.form-control-danger]="address1.invalid && address1.dirty" formControlName="address1">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="address2.invalid && address2.dirty">
+                <label for="address2">Adresse 2</label>
+                <input id="address2" type="text" class="form-control form-control-sm" placeholder="Adresse 2"
+                       [class.form-control-danger]="address2.invalid && address2.dirty" formControlName="address2">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="zip.invalid && zip.dirty">
+                <label for="zip">Code postal</label>
+                <input id="zip" type="text" class="form-control form-control-sm" placeholder="Code postal" required
+                       [class.form-control-danger]="zip.invalid && zip.dirty" formControlName="zip">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="city.invalid && city.dirty">
+                <label for="city">Ville</label>
+                <input id="city" type="text" class="form-control form-control-sm" placeholder="Ville" required
+                       [class.form-control-danger]="city.invalid && city.dirty" formControlName="city">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group" [class.has-danger]="quota.invalid && quota.dirty">
+                <label for="quota">Quota d'emprunts</label>
+                <input id="quota" type="number" class="form-control form-control-sm"
+                       placeholder="Quota d'emprunt" required
+                       [class.form-control-danger]="quota.invalid && quota.dirty" formControlName="quota">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" value="" formControlName="emailOptin">
+                  Accepte de recevoir des emails
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="comment">Commentaires</label>
+                <textarea id="comment" row="4" class="form-control form-control-sm" placeholder="Commentaire"
+                          formControlName="comment">
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" (click)="hideModal()">Annuler</button>
+          <button type="submit" class="btn btn-sm btn-warning">Mettre à jour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

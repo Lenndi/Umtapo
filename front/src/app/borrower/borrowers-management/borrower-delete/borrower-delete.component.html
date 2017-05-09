@@ -1,0 +1,17 @@
+<div *ngIf="dataService.isDeleteShown"  [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+     #borrowerDeleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Suppression</h4>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir effacer l'usager {{selectedBorrower.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="hideModal()">Annuler</button>
+        <button type="button" class="btn btn-sm btn-warning" (click)="onDelete()">Effacer</button>
+      </div>
+    </div>
+  </div>
+</div>
