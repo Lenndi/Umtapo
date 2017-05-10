@@ -6,7 +6,7 @@ import {BorrowerService} from '../../../service/borrower.service';
 import {CirculationDataService} from '../../../service/data-binding/circulation-data.service';
 import {Observable} from 'rxjs';
 import {TypeaheadMatch} from 'ngx-bootstrap';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-borrower-selection',
@@ -27,8 +27,7 @@ export class BorrowerSelectionComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private borrowerService: BorrowerService,
               private router: Router,
-              public toastr: ToastsManager,
-              public vRef: ViewContainerRef,
+              public toastr: ToastrService,
               public dataService: CirculationDataService) {
     this.selectedBorrower = new Borrower();
     this.showDetails = false;
@@ -72,10 +71,10 @@ export class BorrowerSelectionComponent implements OnInit {
           this.dataService.borrower = response;
           this.router.navigate(['circulation/check/']);
         })
-        .catch(error => this.toastr.error(`Cet identifiant n'existe pas`, 'Oops', {toastLife: 2000}));
+        .catch(error => this.toastr.error(`Cet identifiant n'existe pas`, 'Oops'));
 
     } else {
-      this.toastr.error('Les champs du formulaire sont vides', 'Oops', {toastLife: 2000});
+      this.toastr.error('Les champs du formulaire sont vides', 'Oops');
     }
   }
 }

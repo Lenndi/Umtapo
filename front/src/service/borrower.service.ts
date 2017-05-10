@@ -76,4 +76,22 @@ export class BorrowerService {
       .then(response => response.json() as Borrower)
       .catch(error => this.httpLogger.error(error));
   }
+
+  update(borrower: Borrower): Promise<Borrower> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .put(`${this.borrowerUrl}/${borrower.id}`, JSON.stringify(borrower), options)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  remove(id: number): Promise<any> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .delete(`${this.borrowerUrl}/${id}`, options)
+      .toPromise()
+      .then(response => response.json())
+      .catch(error => this.httpLogger.error(error));
+  }
 }

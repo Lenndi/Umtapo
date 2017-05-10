@@ -16,11 +16,14 @@ import org.lenndi.umtapo.entity.Subscription;
 import org.lenndi.umtapo.enumeration.Condition;
 import org.lenndi.umtapo.enumeration.ItemType;
 import org.lenndi.umtapo.solr.document.BorrowerDocument;
+import org.lenndi.umtapo.solr.document.bean.record.Record;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UtilCreator {
@@ -66,6 +69,28 @@ public class UtilCreator {
         borrowerDocument.setLibraryName(library.getName());
 
         return borrowerDocument;
+    }
+
+    public Borrower createBorrower(Integer id, String name, String email) {
+        Address address = new Address();
+        Borrower borrower = new Borrower();
+
+        borrower.setId(id);
+        borrower.setName(name);
+        borrower.setComment("Un bien bel usager.");
+        borrower.setBirthday(birthday);
+        borrower.setQuota(5);
+        borrower.setEmailOptin(true);
+        address.setId(3);
+        address.setAddress1("3 rue des poules");
+        address.setAddress2("Étage 5");
+        address.setZip("35000");
+        address.setCity("Rennes");
+        address.setPhone("0299813994");
+        address.setEmail(email);
+        borrower.setAddress(address);
+
+        return borrower;
     }
 
     public Borrower createBorrower(Integer id) {
@@ -276,6 +301,24 @@ public class UtilCreator {
         library.setExternal(external);
 
         return library;
+    }
+
+    public Record createRecord(String title, String author, String date) {
+        Record record = new Record();
+        record.getTitle().setMainTitle(title);
+        record.getCreator().setName(author);
+        record.getDate().setPublicationDate(date);
+
+        return record;
+    }
+
+    public List<Record> createRecordList() {
+        List<Record> records = new ArrayList<>();
+        records.add(createRecord("Test", "Michel Test", "2017"));
+        records.add(createRecord("Yop", "Francis", "1987"));
+        records.add(createRecord("Hop", "Gudule", "890"));
+
+        return records;
     }
 
     public Item createItem(Integer id, Integer internalId) {

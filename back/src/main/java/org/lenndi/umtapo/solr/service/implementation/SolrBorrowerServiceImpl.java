@@ -94,6 +94,27 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
     }
 
     @Override
+    // TODO: Implements PartialChange when issue https://jira.spring.io/browse/DATASOLR-383 will be resolved
+    public void updateToIndex(Borrower borrower) {
+        BorrowerDocument document = this.borrowerMapper.mapBorrowerToBorrowerDocument(borrower);
+        BorrowerDocument update = this.documentRepository.findById(document.getId());
+
+        update.setName(document.getName());
+        update.setComment(document.getComment());
+        update.setBirthday(document.getBirthday());
+        update.setQuota(document.getQuota());
+        update.setEmailOptin(document.getEmailOptin());
+        update.setAddress1(document.getAddress1());
+        update.setAddress2(document.getAddress2());
+        update.setZip(document.getZip());
+        update.setCity(document.getCity());
+        update.setPhone(document.getPhone());
+        update.setEmail(document.getEmail());
+
+        this.documentRepository.save(update);
+    }
+
+    @Override
     public void deleteFromIndex(Integer id) {
         documentRepository.delete(id.toString());
     }

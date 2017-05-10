@@ -6,8 +6,8 @@ import {logger} from 'codelyzer/util/logger';
 import {Address} from '../../../../entity/address';
 import {Borrower} from '../../../../entity/borrower';
 import {Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
 import {NewBorrower} from '../new-borrower.interface';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-borrower-personal',
@@ -28,7 +28,7 @@ export class BorrowerPersonalComponent implements OnInit, NewBorrower {
   constructor(
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vRef: ViewContainerRef,
     private router: Router
   ) {
@@ -83,15 +83,11 @@ export class BorrowerPersonalComponent implements OnInit, NewBorrower {
       logger.info('Invalid form :', value);
       if (this.form.controls['email'].invalid) {
         this.toastr.error(
-          ValidationService.getValidatorErrorMessage('invalidEmailAddress', true) + ' Email', 'Oops',
-          {toastLife: 2000}
-        );
+          ValidationService.getValidatorErrorMessage('invalidEmailAddress', true) + ' Email', 'Oops');
       }
       if (this.form.controls['birthday'].invalid) {
         this.toastr.error(
-          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'Oops',
-          {toastLife: 2000}
-        );
+          ValidationService.getValidatorErrorMessage('invalidDate', true) + ' birthday', 'Oops');
       }
     }
   }

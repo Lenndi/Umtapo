@@ -23,7 +23,7 @@ import {BorrowerSelectionComponent} from './circulation/borrower-selection/borro
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
 import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
-import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import {DatepickerModule} from 'ngx-bootstrap/datepicker';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
@@ -42,12 +42,18 @@ import {CirculationCheckOutComponent}
 import {CirculationComponent} from './circulation/circulation.component';
 import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
-import {ToastModule} from 'ng2-toastr';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import {AuthConfig, AuthHttp} from 'angular2-jwt';
+import {BorrowerDatatableComponent}
+  from './borrower/borrowers-management/borrower-datatable/borrower-datatable.component';
+import {BorrowerEditComponent} from './borrower/borrowers-management/borrower-edit/borrower-edit.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from '../service/auth-guard.service';
 import {LoginService} from '../service/login.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {BorrowerDeleteComponent} from './borrower/borrowers-management/borrower-delete/borrower-delete.component';
+import { BorrowerRenewalComponent } from './borrower/borrowers-management/borrower-renewal/borrower-renewal.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -85,7 +91,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
     ConditionEnum,
-    BorrowersManagementComponent
+    BorrowersManagementComponent,
+    BorrowerDatatableComponent,
+    BorrowerEditComponent,
+    BorrowerDeleteComponent,
+    BorrowerRenewalComponent
   ],
   imports: [
     BrowserModule,
@@ -94,9 +104,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
     DatepickerModule.forRoot(),
-    ToastModule.forRoot(),
+    ToastrModule.forRoot({timeOut: 2000}),
     TypeaheadModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
