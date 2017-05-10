@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Borrower service.
@@ -109,6 +110,16 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @throws IllegalAccessException the illegal access exception
      */
     BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException;
+
+    /**
+     * Update dto.
+     *
+     * @param borrowerDto the borrower dto
+     */
+    void updateDto(BorrowerDto borrowerDto);
+
+    @Override
+    void delete(Integer integer) throws NoSuchElementException;
 
     /**
      * Find all pageable dto by name page.

@@ -20,6 +20,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Borrower service implementation.
@@ -75,11 +76,35 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
-    public void delete(Integer borrowerId) {
-        this.solrBorrowerService.deleteFromIndex(borrowerId);
-        super.delete(borrowerId);
+    public void updateDto(BorrowerDto borrowerDto) {
+        Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
+        borrower = this.save(borrower);
+        this.solrBorrowerService.updateToIndex(borrower);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer borrowerId) throws NoSuchElementException {
+
+        Borrower borrower = this.borrowerDao.findOne(borrowerId);
+
+        if (borrower != null) {
+            borrower.setActive(false);
+            borrower.setName("Anonymous");
+            borrower.getAddress().setEmail("ano@ny.mous");
+            borrower.getAddress().setAddress1("anonymous");
+            borrower.getAddress().setAddress2("");
+            borrower.getAddress().setPhone("0000000000");
+            this.borrowerDao.save(borrower);
+            this.solrBorrowerService.deleteFromIndex(borrowerId);
+        } else {
+            throw new NoSuchElementException("Borrower does not exist");
+        }
     }
 
     /**
@@ -159,6 +184,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
         return this.mapBorrowerToBorrowerDto(this.save(borrower));
     }
+
 
 
     private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
