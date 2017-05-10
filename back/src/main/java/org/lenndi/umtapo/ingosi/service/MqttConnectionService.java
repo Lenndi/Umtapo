@@ -1,4 +1,4 @@
-package org.lendi.umtapo.ingosi.service;
+package org.lenndi.umtapo.ingosi.service;
 
 import org.apache.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -8,7 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.lendi.umtapo.service.specific.implementation.PairingServiceImpl;
+import org.lenndi.umtapo.service.specific.implementation.PairingServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -53,7 +53,6 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
      * Connect to MQTT broker.
      */
     private void connect() {
-
         try {
             MqttClient sampleClient = new MqttClient(broker + port, clientId, persistence);
             MqttConnectOptions connOpts = new MqttConnectOptions();

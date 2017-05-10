@@ -23,4 +23,11 @@ public interface BorrowerDao extends JpaRepository<Borrower, Integer> {
      */
     Page<Borrower> findByNameContainingIgnoreCase(String contains, Pageable pageable);
 
+    /**
+     * Find by nfc id borrower.
+     *
+     * @param nfcId the nfc id
+     * @return the borrower
+     */
+    Borrower findByNfcId(String nfcId);
 }

@@ -1,49 +1,65 @@
 package org.lenndi.umtapo.controller;
 
-import org.lenndi.umtapo.entity.User;
-import org.lenndi.umtapo.service.specific.UserService;
+import org.lenndi.umtapo.dto.PairingDto;
+import org.lenndi.umtapo.enumeration.PairingType;
 import org.lenndi.umtapo.service.specific.implementation.PairingServiceImpl;
-import org.restlet.resource.Post;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by axel on 09/04/17.
+ * Created by axel on 14/04/17.
  */
 @RestController
-public class PairingWebService {
+public class PairingWebService extends Thread {
 
-    private final UserService userService;
-    private final PairingServiceImpl pairingServiceImpl;
+    private final PairingServiceImpl pairingService;
 
     /**
      * Instantiates a new Pairing web service.
      *
-     * @param userService        the user service
-     * @param pairingServiceImpl the pairing service
+     * @param pairingService the pairing service
      */
-    public PairingWebService(UserService userService, PairingServiceImpl pairingServiceImpl) {
-        this.userService = userService;
-        this.pairingServiceImpl = pairingServiceImpl;
+    public PairingWebService(PairingServiceImpl pairingService) {
+        this.pairingService = pairingService;
     }
 
     /**
-     * Set pairing user response entity.
+     * Sets pairing.
      *
-     * @return the response entity
+     * @param pairingDto the pairing dto
+     * @return the pairing
      */
-    @Post
-    @RequestMapping("/pairing")
-    public ResponseEntity setPairingUser() {
+    @RequestMapping(value = "/pairing/borrower", method = RequestMethod.POST, produces = {MediaType
+            .APPLICATION_JSON_VALUE})
+    public ResponseEntity pairingBorrower(@RequestBody PairingDto pairingDto) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findBySso(auth.getPrincipal().toString());
-        this.pairingServiceImpl.setUserIdFuture(user.getId());
+        if (pairingDto != null) {
+            pairingDto.setPairingType(PairingType.BORROWER);
+            pairingService.setPairingDto(pairingDto);
+        }
 
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    /**
+     * Sets pairing.
+     *
+     * @param pairingDto the pairing dto
+     * @return the pairing
+     */
+    @RequestMapping(value = "/pairing/item", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity pairingItem(@RequestBody PairingDto pairingDto) {
+
+        if (pairingDto != null) {
+            pairingDto.setPairingType(PairingType.ITEM);
+            pairingService.setPairingDto(pairingDto);
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

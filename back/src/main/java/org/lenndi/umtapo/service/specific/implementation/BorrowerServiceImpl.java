@@ -169,8 +169,17 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.mapBorrowersToBorrowerDtosPage(borrowerDtos);
     }
 
+    @Override
+    public Borrower findByNfcId(String nfcId) {
+
+        return this.borrowerDao.findByNfcId(nfcId);
+    }
+
     /**
      * {@inheritDoc}
+     *
+     * @param pageable the pageable
+     * @return the page
      */
     public Page<Borrower> findAllPageable(Pageable pageable) {
         return this.findAll(pageable);
@@ -184,7 +193,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
         return this.mapBorrowerToBorrowerDto(this.save(borrower));
     }
-
 
 
     private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
@@ -217,7 +225,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         List<BorrowerDocument> borrowers = borrowersPage.getContent();
 
         borrowers.forEach(borrowerDocument ->
-          borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumentToBorrowerDto(borrowerDocument))
+                borrowerDtos.add(this.borrowerMapper.mapBorrowerDocumentToBorrowerDto(borrowerDocument))
         );
 
         return new PageImpl<>(borrowerDtos, page, borrowersPage.getTotalElements());
@@ -228,6 +236,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         List<BorrowerDto> borrowerDtos = new ArrayList<>();
         borrowers.forEach(borrower -> borrowerDtos.add(mapBorrowerToBorrowerDto(borrower)));
 
-        return  new PageImpl<>(borrowerDtos);
+        return new PageImpl<>(borrowerDtos);
     }
 }

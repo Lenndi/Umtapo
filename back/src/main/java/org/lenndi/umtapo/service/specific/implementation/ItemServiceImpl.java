@@ -211,6 +211,12 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return item;
     }
 
+    @Override
+    public Item findByNfcId(String nfcId) {
+
+        return this.itemDao.findByNfcId(nfcId);
+    }
+
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {
 
         List<ItemDto> itemDtos = new ArrayList<>();

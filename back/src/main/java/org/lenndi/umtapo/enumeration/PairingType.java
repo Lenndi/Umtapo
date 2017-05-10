@@ -1,4 +1,4 @@
-package org.lendi.umtapo.enumeration;
+package org.lenndi.umtapo.enumeration;
 
 /**
  * Condition entity.

@@ -1,4 +1,6 @@
 export class Pairing {
-  id: number;
+  itemTag: string;
+  borrowerId: number;
+  borrowerTag: string;
   pairingType: string;
 }

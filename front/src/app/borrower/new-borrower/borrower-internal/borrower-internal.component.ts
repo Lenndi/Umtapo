@@ -147,7 +147,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   pairingCardAndBorrower() {
     this.isPairing = true;
     this.pairing.pairingType = 'BORROWER';
-    this.pairing.id = this.dataService.borrower.id;
+    this.pairing.borrowerId = this.dataService.borrower.id;
     this.pairingService.pairingCardAndBorrower(this.pairing)
       .then(res => {
         this.isPairing = false;

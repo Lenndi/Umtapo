@@ -26,7 +26,16 @@ export class PairingService {
     let options = new RequestOptions({headers: this.headers});
 
     return this.http
-      .post(this.pairingUrl, pairing, options)
+      .post(this.pairingUrl + "/borrower", pairing, options)
+      .toPromise();
+  }
+
+  pairingItemAndTag(pairing: Pairing): Promise<any> {
+
+    let options = new RequestOptions({headers: this.headers});
+
+    return this.http
+      .post(this.pairingUrl + "/item", pairing, options)
       .toPromise();
   }
 

@@ -35,6 +35,7 @@ public class Item {
     private ShelfMark shelfmark;
     @NotNull
     private Integer internalId;
+    private String nfcId;
     private Integer purchasePrice;
     private Boolean loanable;
     private Boolean borrowed;
@@ -73,7 +74,7 @@ public class Item {
      * @param isBorrowed    the is borrowed
      */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, Boolean isLoanable,
-                List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed) {
+                List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed, String nfcId) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
@@ -84,6 +85,7 @@ public class Item {
         this.borrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
+        this.nfcId = nfcId;
     }
 
     /**
@@ -356,5 +358,23 @@ public class Item {
      */
     public void setLoanable(Boolean loanable) {
         this.loanable = loanable;
+    }
+
+    /**
+     * Gets nfc if.
+     *
+     * @return the nfc if
+     */
+    public String getNfcId() {
+        return nfcId;
+    }
+
+    /**
+     * Sets nfc if.
+     *
+     * @param nfcId the nfc if
+     */
+    public void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
     }
 }

@@ -130,4 +130,13 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @return the item
      */
     Item linkRecord(Item item);
+
+    /**
+     * Find by nfc id item.
+     *
+     * @param nfcId the nfc id
+     * @return the item
+     */
+    Item findByNfcId(String nfcId);
+
 }

@@ -48,4 +48,12 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      * @return the list
      */
     Page<Item> findByIdIn(Collection<Integer> id, Pageable pageable);
+
+    /**
+     * Find by nfc id item.
+     *
+     * @param nfcIf the nfc if
+     * @return the item
+     */
+    Item findByNfcId(String nfcIf);
 }
