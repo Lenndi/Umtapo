@@ -1,32 +1,33 @@
 import {Component, OnInit} from '@angular/core';
-import {Borrower} from '../../../../entity/borrower';
-import {BorrowerService} from '../../../../service/borrower.service';
-import {BorrowerFilter} from '../../../../service/filter/borrower-filter';
-import {Subject, Subscription} from 'rxjs';
 import {ORDER, Pageable} from '../../../../util/pageable';
+import {Item} from '../../../../entity/item';
 import {Page} from '../../../../util/page';
+import {Subject} from 'rxjs/Subject';
+import {ItemFilter} from '../../../../service/filter/item-filter';
+import {Subscription} from 'rxjs/Subscription';
+import {ItemService} from '../../../../service/item.service';
 import {logger} from '../../../../environments/environment';
-import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
-import {Action} from '../../../../enumeration/Action';
+import {ItemDataService} from '../../../../service/data-binding/item-data.service';
 
 @Component({
-  selector: 'umt-borrower-datatable',
-  templateUrl: 'borrower-datatable.component.html',
-  styleUrls: ['borrower-datatable.component.scss']
+  selector: 'umt-item-datatable',
+  templateUrl: './item-datatable.component.html',
+  styleUrls: ['./item-datatable.component.scss']
 })
-export class BorrowerDatatableComponent implements OnInit {
+export class ItemDatatableComponent implements OnInit {
 
   pageable: Pageable;
-  page: Page<Borrower>;
-  searchTerms = new Subject<BorrowerFilter>();
-  borrowerFilter: BorrowerFilter;
-  updatedBorrowerSubscription: Subscription;
+  page: Page<Item>;
+  searchTerms = new Subject<ItemFilter>();
+  itemFilter: ItemFilter;
+  updatedItemSubscription: Subscription;
 
-  public constructor(private borrowerService: BorrowerService, private dataService: BorrowerDataService) {
-    this.borrowerFilter = new BorrowerFilter();
-    this.pageable = new Pageable('email');
+  public constructor(private itemService: ItemService, private dataService: ItemDataService) {
+    this.itemFilter = new ItemFilter();
+    this.itemFilter.complexSearch = true;
+    this.pageable = new Pageable('mainTitle');
 
-    this.updatedBorrowerSubscription = this.dataService.updatedBorrower$.subscribe(
+    this.updatedItemSubscription = this.dataService.updatedItem$.subscribe(
       borrower => this.changeFilter()
     );
   }
@@ -34,7 +35,7 @@ export class BorrowerDatatableComponent implements OnInit {
   ngOnInit(): void {
     this.searchTerms
       .debounceTime(200)
-      .switchMap(borrowerFilter => this.borrowerService.findWithFilters(this.pageable, borrowerFilter))
+      .switchMap(itemFilter => this.itemService.findWithFilters(this.pageable, itemFilter))
       .subscribe(
         response => this.page = response,
         error => logger.error(error)
@@ -44,7 +45,7 @@ export class BorrowerDatatableComponent implements OnInit {
   }
 
   changeFilter(): void {
-    this.searchTerms.next(this.borrowerFilter);
+    this.searchTerms.next(this.itemFilter);
   }
 
   changePage(page: number): void {
@@ -63,18 +64,6 @@ export class BorrowerDatatableComponent implements OnInit {
       }
     }
     this.changeFilter();
-  }
-
-  onEditBorrower(borrowerId: number): void {
-    this.notifyBorrower(borrowerId, Action.EDIT);
-  }
-
-  onDeleteBorrower(borrowerId: number): void {
-    this.notifyBorrower(borrowerId, Action.DELETE);
-  }
-
-  onRenewalSubscription(borrowerId: number): void {
-    this.notifyBorrower(borrowerId, Action.RENEWAL);
   }
 
   pageIndex(): any[] {
@@ -111,13 +100,5 @@ export class BorrowerDatatableComponent implements OnInit {
 
   isCurrentPage(pageIndex: number): boolean {
     return pageIndex === this.page.number;
-  }
-
-  notifyBorrower(borrowerId: number, action: Action) {
-    this.borrowerService.find(borrowerId)
-      .then(borrower => {
-        this.dataService.changeSelectedBorrower(borrower, action);
-      })
-      .catch(error => logger.error(error));
   }
 }

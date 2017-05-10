@@ -81,4 +81,23 @@ public interface SolrRecordService {
      * @return the page
      */
     Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page);
+
+    /**
+     * Full search page.
+     *
+     * @param title           the title
+     * @param author          the author
+     * @param publisher       the publisher
+     * @param id              the id
+     * @param publicationDate the publication date
+     * @param page            the page
+     * @return the page
+     */
+    Page<Record> fullSearch(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page);
 }

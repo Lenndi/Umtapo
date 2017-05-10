@@ -7,7 +7,7 @@ import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
 import {Observable} from 'rxjs';
 import {Page} from '../util/page';
-import {BorrowerFilter} from './various/borrower-filter';
+import {BorrowerFilter} from './filter/borrower-filter';
 import {Pageable} from '../util/pageable';
 import {AuthHttp} from 'angular2-jwt';
 

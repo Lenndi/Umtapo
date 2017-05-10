@@ -154,8 +154,9 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         Page<Item> items = null;
         Page<ItemDto> itemDtos = null;
 
-        List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
-        if (records.size() > 0) {
+        Page<Record> records =
+                this.solrRecordService.searchBySerialNumberAndSerialType(serialNumber, serialType, pageable);
+        if (records.getContent().size() > 0) {
             HashMap<String, Record> recordMap = new HashMap<>();
 
             records.forEach(record -> {
@@ -199,6 +200,26 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
 
         return this.mapItemsToItemDtosPage(items);
+    }
+
+    @Override
+    public Page<ItemDto> findAllItemDtoWithFilters(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page
+    ) {
+        List<ItemDto> items = new ArrayList<>();
+        Page<Record> records =
+                this.solrRecordService.fullSearch(title, author, publisher, id, publicationDate, page);
+
+        records.getContent().forEach(record -> record.getItems().forEach(itemId -> {
+            items.add(new ItemDto(Integer.parseInt(itemId), record));
+        }));
+
+        return new PageImpl<>(items, page, records.getTotalElements());
     }
 
     @Override

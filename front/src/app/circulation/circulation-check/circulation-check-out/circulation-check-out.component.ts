@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ItemService} from '../../../../service/item.service';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
@@ -9,6 +9,8 @@ import {ModalDirective, TypeaheadMatch} from 'ngx-bootstrap';
 import {Loan} from '../../../../entity/loan';
 import {LoanService} from '../../../../service/loan.service';
 import {ToastrService} from 'ngx-toastr';
+import {ItemFilter} from '../../../../service/filter/item-filter';
+import {Pageable} from '../../../../util/pageable';
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -17,7 +19,7 @@ import {ToastrService} from 'ngx-toastr';
   providers: [ItemService]
 
 })
-export class CirculationCheckOutComponent implements OnInit {
+export class CirculationCheckOutComponent {
   @ViewChild('childModal') public childModal: ModalDirective;
   itemsSerialNumber: Item[] = [];
   itemsTitle: Item[] = [];
@@ -46,24 +48,29 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.serialNumber);
       })
-      .switchMap(
-        (contains: string) =>
-          this.itemService.findPaginableBySerialNumber(this.size, this.page, contains, 'ISBN')
-      )
+      .switchMap(serialNumber => {
+          let filter: ItemFilter = new ItemFilter();
+          filter.serialType = 'ISBN';
+          filter.serialNumber = serialNumber;
+
+          this.itemService.findWithFilters(this.getPageable(), filter);
+        })
       .catch(err => console.log(err))
-      .map(res => this.itemsSerialNumber = res as Item[]);
+      .map(res => this.itemsSerialNumber = res.content as Item[]);
 
     this.dataSourceTitle = Observable
       .create((observer: any) => {
         // Runs on every search
         observer.next(this.title);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByMainTitle(this.size, this.page, contains,
-        'ISBN'))
-      .map(res => this.itemsTitle = res as Item[]);
-  }
+      .switchMap(mainTitle => {
+          let filter: ItemFilter = new ItemFilter();
+          filter.serialType = 'ISBN';
+          filter.mainTitle = mainTitle;
 
-  ngOnInit() {
+          this.itemService.findWithFilters(this.getPageable(), filter);
+        })
+      .map(res => this.itemsTitle = res.content as Item[]);
   }
 
   public typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
@@ -140,7 +147,7 @@ export class CirculationCheckOutComponent implements OnInit {
         loan.item.id = item.id;
         let observable = this.loanService.createLoan(loan)
           .catch(err => {
-            this.toastr.warning(`Lo document à déjà été emprunté`, 'Problème');
+            this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
             return Observable.throw(err); // observable needs to be returned or exception raised
           })
           .subscribe(response => {
@@ -169,4 +176,11 @@ export class CirculationCheckOutComponent implements OnInit {
     }
   }
 
+  private getPageable(): Pageable {
+    let pageable: Pageable = new Pageable('mainTitle');
+    pageable.size = this.size;
+    pageable.page = this.page;
+
+    return pageable;
+  }
 }

@@ -69,4 +69,24 @@ public interface SolrRecordRepository extends SolrCrudRepository<RecordDocument,
             String serialType,
             Pageable page
     );
+
+    /**
+     * Full search page.
+     *
+     * @param title           the title
+     * @param author          the author
+     * @param publisher       the publisher
+     * @param id              the id
+     * @param publicationDate the publication date
+     * @param page            the page
+     * @return the page
+     */
+    @Query("mainTitle:*?0* AND _name_:*?1* AND editorName:*?2* AND id:?3* AND publicationDate:?4*")
+    Page<RecordDocument> fullSearch(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page);
 }

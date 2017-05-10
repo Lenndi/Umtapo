@@ -1,0 +1,115 @@
+<table class="table table-hover table-bordered table-sm umt-datatable" *ngIf="pageable">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'mainTitle'"
+        (click)="changeSort('mainTitle')">Titre
+      <ng-container *ngIf="pageable.sort === 'mainTitle'">
+        <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+        <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+      </ng-container>
+    </th>
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'author'"
+        (click)="changeSort('author')">Auteur
+      <ng-container *ngIf="pageable.sort === 'author'">
+        <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+        <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+      </ng-container>
+    </th>
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'publisher'"
+        (click)="changeSort('publisher')">Éditeur
+      <ng-container *ngIf="pageable.sort === 'publisher'">
+        <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+        <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+      </ng-container>
+    </th>
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'publicationDate'"
+        (click)="changeSort('publicationDate');">Date de publication
+      <ng-container *ngIf="pageable.sort === 'publicationDate'">
+        <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+        <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+      </ng-container>
+    </th>
+    <th>Affichage</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <input placeholder="identifiant" class="form-control form-control-sm umt-input-table"
+             [(ngModel)]="itemFilter.id" (keyup)="changeFilter()">
+    </td>
+    <td>
+      <input placeholder="titre" class="form-control form-control-sm umt-input-table"
+             [(ngModel)]="itemFilter.mainTitle" (keyup)="changeFilter()">
+    </td>
+    <td>
+      <input placeholder="auteur" class="form-control form-control-sm umt-input-table"
+             [(ngModel)]="itemFilter.author" (keyup)="changeFilter()">
+    </td>
+    <td>
+      <input placeholder="éditeur" class="form-control form-control-sm umt-input-table"
+             [(ngModel)]="itemFilter.publisher" (keyup)="changeFilter()">
+    </td>
+    <td>
+      <input placeholder="date de publication" class="form-control form-control-sm umt-input-table"
+             [(ngModel)]="itemFilter.publicationDate" (keyup)="changeFilter()">
+    </td>
+    <td>
+      <select class="form-control form-control-sm" [(ngModel)]="pageable.size" (change)="changeFilter()">
+        <option>10</option>
+        <option>20</option>
+        <option>50</option>
+      </select>
+    </td>
+  </tr>
+  <ng-container *ngIf="page">
+    <tr *ngFor="let item of page.content">
+      <td scope="row">{{item.id}}</td>
+      <td>{{item.record.title.mainTitle}}</td>
+      <td>{{item.record.creator.name}} {{item.record.creator.secondName}}</td>
+      <td>{{item.record.publisher.editorName}}</td>
+      <td>{{item.record.date.publicationDate}}</td>
+      <td></td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
+<nav aria-label="Items navigation" *ngIf="page && page.totalPages > 1">
+  <ul class="pagination pagination-sm">
+    <ng-container *ngIf="!page.first">
+      <li class="page-item">
+        <a class="page-link umt-pointer" (click)="changePage(0)" aria-label="First">
+          <span aria-hidden="true">&lt;&lt;</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link umt-pointer" (click)="changePage(page.number - 1)" aria-label="Previous">
+          <span aria-hidden="true">&lt;</span>
+        </a>
+      </li>
+    </ng-container>
+
+    <ng-container *ngFor="let pageIndex of pageIndex()">
+      <li class="page-item" [class.active]="isCurrentPage(pageIndex)" *ngIf="pageIndex >= 0">
+        <a class="page-link umt-pointer" (click)="changePage(pageIndex)">{{pageIndex + 1}}</a>
+      </li>
+      <li class="page-item" *ngIf="pageIndex < 0">
+        <a class="page-link umt-pointer" (click)="changePage(0)" *ngIf="pageIndex === -1">…</a>
+        <a class="page-link umt-pointer" (click)="changePage(page.totalPages - 1)" *ngIf="pageIndex === -2">…</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="!page.last">
+      <li class="page-item">
+        <a class="page-link umt-pointer" (click)="changePage(page.number + 1)" aria-label="Next">
+          <span aria-hidden="true">&gt;</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link umt-pointer" (click)="changePage(page.totalPages - 1)" aria-label="Next">
+          <span aria-hidden="true">&gt;&gt;</span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+</nav>
