@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.lenndi.umtapo.entity.ShelfMark;
 import org.lenndi.umtapo.enumeration.Condition;
 import org.lenndi.umtapo.enumeration.ItemType;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * The type Item dto.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ItemDto {
 
     private Integer id;
@@ -31,6 +33,17 @@ public class ItemDto {
      * Instantiates a new Item dto.
      */
     public ItemDto() {
+    }
+
+    /**
+     * Constructor
+     * @param id item id
+     * @param record item's record
+     */
+    public ItemDto(Integer id, Record record) {
+        this.id = id;
+        this.recordId = record.getId();
+        this.record = record;
     }
 
     /**

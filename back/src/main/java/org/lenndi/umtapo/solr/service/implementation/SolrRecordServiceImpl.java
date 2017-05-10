@@ -120,6 +120,21 @@ public class SolrRecordServiceImpl implements SolrRecordService {
         return this.mapRecordDocumentPageToRecordPage(recordDocuments);
     }
 
+    @Override
+    public Page<Record> fullSearch(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page
+    ) {
+        Page<RecordDocument> recordDocuments =
+                this.recordRepository.fullSearch(title, author, publisher, id, publicationDate, page);
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocuments);
+    }
+
     private Page<Record> mapRecordDocumentPageToRecordPage(Page<RecordDocument> recordDocumentPage) {
         List<RecordDocument> recordDocuments = recordDocumentPage.getContent();
         List<Record> records = new ArrayList<>();

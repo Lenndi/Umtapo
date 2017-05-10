@@ -101,19 +101,29 @@ public class ItemWebService {
     /**
      * Gets item.
      *
-     * @param page         the page
-     * @param size         the size
-     * @param serialNumber the serial number
-     * @param serialType   the serial type
-     * @param mainTitle    the main title
+     * @param page            the page
+     * @param size            the size
+     * @param complexSearch   the complex search
+     * @param serialNumber    the serial number
+     * @param serialType      the serial type
+     * @param mainTitle       the main title
+     * @param author          the author
+     * @param publisher       the publisher
+     * @param id              the id
+     * @param publicationDate the publication date
      * @return the item
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getItemSearchs(@PathParam("page") Integer page,
-                                                  @PathParam("size") Integer size,
-                                                  @PathParam("serialNumber") String serialNumber,
-                                                  @PathParam("serialType") String serialType,
-                                                  @PathParam("mainTitle") String mainTitle) {
+                                         @PathParam("size") Integer size,
+                                         @PathParam("complexSearch") Boolean complexSearch,
+                                         @PathParam("serialNumber") String serialNumber,
+                                         @PathParam("serialType") String serialType,
+                                         @PathParam("mainTitle") String mainTitle,
+                                         @PathParam("author") String author,
+                                         @PathParam("publisher") String publisher,
+                                         @PathParam("id") String id,
+                                         @PathParam("publicationDate") String publicationDate) {
 
         Page<ItemDto> itemDtos = null;
         Pageable pageable;
@@ -126,11 +136,30 @@ public class ItemWebService {
         }
         pageable = new PageRequest(page, size, new Sort("id"));
 
-        if (serialNumber != null && serialType != null) {
+        if (!complexSearch && (serialNumber != null && serialType != null)) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
-        } else if (mainTitle != null && serialType != null) {
+        } else if (complexSearch) {
+            if (mainTitle == null) {
+                mainTitle = "";
+            }
+            if (author == null) {
+                author = "";
+            }
+            if (id == null) {
+                id = "";
+            }
+            if (publisher == null) {
+                publisher = "";
+            }
+            if (publicationDate == null) {
+                publicationDate = "";
+            }
+            itemDtos = this.itemService.findAllItemDtoWithFilters(
+                    mainTitle, author, publisher, id, publicationDate, pageable);
+        } else if (mainTitle != null) {
             itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }
+
         if (itemDtos == null) {
             LOGGER.info("Items not found");
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);

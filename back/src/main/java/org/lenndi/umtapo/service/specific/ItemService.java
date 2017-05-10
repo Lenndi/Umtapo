@@ -112,7 +112,6 @@ public interface ItemService extends GenericService<Item, Integer> {
      */
     Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
 
-
     /**
      * Find all pageable dto by record titel main title page.
      *
@@ -122,6 +121,24 @@ public interface ItemService extends GenericService<Item, Integer> {
      */
     Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String contains);
 
+    /**
+     * Find all item dto with filters page.
+     *
+     * @param title           the title
+     * @param author          the author
+     * @param publisher       the publisher
+     * @param id              the id
+     * @param publicationDate the publication date
+     * @param page            the page
+     * @return the page
+     */
+    Page<ItemDto> findAllItemDtoWithFilters(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page);
 
     /**
      * Link record item.
