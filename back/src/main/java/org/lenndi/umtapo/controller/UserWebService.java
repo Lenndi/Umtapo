@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
+
 /**
  * User web service.
  * <p>
@@ -52,6 +54,23 @@ public class UserWebService {
     }
 
     /**
+     * Gets user by SsoId.
+     *
+     * @param ssoId the ssoid
+     * @return the user
+     */
+    @RequestMapping(value = "/users/ssoId", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity getUserBySsoId(@PathParam("ssoId") String ssoId) {
+        User user = this.userService.findBySso(ssoId);
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity(user, HttpStatus.OK);
+    }
+
+    /**
      * Sets user.
      *
      * @param user the user
@@ -60,6 +79,19 @@ public class UserWebService {
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setUser(@RequestBody User user) {
+
+        return new ResponseEntity(userService.save(user), HttpStatus.OK);
+    }
+
+    /**
+     * Update user.
+     *
+     * @param user the user
+     * @return the user
+     */
+    @RequestMapping(value = "/users", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateUser(@RequestBody User user) {
 
         return new ResponseEntity(userService.save(user), HttpStatus.OK);
     }

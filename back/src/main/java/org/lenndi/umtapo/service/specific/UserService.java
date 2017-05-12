@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService extends GenericService<User, Integer> {
 
+
     /**
      * Find by sso user.
      *
@@ -20,4 +21,13 @@ public interface UserService extends GenericService<User, Integer> {
      * @return the user
      */
     User findBySso(String sso);
+
+    /**
+     * save.
+     *
+     * @param user
+     * @return the user
+     */
+    @Override
+    User save(User user);
 }

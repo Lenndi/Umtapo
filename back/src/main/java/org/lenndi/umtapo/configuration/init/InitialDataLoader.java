@@ -30,6 +30,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
      */
     private boolean alreadySetup = false;
 
+    private static final String ADMIN_STRING = "admin";
+
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -47,29 +49,33 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         return new BCryptPasswordEncoder();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (alreadySetup) {
-            return;
+
+        if (userDao.findBySsoId(ADMIN_STRING) == null) {
+
+            Set<UserProfile> userProfileSet = new HashSet<>();
+            userProfileSet.add(createRoleIfNotFound(UserProfileType.ADMIN.getUserProfileType()));
+            userProfileSet.add(createRoleIfNotFound(UserProfileType.USER.getUserProfileType()));
+
+            User user = new User();
+            user.setId(1);
+            user.setSsoId("admin");
+            user.setEmail("admin@admin.admin");
+            user.setFirstName("admin");
+            user.setLastName("admin");
+            user.setPassword(passwordEncoder.encode("admin"));
+            user.setUserProfiles(userProfileSet);
+            userDao.save(user);
+
+            alreadySetup = true;
         }
-        Set<UserProfile> userProfileSet = new HashSet<>();
-        userProfileSet.add(createRoleIfNotFound(UserProfileType.ADMIN.getUserProfileType()));
-        userProfileSet.add(createRoleIfNotFound(UserProfileType.USER.getUserProfileType()));
 
-        UserProfile adminRole = userProfileDao.findByType(UserProfileType.ADMIN.getUserProfileType());
-        User user = new User();
-        user.setId(1);
-        user.setFirstName("Test");
-        user.setSsoId("Test");
-        user.setLastName("Test");
-        user.setPassword(passwordEncoder.encode("test"));
-        user.setEmail("test@test.com");
-        user.setUserProfiles(userProfileSet);
-        userDao.save(user);
 
-        alreadySetup = true;
     }
 
     @Transactional
