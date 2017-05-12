@@ -40,5 +40,4 @@ export class UserService {
       .then(response => response.json() as User)
       .catch(error => this.httpLogger.error(error));
   }
-
 }
