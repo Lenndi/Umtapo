@@ -25,11 +25,6 @@ import java.util.Set;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    /**
-     * The Already setup.
-     */
-    private boolean alreadySetup = false;
-
     private static final String ADMIN_STRING = "admin";
 
     @Autowired
@@ -71,8 +66,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             user.setPassword(passwordEncoder.encode("admin"));
             user.setUserProfiles(userProfileSet);
             userDao.save(user);
-
-            alreadySetup = true;
         }
 
 
