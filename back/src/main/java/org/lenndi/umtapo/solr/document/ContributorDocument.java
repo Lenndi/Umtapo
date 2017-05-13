@@ -2,12 +2,10 @@ package org.lenndi.umtapo.solr.document;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.solr.core.mapping.SolrDocument;
 
 /**
  * Contributor document. Based on Creator bean.
  */
-@SolrDocument(solrCoreName = "record")
 public class ContributorDocument {
 
     /**
