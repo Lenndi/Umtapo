@@ -42,6 +42,14 @@ public interface ItemService extends GenericService<Item, Integer> {
     ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException;
 
     /**
+     * Update dto item dto.
+     *
+     * @param itemDto the item dto
+     * @return the item dto
+     */
+    ItemDto updateDto(ItemDto itemDto);
+
+    /**
      * {@inheritDoc}
      */
     @Override

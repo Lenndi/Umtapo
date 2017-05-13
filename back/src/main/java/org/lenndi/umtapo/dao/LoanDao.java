@@ -24,7 +24,7 @@ public interface LoanDao extends JpaRepository<Loan, Integer> {
      */
     @Modifying
     @Query("update Loan l set l.end = ?1 where l.id = ?2")
-    Integer saveConditonById(ZonedDateTime date, Integer id);
+    Integer setEndById(ZonedDateTime date, Integer id);
 
     /**
      * Find by borrower id and returned false list.

@@ -216,6 +216,19 @@ public class ItemWebService {
     }
 
     /**
+     * Update item response entity.
+     *
+     * @param itemDto the item dto
+     * @return the response entity
+     */
+    @RequestMapping(value = "/items", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity updateItem(@RequestBody ItemDto itemDto) {
+        itemDto = itemService.updateDto(itemDto);
+        return new ResponseEntity<>(itemDto, HttpStatus.OK);
+    }
+
+    /**
      * Sets item.
      *
      * @param jsonNodeItem the json node item
