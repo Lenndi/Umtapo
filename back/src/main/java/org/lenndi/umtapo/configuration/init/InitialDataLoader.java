@@ -82,24 +82,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     /**
-     * Is already setup boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isAlreadySetup() {
-        return alreadySetup;
-    }
-
-    /**
-     * Sets already setup.
-     *
-     * @param alreadySetup the already setup
-     */
-    public void setAlreadySetup(boolean alreadySetup) {
-        this.alreadySetup = alreadySetup;
-    }
-
-    /**
      * Gets user dao.
      *
      * @return the user dao
