@@ -28,7 +28,7 @@ export class LoginService {
           this.token = data.json();
           localStorage.setItem('id_token', this.token.Authorization);
         })
-      .catch(error => logger.error(error));
+      .catch(error => this.httpLogger.error(error));
   }
 }
 

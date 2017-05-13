@@ -1,6 +1,5 @@
 package org.lenndi.umtapo.configuration.security;
 
-import org.lenndi.umtapo.enumeration.UserProfileType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -87,19 +86,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
     }
 
-    /**
-     * Configure global.
-     *
-     * @param auth the auth
-     * @throws Exception the exception
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-            .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
-        auth
-            .inMemoryAuthentication()
-            .withUser("aze").password("aze").roles(UserProfileType.ADMIN.getUserProfileType());
-    }
+//    /**
+//     * Configure global.
+//     *
+//     * @param auth the auth
+//     * @throws Exception the exception
+//     */
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//            .inMemoryAuthentication()
+//            .withUser("user").password("password").roles(UserProfileType.USER.getUserProfileType());
+//        auth
+//            .inMemoryAuthentication()
+//            .withUser("aze").password("aze").roles(UserProfileType.ADMIN.getUserProfileType());
+//    }
 }

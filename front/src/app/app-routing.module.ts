@@ -18,16 +18,12 @@ import {BorrowersManagementComponent} from './borrower/borrowers-management/borr
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from '../service/auth-guard.service';
 import {ItemManagementComponent} from './cataloging/item-management/item-management.component';
+import {AdministratorSignUpComponent} from './administrator-sign-up/administrator-sign-up.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },
-  {
-    path: '',
-    component: LoginComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -85,7 +81,11 @@ const routes: Routes = [
       {path: '1', component: SetupShelfmarkComponent},
       {path: '2', component: SetupVariousComponent}
     ]
-  }
+  },
+  {
+    path: 'administrator-sign-up',
+    component: AdministratorSignUpComponent
+  },
 ];
 
 @NgModule({
