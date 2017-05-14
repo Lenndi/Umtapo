@@ -103,7 +103,7 @@ public class RecordServiceImpl implements RecordService {
         int start = pageable.getPageSize() * pageable.getPageNumber();
         int count = pageable.getPageSize();
 
-        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\" @attr 2=3");
+        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
         ResultSet set = this.safeSearch(query);
         LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 

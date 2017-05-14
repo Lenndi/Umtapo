@@ -57,6 +57,19 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
     @Override
     @Transactional
+    public Item save(Item item) {
+        if (item.getRecord() == null) {
+            item = this.linkRecord(item);
+        }
+
+        item = super.save(item);
+        this.solrItemService.save(item);
+
+        return item;
+    }
+
+    @Override
+    @Transactional
     public Item saveWithRecord(Item item) throws InvalidRecordException {
         Record record = null;
 
@@ -86,8 +99,6 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             this.solrRecordService.save(record);
         }
 
-        this.solrItemService.save(item);
-
         return savedItem;
     }
 
@@ -102,20 +113,19 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto updateDto(ItemDto itemDto) {
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
-        Item originalItem = this.findOne(itemDto.getId());
+        this.itemDao.updateItem(
+                item.getCondition(),
+                item.getCurrency(),
+                item.getExternalLibrary(),
+                item.getLoanable(),
+                item.getType(),
+                item.getShelfmark(),
+                item.getPurchasePrice(),
+                item.getId());
+        Item updatedItem = this.findOne(itemDto.getId());
+        this.solrItemService.save(updatedItem);
 
-        originalItem.setCondition(item.getCondition());
-        originalItem.setCurrency(item.getCurrency());
-        originalItem.setExternalLibrary(item.getExternalLibrary());
-        originalItem.setLoanable(item.getLoanable());
-        originalItem.setType(item.getType());
-        originalItem.setShelfmark(item.getShelfmark());
-        originalItem.setPurchasePrice(item.getPurchasePrice());
-
-        originalItem = this.itemDao.save(originalItem);
-        this.solrItemService.save(originalItem);
-
-        return this.itemMapper.mapItemToItemDto(originalItem);
+        return this.itemMapper.mapItemToItemDto(updatedItem);
     }
 
     @Override

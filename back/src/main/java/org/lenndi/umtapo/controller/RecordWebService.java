@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,9 +57,6 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             UnimarcToSimpleRecord unimarcToSimpleRecord,
             Z3950Service z3950Service
     ) {
-        Assert.notNull(recordService, "Argument libraryService cannot be null.");
-        Assert.notNull(unimarcToSimpleRecord, "Argument unimarcToSimpleRecord cannot be null.");
-        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
         this.recordService = recordService;
         this.unimarcToSimpleRecord = unimarcToSimpleRecord;
         this.z3950Service = z3950Service;
