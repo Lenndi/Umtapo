@@ -16,11 +16,11 @@ import java.util.List;
 public interface LoanDao extends JpaRepository<Loan, Integer> {
 
     /**
-     * Save conditon by id integer.
+     * Set loan end date.
      *
-     * @param date the date
+     * @param date the end date
      * @param id   the id
-     * @return the integer
+     * @return result code
      */
     @Modifying
     @Query("update Loan l set l.end = ?1 where l.id = ?2")
