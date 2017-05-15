@@ -1,6 +1,9 @@
 package org.lenndi.umtapo.controller;
 
+import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.User;
+import org.lenndi.umtapo.enumeration.ApplicationCodeEnum;
+import org.lenndi.umtapo.exception.SsoIdEqualsPasswordException;
 import org.lenndi.umtapo.service.specific.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,9 @@ import javax.websocket.server.PathParam;
  */
 @RestController
 public class UserWebService {
+
+    private static final Logger LOGGER = Logger.getLogger(UserWebService.class);
+
 
     private UserService userService;
 
@@ -80,7 +86,15 @@ public class UserWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setUser(@RequestBody User user) {
 
-        return new ResponseEntity(userService.save(user), HttpStatus.OK);
+        User userResult = null;
+
+        try {
+            userResult = this.userService.save(user);
+        } catch (final SsoIdEqualsPasswordException e) {
+            LOGGER.error("SsoIdEqualsPasswordException exception : " + e);
+            return new ResponseEntity(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity(userResult, HttpStatus.OK);
     }
 
     /**
@@ -93,7 +107,15 @@ public class UserWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity updateUser(@RequestBody User user) {
 
-        return new ResponseEntity(userService.save(user), HttpStatus.OK);
+        User userResult = null;
+
+        try {
+            userResult = this.userService.save(user);
+        } catch (final SsoIdEqualsPasswordException e) {
+            LOGGER.error("SsoIdEqualsPasswordException exception : " + e);
+            return new ResponseEntity(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity(userResult, HttpStatus.OK);
     }
 
     /**
