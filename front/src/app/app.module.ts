@@ -58,6 +58,7 @@ import { ItemManagementComponent } from './cataloging/item-management/item-manag
 import { ItemDatatableComponent } from './cataloging/item-management/item-datatable/item-datatable.component';
 import { AdministratorSignUpComponent } from './administrator-sign-up/administrator-sign-up.component';
 import {UserService} from '../service/user.service';
+import { LibraryConfigurationComponent } from './library-configuration/library-configuration.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -102,7 +103,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BorrowerRenewalComponent,
     ItemManagementComponent,
     ItemDatatableComponent,
-    AdministratorSignUpComponent
+    AdministratorSignUpComponent,
+    LibraryConfigurationComponent,
   ],
   imports: [
     BrowserModule,
