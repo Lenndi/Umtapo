@@ -14,7 +14,7 @@ import {ApplicationCodeEnum} from '../../enumeration/application-code';
   templateUrl: './administrator-sign-up.component.html',
   styleUrls: ['./administrator-sign-up.component.scss']
 })
-export class AdministratorSignUpComponent implements OnInit {
+export class AdministratorSignUpComponent {
 
   ssoId: FormControl;
   password: FormControl;
@@ -51,12 +51,6 @@ export class AdministratorSignUpComponent implements OnInit {
 
       })
       .catch(err => logger.error(`Le composant administrator sign up ne trouve pas l'utilisateur admin`));
-
-
-  }
-
-  ngOnInit() {
-
   }
 
   onSubmit(value: any): void {
