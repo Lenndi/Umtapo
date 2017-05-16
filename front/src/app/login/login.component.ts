@@ -15,11 +15,10 @@ export class LoginComponent implements OnInit {
   login: Login = new Login;
   loginAdmin: Login = new Login;
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private libraryService: LibraryService
-  ) { }
+  constructor(private loginService: LoginService,
+              private router: Router,
+              private libraryService: LibraryService) {
+  }
 
   ngOnInit(): void {
     this.loginAdmin.password = 'admin';
@@ -40,6 +39,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['setup']);
         }
       })
-      .catch(error => logger.error(error));
+      .catch(error => {
+        logger.error(error);
+      });
   }
 }

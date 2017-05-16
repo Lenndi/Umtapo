@@ -1,7 +1,7 @@
 package org.lenndi.umtapo.service.specific;
 
 import org.lenndi.umtapo.entity.User;
-import org.lenndi.umtapo.service.generic.GenericService;
+import org.lenndi.umtapo.exception.SsoIdEqualsPasswordException;
 import org.springframework.stereotype.Service;
 
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by axel on 29/11/16.
  */
 @Service
-public interface UserService extends GenericService<User, Integer> {
+public interface UserService {
 
 
     /**
@@ -25,9 +25,17 @@ public interface UserService extends GenericService<User, Integer> {
     /**
      * save.
      *
-     * @param user
+     * @param user the user
+     * @return the user
+     * @throws SsoIdEqualsPasswordException the sso id equals password exception
+     */
+    User save(User user) throws SsoIdEqualsPasswordException;
+
+    /**
+     * save.
+     *
+     * @param id the id
      * @return the user
      */
-    @Override
-    User save(User user);
+    User findOne(Integer id);
 }

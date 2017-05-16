@@ -15,7 +15,11 @@ public enum ApplicationCodeEnum {
     /**
      * Document cannot to be borrowed application code enum.
      */
-    DOCUMENT_CANNOT_TO_BE_BORROWED(1002);
+    DOCUMENT_CANNOT_TO_BE_BORROWED(1002),
+    /**
+     * Document cannot to be borrowed application code enum.
+     */
+    LOGIN_AND_PASSWORD_ARE_EQUALS(2001);
 
 
     private final int id;
