@@ -40,6 +40,7 @@ public interface SolrItemService {
      * @param publisher       the publisher
      * @param id              the id
      * @param publicationDate the publication date
+     * @param borrowed        the borrowed
      * @param page            the page
      * @return the page
      */
@@ -49,5 +50,6 @@ public interface SolrItemService {
             String publisher,
             String id,
             String publicationDate,
+            Boolean borrowed,
             Pageable page);
 }

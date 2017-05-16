@@ -7,7 +7,7 @@ import {ItemFilter} from '../../../../service/filter/item-filter';
 import {Subscription} from 'rxjs/Subscription';
 import {ItemService} from '../../../../service/item.service';
 import {logger} from '../../../../environments/environment';
-import {ItemDataService} from '../../../../service/data-binding/item-data.service';
+import {ItemDatatableDataService} from '../../../../service/data-binding/item-datatable-data.service';
 
 @Component({
   selector: 'umt-item-datatable',
@@ -22,13 +22,13 @@ export class ItemDatatableComponent implements OnInit {
   itemFilter: ItemFilter;
   updatedItemSubscription: Subscription;
 
-  public constructor(private itemService: ItemService, private dataService: ItemDataService) {
+  public constructor(private itemService: ItemService, private dataService: ItemDatatableDataService) {
     this.itemFilter = new ItemFilter();
     this.itemFilter.complexSearch = true;
     this.pageable = new Pageable('mainTitle');
 
     this.updatedItemSubscription = this.dataService.updatedItem$.subscribe(
-      borrower => this.changeFilter()
+      item => this.changeFilter()
     );
   }
 
@@ -98,7 +98,21 @@ export class ItemDatatableComponent implements OnInit {
     return pageIndex;
   }
 
+  onEditItem(itemId: number): void {
+    this.notifyItem(itemId);
+  }
+
   isCurrentPage(pageIndex: number): boolean {
     return pageIndex === this.page.number;
+  }
+
+  notifyItem(itemId: number) {
+    this.itemService.find(itemId)
+      .then(item => {
+        this.dataService.changeSelectedItem(item);
+      })
+      .catch(error => {
+        logger.error(error);
+      });
   }
 }

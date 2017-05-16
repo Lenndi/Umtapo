@@ -56,6 +56,9 @@ import {BorrowerDeleteComponent} from './borrower/borrowers-management/borrower-
 import { BorrowerRenewalComponent } from './borrower/borrowers-management/borrower-renewal/borrower-renewal.component';
 import { ItemManagementComponent } from './cataloging/item-management/item-management.component';
 import { ItemDatatableComponent } from './cataloging/item-management/item-datatable/item-datatable.component';
+import { ItemEditComponent } from './cataloging/item-management/item-edit/item-edit.component';
+import { ExternalLibraryModalComponent }
+  from './cataloging/various/external-library-modal/external-library-modal.component';
 import { AdministratorSignUpComponent } from './administrator-sign-up/administrator-sign-up.component';
 import {UserService} from '../service/user.service';
 
@@ -101,6 +104,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BorrowerDeleteComponent,
     BorrowerRenewalComponent,
     ItemManagementComponent,
+    ItemDatatableComponent,
+    ItemEditComponent,
+    ExternalLibraryModalComponent,
     ItemDatatableComponent,
     AdministratorSignUpComponent
   ],
