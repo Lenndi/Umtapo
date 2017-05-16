@@ -111,6 +111,7 @@ public class ItemWebService {
      * @param publisher       the publisher
      * @param id              the id
      * @param publicationDate the publication date
+     * @param borrowed        the borrowed
      * @return the item
      */
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -123,7 +124,8 @@ public class ItemWebService {
                                          @PathParam("author") String author,
                                          @PathParam("publisher") String publisher,
                                          @PathParam("id") String id,
-                                         @PathParam("publicationDate") String publicationDate) {
+                                         @PathParam("publicationDate") String publicationDate,
+                                         @PathParam("borrowed") Boolean borrowed) {
 
         Page<ItemDto> itemDtos = null;
         Pageable pageable;
@@ -155,7 +157,7 @@ public class ItemWebService {
                 publicationDate = "";
             }
             itemDtos = this.itemService.findAllItemDtoWithFilters(
-                    mainTitle, author, publisher, id, publicationDate, pageable);
+                    mainTitle, author, publisher, id, publicationDate, borrowed, pageable);
         } else if (mainTitle != null) {
             itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }

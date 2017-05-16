@@ -30,6 +30,13 @@
         <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
       </ng-container>
     </th>
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'borrowed'"
+        (click)="changeSort('borrowed');">Emprunté
+      <ng-container *ngIf="pageable.sort === 'borrowed'">
+        <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
+        <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
+      </ng-container>
+    </th>
     <th>Affichage</th>
   </tr>
   </thead>
@@ -56,6 +63,14 @@
              [(ngModel)]="itemFilter.publicationDate" (keyup)="changeFilter()">
     </td>
     <td>
+      <select class="form-control form-control-sm"
+              [(ngModel)]="itemFilter.borrowed" (change)="changeFilter()">
+        <option value="" selected>les deux</option>
+        <option value="true">oui</option>
+        <option value="false">non</option>
+      </select>
+    </td>
+    <td>
       <select class="form-control form-control-sm" [(ngModel)]="pageable.size" (change)="changeFilter()">
         <option>10</option>
         <option>20</option>
@@ -70,7 +85,11 @@
       <td>{{item.record.creator.name}} {{item.record.creator.secondName}}</td>
       <td>{{item.record.publisher.editorName}}</td>
       <td>{{item.record.date.publicationDate}}</td>
-      <td></td>
+      <td class="text-center">
+        <span *ngIf="item.borrowed">oui</span>
+        <span *ngIf="!item.borrowed">non</span>
+      </td>
+      <td class="text-center"><a class="umt-pointer" (click)="onEditItem(item.id)">test</a></td>
     </tr>
   </ng-container>
   </tbody>

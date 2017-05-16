@@ -112,20 +112,24 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
     @Override
     public ItemDto updateDto(ItemDto itemDto) {
-        Item item = this.itemMapper.mapItemDtoToItem(itemDto);
-        this.itemDao.updateItem(
-                item.getCondition(),
-                item.getCurrency(),
-                item.getExternalLibrary(),
-                item.getLoanable(),
-                item.getType(),
-                item.getShelfmark(),
-                item.getPurchasePrice(),
-                item.getId());
-        Item updatedItem = this.findOne(itemDto.getId());
-        this.solrItemService.save(updatedItem);
+        Item updatedItem = this.itemMapper.mapItemDtoToItem(itemDto);
+        Item item = this.findOne(itemDto.getId());
 
-        return this.itemMapper.mapItemToItemDto(updatedItem);
+        item.setCondition(updatedItem.getCondition());
+        item.setCurrency(updatedItem.getCurrency());
+        item.setLoanable(updatedItem.getLoanable());
+        item.setType(updatedItem.getType());
+        item.setShelfmark(updatedItem.getShelfmark());
+        item.setPurchasePrice(updatedItem.getPurchasePrice());
+        if (updatedItem.getExternalLibrary() != null && updatedItem.getExternalLibrary().getId() != null) {
+            item.setExternalLibrary(updatedItem.getExternalLibrary());
+        } else {
+            item.setExternalLibrary(null);
+        }
+
+        item = this.save(item);
+
+        return this.itemMapper.mapItemToItemDto(item);
     }
 
     @Override
@@ -239,10 +243,11 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             String publisher,
             String id,
             String publicationDate,
+            Boolean borrowed,
             Pageable page
     ) {
         Page<Item> items =
-                this.solrItemService.fullSearch(title, author, publisher, id, publicationDate, page);
+                this.solrItemService.fullSearch(title, author, publisher, id, publicationDate, borrowed, page);
 
         return this.mapItemsToItemDtosPage(items);
     }

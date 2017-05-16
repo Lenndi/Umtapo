@@ -137,6 +137,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param publisher       the publisher
      * @param id              the id
      * @param publicationDate the publication date
+     * @param borrowed        true if the item is borrowed
      * @param page            the page
      * @return the page
      */
@@ -146,6 +147,7 @@ public interface ItemService extends GenericService<Item, Integer> {
             String publisher,
             String id,
             String publicationDate,
+            Boolean borrowed,
             Pageable page);
 
     /**

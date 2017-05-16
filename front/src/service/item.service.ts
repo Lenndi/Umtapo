@@ -26,14 +26,27 @@ export class ItemService {
   find(id: number): Promise<Item> {
     return this.http.get(`${this.itemUrl}/${id}`)
       .toPromise()
-      .then(response => response.json() as Item)
-      .catch(error => this.httpLogger.error(error));
+      .then(response => {
+        return response.json() as Item;
+      })
+      .catch(error => {
+        this.httpLogger.error(error);
+      });
   }
 
   save(item: Item): Promise<Item> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
       .post(this.itemUrl, JSON.stringify(item), options)
+      .toPromise()
+      .then(response => response.json() as Item)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  update(item: Item): Promise<Item> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .put(this.itemUrl, JSON.stringify(item), options)
       .toPromise()
       .then(response => response.json() as Item)
       .catch(error => this.httpLogger.error(error));

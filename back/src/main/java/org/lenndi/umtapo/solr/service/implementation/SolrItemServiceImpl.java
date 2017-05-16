@@ -60,10 +60,16 @@ public class SolrItemServiceImpl implements SolrItemService {
             String publisher,
             String id,
             String publicationDate,
+            Boolean borrowed,
             Pageable page
     ) {
+        String borrowedStr = "*";
+        if (borrowed != null) {
+            borrowedStr = borrowed.toString();
+        }
+
         Page<ItemDocument> itemDocuments =
-                this.itemRepository.fullSearch(title, author, publisher, id, publicationDate, page);
+                this.itemRepository.fullSearch(title, author, publisher, id, publicationDate, borrowedStr, page);
 
         return this.mapDocumentPageToItemPage(itemDocuments);
     }

@@ -41,6 +41,8 @@ public class Library {
     private List<Subscription> subscriptions;
     @OneToMany(mappedBy = "library")
     private List<Item> items;
+    @OneToMany(mappedBy = "externalLibrary")
+    private List<Item> externalItems;
 
     /**
      * Instantiates a new Library.
@@ -268,6 +270,24 @@ public class Library {
      */
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    /**
+     * Gets external items.
+     *
+     * @return the external items
+     */
+    public List<Item> getExternalItems() {
+        return externalItems;
+    }
+
+    /**
+     * Sets external items.
+     *
+     * @param externalItems the external items
+     */
+    public void setExternalItems(List<Item> externalItems) {
+        this.externalItems = externalItems;
     }
 
     /**

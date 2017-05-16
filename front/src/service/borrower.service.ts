@@ -50,7 +50,6 @@ export class BorrowerService {
         if (r.status != 200) {
           return [];
         } else {
-          console.log(r.json().content);
           return r.json().content;
         }
       });

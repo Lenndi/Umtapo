@@ -1,11 +1,11 @@
 <div *ngIf="dataService.isEditShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
      #borrowerEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-<div class="modal-dialog">
+  <div class="modal-dialog">
     <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Édition</h4>
+      </div>
       <form [formGroup]="borrowerForm" (ngSubmit)="onUpdate(borrowerForm.value)">
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Édition</h4>
-        </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-12 col-md-6">
