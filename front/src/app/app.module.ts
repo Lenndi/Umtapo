@@ -40,7 +40,7 @@ import {CirculationCheckInComponent}
 import {CirculationCheckOutComponent}
   from './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 import {CirculationComponent} from './circulation/circulation.component';
-import {ConditionEnum} from '../enumeration/pipe.enum';
+import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 import {AuthConfig, AuthHttp} from 'angular2-jwt';
