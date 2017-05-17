@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
 import {Library} from '../entity/library';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class LibraryService {
   private libraryUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.libraryUrl = environment.api_url + api.library;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
@@ -30,10 +31,33 @@ export class LibraryService {
       .catch(error => this.httpLogger.error(error));
   }
 
+  findExternalLibraries(): Promise<Library[]> {
+    return this.http.get(`${this.libraryUrl}?external=true`)
+      .toPromise()
+      .then(response => response.json() as Library[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  findPartnerLibraries(): Promise<Library[]> {
+    return this.http.get(`${this.libraryUrl}?external=false`)
+      .toPromise()
+      .then(response => response.json() as Library[])
+      .catch(error => this.httpLogger.error(error));
+  }
+
   save(library: Library): Promise<Library> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
-      .post(this.libraryUrl, JSON.stringify(library), options)
+      .post(`${this.libraryUrl}/partner`, JSON.stringify(library), options)
+      .toPromise()
+      .then(response => response.json() as Library)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  saveExternal(library: Library): Promise<Library> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .post(`${this.libraryUrl}/external`, JSON.stringify(library), options)
       .toPromise()
       .then(response => response.json() as Library)
       .catch(error => this.httpLogger.error(error));

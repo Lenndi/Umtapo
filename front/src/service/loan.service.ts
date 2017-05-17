@@ -1,17 +1,18 @@
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions, Response} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {HttpLoggerService} from './http-logger.service';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import {Loan} from '../entity/loan';
 import {Observable} from 'rxjs';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class LoanService {
   private loanUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.loanUrl = environment.api_url + api.loan;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }

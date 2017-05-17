@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PriceValidator} from '../../../../../validator/price.validator';
 import {LibraryService} from '../../../../../service/library.service';
 import {Library} from '../../../../../entity/library';
@@ -7,11 +7,12 @@ import {Item} from '../../../../../entity/item';
 import {ItemRegistrationDataService} from '../../../../../service/data-binding/item-registration-data.service';
 import {ItemService} from '../../../../../service/item.service';
 import {logger} from '../../../../../environments/environment';
-import {ModalDirective} from 'ng2-bootstrap';
+import {ModalDirective} from 'ngx-bootstrap';
 import {ShelfMark} from '../../../../../entity/shelfmark';
 import {CustomMap} from '../../../../../enumeration/custom-map';
 import {conditionEnum} from '../../../../../enumeration/fr';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-internal-informations',
@@ -21,7 +22,8 @@ import {Router} from '@angular/router';
 })
 export class InternalInformationsComponent implements OnInit {
   @ViewChild('confirmationModal') public confirmationModal: ModalDirective;
-  form: FormGroup;
+  @ViewChild('externalLibraryModal') public externalLibraryModal: ModalDirective;
+  itemForm: FormGroup;
   internalId: FormControl;
   shelfmark1: FormControl;
   shelfmark2: FormControl;
@@ -30,7 +32,9 @@ export class InternalInformationsComponent implements OnInit {
   purchasePrice: FormControl;
   condition: FormControl;
   loanable: FormControl;
-  library: FormControl;
+  externalLibrary: FormControl;
+  externalLibraryForm: FormGroup;
+  externalLibraryName: FormControl;
   localLibrary: Library;
   externalLibraries: Library[];
   hasCustomId: boolean;
@@ -42,7 +46,8 @@ export class InternalInformationsComponent implements OnInit {
     private libraryService: LibraryService,
     public dataService: ItemRegistrationDataService,
     private itemService: ItemService,
-    private router: Router
+    private router: Router,
+    public toastr: ToastrService
   ) {
     this.localLibrary = this.libraryService.findLocally();
     this.internalId = new FormControl('');
@@ -66,7 +71,8 @@ export class InternalInformationsComponent implements OnInit {
     this.purchasePrice = new FormControl('', [Validators.required, PriceValidator.isAPrice]);
     this.condition = new FormControl('', Validators.required);
     this.loanable = new FormControl(true);
-    this.library = new FormControl('');
+    this.externalLibrary = new FormControl('');
+    this.externalLibraryName = new FormControl('');
     this.hasCustomId = false;
     this.isExternalItem = false;
     this.externalLibraries = [];
@@ -74,7 +80,7 @@ export class InternalInformationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
+    this.itemForm = this.formBuilder.group({
       'internalId': this.internalId,
       'shelfmark1': this.shelfmark1,
       'shelfmark2': this.shelfmark2,
@@ -83,15 +89,16 @@ export class InternalInformationsComponent implements OnInit {
       'purchasePrice': this.purchasePrice,
       'condition': this.condition,
       'loanable': this.loanable,
-      'library': this.library
+      'externalLibrary': this.externalLibrary
     });
-
-    this.populateExternalLibraries();
+    this.externalLibraryForm = this.formBuilder.group({
+      'externalLibraryName': this.externalLibraryName
+    });
   }
 
-  onSubmit(): void {
-    if (this.form.valid) {
-      let value = this.form.value;
+  onItemSubmit(): void {
+    if (this.itemForm.valid) {
+      let value = this.itemForm.value;
       let item: Item = new Item();
 
       if (value.internalId != '') {
@@ -108,26 +115,57 @@ export class InternalInformationsComponent implements OnInit {
       item.currency = this.localLibrary.currency;
       item.library = this.localLibrary;
       item.record = this.dataService.record;
+      if (value.externalLibrary != '') {
+        item.externalLibrary = new Library();
+        item.externalLibrary.id = value.externalLibrary;
+      }
 
       this.itemService.save(item)
         .then(item => {
           this.dataService.item = item;
           this.confirmationModal.show();
-
-        });
+        })
+        .catch(error => logger.error(error));
     } else {
-      logger.info('Invalid form :', this.form);
+      logger.info('Invalid form :', this.itemForm);
 
-      if (this.form.controls['purchasePrice'].invalid) {
-        logger.alert('Bad purchasePrice', this.form.value.purchasePrice);
+      if (this.itemForm.controls['purchasePrice'].invalid) {
+        this.toastr.error(`Le prix d'achat indiqué n'est pas conforme`, 'Oops');
+        logger.warn('Bad purchasePrice', this.itemForm.value.purchasePrice);
+      } else if (this.itemForm.controls['condition'].invalid) {
+        this.toastr.error(`Veuillez indiquer l'état du document`, 'Oops');
+        logger.warn('Bad condition', this.itemForm.value.condition);
+      } else if (this.itemForm.controls['shelfmark1'].invalid || this.itemForm.controls['shelfmark2'].invalid
+          || this.itemForm.controls['shelfmark3'].invalid || this.itemForm.controls['shelfmark4'].invalid) {
+        this.toastr.error(`Le format de cotation est incorrect`, 'Oops');
+        logger.warn('Bad shelfmark');
+      } else {
+        this.toastr.error(`Impossible d'enregistrer le document`, 'Oops');
       }
-      if (this.form.controls['condition'].invalid) {
-        logger.alert('Bad condition', this.form.value.condition);
-      }
-      if (this.form.controls['shelfmark1'].invalid || this.form.controls['shelfmark2'].invalid
-          || this.form.controls['shelfmark3'].invalid || this.form.controls['shelfmark4'].invalid) {
-        logger.alert('Bad shelfmark');
-      }
+    }
+  }
+
+  newExternalLibrary(): void {
+    this.externalLibraryModal.show();
+  }
+
+  onLibrarySubmit(): void {
+    if (this.externalLibraryForm.valid) {
+      let value = this.externalLibraryForm.value;
+      let library: Library = new Library();
+
+      library.name = value.externalLibraryName;
+
+      this.libraryService.saveExternal(library)
+        .then(library => {
+          this.toastr.info(`Bibliothèque ${library.name} ajoutée`, 'Nouvelle bibliothèque');
+          this.populateExternalLibraries();
+          this.externalLibraryModal.hide();
+        })
+        .catch(error => logger.error(error));
+    } else {
+      this.toastr.error('Impossible de créer la bibliothèque tiers', 'Oops');
+      logger.info('Invalid form :', this.externalLibraryForm);
     }
   }
 
@@ -138,7 +176,7 @@ export class InternalInformationsComponent implements OnInit {
 
   switchExternalLibrary(): void {
     this.isExternalItem = !this.isExternalItem;
-    this.library.setValue('');
+    this.populateExternalLibraries();
   }
 
   formatCotation(): string {
@@ -160,22 +198,12 @@ export class InternalInformationsComponent implements OnInit {
   }
 
   toSearchView(): void {
-    this.router.navigate(['cataloging/registration/search']);
+    this.router.navigate(['cataloging/registration/changeFilter']);
   }
-/*
-  toDo(): void {
-    console.debug('To-do');
-  }
-*/
 
   private populateExternalLibraries(): void {
-    this.libraryService.findAll()
-      .then(response => {
-        response.forEach(library => {
-          if (library.id != this.localLibrary.id) {
-            this.externalLibraries.push(library);
-          }
-        });
-      });
+    this.libraryService.findExternalLibraries()
+      .then(externalLibraries => this.externalLibraries = externalLibraries)
+      .catch(error => logger.error(error));
   }
 }

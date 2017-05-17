@@ -1,2 +1,19 @@
 // Start custom
 @import "sass/common";
+
+body {
+  overflow: hidden;
+}
+
+.umt-input-table {
+  width: auto;
+}
+
+.umt-pointer {
+  cursor: pointer;
+}
+
+table.umt-datatable thead th {
+  padding: 10px 18px;
+  border-bottom: 1px solid #111;
+}

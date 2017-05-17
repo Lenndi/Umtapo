@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {Http, HttpModule, RequestOptions} from '@angular/http';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MainComponent} from './main/main.component';
@@ -22,8 +22,10 @@ import {SearchResultComponent} from './cataloging/item-registration/item-search/
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {MenuComponent} from './main/menu/menu.component';
 import {SearchFormComponent} from './cataloging/item-registration/item-search/search-form/search-form.component';
-import {ModalModule, DatepickerModule, } from 'ng2-bootstrap';
-import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
+import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
+import {DatepickerModule} from 'ngx-bootstrap/datepicker';
+import {ModalModule} from 'ngx-bootstrap/modal';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
 import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
@@ -31,19 +33,40 @@ import {InternalInformationsComponent}
   from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
 import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
-import {CirculationCheckDetailsComponent} from
-  './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
-import {CirculationCheckInComponent} from
-  './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
-import {CirculationCheckOutComponent} from
-  './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
+import {CirculationCheckDetailsComponent}
+  from './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
+import {CirculationCheckInComponent}
+  from './circulation/circulation-check/circulation-check-in/circulation-check-in.component';
+import {CirculationCheckOutComponent}
+  from './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 import {CirculationComponent} from './circulation/circulation.component';
 import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
-import {ToastModule} from 'ng2-toastr';
+import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
+import {AuthConfig, AuthHttp} from 'angular2-jwt';
+import {BorrowerDatatableComponent}
+  from './borrower/borrowers-management/borrower-datatable/borrower-datatable.component';
+import {BorrowerEditComponent} from './borrower/borrowers-management/borrower-edit/borrower-edit.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from '../service/auth-guard.service';
+import {LoginService} from '../service/login.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import {BorrowerDeleteComponent} from './borrower/borrowers-management/borrower-delete/borrower-delete.component';
+import { BorrowerRenewalComponent } from './borrower/borrowers-management/borrower-renewal/borrower-renewal.component';
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+    headerName: 'Authorization',
+    tokenName: 'id_toker',
+    tokenGetter: (() => localStorage.getItem('id_token')),
+    globalHeaders: [{'Content-Type': 'application/json'}]
+  }), http, options);
+}
 
 @NgModule({
   declarations: [
+    LoginComponent,
     AppComponent,
     MainComponent,
     TestComponent,
@@ -67,7 +90,12 @@ import {ToastModule} from 'ng2-toastr';
     CirculationCheckDetailsComponent,
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
-    ConditionEnum
+    ConditionEnum,
+    BorrowersManagementComponent,
+    BorrowerDatatableComponent,
+    BorrowerEditComponent,
+    BorrowerDeleteComponent,
+    BorrowerRenewalComponent
   ],
   imports: [
     BrowserModule,
@@ -76,12 +104,21 @@ import {ToastModule} from 'ng2-toastr';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     ModalModule.forRoot(),
     DatepickerModule.forRoot(),
-    ToastModule.forRoot(),
-    TypeaheadModule.forRoot()
+    ToastrModule.forRoot({timeOut: 2000}),
+    TypeaheadModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
+    AuthGuard,
+    LoginService,
     HttpLoggerService,
     LibraryService,
     Z3950Service,

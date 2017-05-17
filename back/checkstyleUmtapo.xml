@@ -173,7 +173,7 @@
             <property name="tokens" value="LITERAL_CATCH"/>
             <property name="tokens" value="FOR_EACH_CLAUSE"/>
         </module>
-        <module name="TodoComment"/>
+        <!--<module name="TodoComment"/>-->
         <module name="UpperEll"/>
     </module>
 

@@ -1,19 +1,20 @@
 <div class="card">
   <div class="card-block">
     <h5 class="card-title">Informations internes</h5>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="itemForm" (ngSubmit)="onItemSubmit()">
       <div class="row">
-        <div class="col-9 col-form-label-sm">Identifiant pré-existant</div>
+        <div class="col-9 col-form-label-sm" *ngIf="!isExternalItem">Identifiant pré-existant</div>
+        <div class="col-9 col-form-label-sm" *ngIf="isExternalItem">Identifiant externe</div>
         <div class="col-3">
-          <div class="onoffswitch">
+          <div class="onoffswitch" *ngIf="!isExternalItem">
             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="has-custom-id"
                    (change)="switchCustomId()">
             <label class="onoffswitch-label" for="has-custom-id"></label>
           </div>
         </div>
       </div>
-      <div class="form-group" *ngIf="hasCustomId">
-        <input id="isbn" type="text" class="form-control form-control-sm" placeholder="Identifiant du document"
+      <div class="form-group" *ngIf="hasCustomId || isExternalItem">
+        <input id="isbn" type="text" class="form-control form-control-sm" placeholder="Identifiant du document" required
                formControlName="internalId">
       </div>
       <div class="row">
@@ -57,10 +58,11 @@
         <label for="condition" class="col-form-label-sm">État</label>
         <select id="condition" class="form-control  form-control-sm custom-select" required
                 formControlName="condition">
+          <option value="" disabled selected>État</option>
           <option *ngFor="let condition of conditionEnum.array" [value]="condition.key">{{condition.value}}</option>
         </select>
       </div>
-      <!--<div class="row">
+      <div class="row">
         <div class="col-9 col-form-label-sm">Document externe à la bibliothèque</div>
         <div class="col-3">
           <div class="onoffswitch">
@@ -74,7 +76,8 @@
         <div class="form-group col-10">
           <label for="external-library" class="sr-only">Bibliothèque externe</label>
           <select id="external-library" class="form-control form-control-sm custom-select" required
-                  formControlName="library">
+                  formControlName="externalLibrary">
+            <option value="" disabled selected>Sélectionner une bibliothèque</option>
             <option *ngFor="let externalLibrary of externalLibraries" [value]="externalLibrary.id">
               {{externalLibrary.name}}
             </option>
@@ -82,10 +85,10 @@
         </div>
         <div class="col-2 text-center">
           <div id="umt-add-library">
-            <a (click)="toDo()"><i class="fa fa-plus text-warning" aria-hidden="true"></i></a>
+            <a (click)="newExternalLibrary()"><i class="fa fa-plus text-warning" aria-hidden="true"></i></a>
           </div>
         </div>
-      </div>-->
+      </div>
       <div class="umt-card-footer text-right">
         <a class="btn btn-sm btn-secondary" routerLink="/cataloging/registration/search" role="button">Annuler</a>
         <button type="submit" class="btn btn-sm btn-warning">Enregistrer</button>
@@ -94,8 +97,31 @@
   </div>
 </div>
 
+<div bsModal #externalLibraryModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
+     aria-labelledby="externalLibraryModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="externalLibraryForm" (ngSubmit)="onLibrarySubmit()">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Nouvelle bibliothèque tiers</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="library-name">Nom</label>
+            <input id="library-name" class="form-control" placeholder="Nom" required
+                   formControlName="externalLibraryName">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-secondary">Créer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div bsModal #confirmationModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
-     aria-labelledby="mySmallModalLabel" aria-hidden="true" *ngIf="dataService.record">
+     aria-labelledby="confirmationModal" aria-hidden="true" *ngIf="dataService.record">
   <div class="modal-dialog modal-lg" *ngIf="dataService.item">
     <div class="modal-content">
       <div class="modal-header">
@@ -143,7 +169,10 @@
             <span>Propriétaire</span>
           </div>
           <div class="col-9">
-            <span class="text-muted">{{dataService.item.library.name}}</span>
+            <span class="text-muted" *ngIf="!dataService.item.externalLibrary">{{dataService.item.library.name}}</span>
+            <span class="text-muted" *ngIf="dataService.item.externalLibrary">
+              {{dataService.item.externalLibrary.name}}
+            </span>
           </div>
         </div>
       </div>
@@ -153,5 +182,3 @@
     </div>
   </div>
 </div>
-
-

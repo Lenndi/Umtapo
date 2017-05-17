@@ -8,7 +8,7 @@ import {Z3950Service} from '../../../service/z3950.service';
 import {SetupDataService} from '../../../service/data-binding/setup-data.service';
 import {Z3950} from '../../../entity/z3950';
 import {Setup} from '../setup.interface';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-setup-shelfmark',
@@ -28,8 +28,7 @@ export class SetupShelfmarkComponent implements OnInit, Setup {
     private router: Router,
     private z3950Service: Z3950Service,
     public dataService: SetupDataService,
-    public toastr: ToastsManager,
-    public vRef: ViewContainerRef
+    public toastr: ToastrService
   ) {
     let library = this.dataService.library;
     this.shelfMarkNb = new FormControl(
@@ -48,6 +47,7 @@ export class SetupShelfmarkComponent implements OnInit, Setup {
 
     if (!this.dataService.library) {
       this.dataService.library = new Library();
+      this.dataService.library.external = false;
     }
 
     this.z3950Service.findAll()
@@ -68,10 +68,10 @@ export class SetupShelfmarkComponent implements OnInit, Setup {
       logger.info('Invalid form :', value);
 
       if (this.form.controls['shelfMarkNb'].invalid) {
-        this.toastr.error(this.shelfMarkNbMsg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.shelfMarkNbMsg, 'Oops');
       }
       if (this.form.controls['defaultZ3950'].invalid) {
-        this.toastr.error(this.defaultZ3950Msg, 'Oops', {toastLife: 2000});
+        this.toastr.error(this.defaultZ3950Msg, 'Oops');
       }
     }
   }
