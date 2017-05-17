@@ -148,17 +148,19 @@ export class LibraryConfigurationComponent implements OnInit {
     });
   }
 
+  addNewLibrary() {
+    this.library = new Library();
+    this.loadLibraryConfiguration(null);
+    this.selectedLibrary = true;
+  }
+
   onChange(index) {
 
     if (index === 0) {
       this.selectedLibrary = false;
       this.library = null;
-    } else if (index === 1) {
-      this.library = new Library();
-      this.loadLibraryConfiguration(null);
-      this.selectedLibrary = true;
     } else {
-      this.library = this.libraries[index - 2];
+      this.library = this.libraries[index - 1];
       this.loadLibraryConfiguration(this.library);
       this.selectedLibrary = true;
     }
