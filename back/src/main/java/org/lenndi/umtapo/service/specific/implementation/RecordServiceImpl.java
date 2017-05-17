@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.yaz4j.PrefixQuery;
 import org.yaz4j.Query;
 import org.yaz4j.ResultSet;
@@ -51,7 +50,6 @@ public class RecordServiceImpl implements RecordService {
      */
     @Autowired
     public RecordServiceImpl(Z3950Service z3950Service) {
-        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
         this.libraries = z3950Service.findAll();
     }
 
@@ -103,7 +101,7 @@ public class RecordServiceImpl implements RecordService {
         int start = pageable.getPageSize() * pageable.getPageNumber();
         int count = pageable.getPageSize();
 
-        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\" @attr 2=3");
+        Query query = new PrefixQuery("@attr 1=4 \"" + title + "\"");
         ResultSet set = this.safeSearch(query);
         LOGGER.info("Search hits " + set.getHitCount() + " records with title " + title);
 

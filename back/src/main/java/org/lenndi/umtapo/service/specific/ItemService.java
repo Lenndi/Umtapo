@@ -42,6 +42,14 @@ public interface ItemService extends GenericService<Item, Integer> {
     ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException;
 
     /**
+     * Update dto item dto.
+     *
+     * @param itemDto the item dto
+     * @return the item dto
+     */
+    ItemDto updateDto(ItemDto itemDto);
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -129,6 +137,7 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param publisher       the publisher
      * @param id              the id
      * @param publicationDate the publication date
+     * @param borrowed        true if the item is borrowed
      * @param page            the page
      * @return the page
      */
@@ -138,6 +147,7 @@ public interface ItemService extends GenericService<Item, Integer> {
             String publisher,
             String id,
             String publicationDate,
+            Boolean borrowed,
             Pageable page);
 
     /**

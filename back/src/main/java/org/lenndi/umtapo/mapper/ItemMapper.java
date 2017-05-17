@@ -14,6 +14,7 @@ import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.enumeration.Condition;
 import org.lenndi.umtapo.mapper.converter.PriceConverter;
+import org.lenndi.umtapo.solr.document.ItemDocument;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -31,6 +32,7 @@ public class ItemMapper extends ConfigurableMapper {
     private static final Logger LOGGER = Logger.getLogger(ItemMapper.class);
 
     private static final MapperFacade MAPPER;
+    private static final MapperFacade DOCUMENT_MAPPER;
     private static final MapperFacade MAPPER_PATCH;
 
     static {
@@ -50,7 +52,24 @@ public class ItemMapper extends ConfigurableMapper {
     }
 
     static {
-        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+        final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+
+        mapperFactory.classMap(Item.class, ItemDocument.class)
+                .field("record.title.mainTitle", "mainTitle")
+                .field("record.creator.name", "name")
+                .field("record.creator.secondName", "secondName")
+                .field("record.publisher.editorName", "editorName")
+                .field("record.date.publicationDate", "publicationDate")
+                .field("record.identifier.serialNumber", "serialNumber")
+                .field("library.id", "libraryId")
+                .field("externalLibrary.id", "externalLibraryId")
+                .byDefault()
+                .register();
+        DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
+    }
+
+    static {
+        final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.classMap(Item.class, JsonNode.class)
                 .customize(new CustomMapper<Item, JsonNode>() {
                     @Override
@@ -121,4 +140,23 @@ public class ItemMapper extends ConfigurableMapper {
         return MAPPER.map(item, ItemDto.class);
     }
 
+    /**
+     * Map item to document item document.
+     *
+     * @param item the item
+     * @return the item document
+     */
+    public ItemDocument mapItemToDocument(Item item) {
+        return  DOCUMENT_MAPPER.map(item, ItemDocument.class);
+    }
+
+    /**
+     * Map document to item item.
+     *
+     * @param itemDocument the item document
+     * @return the item
+     */
+    public Item mapDocumentToItem(ItemDocument itemDocument) {
+        return DOCUMENT_MAPPER.map(itemDocument, Item.class);
+    }
 }

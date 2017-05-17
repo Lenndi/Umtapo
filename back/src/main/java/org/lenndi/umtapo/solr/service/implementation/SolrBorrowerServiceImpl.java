@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * Borrower index service.
@@ -28,9 +27,6 @@ public class SolrBorrowerServiceImpl implements SolrBorrowerService {
      */
     @Autowired
     public SolrBorrowerServiceImpl(SolrBorrowerRepository documentRepository, BorrowerMapper borrowerMapper) {
-        Assert.notNull(documentRepository);
-        Assert.notNull(borrowerMapper);
-
         this.documentRepository = documentRepository;
         this.borrowerMapper = borrowerMapper;
     }

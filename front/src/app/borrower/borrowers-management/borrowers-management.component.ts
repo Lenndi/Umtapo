@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {BorrowerService} from '../../../service/borrower.service';
 import {BorrowerDataService} from '../../../service/data-binding/borrower-data.service';
-import {Borrower} from '../../../entity/borrower';
 
 @Component({
   selector: 'umt-borrowers-management',

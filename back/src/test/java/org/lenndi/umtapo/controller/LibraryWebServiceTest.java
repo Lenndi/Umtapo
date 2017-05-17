@@ -179,12 +179,12 @@ public class LibraryWebServiceTest {
     public void testSetPartnerLibrary() throws Exception {
         LibraryDto libraryDto = utilCreator.createLibraryDto(1, false);
 
-        given(this.libraryService.saveDto(any(LibraryDto.class))).willReturn(libraryDto);
+        given(this.libraryService.createLibrary(any(LibraryDto.class))).willReturn(libraryDto);
         given(this.itemService.save(any(Item.class))).willReturn(utilCreator.createItem(1, libraryDto.getFirstInternalId()));
 
         this.mockMvc.perform(post("/libraries/partner")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(this.libraryService.saveDto(new LibraryDto())))
+                .content(objectMapper.writeValueAsBytes(this.libraryService.createLibrary(new LibraryDto())))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("Test Library")))
@@ -196,7 +196,7 @@ public class LibraryWebServiceTest {
                 .andExpect(jsonPath("$.defaultZ3950", is(1)))
                 .andExpect(jsonPath("$.firstInternalId", is(1234)))
                 .andExpect(jsonPath("$.external", is(false)));
-        verify(libraryService, times(2)).saveDto(any());
+        verify(libraryService, times(2)).createLibrary(any());
     }
 
     /**

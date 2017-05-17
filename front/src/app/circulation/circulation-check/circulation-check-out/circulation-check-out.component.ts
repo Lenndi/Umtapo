@@ -11,6 +11,7 @@ import {LoanService} from '../../../../service/loan.service';
 import {ToastrService} from 'ngx-toastr';
 import {ItemFilter} from '../../../../service/filter/item-filter';
 import {Pageable} from '../../../../util/pageable';
+import {logger} from '../../../../environments/environment';
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -55,7 +56,7 @@ export class CirculationCheckOutComponent {
 
           this.itemService.findWithFilters(this.getPageable(), filter);
         })
-      .catch(err => console.log(err))
+      .catch(err => logger.error(err))
       .map(res => this.itemsSerialNumber = res.content as Item[]);
 
     this.dataSourceTitle = Observable
