@@ -18,6 +18,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from '../service/auth-guard.service';
 import {ItemManagementComponent} from './cataloging/item-management/item-management.component';
 import {AdministratorSignUpComponent} from './administrator-sign-up/administrator-sign-up.component';
+import {LibraryConfigurationComponent} from './library-configuration/library-configuration.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,11 @@ const routes: Routes = [
           {path: 'management', component: ItemManagementComponent}
         ],
       },
+      {
+        path: 'library-configuration',
+        component: LibraryConfigurationComponent,
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {
@@ -84,7 +90,7 @@ const routes: Routes = [
   {
     path: 'administrator-sign-up',
     component: AdministratorSignUpComponent
-  },
+  }
 ];
 
 @NgModule({

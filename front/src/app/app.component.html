@@ -1,4 +1,20 @@
 <header id="top-bar" class="navbar navbar-inverse navbar-fixed-top bg-primary">
-  <a class="navbar-brand" href="#">Umtapo</a>
+  <div class="row">
+    <div class="col-2">
+      <a class="navbar-brand" href="#">Umtapo</a>
+    </div>
+    <div class="navbar-toggler-right">
+      <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-outline-primary btn-sm btn-secondary dropdown-toggle">
+          <i class="icon fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
+        </button>
+        <ul *dropdownMenu class="umt-dropdown dropdown-menu dropdown-menu-left" role="menu">
+          <li role="menuitem">
+            <a routerLink="/library-configuration" routerLinkActive="text-primary" class="nav-link dropdown-item umt-pointer">Configuration de la librairie</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </header>
 <router-outlet></router-outlet>

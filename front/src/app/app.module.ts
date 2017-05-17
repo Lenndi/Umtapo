@@ -61,6 +61,7 @@ import { ExternalLibraryModalComponent }
   from './cataloging/various/external-library-modal/external-library-modal.component';
 import { AdministratorSignUpComponent } from './administrator-sign-up/administrator-sign-up.component';
 import {UserService} from '../service/user.service';
+import { LibraryConfigurationComponent } from './library-configuration/library-configuration.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
