@@ -28,6 +28,14 @@ public interface LibraryService extends GenericService<Library, Integer> {
     LibraryDto saveDto(LibraryDto libraryDto);
 
     /**
+     * Create a library.
+     *
+     * @param libraryDto the library dto
+     * @return library dto
+     */
+    LibraryDto createLibrary(LibraryDto libraryDto);
+
+    /**
      * {@inheritDoc}
      */
     @Override

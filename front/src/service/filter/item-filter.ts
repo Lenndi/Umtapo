@@ -7,6 +7,7 @@ export class ItemFilter {
   author: string;
   publisher: string;
   publicationDate: string;
+  borrowed: boolean;
 
   public constructor() {
     this.id = '';
@@ -25,6 +26,9 @@ export class ItemFilter {
     request = `complexSearch=${this.complexSearch}&id=${this.id}&serialNumber=${this.serialNumber}`
       + `&serialType=${this.serialType}&mainTitle=${this.mainTitle}&author=${this.author}&publisher=${this.publisher}`
       + `&publicationDate=${this.publicationDate}`;
+    if (this.borrowed) {
+      request += `&borrowed=${this.borrowed}`;
+    }
 
     return request;
   }

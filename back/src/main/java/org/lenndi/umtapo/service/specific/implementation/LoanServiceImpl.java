@@ -13,7 +13,6 @@ import org.lenndi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -47,11 +46,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
             SolrBorrowerService solrBorrowerService,
             ItemService itemService
     ) {
-        Assert.notNull(loanMapper);
-        Assert.notNull(loanDao);
-        Assert.notNull(solrBorrowerService);
-        Assert.notNull(itemService);
-
         this.loanDao = loanDao;
         this.loanMapper = loanMapper;
         this.solrBorrowerService = solrBorrowerService;
@@ -148,7 +142,7 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
      * {@inheritDoc}
      */
     public Integer saveEnd(LoanDto loanDto) {
-        return loanDao.saveConditonById(loanDto.getEnd(), loanDto.getId());
+        return loanDao.setEndById(loanDto.getEnd(), loanDto.getId());
     }
 
     /**

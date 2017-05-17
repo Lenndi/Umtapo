@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './main/main.component';
-import {TestComponent} from './test/test.component';
 import {SetupShelfmarkComponent} from './setup/shelfmark/setup-shelfmark.component';
 import {SetupVariousComponent} from './setup/various/setup-various.component';
 import {SetupComponent} from './setup/setup.component';
@@ -62,8 +61,8 @@ const routes: Routes = [
             path: 'registration',
             component: ItemRegistrationComponent,
             children: [
-              {path: '', redirectTo: 'changeFilter', pathMatch: 'full'},
-              {path: 'changeFilter', component: ItemSearchComponent},
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: ItemSearchComponent},
               {path: 'save', component: ItemSaveComponent}
             ]
           },

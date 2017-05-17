@@ -10,7 +10,6 @@ import org.lenndi.umtapo.service.specific.SubscriptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,9 +36,6 @@ public class SubscriptionWebService {
      * @param libraryService      the library service
      */
     public SubscriptionWebService(SubscriptionService subscriptionService, LibraryService libraryService) {
-        Assert.notNull(subscriptionService);
-        Assert.notNull(libraryService);
-
         this.subscriptionService = subscriptionService;
         this.libraryService = libraryService;
     }

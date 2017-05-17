@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 export class ItemSaveComponent {
   constructor(private dataService: ItemRegistrationDataService, private router: Router) {
     if (!this.dataService.record) {
-      this.router.navigate(['cataloging/registration/changeFilter']);
+      this.router.navigate(['cataloging/registration/search']);
     }
   }
 }

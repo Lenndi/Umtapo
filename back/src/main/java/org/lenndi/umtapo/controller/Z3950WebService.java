@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +35,6 @@ public class Z3950WebService {
      */
     @Autowired
     public Z3950WebService(Z3950Service z3950Service) {
-        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
         this.z3950Service = z3950Service;
     }
 

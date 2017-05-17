@@ -84,7 +84,6 @@ export class CirculationCheckInComponent implements OnInit {
 
   removeLoanById(id: number) {
     for (let i = 0; i < this.dataService.borrower.loans.length; i++) {
-      console.log(this.dataService.borrower.loans);
       if (this.dataService.borrower.loans[i].id == id) {
         this.dataService.borrower.loans.splice(i, 1);
       }
