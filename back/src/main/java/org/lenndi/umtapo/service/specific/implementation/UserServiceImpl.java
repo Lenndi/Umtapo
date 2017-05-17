@@ -6,7 +6,6 @@ import org.lenndi.umtapo.service.generic.AbstractGenericService;
 import org.lenndi.umtapo.service.specific.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * User servuce implementation.
@@ -25,7 +24,6 @@ public class UserServiceImpl extends AbstractGenericService<User, Integer> imple
      */
     @Autowired
     public UserServiceImpl(UserDao userDao) {
-        Assert.notNull(userDao);
         this.userDao = userDao;
     }
 

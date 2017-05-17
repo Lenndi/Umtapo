@@ -1,15 +1,11 @@
 package org.lenndi.umtapo.entity;
 
-import org.lenndi.umtapo.enumeration.Condition;
-import org.lenndi.umtapo.enumeration.ItemType;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -306,23 +302,5 @@ public class Library {
      */
     public void setFirstInternalId(Integer firstInternalId) {
         this.firstInternalId = firstInternalId;
-    }
-
-    /**
-     * Create the first item to initialize the first internalId in Item table.
-     */
-    @PrePersist
-    public void createFirstItem() {
-        if (this.firstInternalId != null) {
-            Item item = new Item();
-            item.setInternalId(this.firstInternalId);
-            item.setLibrary(this);
-            item.setLoanable(false);
-            item.setType(ItemType.INITIAL_ITEM);
-            item.setBorrowed(false);
-            item.setCondition(Condition.SOLD);
-
-            items.add(item);
-        }
     }
 }

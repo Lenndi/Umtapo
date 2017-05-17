@@ -13,7 +13,6 @@ import org.lenndi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -49,12 +48,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             SolrBorrowerService solrBorrowerService,
             LibraryService libraryService
     ) {
-        Assert.notNull(subscriptionDao);
-        Assert.notNull(subscriptionMapper);
-        Assert.notNull(subscriptionIntegerJpaRepository);
-        Assert.notNull(solrBorrowerService);
-        Assert.notNull(libraryService);
-
         this.subscriptionDao = subscriptionDao;
         this.subscriptionMapper = subscriptionMapper;
         this.repository = subscriptionIntegerJpaRepository;
