@@ -1,5 +1,17 @@
 // Start custom
-@import "sass/common";
+
+// Variable
+@import "sass/variable/color";
+@import "sass/variable/configurator";
+@import "sass/variable/shadow";
+
+// Layout
+@import "sass/layout/app";
+@import "sass/layout/topbar";
+
+
+@import "sass/common/common";
+
 
 body {
   overflow: hidden;
