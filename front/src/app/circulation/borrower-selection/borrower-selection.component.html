@@ -5,38 +5,36 @@
       <div class="card-block">
         <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
           <div class="row">
-            <div class="col-md-10 row">
-              <div class="col-10 col-md-4 col-md-offset-2">
-                <div class="form-group">
-                  <input id="borrower-id" type="number" class="form-control" placeholder="Identifiant de l'usager"
-                         formControlName="borrowerId" autofocus>
-                </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <input id="borrower-id" type="number" class="form-control" placeholder="Identifiant de l'usager"
+                       formControlName="borrowerId" autofocus>
               </div>
-              <div class="col-2 push-md-6">
-                <div class="text-right">
-                  <button type="submit" class="btn btn-warning">
-                    <i class="fa fa-check fa-1x" aria-hidden="true"></i>
-                  </button>
-                </div>
+            </div>
+            <div class="col-md-1">
+              <p class="text-center">ou</p>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <template #customItemTemplate let-model="item" let-index="index">
+                  <h5>{{model.name}} <small class="text-muted">{{model.address.email}}</small></h5>
+                </template>
+                <input formControlName="borrowerName"
+                       [typeahead]="dataSource"
+                       (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                       typeaheadOptionsLimit="25"
+                       [typeaheadItemTemplate]="customItemTemplate"
+                       typeaheadOptionField="name"
+                       [typeaheadWaitMs]="300"
+                       placeholder="Nom de l'usager"
+                       class="form-control">
               </div>
-              <div class="col-12 col-md-2 pull-md-2">
-                <p class="text-center">ou</p>
-              </div>
-              <div class="col-12 col-md-4 pull-md-2">
-                <div class="form-group">
-                  <template #customItemTemplate let-model="item" let-index="index">
-                    <h5>{{model.name}} <small class="text-muted">{{model.address.email}}</small></h5>
-                  </template>
-                  <input formControlName="borrowerName"
-                         [typeahead]="dataSource"
-                         (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                         typeaheadOptionsLimit="25"
-                         [typeaheadItemTemplate]="customItemTemplate"
-                         typeaheadOptionField="name"
-                         [typeaheadWaitMs]="300"
-                         placeholder="Nom de l'usager"
-                         class="form-control">
-                </div>
+            </div>
+            <div class="col-md-1">
+              <div class="text-right">
+                <button type="submit" class="btn btn-warning">
+                  <i class="fa fa-check fa-1x" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
           </div>
