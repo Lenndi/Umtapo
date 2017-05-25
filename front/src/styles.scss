@@ -1,21 +1,19 @@
-// Start custom
-
-// Variable
 @import "sass/variable/color";
 @import "sass/variable/configurator";
 @import "sass/variable/shadow";
 
-// Layout
 @import "sass/layout/app";
 @import "sass/layout/circulation";
-@import "sass/layout/topbar";
 @import "sass/layout/menu";
+@import "sass/layout/topbar";
 
-// Module
 @import "sass/module/borrower-selection";
 @import "sass/module/header-component";
 
+@import "sass/common/base";
+@import "sass/common/reset";
 @import "sass/common/common";
+
 
 
 body {
