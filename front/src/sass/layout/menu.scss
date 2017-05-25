@@ -16,16 +16,11 @@
     }
 
   }
+  .nav-link {
+     color: $disable;
+     padding: .25em 2em;
+     font-size: 0.9em;
+   }
 }
-.l-menu-category {
 
-  .umt-current {
-    color: $primary;
-  }
-}
 
-.nav-link {
-  color: $disable;
-  padding: .25em 1em;
-  font-size: 0.9em;
-}
