@@ -8,10 +8,12 @@
 // Layout
 @import "sass/layout/app";
 @import "sass/layout/circulation";
-
 @import "sass/layout/topbar";
 @import "sass/layout/menu";
 
+// Module
+@import "sass/module/borrower-selection";
+@import "sass/module/header-component";
 
 @import "sass/common/common";
 
