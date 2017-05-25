@@ -1,4 +1,19 @@
-$primary: #673ab7;
-$accent: #ffd740;
+// ---------- { COLOR }
+
+$primary: #076A92;
+$primary-dark: #27476F;
+$primary-dark-bg: #1a2943;
+
+$accent: #ECA505;
+
+$light: #E9EEBF;
+
+$white : #FFF;
+
 $warn: #f44336;
 $disable: #757575;
+
+
+.text-primary { color: $primary;}
+
+.text-accent { color:$accent;}
