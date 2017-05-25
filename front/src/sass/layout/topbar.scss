@@ -7,6 +7,13 @@
     0 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 
+  .l-topbar_settings {}
+  .l-topbar_dropdown {}
+  .l-topbar_dropdown_btn {
+
+    border: none;
+    color: $primary;
+  }
 }
 
 .umt-dropdown{
