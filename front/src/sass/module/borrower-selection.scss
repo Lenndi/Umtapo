@@ -1,7 +1,11 @@
-.m-new-borrower{
+.m-circulation{
   height: auto;
 
-  .m-new-borrower-content {
+  .m-circulation-content {
     background-color: $white;
+  }
+
+  .m-circulation-table{
+    margin: 5px 10px 10px;
   }
 }

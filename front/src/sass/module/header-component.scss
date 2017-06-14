@@ -1,7 +1,12 @@
-.m-header-component{
+.m-header-component {
   background-color: $accent;
   padding: 12px;
   color: white;
   text-transform: uppercase;
   font-size: 1.1em;
+
+  &__grey {
+    background-color: $grey-dark;
+    color: $primary-dark;
+  }
 }
