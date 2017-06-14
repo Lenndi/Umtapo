@@ -1,0 +1,28 @@
+.l-one-form {
+  background-color: $grey;
+  display: block;
+  height: 100%;
+  padding: 5% 0 0 0;
+
+
+  .l-one-form-content {
+    background-color: $white;
+    padding: 0;
+
+    .l-one-form-title {
+      background-color: $accent;
+      color: $white;
+      text-transform: uppercase;
+
+      h1 {
+        padding: 15px 0;
+        font-size: 1.3em ;
+      }
+    }
+
+
+  }
+  &__form {
+     padding: 50px;
+  }
+}
