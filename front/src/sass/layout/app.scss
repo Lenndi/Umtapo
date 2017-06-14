@@ -13,9 +13,11 @@
 
 .l-main {
   height: 100%;
-  overflow: auto;
 
   .l-main-content {
     background-color: $grey;
+    display: block;
+    padding-bottom: 80px;
+    overflow: auto;
   }
 }

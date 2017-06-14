@@ -2,7 +2,8 @@
   background-color: $grey;
   display: block;
   height: 100%;
-  padding: 5% 0 0 0;
+  padding: 5% 0 6% 0;
+  overflow: auto;
 
 
   .l-one-form-content {
@@ -23,6 +24,6 @@
 
   }
   &__form {
-     padding: 50px;
+     padding: 20px;
   }
 }
