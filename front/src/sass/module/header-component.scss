@@ -9,4 +9,19 @@
     background-color: $grey-dark;
     color: $primary-dark;
   }
+
+  &__container {
+    padding: 3px 0;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+    padding: 7px 0 0 0;
+  }
+
+  button {
+    border-radius: 22px;
+    width: 35px;
+    padding: 4px;
+  }
 }
