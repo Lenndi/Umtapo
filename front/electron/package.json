@@ -1,5 +1,31 @@
 {
-  "name": "umtapo",
-  "version": "0.1.0",
-  "main": "main.js"
+  "name": "Umtapo",
+  "version": "0.3.0",
+  "buildVersion": "1",
+  "main": "main.js",
+  "description": "Umtapo is a simple library management application for small organisations.",
+  "author": "Lenndi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lenndi/Umtapo/issues"
+  },
+  "homepage": "https://github.com/Lenndi/Umtapo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lenndi/Umtapo.git"
+  },
+  "build": {
+    "appId": "org.lenndi.umtapo",
+    "mac": {
+      "category": "utilities"
+    }
+  },
+  "scripts": {
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "postinstall": "install-app-deps",
+  "publishConfiguration": {
+    "provider": "github"
+  }
 }
