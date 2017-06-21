@@ -27,5 +27,8 @@
   "postinstall": "install-app-deps",
   "publishConfiguration": {
     "provider": "github"
+  },
+  "dependencies": {
+    "electron-updater": "^2.4.1"
   }
 }
