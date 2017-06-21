@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions, Response} from '@angular/http';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
@@ -7,15 +7,16 @@ import {HttpLoggerService} from './http-logger.service';
 import {Borrower} from '../entity/borrower';
 import {Observable} from 'rxjs';
 import {Page} from '../util/page';
-import {BorrowerFilter} from './various/borrower-filter';
+import {BorrowerFilter} from './filter/borrower-filter';
 import {Pageable} from '../util/pageable';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class BorrowerService {
   private borrowerUrl: string;
   private headers: Headers;
 
-  constructor(private http: Http, private httpLogger: HttpLoggerService) {
+  constructor(private http: AuthHttp, private httpLogger: HttpLoggerService) {
     this.borrowerUrl = environment.api_url + api.borrower;
     this.headers = new Headers({'Content-Type': 'application/json'});
   }
@@ -49,7 +50,6 @@ export class BorrowerService {
         if (r.status != 200) {
           return [];
         } else {
-          console.log(r.json().content);
           return r.json().content;
         }
       });
@@ -73,6 +73,24 @@ export class BorrowerService {
     return this.http.get(uri, options)
       .toPromise()
       .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  update(borrower: Borrower): Promise<Borrower> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .put(`${this.borrowerUrl}/${borrower.id}`, JSON.stringify(borrower), options)
+      .toPromise()
+      .then(response => response.json() as Borrower)
+      .catch(error => this.httpLogger.error(error));
+  }
+
+  remove(id: number): Promise<any> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .delete(`${this.borrowerUrl}/${id}`, options)
+      .toPromise()
+      .then(response => response.json())
       .catch(error => this.httpLogger.error(error));
   }
 }

@@ -1,14 +1,17 @@
-import {Component, OnInit, ViewContainerRef, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ItemService} from '../../../../service/item.service';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
 import {Observable, Subject} from 'rxjs';
 import {Item} from '../../../../entity/item';
 import {BorrowerService} from '../../../../service/borrower.service';
-import {ModalDirective, TypeaheadMatch} from 'ng2-bootstrap';
-import {ToastsManager} from 'ng2-toastr';
+import {ModalDirective, TypeaheadMatch} from 'ngx-bootstrap';
 import {Loan} from '../../../../entity/loan';
 import {LoanService} from '../../../../service/loan.service';
+import {ToastrService} from 'ngx-toastr';
+import {ItemFilter} from '../../../../service/filter/item-filter';
+import {Pageable} from '../../../../util/pageable';
+import {logger} from '../../../../environments/environment';
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -17,7 +20,7 @@ import {LoanService} from '../../../../service/loan.service';
   providers: [ItemService]
 
 })
-export class CirculationCheckOutComponent implements OnInit {
+export class CirculationCheckOutComponent {
   @ViewChild('childModal') public childModal: ModalDirective;
   itemsSerialNumber: Item[] = [];
   itemsTitle: Item[] = [];
@@ -37,9 +40,8 @@ export class CirculationCheckOutComponent implements OnInit {
               private loanService: LoanService,
               public dataService: CirculationDataService,
               private borrowerService: BorrowerService,
-              public toastr: ToastsManager, vRef: ViewContainerRef) {
+              public toastr: ToastrService) {
 
-    this.toastr.setRootViewContainerRef(vRef);
     this.selectedItem = new Item();
 
     this.dataSourceSerialNumber = Observable
@@ -47,24 +49,29 @@ export class CirculationCheckOutComponent implements OnInit {
         // Runs on every search
         observer.next(this.serialNumber);
       })
-      .switchMap(
-        (contains: string) =>
-          this.itemService.findPaginableBySerialNumber(this.size, this.page, contains, 'ISBN')
-      )
-      .catch(err => console.log(err))
-      .map(res => this.itemsSerialNumber = res as Item[]);
+      .switchMap(serialNumber => {
+          let filter: ItemFilter = new ItemFilter();
+          filter.serialType = 'ISBN';
+          filter.serialNumber = serialNumber;
+
+          this.itemService.findWithFilters(this.getPageable(), filter);
+        })
+      .catch(err => logger.error(err))
+      .map(res => this.itemsSerialNumber = res.content as Item[]);
 
     this.dataSourceTitle = Observable
       .create((observer: any) => {
         // Runs on every search
         observer.next(this.title);
       })
-      .switchMap((contains: string) => this.itemService.findPaginableByMainTitle(this.size, this.page, contains,
-        'ISBN'))
-      .map(res => this.itemsTitle = res as Item[]);
-  }
+      .switchMap(mainTitle => {
+          let filter: ItemFilter = new ItemFilter();
+          filter.serialType = 'ISBN';
+          filter.mainTitle = mainTitle;
 
-  ngOnInit() {
+          this.itemService.findWithFilters(this.getPageable(), filter);
+        })
+      .map(res => this.itemsTitle = res.content as Item[]);
   }
 
   public typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
@@ -123,13 +130,12 @@ export class CirculationCheckOutComponent implements OnInit {
       if (this.internalId) {
         let observable = this.itemService.searchItemByInternalId(this.internalId)
           .catch(err => {
-            this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème',
-              {toastLife: 2000});
+            this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème');
             return Observable.throw(err); // observable needs to be returned or exception raised
           })
           .map(res => {
             if (res.status == 204) {
-              this.toastr.warning(`Aucun document ne comporte cet identifiant`, 'Non trouvé', {toastLife: 2000});
+              this.toastr.warning(`Aucun document ne comporte cet identifiant`, 'Non trouvé');
               observable.unsubscribe();
             }
             item = res.json();
@@ -142,7 +148,7 @@ export class CirculationCheckOutComponent implements OnInit {
         loan.item.id = item.id;
         let observable = this.loanService.createLoan(loan)
           .catch(err => {
-            this.toastr.warning(`Lo document à déjà été emprunté`, 'Problème', {toastLife: 2000});
+            this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
             return Observable.throw(err); // observable needs to be returned or exception raised
           })
           .subscribe(response => {
@@ -152,19 +158,18 @@ export class CirculationCheckOutComponent implements OnInit {
               }
               this.dataService.borrower.loans.push(succes);
             });
-            this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi', {toastLife: 2000});
+            this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi');
           });
       } else if (this.items) {
         if (this.items.length == 0) {
           if (this.serialNumber) {
-            this.toastr.warning(`Aucun document n'est lié à cette information`, 'Pas de document!', {toastLife: 2000});
+            this.toastr.warning(`Aucun document n'est lié à cette information`, 'Pas de document!');
           } else {
-            this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!',
-              {toastLife: 2000});
+            this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!');
           }
         } else if (this.items.length > 1) {
           this.toastr.warning('Plusieurs documents ont ce numéro de série, vous devez en sélectionner un.',
-            'Plusieurs documents existants!', {toastLife: 2000});
+            'Plusieurs documents existants!');
         } else if (this.items.length == 1) {
 
         }
@@ -172,4 +177,11 @@ export class CirculationCheckOutComponent implements OnInit {
     }
   }
 
+  private getPageable(): Pageable {
+    let pageable: Pageable = new Pageable('mainTitle');
+    pageable.size = this.size;
+    pageable.page = this.page;
+
+    return pageable;
+  }
 }

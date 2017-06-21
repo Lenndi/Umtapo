@@ -78,7 +78,8 @@
           <select id="external-library" class="form-control form-control-sm custom-select" required
                   formControlName="externalLibrary">
             <option value="" disabled selected>Sélectionner une bibliothèque</option>
-            <option *ngFor="let externalLibrary of externalLibraries" [value]="externalLibrary.id">
+            <option *ngFor="let externalLibrary of variousItemDataService.externalLibraries"
+                    [value]="externalLibrary.id">
               {{externalLibrary.name}}
             </option>
           </select>
@@ -94,29 +95,6 @@
         <button type="submit" class="btn btn-sm btn-warning">Enregistrer</button>
       </div>
     </form>
-  </div>
-</div>
-
-<div bsModal #externalLibraryModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
-     aria-labelledby="externalLibraryModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form [formGroup]="externalLibraryForm" (ngSubmit)="onLibrarySubmit(externalLibraryForm.value)">
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Nouvelle bibliothèque tiers</h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="library-name">Nom</label>
-            <input id="library-name" class="form-control" placeholder="Nom" required
-                   formControlName="externalLibraryName">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-sm btn-secondary">Créer</button>
-        </div>
-      </form>
-    </div>
   </div>
 </div>
 
@@ -182,3 +160,5 @@
     </div>
   </div>
 </div>
+
+<umt-external-library-modal></umt-external-library-modal>
