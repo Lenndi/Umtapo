@@ -3,14 +3,12 @@ package org.lenndi.umtapo.service.specific;
 import org.lenndi.umtapo.dto.LibraryDto;
 import org.lenndi.umtapo.entity.Library;
 import org.lenndi.umtapo.service.generic.GenericService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Library service.
  */
-@Service
 public interface LibraryService extends GenericService<Library, Integer> {
 
     /**

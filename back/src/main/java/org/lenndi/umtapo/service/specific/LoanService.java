@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dto.LoanDto;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.service.generic.GenericService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by axel on 22/01/17.
  */
-@Service
 public interface LoanService extends GenericService<Loan, Integer> {
 
     /**

@@ -18,17 +18,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Instantiates a new User service.
      *
-     * @param userDao the user dao
+     * @param userDao         the user dao
+     * @param passwordEncoder the password encoder
      */
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
