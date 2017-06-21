@@ -7,7 +7,6 @@ import org.lenndi.umtapo.service.generic.GenericService;
 import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +16,6 @@ import java.util.NoSuchElementException;
  * <p>
  * Created by axel on 05/12/16.
  */
-@Service
 public interface BorrowerService extends GenericService<Borrower, Integer> {
 
     /**

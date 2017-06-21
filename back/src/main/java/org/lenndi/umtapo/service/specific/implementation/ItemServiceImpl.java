@@ -105,6 +105,10 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
+
+        if (item.getExternalLibrary() != null && item.getExternalLibrary().getId() == null) {
+            item.setExternalLibrary(null);
+        }
         item = this.saveWithRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);

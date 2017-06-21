@@ -40,7 +40,6 @@ import {CirculationCheckInComponent}
 import {CirculationCheckOutComponent}
   from './circulation/circulation-check/circulation-check-out/circulation-check-out.component';
 import {CirculationComponent} from './circulation/circulation.component';
-import {ConditionEnum} from '../entity/enum/pipe.enum';
 import {LoanService} from '../service/loan.service';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 import {AuthConfig, AuthHttp} from 'angular2-jwt';
@@ -61,7 +60,8 @@ import { ExternalLibraryModalComponent }
   from './cataloging/various/external-library-modal/external-library-modal.component';
 import { AdministratorSignUpComponent } from './administrator-sign-up/administrator-sign-up.component';
 import {UserService} from '../service/user.service';
-import { LibraryConfigurationComponent } from './library-configuration/library-configuration.component';
+import {ConditionEnum} from '../enumeration/pipe.enum';
+import {LibraryConfigurationComponent} from './library-configuration/library-configuration.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -109,7 +109,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ItemEditComponent,
     ExternalLibraryModalComponent,
     ItemDatatableComponent,
-    AdministratorSignUpComponent
+    AdministratorSignUpComponent,
+    LibraryConfigurationComponent
   ],
   imports: [
     BrowserModule,

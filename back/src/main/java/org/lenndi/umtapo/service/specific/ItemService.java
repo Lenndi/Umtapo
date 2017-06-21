@@ -7,14 +7,12 @@ import org.lenndi.umtapo.service.generic.GenericService;
 import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * The interface of Item service.
  */
-@Service
 public interface ItemService extends GenericService<Item, Integer> {
 
     /**
