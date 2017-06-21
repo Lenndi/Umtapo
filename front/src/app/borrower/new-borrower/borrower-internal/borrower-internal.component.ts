@@ -13,6 +13,8 @@ import {logger} from '../../../../environments/environment';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {PairingService} from "../../../../service/pairing.service";
+import {Pairing} from "../../../../util/pairing";
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -31,12 +33,15 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   comment: FormControl;
   emailOptin: FormControl;
   isRegistered: boolean;
+  isPairing: boolean = false;
+  pairing: Pairing;
 
   constructor(
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
     public toastr: ToastrService,
     private libraryService: LibraryService,
+    private pairingService: PairingService,
     private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService,
     private router: Router
@@ -44,6 +49,7 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
     this.isRegistered = false;
     let borrower: Borrower = this.dataService.borrower;
     let subscription: Subscription = this.dataService.subscription;
+    this.pairing = new Pairing;
 
     this.startSubscription = new FormControl(
       subscription != null ? new Date(subscription.start).toJSON().split('T')[0] : new Date().toJSON().split('T')[0],
@@ -135,5 +141,19 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   flushForm(): void {
     this.dataService.flush();
     this.router.navigate(['borrowers/new']);
+  }
+
+  pairingCardAndBorrower(){
+    this.isPairing = true;
+    this.pairing.pairingType = 'BORROWER';
+    this.pairing.id = this.dataService.borrower.id;
+    this.pairingService.pairingCardAndBorrower(this.pairing)
+      .then( res => {this.isPairing = false;
+        this.toastr.success('Succès', 'Emprunteur lié à la carte');
+      })
+      .catch( err=> {this.isPairing = false;
+        this.toastr.error('Erreur', 'Emprunteur non lié à la carte');
+      })
+
   }
 }

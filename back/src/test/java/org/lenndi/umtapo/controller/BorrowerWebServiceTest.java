@@ -87,9 +87,9 @@ public class BorrowerWebServiceTest {
     public void setup() {
         zonedDateTime = ZonedDateTime.of(2000, 5, 25, 21, 52, 35, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null);
+                true, null, null, null, "nfcId");
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null);
+                false, null, null, null, "nfcId");
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }

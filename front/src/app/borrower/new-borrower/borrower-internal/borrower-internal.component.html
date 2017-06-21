@@ -57,14 +57,18 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Usager enregistré</h4>
+        <button class="btn btn-sm btn-secondary" (click)="pairingCardAndBorrower()">Lié à une carte</button>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-3">
             <span>Identifiant</span>
           </div>
-          <div class="col-9">
+          <div class="col-7">
             <span class="text-muted">{{dataService.borrower.id}}</span>
+          </div>
+          <div class="col-2">
+          <i *ngIf="isPairing"  class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
           </div>
           <div class="col-3">
             <span>Nom</span>

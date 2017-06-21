@@ -62,6 +62,7 @@ import { AdministratorSignUpComponent } from './administrator-sign-up/administra
 import {UserService} from '../service/user.service';
 import {ConditionEnum} from '../enumeration/pipe.enum';
 import {LibraryConfigurationComponent} from './library-configuration/library-configuration.component';
+import {PairingService} from "../service/pairing.service";
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -99,6 +100,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CirculationCheckInComponent,
     CirculationCheckOutComponent,
     ConditionEnum,
+    BorrowersManagementComponent,
     BorrowersManagementComponent,
     BorrowerDatatableComponent,
     BorrowerEditComponent,
@@ -139,6 +141,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     Z3950Service,
     SetupDataService,
     BorrowerService,
+    PairingService,
     LoanService,
     UserService
   ],

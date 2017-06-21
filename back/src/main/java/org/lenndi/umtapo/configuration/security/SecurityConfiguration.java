@@ -29,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private Environment env;
 
+
     /**
      * Instantiates a new Security configuration.
      *
