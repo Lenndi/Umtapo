@@ -1,14 +1,12 @@
 package org.lenndi.umtapo.service.configuration;
 
 import org.lenndi.umtapo.entity.configuration.Z3950;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 /**
  * Z39.50 service.
  */
-@Service
 public interface Z3950Service {
 
     /**
