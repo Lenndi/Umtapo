@@ -127,4 +127,12 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @return the page
      */
     Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains);
+
+    /**
+     * Find by nfc id borrower.
+     *
+     * @param nfcId the nfc id
+     * @return the borrower
+     */
+    Borrower findByNfcId(String nfcId);
 }

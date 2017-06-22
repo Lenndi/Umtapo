@@ -21,6 +21,7 @@ public class Loan {
     private Integer id;
     private ZonedDateTime start;
     private ZonedDateTime end;
+    private ZonedDateTime effectiveReturn;
     private Boolean returned;
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "BORROWERID", referencedColumnName = "ID")
@@ -86,6 +87,9 @@ public class Loan {
      * @param returned the returned
      */
     public void setReturned(Boolean returned) {
+        if (returned) {
+            this.effectiveReturn = ZonedDateTime.now();
+        }
         this.returned = returned;
     }
 
@@ -159,5 +163,23 @@ public class Loan {
      */
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    /**
+     * Gets effective return.
+     *
+     * @return the effective return
+     */
+    public ZonedDateTime getEffectiveReturn() {
+        return effectiveReturn;
+    }
+
+    /**
+     * Sets effective return.
+     *
+     * @param effectiveReturn the effective return
+     */
+    public void setEffectiveReturn(ZonedDateTime effectiveReturn) {
+        this.effectiveReturn = effectiveReturn;
     }
 }

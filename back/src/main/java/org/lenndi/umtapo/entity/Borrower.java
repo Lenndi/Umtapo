@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +22,8 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    @Column(unique = true)
+    private String nfcId;
     private String comment;
     private ZonedDateTime birthday;
     private Integer quota;
@@ -36,6 +40,7 @@ public class Borrower {
      * Instantiates a new Borrower.
      */
     public Borrower() {
+        loans = new ArrayList<>();
     }
 
     /**
@@ -49,10 +54,11 @@ public class Borrower {
      * @param address       the address
      * @param subscriptions the subscriptions
      * @param loans         the loans
+     * @param nfcId         the nfc id
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
-            List<Subscription> subscriptions, List<Loan> loans) {
+            List<Subscription> subscriptions, List<Loan> loans, String nfcId) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -61,6 +67,7 @@ public class Borrower {
         this.address = address;
         this.subscriptions = subscriptions;
         this.loans = loans;
+        this.nfcId = nfcId;
     }
 
     /**
@@ -223,6 +230,24 @@ public class Borrower {
      */
     public void setEmailOptin(Boolean emailOptin) {
         this.emailOptin = emailOptin;
+    }
+
+    /**
+     * Gets nfc tag.
+     *
+     * @return the nfc tag
+     */
+    public String getNfcId() {
+        return nfcId;
+    }
+
+    /**
+     * Sets nfc tag.
+     *
+     * @param nfcId the nfc tag
+     */
+    public void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
     }
 
     /**

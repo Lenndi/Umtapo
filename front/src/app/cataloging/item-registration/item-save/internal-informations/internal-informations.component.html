@@ -104,6 +104,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Document enregistré</h4>
+        <i *ngIf="dataServiceItem.isPairing"  class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+        <umt-pairing-item-button></umt-pairing-item-button>
       </div>
       <div class="modal-body">
         <div class="row">

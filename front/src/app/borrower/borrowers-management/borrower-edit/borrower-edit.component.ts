@@ -10,12 +10,14 @@ import {ModalDirective} from 'ngx-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {VariousItemDataService} from '../../../../service/data-binding/various-item-data.service';
 import {Item} from '../../../../entity/item';
+import {PairingBorrowerButtonComponent} from '../../../pairing-borrower-button/pairing-borrower-button.component';
+import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 
 @Component({
   selector: 'umt-borrower-edit',
   templateUrl: 'borrower-edit.component.html',
   styleUrls: ['borrower-edit.component.scss'],
-  providers: [VariousItemDataService]
+  providers: [VariousItemDataService, PairingBorrowerButtonComponent]
 })
 export class BorrowerEditComponent implements OnDestroy {
 
@@ -42,6 +44,7 @@ export class BorrowerEditComponent implements OnDestroy {
       private borrowerService: BorrowerService,
       public dataService: BorrowerDataService,
       private itemData: VariousItemDataService,
+      public dataServiceNewBorrower: NewBorrowerDataService,
       public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(

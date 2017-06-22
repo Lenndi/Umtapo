@@ -2,8 +2,11 @@ package org.lenndi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Loan;
+import org.lenndi.umtapo.exception.CreateLoanException;
+import org.lenndi.umtapo.exception.NotLoannableException;
 import org.lenndi.umtapo.service.generic.GenericService;
 
 import java.util.List;
@@ -34,6 +37,14 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @return the loan
      */
     Loan saveLoanDtoToLoan(LoanDto loanDto);
+
+    /**
+     * Save loan dto to loan loan.
+     *
+     * @param loan the loan
+     * @return the loan
+     */
+    Loan saveLoan(Loan loan);
 
     /**
      * Save loan to loan dto loan.
@@ -97,5 +108,24 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @throws IllegalAccessException the illegal access exception
      */
     LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
-}
+
+    /**
+     * Create loan loan.
+     *
+     * @param item       the item
+     * @param borrowerId the borrower id
+     * @return the loan
+     * @throws CreateLoanException   the create loan exception
+     * @throws NotLoannableException the not loannable exception
+     */
+    Loan createLoan(Item item, Integer borrowerId) throws CreateLoanException, NotLoannableException;
+
+    /**
+     * Back loan loan.
+     *
+     * @param item the item
+     * @return the loan
+     */
+    Loan backLoan(Item item);
+    }
 

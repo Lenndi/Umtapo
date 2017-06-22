@@ -14,6 +14,7 @@ import {LibraryService} from '../../../../service/library.service';
 import {PriceValidator} from '../../../../validator/price.validator';
 import {ExternalLibraryModalComponent} from '../../various/external-library-modal/external-library-modal.component';
 import {VariousItemDataService} from '../../../../service/data-binding/various-item-data.service';
+import {NewItemDataService} from '../../../../service/new-item-data.service';
 
 @Component({
   selector: 'umt-item-edit',
@@ -51,6 +52,7 @@ export class ItemEditComponent implements OnDestroy {
     private formBuilder: FormBuilder,
     private itemService: ItemService,
     private libraryService: LibraryService,
+    public itemDataService: NewItemDataService,
     public dataService: ItemDatatableDataService,
     public variousItemDataService: VariousItemDataService,
     public toastr: ToastrService
@@ -58,6 +60,7 @@ export class ItemEditComponent implements OnDestroy {
     this.itemSubscription = this.dataService.selectedItem$.subscribe(
       item => {
         this.selectedItem = item;
+        this.itemDataService.item = this.selectedItem;
         if (item.externalLibrary != null && item.externalLibrary.id != null) {
           this.isExternalItem = true;
         }
