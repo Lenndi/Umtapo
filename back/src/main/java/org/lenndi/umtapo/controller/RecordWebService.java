@@ -4,7 +4,6 @@ import com.github.ladutsko.isbn.ISBNException;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.configuration.Z3950;
 import org.lenndi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
-import org.lenndi.umtapo.rest.ApiError;
 import org.lenndi.umtapo.service.configuration.Z3950Service;
 import org.lenndi.umtapo.service.specific.RecordService;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
@@ -139,22 +138,14 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             }
         } else {
             LOGGER.warn("Missing parameter: isbn or title is required");
-            ApiError apiError = new ApiError(
-                    HttpStatus.BAD_REQUEST,
-                    "'title' or 'isbn' argument is required",
-                    "Missing parameters");
 
-            return new ResponseEntity<>(apiError, apiError.getStatus());
+            return new ResponseEntity<>("'title' or 'isbn' argument is required", HttpStatus.BAD_REQUEST);
         }
     }
 
     private ResponseEntity zoomExceptionHandling(ZoomException e) {
         LOGGER.fatal(e.getMessage());
-        ApiError apiError = new ApiError(
-                HttpStatus.SERVICE_UNAVAILABLE,
-                e.getLocalizedMessage(),
-                "Z39.50 error");
 
-        return new ResponseEntity<>(apiError, apiError.getStatus());
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
