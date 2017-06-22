@@ -3,9 +3,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title pull-left">Édition</h4>
-      </div>
-      <form [formGroup]="borrowerForm" (ngSubmit)="onUpdate(borrowerForm.value)">
+          <h4 class="modal-title pull-left">Édition</h4>
+        <i *ngIf="dataServiceNewBorrower.isPairing"  class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+          <umt-pairing-borrower-button></umt-pairing-borrower-button>
+        </div><form [formGroup]="borrowerForm" (ngSubmit)="onUpdate(borrowerForm.value)">
         <div class="modal-body">
           <div class="row">
             <div class="col-12 col-md-6">

@@ -4,6 +4,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Édition</h4>
+        <i *ngIf="itemDataService.isPairing"  class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+        <umt-pairing-item-button></umt-pairing-item-button>
       </div>
       <form [formGroup]="itemForm" (ngSubmit)="onUpdate(itemForm.value)">
         <div class="modal-body">

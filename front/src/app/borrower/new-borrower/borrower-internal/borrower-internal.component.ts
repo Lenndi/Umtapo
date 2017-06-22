@@ -13,6 +13,9 @@ import {logger} from '../../../../environments/environment';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {PairingService} from '../../../../service/pairing.service';
+import {Pairing} from '../../../../util/pairing';
+import {PairingBorrowerButtonComponent} from '../../../pairing-borrower-button/pairing-borrower-button.component';
 
 @Component({
   selector: 'umt-borrower-internal',
@@ -21,7 +24,8 @@ import {ToastrService} from 'ngx-toastr';
   providers: [BorrowerService, SubscriptionService]
 })
 export class BorrowerInternalComponent implements OnInit, NewBorrower {
-  @ViewChild('confirmationModal') public confirmationModal: ModalDirective;
+  @ViewChild('confirmationModal')
+  public confirmationModal: ModalDirective;
   form: FormGroup;
   library: Library;
   startSubscription: FormControl;
@@ -31,19 +35,23 @@ export class BorrowerInternalComponent implements OnInit, NewBorrower {
   comment: FormControl;
   emailOptin: FormControl;
   isRegistered: boolean;
+  pairing: Pairing;
 
   constructor(
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
     public toastr: ToastrService,
     private libraryService: LibraryService,
+    private pairingService: PairingService,
     private borrowerService: BorrowerService,
     private subscriptionService: SubscriptionService,
     private router: Router
   ) {
+
     this.isRegistered = false;
     let borrower: Borrower = this.dataService.borrower;
     let subscription: Subscription = this.dataService.subscription;
+    this.pairing = new Pairing;
 
     this.startSubscription = new FormControl(
       subscription != null ? new Date(subscription.start).toJSON().split('T')[0] : new Date().toJSON().split('T')[0],

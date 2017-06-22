@@ -37,6 +37,15 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
     Item findByInternalId(Integer internalId);
 
     /**
+     * Find by name containing ignore case page.
+     *
+     * @param contains the contains
+     * @param pageable the pageable
+     * @return the page
+     */
+    Page<Item> findByRecordIdentifierSerialNumberContainingIgnoreCase(String contains, Pageable pageable);
+
+    /**
      * Find by ids list.
      *
      * @param id       the id
@@ -72,4 +81,12 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
             ShelfMark shelfMark,
             Integer purchasePrice,
             Integer id);
+
+    /**
+     * Find by nfc id item.
+     *
+     * @param nfcIf the nfc if
+     * @return the item
+     */
+    Item findByNfcId(String nfcIf);
 }

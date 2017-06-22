@@ -8,6 +8,8 @@ import {Page} from '../../../../util/page';
 import {logger} from '../../../../environments/environment';
 import {BorrowerDataService} from '../../../../service/data-binding/borrower-data.service';
 import {Action} from '../../../../enumeration/Action';
+import {PairingBorrowerButtonComponent} from '../../../pairing-borrower-button/pairing-borrower-button.component';
+import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
 
 @Component({
   selector: 'umt-borrower-datatable',
@@ -22,7 +24,9 @@ export class BorrowerDatatableComponent implements OnInit {
   borrowerFilter: BorrowerFilter;
   updatedBorrowerSubscription: Subscription;
 
-  public constructor(private borrowerService: BorrowerService, private dataService: BorrowerDataService) {
+  public constructor(private borrowerService: BorrowerService,
+                     private newBorrowerDataService: NewBorrowerDataService,
+                     private dataService: BorrowerDataService) {
     this.borrowerFilter = new BorrowerFilter();
     this.pageable = new Pageable('email');
 
@@ -66,6 +70,9 @@ export class BorrowerDatatableComponent implements OnInit {
   }
 
   onEditBorrower(borrowerId: number): void {
+
+    this.newBorrowerDataService.borrower = new Borrower;
+    this.newBorrowerDataService.borrower.id = borrowerId;
     this.notifyBorrower(borrowerId, Action.EDIT);
   }
 

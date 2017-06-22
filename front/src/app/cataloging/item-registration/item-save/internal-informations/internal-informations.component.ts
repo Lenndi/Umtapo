@@ -15,6 +15,7 @@ import {ToastrService} from 'ngx-toastr';
 import {ExternalLibraryModalComponent} from '../../../various/external-library-modal/external-library-modal.component';
 import {VariousItemDataService} from '../../../../../service/data-binding/various-item-data.service';
 import {ModalDirective} from 'ngx-bootstrap';
+import {NewItemDataService} from '../../../../../service/new-item-data.service';
 
 @Component({
   selector: 'app-internal-informations',
@@ -48,6 +49,7 @@ export class InternalInformationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private libraryService: LibraryService,
     public dataService: ItemRegistrationDataService,
+    public dataServiceItem: NewItemDataService,
     public variousItemDataService: VariousItemDataService,
     private itemService: ItemService,
     private router: Router,
@@ -124,6 +126,7 @@ export class InternalInformationsComponent implements OnInit {
       this.itemService.save(item)
         .then(item => {
           this.dataService.item = item;
+          this.dataServiceItem.item = item;
           this.variousItemDataService.item = item;
           this.confirmationModal.show();
         })
