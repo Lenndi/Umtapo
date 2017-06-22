@@ -5,6 +5,7 @@ import org.lenndi.umtapo.enumeration.ItemType;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,6 +36,8 @@ public class Item {
     private ShelfMark shelfmark;
     @NotNull
     private Integer internalId;
+    @Column(unique = true)
+    private String nfcId;
     private Integer purchasePrice;
     private Boolean loanable;
     private Boolean borrowed;
@@ -71,9 +74,11 @@ public class Item {
      * @param currency      the currency
      * @param library       the library
      * @param isBorrowed    the is borrowed
+     * @param nfcId         the nfc id
      */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, Boolean isLoanable,
-                List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed) {
+                List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed,
+                String nfcId) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
@@ -84,6 +89,7 @@ public class Item {
         this.borrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
+        this.nfcId = nfcId;
     }
 
     /**
@@ -356,5 +362,23 @@ public class Item {
      */
     public void setLoanable(Boolean loanable) {
         this.loanable = loanable;
+    }
+
+    /**
+     * Gets nfc if.
+     *
+     * @return the nfc if
+     */
+    public String getNfcId() {
+        return nfcId;
+    }
+
+    /**
+     * Sets nfc if.
+     *
+     * @param nfcId the nfc if
+     */
+    public void setNfcId(String nfcId) {
+        this.nfcId = nfcId;
     }
 }

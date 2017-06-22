@@ -91,7 +91,7 @@ public class ItemWebService {
             if (itemDtos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
             } else {
-                return new ResponseEntity<>(itemDtos, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(itemDtos, HttpStatus.OK);
             }
         }
     }

@@ -109,6 +109,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         if (item.getExternalLibrary() != null && item.getExternalLibrary().getId() == null) {
             item.setExternalLibrary(null);
         }
+
         item = this.saveWithRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
@@ -264,6 +265,12 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         }
 
         return item;
+    }
+
+    @Override
+    public Item findByNfcId(String nfcId) {
+
+        return this.itemDao.findByNfcId(nfcId);
     }
 
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {

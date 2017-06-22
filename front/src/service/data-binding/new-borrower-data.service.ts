@@ -9,6 +9,7 @@ export class NewBorrowerDataService {
   step: number;
   totalStep: number = 2;
   title: string;
+  isPairing: boolean = false;
 
   public flush(): void {
     this.borrower = null;
