@@ -10,6 +10,7 @@ import org.lenndi.umtapo.service.specific.ItemService;
 import org.lenndi.umtapo.solr.document.bean.record.Identifier;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
 import org.lenndi.umtapo.solr.exception.InvalidRecordException;
+import org.lenndi.umtapo.solr.service.SolrItemService;
 import org.lenndi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +32,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     private final ItemMapper itemMapper;
     private final ItemDao itemDao;
     private final SolrRecordService solrRecordService;
+    private final SolrItemService solrItemService;
 
     /**
      * Instantiates a new Item service.
@@ -39,16 +40,32 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
      * @param itemMapper        the item mapper
      * @param itemDao           the item dao
      * @param solrRecordService the solr record service
+     * @param solrItemService   the solr item service
      */
     @Autowired
-    public ItemServiceImpl(ItemMapper itemMapper, ItemDao itemDao, SolrRecordService solrRecordService) {
-        Assert.notNull(itemMapper);
-        Assert.notNull(itemDao);
-        Assert.notNull(solrRecordService);
-
+    public ItemServiceImpl(
+            ItemMapper itemMapper,
+            ItemDao itemDao,
+            SolrRecordService solrRecordService,
+            SolrItemService solrItemService
+    ) {
         this.itemMapper = itemMapper;
         this.itemDao = itemDao;
         this.solrRecordService = solrRecordService;
+        this.solrItemService = solrItemService;
+    }
+
+    @Override
+    @Transactional
+    public Item save(Item item) {
+        if (item.getRecord() == null) {
+            item = this.linkRecord(item);
+        }
+
+        item = super.save(item);
+        this.solrItemService.save(item);
+
+        return item;
     }
 
     @Override
@@ -85,20 +102,40 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return savedItem;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
+
+        if (item.getExternalLibrary() != null && item.getExternalLibrary().getId() == null) {
+            item.setExternalLibrary(null);
+        }
         item = this.saveWithRecord(item);
 
         return this.itemMapper.mapItemToItemDto(item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public ItemDto updateDto(ItemDto itemDto) {
+        Item updatedItem = this.itemMapper.mapItemDtoToItem(itemDto);
+        Item item = this.findOne(itemDto.getId());
+
+        item.setCondition(updatedItem.getCondition());
+        item.setCurrency(updatedItem.getCurrency());
+        item.setLoanable(updatedItem.getLoanable());
+        item.setType(updatedItem.getType());
+        item.setShelfmark(updatedItem.getShelfmark());
+        item.setPurchasePrice(updatedItem.getPurchasePrice());
+        if (updatedItem.getExternalLibrary() != null && updatedItem.getExternalLibrary().getId() != null) {
+            item.setExternalLibrary(updatedItem.getExternalLibrary());
+        } else {
+            item.setExternalLibrary(null);
+        }
+
+        item = this.save(item);
+
+        return this.itemMapper.mapItemToItemDto(item);
+    }
+
     @Override
     public ItemDto findOneDto(Integer id) {
         Item item = this.findOne(id);
@@ -111,6 +148,17 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
+    public Item findOne(Integer integer) {
+        Item item = super.findOne(integer);
+
+        if (item != null) {
+            this.linkRecord(item);
+        }
+
+        return item;
+    }
+
+    @Override
     public List<ItemDto> findAllDto() {
         List<Item> items = this.findAll();
         items.forEach(this::linkRecord);
@@ -118,44 +166,37 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return mapLibrariesToLibrariesDTO(this.findAll());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
-        return this.mapItemToItemDto(this.saveWithRecord(item));
+        return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public ItemDto findByInternalId(Integer internalId) {
 
         Item item = itemDao.findByInternalId(internalId);
         return this.itemMapper.mapItemToItemDto(item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Page<ItemDto> findAllPageableDto(Pageable pageable) {
 
         Page<Item> items = this.findAll(pageable);
         return this.mapItemsToItemDtosPage(items);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable) {
 
         List<Integer> itemIds = new ArrayList<>();
         Page<Item> items = null;
         Page<ItemDto> itemDtos = null;
 
-        List<Record> records = this.solrRecordService.searchBySerialNumber(serialNumber, serialType);
-        if (records.size() > 0) {
+        Page<Record> records =
+                this.solrRecordService.searchBySerialNumberAndSerialType(serialNumber, serialType, pageable);
+        if (records.getContent().size() > 0) {
             HashMap<String, Record> recordMap = new HashMap<>();
 
             records.forEach(record -> {
@@ -176,9 +217,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         return itemDtos;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Page<ItemDto> findAllPageableDtoByRecordTitleMainTitle(Pageable pageable, String title) {
         List<Record> records = solrRecordService.searchByTitle(title);
         List<Integer> itemIds = new ArrayList<>();
@@ -202,6 +241,22 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
+    public Page<ItemDto> findAllItemDtoWithFilters(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Boolean borrowed,
+            Pageable page
+    ) {
+        Page<Item> items =
+                this.solrItemService.fullSearch(title, author, publisher, id, publicationDate, borrowed, page);
+
+        return this.mapItemsToItemDtosPage(items);
+    }
+
+    @Override
     public Item linkRecord(Item item) {
         if (item.getRecordId() != null) {
             Record record = this.solrRecordService.findById(item.getRecordId());
@@ -212,38 +267,15 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {
-
         List<ItemDto> itemDtos = new ArrayList<>();
-        items.forEach(item -> itemDtos.add(mapItemToItemDto(item)));
+        items.forEach(item -> itemDtos.add(this.itemMapper.mapItemToItemDto(item)));
 
         return new PageImpl<>(itemDtos);
     }
 
-    private List<ItemDto> mapItemsToItemsDto(List<Item> items) {
-        List<ItemDto> itemDtos = new ArrayList<>();
-        items.forEach(item -> itemDtos.add(this.itemMapper.mapItemToItemDto(item)));
-
-        return itemDtos;
-    }
-
-    private Item mapItemDtoToItem(ItemDto itemDto) {
-        return this.itemMapper.mapItemDtoToItem(itemDto);
-    }
-
-    private ItemDto mapItemToItemDto(Item item) {
-        return this.itemMapper.mapItemToItemDto(item);
-    }
-
-    private List<Item> mapLibrariesDtoToLibraries(List<ItemDto> librariesDto) {
-        List<Item> libraries = new ArrayList<>();
-        librariesDto.forEach(ItemDto -> libraries.add(mapItemDtoToItem(ItemDto)));
-
-        return libraries;
-    }
-
     private List<ItemDto> mapLibrariesToLibrariesDTO(List<Item> libraries) {
         List<ItemDto> librariesDto = new ArrayList<>();
-        libraries.forEach(Item -> librariesDto.add(mapItemToItemDto(Item)));
+        libraries.forEach(Item -> librariesDto.add(this.itemMapper.mapItemToItemDto(Item)));
 
         return librariesDto;
     }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.BorrowerDto;
 import org.lenndi.umtapo.entity.Borrower;
-import org.lenndi.umtapo.rest.ApiError;
 import org.lenndi.umtapo.service.specific.BorrowerService;
 import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +41,6 @@ public class BorrowerWebService {
      */
     @Autowired
     public BorrowerWebService(BorrowerService borrowerService) {
-        Assert.notNull(borrowerService);
         this.borrowerService = borrowerService;
     }
 
@@ -159,9 +156,8 @@ public class BorrowerWebService {
             borrowerDto = this.borrowerService.saveDto(borrowerDto);
         } catch (final InvalidRecordException e) {
             LOGGER.fatal(e.getMessage());
-            ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), "Invalid record");
 
-            return new ResponseEntity<>(apiError, apiError.getStatus());
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);

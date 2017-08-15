@@ -10,6 +10,7 @@ import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Loan;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,7 @@ public class LoanMapper extends ConfigurableMapper {
     private static final Logger LOGGER = Logger.getLogger(ItemMapper.class);
 
     private static final MapperFacade MAPPER;
+    private static final MapperFacade SIMPLE_MAPPER;
     private static final MapperFacade MAPPER_PATCH;
 
     static {
@@ -36,6 +38,11 @@ public class LoanMapper extends ConfigurableMapper {
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
         mapperFactory.classMap(Loan.class, LoanDto.class).byDefault().register();
         MAPPER = mapperFactory.getMapperFacade();
+
+        final MapperFactory simpleMapperFactory = new DefaultMapperFactory.Builder().build();
+        simpleMapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(ZonedDateTime.class));
+        simpleMapperFactory.classMap(Loan.class, SimpleLoanDto.class).byDefault().register();
+        SIMPLE_MAPPER = mapperFactory.getMapperFacade();
     }
 
     static {
@@ -72,12 +79,6 @@ public class LoanMapper extends ConfigurableMapper {
     }
 
     /**
-     * Instantiates a new Loan mapper.
-     */
-    public LoanMapper() {
-    }
-
-    /**
      * Map loan to loan dto.
      *
      * @param loan the loan
@@ -87,6 +88,15 @@ public class LoanMapper extends ConfigurableMapper {
         return MAPPER.map(loan, LoanDto.class);
     }
 
+    /**
+     * Map loan to simple loan dto.
+     *
+     * @param loan the loan
+     * @return the loan dto
+     */
+    public SimpleLoanDto mapLoanToSimpleLoanDto(Loan loan) {
+        return MAPPER.map(loan, SimpleLoanDto.class);
+    }
 
     /**
      * Map item to item dto.

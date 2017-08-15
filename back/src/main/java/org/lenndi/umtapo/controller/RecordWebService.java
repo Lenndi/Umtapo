@@ -4,7 +4,6 @@ import com.github.ladutsko.isbn.ISBNException;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.configuration.Z3950;
 import org.lenndi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
-import org.lenndi.umtapo.rest.ApiError;
 import org.lenndi.umtapo.service.configuration.Z3950Service;
 import org.lenndi.umtapo.service.specific.RecordService;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,9 +56,6 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             UnimarcToSimpleRecord unimarcToSimpleRecord,
             Z3950Service z3950Service
     ) {
-        Assert.notNull(recordService, "Argument libraryService cannot be null.");
-        Assert.notNull(unimarcToSimpleRecord, "Argument unimarcToSimpleRecord cannot be null.");
-        Assert.notNull(z3950Service, "Argument z3950Service cannot be null.");
         this.recordService = recordService;
         this.unimarcToSimpleRecord = unimarcToSimpleRecord;
         this.z3950Service = z3950Service;
@@ -143,22 +138,14 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
             }
         } else {
             LOGGER.warn("Missing parameter: isbn or title is required");
-            ApiError apiError = new ApiError(
-                    HttpStatus.BAD_REQUEST,
-                    "'title' or 'isbn' argument is required",
-                    "Missing parameters");
 
-            return new ResponseEntity<>(apiError, apiError.getStatus());
+            return new ResponseEntity<>("'title' or 'isbn' argument is required", HttpStatus.BAD_REQUEST);
         }
     }
 
     private ResponseEntity zoomExceptionHandling(ZoomException e) {
         LOGGER.fatal(e.getMessage());
-        ApiError apiError = new ApiError(
-                HttpStatus.SERVICE_UNAVAILABLE,
-                e.getLocalizedMessage(),
-                "Z39.50 error");
 
-        return new ResponseEntity<>(apiError, apiError.getStatus());
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 }

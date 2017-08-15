@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +35,6 @@ public class SolrRecordServiceImpl implements SolrRecordService {
      */
     @Autowired
     public SolrRecordServiceImpl(SolrRecordRepository recordRepository, RecordMapper recordMapper) {
-        Assert.notNull(recordRepository);
-        Assert.notNull(recordMapper);
-
         this.recordRepository = recordRepository;
         this.recordMapper = recordMapper;
     }
@@ -116,6 +112,21 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page) {
         Page<RecordDocument> recordDocuments =
                 this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType, page);
+
+        return this.mapRecordDocumentPageToRecordPage(recordDocuments);
+    }
+
+    @Override
+    public Page<Record> fullSearch(
+            String title,
+            String author,
+            String publisher,
+            String id,
+            String publicationDate,
+            Pageable page
+    ) {
+        Page<RecordDocument> recordDocuments =
+                this.recordRepository.fullSearch(title, author, publisher, id, publicationDate, page);
 
         return this.mapRecordDocumentPageToRecordPage(recordDocuments);
     }

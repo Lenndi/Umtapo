@@ -3,6 +3,7 @@ package org.lenndi.umtapo.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.entity.Library;
 import org.lenndi.umtapo.entity.Loan;
@@ -75,19 +76,23 @@ public class LoanWebService {
     @RequestMapping(value = "/loans", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getLoans(@PathParam("borrowerId") Integer borrowerId) {
 
-        List<LoanDto> loans;
-
         if (borrowerId != null) {
+            List<SimpleLoanDto> loans;
             loans = loanService.findAllDtoByBorrowerIdAndNotReturned(borrowerId);
+            if (loans == null || loans.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+            }
+
+            return new ResponseEntity<>(loans, HttpStatus.OK);
         } else {
+            List<LoanDto> loans;
             loans = loanService.findAllDto();
-        }
+            if (loans == null || loans.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+            }
 
-        if (loans == null || loans.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); //You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<>(loans, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
     /**

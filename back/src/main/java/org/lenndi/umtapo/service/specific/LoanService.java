@@ -2,16 +2,15 @@ package org.lenndi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.service.generic.GenericService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by axel on 22/01/17.
  */
-@Service
 public interface LoanService extends GenericService<Loan, Integer> {
 
     /**
@@ -79,7 +78,7 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param id the id
      * @return the list
      */
-    List<LoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id);
+    List<SimpleLoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id);
 
     /**
      * Item End Date change.
@@ -98,13 +97,5 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @throws IllegalAccessException the illegal access exception
      */
     LoanDto patchLoan(JsonNode jsonNodeBorrower, Loan loan) throws IllegalAccessException;
-
-    /**
-     * Map loan to loan dto loan dto.
-     *
-     * @param loan the loan
-     * @return the loan dto
-     */
-    LoanDto mapLoanToLoanDto(Loan loan);
 }
 

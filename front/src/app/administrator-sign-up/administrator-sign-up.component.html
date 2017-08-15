@@ -1,0 +1,61 @@
+<div class="l-one-form">
+  <div id="administrator-sign-up" class="row">
+    <div class="l-one-form-content col-12 col-md-6 offset-3">
+      <div class="text-center l-one-form-title">
+        <h1 class="card-title">Enregistrement de l'administrateur</h1>
+      </div>
+      <form class="l-one-form__form" *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group" [class.has-danger]="lastName.invalid && lastName.dirty">
+              <label for="lastName">Nom de famille</label>
+              <input id="lastName" type="text" class="form-control form-control-sm"
+                     placeholder="Nom de famille" required
+                     [class.form-control-danger]="lastName.invalid && lastName.dirty" formControlName="lastName">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group" [class.has-danger]="firstName.invalid && firstName.dirty">
+              <label for="firstName">Prénom</label>
+              <input id="firstName" type="text" class="form-control form-control-sm"
+                     placeholder="Prénom" required
+                     [class.form-control-danger]="firstName.invalid && firstName.dirty" formControlName="firstName">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group" [class.has-danger]="ssoId.invalid && ssoId.dirty">
+              <label for="ssoId">Identifiant</label>
+              <input id="ssoId" type="text" class="form-control form-control-sm"
+                     placeholder="Identifiant" required
+                     [class.form-control-danger]="ssoId.invalid && ssoId.dirty" formControlName="ssoId" disabled>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group" [class.has-danger]="password.invalid && password.dirty">
+              <label for="password">Mot de passe</label>
+              <input id="password" type="password" class="form-control form-control-sm"
+                     placeholder="Mot de passe" required
+                     [class.form-control-danger]="password.invalid && password.dirty" formControlName="password">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group" [class.has-danger]="email.invalid && email.dirty">
+              <label for="email">Email</label>
+              <input id="email" type="email" class="form-control form-control-sm"
+                     placeholder="Email" required
+                     [class.form-control-danger]="email.invalid && email.dirty" formControlName="email">
+            </div>
+          </div>
+        </div>
+        <div class="text-right form-group">
+          <button type="submit" class="btn btn-warning o-button o-button__action">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

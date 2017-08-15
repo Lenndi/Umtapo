@@ -3,6 +3,7 @@ package org.lenndi.umtapo.service.specific.implementation;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dao.LoanDao;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.mapper.LoanMapper;
 import org.lenndi.umtapo.service.generic.AbstractGenericService;
@@ -13,7 +14,6 @@ import org.lenndi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -47,11 +47,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
             SolrBorrowerService solrBorrowerService,
             ItemService itemService
     ) {
-        Assert.notNull(loanMapper);
-        Assert.notNull(loanDao);
-        Assert.notNull(solrBorrowerService);
-        Assert.notNull(itemService);
-
         this.loanDao = loanDao;
         this.loanMapper = loanMapper;
         this.solrBorrowerService = solrBorrowerService;
@@ -137,18 +132,18 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
      * {@inheritDoc}
      */
     @Override
-    public List<LoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id) {
+    public List<SimpleLoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id) {
         List<Loan> loans = loanDao.findByBorrowerIdAndReturnedFalse(id);
         loans.forEach(loan -> loan.setItem(this.itemService.linkRecord(loan.getItem())));
 
-        return this.mapLoansToLoanDtos(loans);
+        return this.mapLoansToSimpleLoanDtos(loans);
     }
 
     /**
      * {@inheritDoc}
      */
     public Integer saveEnd(LoanDto loanDto) {
-        return loanDao.saveConditonById(loanDto.getEnd(), loanDto.getId());
+        return loanDao.setEndById(loanDto.getEnd(), loanDto.getId());
     }
 
     /**
@@ -157,31 +152,22 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IllegalAccessException {
 
         loanMapper.mergeLoanAndJsonNode(loan, jsonNodeLoan);
-        return this.mapLoanToLoanDto(this.save(loan));
-    }
-
-    @Override
-    public LoanDto mapLoanToLoanDto(Loan loan) {
         return loanMapper.mapLoanToLoanDto(loan);
-    }
-
-    private Loan mapLoanDtoToLoan(LoanDto loanDto) {
-        return loanMapper.mapLoanDtoToLoan(loanDto);
-    }
-
-    private List<Loan> mapLoanDtosToLoans(List<LoanDto> loanDtos) {
-
-        List<Loan> loans = new ArrayList<>();
-        loanDtos.forEach(loanDto -> loans.add(mapLoanDtoToLoan(loanDto)));
-
-        return loans;
     }
 
     private List<LoanDto> mapLoansToLoanDtos(List<Loan> loans) {
 
         List<LoanDto> loanDtos = new ArrayList<>();
-        loans.forEach(loan -> loanDtos.add(mapLoanToLoanDto(loan)));
+        loans.forEach(loan -> loanDtos.add(loanMapper.mapLoanToLoanDto(loan)));
 
         return loanDtos;
+    }
+
+    private List<SimpleLoanDto> mapLoansToSimpleLoanDtos(List<Loan> loans) {
+
+        List<SimpleLoanDto> simpleLoanDtos = new ArrayList<>();
+        loans.forEach(loan -> simpleLoanDtos.add(loanMapper.mapLoanToSimpleLoanDto(loan)));
+
+        return simpleLoanDtos;
     }
 }

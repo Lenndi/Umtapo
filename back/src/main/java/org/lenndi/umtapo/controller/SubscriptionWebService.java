@@ -4,13 +4,11 @@ import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.SubscriptionDto;
 import org.lenndi.umtapo.entity.Library;
 import org.lenndi.umtapo.exception.BadSubscriptionDateException;
-import org.lenndi.umtapo.rest.ApiError;
 import org.lenndi.umtapo.service.specific.LibraryService;
 import org.lenndi.umtapo.service.specific.SubscriptionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,9 +35,6 @@ public class SubscriptionWebService {
      * @param libraryService      the library service
      */
     public SubscriptionWebService(SubscriptionService subscriptionService, LibraryService libraryService) {
-        Assert.notNull(subscriptionService);
-        Assert.notNull(libraryService);
-
         this.subscriptionService = subscriptionService;
         this.libraryService = libraryService;
     }
@@ -68,18 +63,14 @@ public class SubscriptionWebService {
                 if (library != null) {
                     subscriptionDto.setEnd(subscriptionDto.getStart().plusDays(library.getSubscriptionDuration()));
                 } else {
-                    ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST,
-                            "Library does not exists",
-                            "Library with id " + subscriptionDto.getLibrary().getId() + "does not exists");
-                    return new ResponseEntity<>(apiError, apiError.getStatus());
+                    return new ResponseEntity<>("Library does not exists", HttpStatus.BAD_REQUEST);
                 }
             }
 
             try {
                 subscriptionDto = this.subscriptionService.saveDto(subscriptionDto);
             } catch (final BadSubscriptionDateException e) {
-                ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getMessage(), e.toString());
-                return new ResponseEntity<>(apiError, apiError.getStatus());
+                return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
             }
             LOGGER.info("Subscription " + subscriptionDto.getId() + " inserted in database.");
 

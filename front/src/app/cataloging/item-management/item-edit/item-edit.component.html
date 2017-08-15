@@ -1,0 +1,93 @@
+<div *ngIf="dataService.isEditShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+     #itemEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Édition</h4>
+      </div>
+      <form [formGroup]="itemForm" (ngSubmit)="onUpdate(itemForm.value)">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <label class="col-form-label-sm">Cote</label>
+            </div>
+            <div class="form-group col">
+              <input id="shelfmark1" type="text" class="form-control form-control-sm" placeholder="Champ 1"
+                     formControlName="shelfmark1">
+            </div>
+            <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 1">
+              <input id="shelfmark2" type="text" class="form-control form-control-sm" placeholder="Champ 2"
+                     formControlName="shelfmark2">
+            </div>
+            <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 2">
+              <input id="shelfmark3" type="text" class="form-control form-control-sm" placeholder="Champ 3"
+                     formControlName="shelfmark3">
+            </div>
+            <div class="form-group col" *ngIf="localLibrary.shelfMarkNb > 3">
+              <input id="shelfmark4" type="text" class="form-control form-control-sm" placeholder="Champ 4"
+                     formControlName="shelfmark4">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="purchase-price" class="col-form-label-sm">Prix d'achat</label>
+            <input id="purchase-price" type="text" class="form-control  form-control-sm" placeholder="Prix d'achat"
+                   formControlName="purchasePrice">
+          </div>
+          <div class="row">
+            <div class="col-10 col-form-label-sm">Document diponible à l'emprunt</div>
+            <div class="col-2">
+              <div class="umt-check-right">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" checked>
+                  <span class="custom-control-indicator"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="condition" class="col-form-label-sm">État</label>
+            <select id="condition" class="form-control  form-control-sm custom-select" required
+                    formControlName="condition">
+              <option value="" disabled selected>État</option>
+              <option *ngFor="let condition of conditionEnum.array" [value]="condition.key">{{condition.value}}</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-9 col-form-label-sm">Document externe à la bibliothèque</div>
+            <div class="col-3">
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="is-external-item"
+                       (change)="switchExternalLibrary()" [checked]="isExternalItem">
+                <label class="onoffswitch-label" for="is-external-item"></label>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="isExternalItem">
+            <div class="form-group col-10">
+              <label for="external-library" class="sr-only">Bibliothèque externe</label>
+              <select id="external-library" class="form-control form-control-sm custom-select" required
+                      formControlName="externalLibrary">
+                <option value="" disabled selected>Sélectionner une bibliothèque</option>
+                <option *ngFor="let externalLibrary of variousItemDataService.externalLibraries"
+                        [value]="externalLibrary.id">
+                  {{externalLibrary.name}}
+                </option>
+              </select>
+            </div>
+            <div class="col-2 text-center">
+              <div id="umt-add-library">
+                <a (click)="newExternalLibrary()"><i class="fa fa-plus text-warning" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a role="button" class="btn btn-sm btn-secondary" (click)="hideModal()">Annuler</a>
+            <button type="submit" class="btn btn-sm btn-warning">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<umt-external-library-modal></umt-external-library-modal>

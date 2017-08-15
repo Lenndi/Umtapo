@@ -1,0 +1,23 @@
+<div bsModal #externalLibraryModal="bs-modal" class="modal fade show" tabindex="-1" role="dialog"
+     aria-labelledby="externalLibraryModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="externalLibraryForm" (ngSubmit)="onLibrarySubmit()">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Nouvelle bibliothèque tiers</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="library-name">Nom</label>
+            <input id="library-name" class="form-control" placeholder="Nom" required
+                   formControlName="externalLibraryName">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a role="button" class="btn btn-sm btn-secondary" (click)="hideModal()">Annuler</a>
+          <button type="submit" class="btn btn-sm btn-warning">Créer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

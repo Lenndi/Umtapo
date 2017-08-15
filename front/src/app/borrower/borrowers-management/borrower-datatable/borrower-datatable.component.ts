@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Borrower} from '../../../../entity/borrower';
 import {BorrowerService} from '../../../../service/borrower.service';
-import {BorrowerFilter} from '../../../../service/various/borrower-filter';
+import {BorrowerFilter} from '../../../../service/filter/borrower-filter';
 import {Subject, Subscription} from 'rxjs';
 import {ORDER, Pageable} from '../../../../util/pageable';
 import {Page} from '../../../../util/page';
@@ -37,7 +37,7 @@ export class BorrowerDatatableComponent implements OnInit {
       .switchMap(borrowerFilter => this.borrowerService.findWithFilters(this.pageable, borrowerFilter))
       .subscribe(
         response => this.page = response,
-        error => console.debug(error)
+        error => logger.error(error)
       );
 
     this.changeFilter();

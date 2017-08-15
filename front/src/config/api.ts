@@ -6,5 +6,6 @@ export const api = {
   item: 'items',
   loan: 'loans',
   subscription: 'subscriptions',
-  login: 'login'
+  login: 'login',
+  user: 'users',
 };
