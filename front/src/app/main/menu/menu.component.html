@@ -1,6 +1,14 @@
-<nav id="umt-sidenav">
-  <div class="umt-category">
-    <h6 [class.text-primary]="isOpen('circulation')">Circulation</h6>
+<nav class="l-menu-content">
+  <div class="l-menu-category">
+
+    <div class="l-menu-category__title">
+
+      <p>
+        <i class="fa fa-exchange" aria-hidden="true"></i>
+        Circulation
+      </p>
+    </div>
+
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link" routerLink="/circulation" routerLinkActive="text-primary">
@@ -9,8 +17,13 @@
       </li>
     </ul>
   </div>
-  <div class="umt-category">
-    <h6 [class.text-primary]="isOpen('borrower')">Usager</h6>
+  <div class="l-menu-category">
+    <div class="l-menu-category__title">
+      <p>
+        <i class="fa fa-users" aria-hidden="true"></i>
+        Usager
+      </p>
+    </div>
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link" routerLink="/borrowers/new" routerLinkActive="text-primary">
@@ -24,8 +37,13 @@
       </li>
     </ul>
   </div>
-  <div class="umt-category">
-    <h6 [class.text-primary]="isOpen('cataloging')">Fond documentaire</h6>
+  <div class="l-menu-category">
+    <div class="l-menu-category__title">
+      <p>
+        <i class="fa fa-file" aria-hidden="true"></i>
+        Fond documentaire
+      </p>
+    </div>
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link" routerLink="/cataloging/registration" routerLinkActive="text-primary">

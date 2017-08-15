@@ -1,22 +1,24 @@
-<div class="text-center umt-login-title">
-  <h1>Login</h1>
-</div>
+<div class="l-one-form">
+  <div class="row">
+    <div class="col-12 col-md-4 offset-md-4 l-one-form-content">
+      <div class="text-center l-one-form-title">
+        <h1>Login</h1>
+      </div>
+      <form class="l-one-form__form">
+        <div class="form-group">
+          <input [(ngModel)]="login.username" name="username" type="text" placeholder="Nom d'utilisateur"
+                 class="form-control"/>
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="login.password" name="password" type="password" placeholder="Mot de passe"
+                 class="form-control"/>
+        </div>
 
-<div class="row">
-  <div class="col-12 col-md-4 offset-md-4">
-    <form>
-      <div class="form-group">
-        <input [(ngModel)]="login.username" name="username" type="text" placeholder="Nom d'utilisateur"
-               class="form-control"/>
-      </div>
-      <div class="form-group">
-        <input [(ngModel)]="login.password" name="password" type="password" placeholder="Mot de passe"
-               class="form-control"/>
-      </div>
-
-      <div class="text-center">
-        <button class="btn btn-warning" (click)="authenticate()">Connexion</button>
-      </div>
-    </form>
+        <div class="text-center">
+          <button class="btn btn-warning o-button o-button__action" (click)="authenticate()">Connexion</button>
+        </div>
+      </form>
+    </div>
   </div>
+
 </div>
