@@ -92,6 +92,14 @@ public interface LoanService extends GenericService<Loan, Integer> {
     List<SimpleLoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id);
 
     /**
+     * The Find all dto by borrower id and returned.
+     *
+     * @param tagId the tag id
+     * @return the list
+     */
+    List<SimpleLoanDto> findAllDtoByBorrowerTagIdAndNotReturned(String tagId);
+
+    /**
      * Item End Date change.
      *
      * @param loanDto the loan dto
@@ -126,6 +134,6 @@ public interface LoanService extends GenericService<Loan, Integer> {
      * @param item the item
      * @return the loan
      */
-    Loan backLoan(Item item);
+    Loan loanReturn(Item item);
     }
 

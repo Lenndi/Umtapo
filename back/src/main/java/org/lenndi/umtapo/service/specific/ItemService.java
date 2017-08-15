@@ -159,9 +159,9 @@ public interface ItemService extends GenericService<Item, Integer> {
     /**
      * Find by nfc id item.
      *
-     * @param nfcId the nfc id
+     * @param tagId the nfc id
      * @return the item
      */
-    Item findByNfcId(String nfcId);
+    Item findByNfcId(String tagId);
 
 }

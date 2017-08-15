@@ -96,6 +96,27 @@ public class LoanWebService {
     }
 
     /**
+     * Gets loans.
+     *
+     * @param tagId the id
+     * @return the loans
+     */
+    @RequestMapping(
+            value = "/uid/borrowers/{tagId}/loans",
+            method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity getLoans(@PathVariable String tagId) {
+
+        List<SimpleLoanDto> loans;
+        loans = loanService.findAllDtoByBorrowerTagIdAndNotReturned(tagId);
+        if (loans == null || loans.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(loans, HttpStatus.OK);
+    }
+
+    /**
      * Sets loan.
      *
      * @param loanDto the loan dto

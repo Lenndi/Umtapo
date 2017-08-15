@@ -85,9 +85,9 @@ public class LibraryWebServiceTest {
 
         ZonedDateTime zonedDateTime = java.time.ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null, "nfcId");
+                true, null, null, null, "tagId");
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null, "nfcId");
+                false, null, null, null, "tagId");
         this.borrowers.add(borrower);
         this.borrowers.add(borrower2);
         Library library1 = utilCreator.createLibrary(1, false);

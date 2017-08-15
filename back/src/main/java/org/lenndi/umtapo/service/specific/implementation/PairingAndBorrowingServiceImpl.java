@@ -59,12 +59,12 @@ public class PairingAndBorrowingServiceImpl extends Thread {
         if (this.pairingDto != null && this.pairingDto.getWaitPairing() != null && this.pairingDto.getWaitPairing()) {
             if (this.pairingDto.getPairingType() == PairingType.BORROWER) {
                 Borrower borrower = this.borrowerService.findOne(this.pairingDto.getBorrowerId());
-                borrower.setNfcId(tagId);
+                borrower.setTagId(tagId);
                 this.borrowerService.save(borrower);
                 this.pairingDto = null;
             } else if (this.pairingDto.getPairingType() == PairingType.ITEM) {
                 Item item = this.itemService.findOne(this.pairingDto.getItemId());
-                item.setNfcId(tagId);
+                item.setTagId(tagId);
                 this.itemService.save(item);
                 this.pairingDto = null;
             }
@@ -84,7 +84,7 @@ public class PairingAndBorrowingServiceImpl extends Thread {
 
             if (this.pairingDto != null && this.pairingDto.getPairingType() == PairingType.BORROWER) {
                 if (item != null && item.getBorrowed()) {
-                    this.loanService.backLoan(item);
+                    this.loanService.loanReturn(item);
                 } else if (item != null && !item.getBorrowed()) {
                     try {
                         this.loanService.createLoan(item, this.pairingDto.getBorrowerId());

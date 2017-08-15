@@ -26,8 +26,8 @@ public interface BorrowerDao extends JpaRepository<Borrower, Integer> {
     /**
      * Find by nfc id borrower.
      *
-     * @param nfcId the nfc id
+     * @param tagId the nfc id
      * @return the borrower
      */
-    Borrower findByNfcId(String nfcId);
+    Borrower findByTagId(String tagId);
 }

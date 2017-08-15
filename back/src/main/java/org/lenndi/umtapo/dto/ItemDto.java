@@ -18,7 +18,7 @@ public class ItemDto {
     private ItemType type;
     private ShelfMark shelfmark;
     private Integer internalId;
-    private String nfcId;
+    private String tagId;
     private Float purchasePrice;
     private Boolean loanable;
     private Boolean borrowed;
@@ -337,16 +337,16 @@ public class ItemDto {
      *
      * @return the nfc id
      */
-    public String getNfcId() {
-        return nfcId;
+    public String getTagId() {
+        return tagId;
     }
 
     /**
      * Sets nfc id.
      *
-     * @param nfcId the nfc id
+     * @param tagId the nfc id
      */
-    public void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 }

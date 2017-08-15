@@ -47,6 +47,13 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      */
     BorrowerDto findOneDto(Integer integer);
 
+    /**
+     * Find one dto by tag id borrower dto.
+     *
+     * @param tagId the tag id
+     * @return the borrower dto
+     */
+    BorrowerDto findOneDtoByTagId(String tagId);
 
     /**
      * {@inheritDoc}
@@ -120,19 +127,10 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
     void delete(Integer integer) throws NoSuchElementException;
 
     /**
-     * Find all pageable dto by name page.
-     *
-     * @param pageable the pageable
-     * @param contains the contains
-     * @return the page
-     */
-    Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains);
-
-    /**
      * Find by nfc id borrower.
      *
-     * @param nfcId the nfc id
+     * @param tagId the nfc id
      * @return the borrower
      */
-    Borrower findByNfcId(String nfcId);
+    Borrower findByNfcId(String tagId);
 }

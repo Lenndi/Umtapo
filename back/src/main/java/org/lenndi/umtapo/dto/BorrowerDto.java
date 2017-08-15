@@ -23,7 +23,7 @@ public class BorrowerDto {
     private Integer nbLoans;
     private Boolean tooMuchLoans;
     private Boolean lateness;
-    private String nfcId;
+    private String tagId;
     private ZonedDateTime subscriptionStart;
     private ZonedDateTime subscriptionEnd;
     private Boolean active;
@@ -330,16 +330,16 @@ public class BorrowerDto {
      *
      * @return the nfc id
      */
-    public String getNfcId() {
-        return nfcId;
+    public String getTagId() {
+        return tagId;
     }
 
     /**
      * Sets nfc id.
      *
-     * @param nfcId the nfc id
+     * @param tagId the nfc id
      */
-    public void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 }

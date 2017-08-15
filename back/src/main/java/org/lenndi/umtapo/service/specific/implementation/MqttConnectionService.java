@@ -85,6 +85,8 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
 
     @Override
     public void connectionLost(Throwable throwable) {
+        LOGGER.error("MQTT connection lost.");
+        this.connect();
     }
 
     @Override

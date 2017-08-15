@@ -60,9 +60,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrower;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public BorrowerDto saveDto(BorrowerDto borrowerDto) {
         Borrower borrower = this.borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
@@ -71,9 +68,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Transactional
     public void updateDto(BorrowerDto borrowerDto) {
@@ -102,9 +96,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public BorrowerDto findOneDto(Integer id) {
         Borrower borrower = this.findOne(id);
@@ -112,9 +103,13 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public BorrowerDto findOneDtoByTagId(String tagId) {
+        Borrower borrower = this.findByNfcId(tagId);
+
+        return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
+    }
+
     @Override
     public List<BorrowerDto> findAllDto() {
         List<Borrower> borrowers = findAll();
@@ -129,9 +124,6 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.borrowerDocumentPageToDtoPage(borrowerDocuments);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Page<BorrowerDto> findAllBorrowerDtoByNameOrEmail(String name, Pageable pageable) {
         Page<BorrowerDocument> borrowers = this.solrBorrowerService.searchByNameOrEmail(name, pageable);
@@ -156,7 +148,11 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     /**
-     * {@inheritDoc}
+     * Find all pageable dto
+     *
+     * @param pageable the pageable
+     * @param contains the contains
+     * @return borrower dto page
      */
     public Page<BorrowerDto> findAllPageableDtoByName(Pageable pageable, String contains) {
 
@@ -165,23 +161,18 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     }
 
     @Override
-    public Borrower findByNfcId(String nfcId) {
+    public Borrower findByNfcId(String tagId) {
 
-        return this.borrowerDao.findByNfcId(nfcId);
+        return this.borrowerDao.findByTagId(tagId);
     }
 
     /**
-     * {@inheritDoc}
+     * Patch borrower
      *
-     * @param pageable the pageable
-     * @return the page
-     */
-    public Page<Borrower> findAllPageable(Pageable pageable) {
-        return this.findAll(pageable);
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param jsonNodeBorrower the json node borrower
+     * @param borrower         the borrower
+     * @return borrower dto
+     * @throws IllegalAccessException exception
      */
     public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException {
 
@@ -189,21 +180,8 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
         return this.mapBorrowerToBorrowerDto(this.save(borrower));
     }
 
-
-    private Borrower mapBorrowerDtoToBorrower(BorrowerDto borrowerDto) {
-        return borrowerMapper.mapBorrowerDtoToBorrower(borrowerDto);
-    }
-
     private BorrowerDto mapBorrowerToBorrowerDto(Borrower borrower) {
         return borrowerMapper.mapBorrowerToBorrowerDto(borrower);
-    }
-
-    private List<Borrower> mapBorrowerDtosToBorrowers(List<BorrowerDto> borrowerDtos) {
-
-        List<Borrower> borrowers = new ArrayList<>();
-        borrowerDtos.forEach(borrowerDto -> borrowers.add(mapBorrowerDtoToBorrower(borrowerDto)));
-
-        return borrowers;
     }
 
     private List<BorrowerDto> mapBorrowersToBorrowerDtos(List<Borrower> borrowers) {

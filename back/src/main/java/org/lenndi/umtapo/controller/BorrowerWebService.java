@@ -64,6 +64,27 @@ public class BorrowerWebService {
     }
 
     /**
+     * Gets borrower.
+     *
+     * @param tagId the tag id
+     * @return the borrower
+     */
+    @RequestMapping(
+            value = "/uid/borrowers/{tagId}",
+            method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity getBorrowerByTag(@PathVariable String tagId) {
+
+        BorrowerDto borrowerDto;
+        borrowerDto = borrowerService.findOneDtoByTagId(tagId);
+        if (borrowerDto == null) {
+            LOGGER.info("Borrower with id " + tagId + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(borrowerDto, HttpStatus.OK);
+    }
+
+    /**
      * Gets borrowers.
      *
      * @param page         the page

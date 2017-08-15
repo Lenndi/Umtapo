@@ -87,9 +87,9 @@ public class BorrowerWebServiceTest {
     public void setup() {
         zonedDateTime = ZonedDateTime.of(2000, 5, 25, 21, 52, 35, 0, ZoneId.systemDefault());
         Borrower borrower = new Borrower("NameTest", "CommentTest", zonedDateTime, 5,
-                true, null, null, null, "nfcId");
+                true, null, null, null, "tagId");
         Borrower borrower2 = new Borrower("NameTest2", "CommentTest2", zonedDateTime, 7,
-                false, null, null, null, "nfcId");
+                false, null, null, null, "tagId");
         borrowerDto = borrowerMapper.mapBorrowerToBorrowerDto(borrower);
         borrowerDto2 = borrowerMapper.mapBorrowerToBorrowerDto(borrower2);
     }
@@ -108,7 +108,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("NameTest")))
                 .andExpect(jsonPath("$.comment", is("CommentTest")))
-                .andExpect(jsonPath("$.nfcId", is("nfcId")))
+                .andExpect(jsonPath("$.tagId", is("tagId")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))
@@ -137,7 +137,7 @@ public class BorrowerWebServiceTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name", is("NameTest")))
-                .andExpect(jsonPath("$.content[0].nfcId", is("nfcId")))
+                .andExpect(jsonPath("$.content[0].tagId", is("tagId")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
                 .andExpect(jsonPath("$.content[0].quota", is(5)))
                 .andExpect(jsonPath("$.content[0].emailOptin", is(true)))
@@ -146,7 +146,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(jsonPath("$.content[1].name", is("NameTest2")))
                 .andExpect(jsonPath("$.content[1].comment", is("CommentTest2")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
-                .andExpect(jsonPath("$.content[1].nfcId", is("nfcId")))
+                .andExpect(jsonPath("$.content[1].tagId", is("tagId")))
                 .andExpect(jsonPath("$.content[1].quota", is(7)))
                 .andExpect(jsonPath("$.content[1].emailOptin", is(false)))
                 .andExpect(jsonPath("$.content[1].address", nullValue()))
@@ -172,7 +172,7 @@ public class BorrowerWebServiceTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is("NameTest")))
                 .andExpect(jsonPath("$.comment", is("CommentTest")))
-                .andExpect(jsonPath("$.nfcId", is("nfcId")))
+                .andExpect(jsonPath("$.tagId", is("tagId")))
 //                .andExpect(jsonPath("$.birthday", is(dateTime)))
                 .andExpect(jsonPath("$.quota", is(5)))
                 .andExpect(jsonPath("$.emailOptin", is(true)))

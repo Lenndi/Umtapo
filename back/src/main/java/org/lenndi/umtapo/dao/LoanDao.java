@@ -35,6 +35,15 @@ public interface LoanDao extends JpaRepository<Loan, Integer> {
     List<Loan> findByBorrowerIdAndReturnedFalse(Integer borrower);
 
     /**
+     * Find by borrower tagId and returned false list.
+     *
+     * @param tagId the borrower
+     * @return the list
+     */
+    @Query("select l from Loan l inner join l.borrower b where l.returned = false and b.tagId = :tagId")
+    List<Loan> findByBorrowerTagIdAndNotReturned(String tagId);
+
+    /**
      * Find first by borrower id and returned false order by end asc loan.
      *
      * @param borrowerId the borrower id

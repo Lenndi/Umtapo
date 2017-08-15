@@ -23,7 +23,7 @@ public class Borrower {
     private Integer id;
     private String name;
     @Column(unique = true)
-    private String nfcId;
+    private String tagId;
     private String comment;
     private ZonedDateTime birthday;
     private Integer quota;
@@ -54,11 +54,11 @@ public class Borrower {
      * @param address       the address
      * @param subscriptions the subscriptions
      * @param loans         the loans
-     * @param nfcId         the nfc id
+     * @param tagId         the nfc id
      */
     public Borrower(
             String name, String comment, ZonedDateTime birthday, Integer quota, Boolean emailOptin, Address address,
-            List<Subscription> subscriptions, List<Loan> loans, String nfcId) {
+            List<Subscription> subscriptions, List<Loan> loans, String tagId) {
         this.name = name;
         this.comment = comment;
         this.birthday = birthday;
@@ -67,7 +67,7 @@ public class Borrower {
         this.address = address;
         this.subscriptions = subscriptions;
         this.loans = loans;
-        this.nfcId = nfcId;
+        this.tagId = tagId;
     }
 
     /**
@@ -237,17 +237,17 @@ public class Borrower {
      *
      * @return the nfc tag
      */
-    public String getNfcId() {
-        return nfcId;
+    public String getTagId() {
+        return tagId;
     }
 
     /**
      * Sets nfc tag.
      *
-     * @param nfcId the nfc tag
+     * @param tagId the nfc tag
      */
-    public void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 
     /**

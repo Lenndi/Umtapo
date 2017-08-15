@@ -37,7 +37,7 @@ public class Item {
     @NotNull
     private Integer internalId;
     @Column(unique = true)
-    private String nfcId;
+    private String tagId;
     private Integer purchasePrice;
     private Boolean loanable;
     private Boolean borrowed;
@@ -74,11 +74,11 @@ public class Item {
      * @param currency      the currency
      * @param library       the library
      * @param isBorrowed    the is borrowed
-     * @param nfcId         the nfc id
+     * @param tagId         the nfc id
      */
     public Item(ItemType type, ShelfMark shelfmark, Integer internalId, Integer purchasePrice, Boolean isLoanable,
                 List<Loan> loans, Condition condition, String currency, Library library, Boolean isBorrowed,
-                String nfcId) {
+                String tagId) {
         this.type = type;
         this.shelfmark = shelfmark;
         this.internalId = internalId;
@@ -89,7 +89,7 @@ public class Item {
         this.borrowed = isBorrowed;
         this.currency = currency;
         this.library = library;
-        this.nfcId = nfcId;
+        this.tagId = tagId;
     }
 
     /**
@@ -369,16 +369,16 @@ public class Item {
      *
      * @return the nfc if
      */
-    public String getNfcId() {
-        return nfcId;
+    public String getTagId() {
+        return tagId;
     }
 
     /**
      * Sets nfc if.
      *
-     * @param nfcId the nfc if
+     * @param tagId the nfc if
      */
-    public void setNfcId(String nfcId) {
-        this.nfcId = nfcId;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 }

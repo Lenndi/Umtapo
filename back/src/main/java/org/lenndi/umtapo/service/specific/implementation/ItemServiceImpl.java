@@ -268,9 +268,9 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public Item findByNfcId(String nfcId) {
+    public Item findByNfcId(String tagId) {
 
-        return this.itemDao.findByNfcId(nfcId);
+        return this.itemDao.findByTagId(tagId);
     }
 
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {

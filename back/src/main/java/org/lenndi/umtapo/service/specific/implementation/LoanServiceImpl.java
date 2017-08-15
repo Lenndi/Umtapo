@@ -3,10 +3,10 @@ package org.lenndi.umtapo.service.specific.implementation;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dao.LoanDao;
 import org.lenndi.umtapo.dto.LoanDto;
+import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Borrower;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.entity.Library;
-import org.lenndi.umtapo.dto.SimpleLoanDto;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.exception.CreateLoanException;
 import org.lenndi.umtapo.exception.NotLoannableException;
@@ -21,7 +21,6 @@ import org.lenndi.umtapo.solr.service.SolrBorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.sql.Date;
 import java.time.ZonedDateTime;
@@ -61,12 +60,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
             ItemService itemService,
             LibraryService libraryService,
             BorrowerService borrowerService) {
-        Assert.notNull(loanMapper);
-        Assert.notNull(loanDao);
-        Assert.notNull(solrBorrowerService);
-        Assert.notNull(itemService);
-        Assert.notNull(borrowerService);
-        Assert.notNull(libraryService);
 
         this.borrowerService = borrowerService;
         this.loanDao = loanDao;
@@ -77,18 +70,12 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public LoanDto saveDto(LoanDto loanDto) {
 
         return this.loanMapper.mapLoanToLoanDto(this.saveLoanDtoToLoan(loanDto));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Transactional
     public Loan saveLoanDtoToLoan(LoanDto loanDto) {
@@ -97,9 +84,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.saveLoan(loan);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @Transactional
     public Loan saveLoan(Loan loan) {
@@ -123,9 +107,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return loanResult;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public LoanDto saveLoanToLoanDto(Loan loan) {
         loan = this.save(loan);
@@ -133,9 +114,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.loanMapper.mapLoanToLoanDto(loan);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Loan findOne(Integer integer) {
         Loan loan = super.findOne(integer);
@@ -144,9 +122,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return loan;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public LoanDto findOneDto(Integer id) {
         Loan loan = this.findOne(id);
@@ -154,9 +129,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return loanMapper.mapLoanToLoanDto(loan);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Loan> findAll() {
         List<Loan> loans = super.findAll();
@@ -165,9 +137,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return loans;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<LoanDto> findAllDto() {
         List<Loan> loans = this.findAll();
@@ -175,9 +144,6 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.mapLoansToLoanDtos(loans);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<SimpleLoanDto> findAllDtoByBorrowerIdAndNotReturned(Integer id) {
         List<Loan> loans = loanDao.findByBorrowerIdAndReturnedFalse(id);
@@ -186,15 +152,31 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return this.mapLoansToSimpleLoanDtos(loans);
     }
 
+    @Override
+    public List<SimpleLoanDto> findAllDtoByBorrowerTagIdAndNotReturned(String tagId) {
+        List<Loan> loans = loanDao.findByBorrowerTagIdAndNotReturned(tagId);
+        loans.forEach(loan -> loan.setItem(this.itemService.linkRecord(loan.getItem())));
+
+        return this.mapLoansToSimpleLoanDtos(loans);
+    }
+
     /**
-     * {@inheritDoc}
+     * Save end date
+     * @param loanDto the loan dto
+     * @return int
      */
     public Integer saveEnd(LoanDto loanDto) {
         return loanDao.setEndById(loanDto.getEnd(), loanDto.getId());
     }
 
     /**
-     * {@inheritDoc}
+     * Create loan
+     *
+     * @param item       the item
+     * @param borrowerId the borrower id
+     * @return loan
+     * @throws CreateLoanException exception
+     * @throws NotLoannableException exception
      */
     @Transactional
     public Loan createLoan(Item item, Integer borrowerId) throws CreateLoanException, NotLoannableException {
@@ -226,10 +208,13 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     }
 
     /**
-     * {@inheritDoc}
+     * Loan return.
+     *
+     * @param item the item
+     * @return loan
      */
     @Transactional
-    public Loan backLoan(Item item) {
+    public Loan loanReturn(Item item) {
 
         Loan loan = new Loan();
         if (item != null && item.getBorrowed()) {
@@ -242,19 +227,12 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         return loan;
     }
 
-
     /**
-     * {@inheritDoc}
-     *
-     * @return the loan
-     */
-    public Loan backLoan() {
-        return null;
-    }
-
-
-    /**
-     * {@inheritDoc}
+     * Patch a loan.
+     * @param jsonNodeLoan json node loan
+     * @param loan         the loan
+     * @return loan dto
+     * @throws IllegalAccessException exception
      */
     public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IllegalAccessException {
 
