@@ -4,13 +4,11 @@ import com.github.ladutsko.isbn.ISBNException;
 import org.marc4j.marc.Record;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.yaz4j.exception.ZoomException;
 
 /**
  * Service to find bibliographic records.
  */
-@Service
 public interface RecordService {
     /**
      * Find record by ISBN number.

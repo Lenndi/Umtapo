@@ -44,7 +44,7 @@ public class Item {
     private Condition condition;
     private String currency;
     @NotNull
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private Library library;
     @ManyToOne
     private Library externalLibrary;

@@ -3,14 +3,12 @@ package org.lenndi.umtapo.service.specific;
 import org.lenndi.umtapo.dto.SubscriptionDto;
 import org.lenndi.umtapo.entity.Subscription;
 import org.lenndi.umtapo.exception.BadSubscriptionDateException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * The interface Subscription service.
  */
-@Service
 public interface SubscriptionService {
 
     /**

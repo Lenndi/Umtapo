@@ -26,7 +26,7 @@ public class Z3950ServiceImpl implements Z3950Service {
      * Instantiates a new Z 3950 service.
      */
     public Z3950ServiceImpl() {
-        this.configurationFile = new File("src/main/resources/z39-50.yml");
+        this.configurationFile = new File("conf/z39-50.yml");
         this.loadProviders();
     }
 

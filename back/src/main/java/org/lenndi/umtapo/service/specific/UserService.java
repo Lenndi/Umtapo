@@ -2,7 +2,6 @@ package org.lenndi.umtapo.service.specific;
 
 import org.lenndi.umtapo.entity.User;
 import org.lenndi.umtapo.exception.SsoIdEqualsPasswordException;
-import org.springframework.stereotype.Service;
 
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
  * <p>
  * Created by axel on 29/11/16.
  */
-@Service
 public interface UserService {
 
 

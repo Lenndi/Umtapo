@@ -27,12 +27,22 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private static final String ADMIN_STRING = "admin";
 
-    @Autowired
     private UserDao userDao;
-    @Autowired
     private UserProfileDao userProfileDao;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * Instantiates a new Initial data loader.
+     *
+     * @param userDao        the user dao
+     * @param userProfileDao the user profile dao
+     */
+    @Autowired
+    public InitialDataLoader(UserDao userDao, UserProfileDao userProfileDao) {
+        this.userDao = userDao;
+        this.userProfileDao = userProfileDao;
+        this.passwordEncoder = this.passwordEncoder();
+    }
 
     /**
      * Password encoder password encoder.
