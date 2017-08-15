@@ -1,0 +1,26 @@
+.l-menu {
+  background-color: $primary-dark-bg;
+
+  .l-menu-category__title {
+
+    display: flex;
+
+    & p {
+      color: $white;
+      padding-top: 1em;
+    }
+
+    & i {
+      padding: 5px;
+      color: $white;
+    }
+
+  }
+  .nav-link {
+     color: $disable;
+     padding: .25em 2em;
+     font-size: 0.9em;
+   }
+}
+
+
