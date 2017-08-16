@@ -1,7 +1,7 @@
-<div class="card">
-  <div class="card-block">
-    <h5 class="card-title">Recherche de documents</h5>
-    <form [formGroup]="form" (ngSubmit)="onSearch()">
+<div class="m-circulation">
+  <div class="m-circulation-content">
+    <h5 class="m-header-component">Recherche de documents</h5>
+    <form class="card-content card-block" [formGroup]="form" (ngSubmit)="onSearch()">
       <div class="form-group">
         <label for="isbn">ISBN</label>
         <input id="isbn" type="text" class="form-control" placeholder="ISBN"

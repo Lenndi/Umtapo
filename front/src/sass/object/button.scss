@@ -1,0 +1,11 @@
+.o-button {
+
+  width: 100%;
+  margin: 15px 0;
+
+  &__action {
+    background-color: $primary;
+    border-radius: 0;
+    border: none;
+  }
+}
