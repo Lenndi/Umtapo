@@ -88,5 +88,5 @@ public interface ItemDao extends JpaRepository<Item, Integer> {
      * @param tagId the nfc if
      * @return the item
      */
-    Item findByTagId(String tagId);
+    Item findByTagIdIgnoreCase(String tagId);
 }

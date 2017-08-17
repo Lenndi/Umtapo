@@ -270,7 +270,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public Item findByNfcId(String tagId) {
 
-        return this.itemDao.findByTagId(tagId);
+        return this.itemDao.findByTagIdIgnoreCase(tagId);
     }
 
     private Page<ItemDto> mapItemsToItemDtosPage(Page<Item> items) {

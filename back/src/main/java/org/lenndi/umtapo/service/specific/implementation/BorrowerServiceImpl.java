@@ -163,7 +163,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     @Override
     public Borrower findByNfcId(String tagId) {
 
-        return this.borrowerDao.findByTagId(tagId);
+        return this.borrowerDao.findByTagIdIgnoreCase(tagId);
     }
 
     /**
