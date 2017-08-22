@@ -23,10 +23,8 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
 
     private static final Logger LOGGER = Logger.getLogger(MqttConnectionService.class);
 
-    @Value("${mqtt.topic.main}")
+    @Value("${mqtt.topic}")
     private String topic;
-    @Value("${mqtt.topic.pairing}")
-    private String pairingTopic;
     @Value("${mqtt.qos}")
     private Integer qos;
     @Value("${mqtt.broker}")
@@ -59,7 +57,6 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
             sampleClient.setCallback(this);
             LOGGER.info("Connecting to broker: " + broker + port);
             sampleClient.connect(connOpts);
-            sampleClient.subscribe(pairingTopic);
             sampleClient.subscribe(topic);
             LOGGER.info("Connecting to topic: " + topic);
             LOGGER.info("Connected");
@@ -92,7 +89,7 @@ public class MqttConnectionService implements ApplicationListener<ApplicationRea
     @Override
     public void messageArrived(String topicName, MqttMessage mqttMessage) throws Exception {
 
-        if (topicName.equals(this.pairingTopic)) {
+        if (topicName.equals(this.topic)) {
             this.pairingAndBorrowingServiceImpl.setTagId(mqttMessage.toString());
         }
     }

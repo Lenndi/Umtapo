@@ -78,15 +78,16 @@ public class PairingAndBorrowingServiceImpl extends Thread {
             if (borrower == null) {
                 item = this.itemService.findByNfcId(tagId);
             } else {
+                this.pairingDto = new PairingDto();
                 this.pairingDto.setBorrowerId(borrower.getId());
             }
 
             if (item != null) {
                 if (item.getBorrowed()) {
                     this.loanService.loanReturn(item);
-                    this.pairingDto.setBorrowerId(null);
+                    this.pairingDto = null;
                 } else {
-                    if (this.pairingDto.getBorrowerId() != null) {
+                    if (this.pairingDto != null) {
                         try {
                             this.loanService.createLoan(item, this.pairingDto.getBorrowerId());
                         } catch (final CreateLoanException | NotLoannableException e) {
