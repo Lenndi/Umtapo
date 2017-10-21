@@ -9,16 +9,16 @@
         <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
       </ng-container>
     </th>
-    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'author'"
-        (click)="changeSort('author')">Auteur
-      <ng-container *ngIf="pageable.sort === 'author'">
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'name'"
+        (click)="changeSort('name')">Auteur
+      <ng-container *ngIf="pageable.sort === 'name'">
         <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
         <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
       </ng-container>
     </th>
-    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'publisher'"
-        (click)="changeSort('publisher')">Éditeur
-      <ng-container *ngIf="pageable.sort === 'publisher'">
+    <th class="umt-pointer" [class.text-primary]="pageable.sort === 'editorName'"
+        (click)="changeSort('editorName')">Éditeur
+      <ng-container *ngIf="pageable.sort === 'editorName'">
         <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
         <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
       </ng-container>
@@ -52,11 +52,11 @@
     </td>
     <td>
       <input placeholder="auteur" class="form-control form-control-sm umt-input-table"
-             [(ngModel)]="itemFilter.author" (keyup)="changeFilter()">
+             [(ngModel)]="itemFilter.name" (keyup)="changeFilter()">
     </td>
     <td>
       <input placeholder="éditeur" class="form-control form-control-sm umt-input-table"
-             [(ngModel)]="itemFilter.publisher" (keyup)="changeFilter()">
+             [(ngModel)]="itemFilter.editorName" (keyup)="changeFilter()">
     </td>
     <td>
       <input placeholder="date de publication" class="form-control form-control-sm umt-input-table"
@@ -80,7 +80,7 @@
   </tr>
   <ng-container *ngIf="page">
     <tr *ngFor="let item of page.content">
-      <td scope="row">{{item.id}}</td>
+      <td scope="row">{{item.internalId}}</td>
       <td>{{item.record.title.mainTitle}}</td>
       <td>{{item.record.creator.name}} {{item.record.creator.secondName}}</td>
       <td>{{item.record.publisher.editorName}}</td>
@@ -89,7 +89,11 @@
         <span *ngIf="item.borrowed">oui</span>
         <span *ngIf="!item.borrowed">non</span>
       </td>
-      <td class="text-center"><a class="umt-pointer" (click)="onEditItem(item.id)">test</a></td>
+      <td class="text-center">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onEditItem(item.id)">
+          Modifier
+        </button>
+      </td>
     </tr>
   </ng-container>
   </tbody>
