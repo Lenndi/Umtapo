@@ -108,7 +108,7 @@ export class SearchFormComponent implements OnInit {
     this.recordService.findByTitle(title, 10, page)
       .then(response => {
         this.dataService.searchResults = this.dataService.searchResults.concat(response.content);
-        if (response.totalPages > page) {
+        if (response.totalPages > page && this.dataService.hasMoreRecords) {
           this.getMoreRecords(title, page + 1);
         } else {
           this.dataService.hasMoreRecords = false;
