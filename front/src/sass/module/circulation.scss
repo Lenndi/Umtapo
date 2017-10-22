@@ -3,7 +3,10 @@
 
   .m-circulation-content {
     background-color: $white;
-    overflow-x: auto;
+  }
+
+  .m-circulation-datatable {
+    overflow: auto;
   }
 
   .m-circulation-table{
