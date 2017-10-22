@@ -29,7 +29,6 @@ export class CirculationCheckOutComponent {
   page: number = 0;
   size: number = 10;
   internalId: number;
-  private searchItems = new Subject<string>();
   serialNumber: string;
   title: string;
   overQuota: boolean = false;
@@ -39,7 +38,6 @@ export class CirculationCheckOutComponent {
   constructor(private itemService: ItemService,
               private loanService: LoanService,
               public dataService: CirculationDataService,
-              private borrowerService: BorrowerService,
               public toastr: ToastrService) {
 
     this.selectedItem = new Item();
@@ -140,26 +138,12 @@ export class CirculationCheckOutComponent {
             }
             item = res.json();
             loan.item.id = item.id;
-          }).subscribe(x => {
-            this.loanService.createLoan(loan);
-          });
+          })
+          .subscribe(() => this.createLoan(loan));
       } else if (this.selectedItem) {
         item = this.selectedItem;
         loan.item.id = item.id;
-        let observable = this.loanService.createLoan(loan)
-          .catch(err => {
-            this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
-            return Observable.throw(err); // observable needs to be returned or exception raised
-          })
-          .subscribe(response => {
-            this.loanService.find(response.json().id).then(succes => {
-              if (!this.dataService.borrower.loans) {
-                this.dataService.borrower.loans = [];
-              }
-              this.dataService.borrower.loans.push(succes);
-            });
-            this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi');
-          });
+        this.createLoan(loan);
       } else if (this.items) {
         if (this.items.length == 0) {
           if (this.serialNumber) {
@@ -175,6 +159,23 @@ export class CirculationCheckOutComponent {
         }
       }
     }
+  }
+
+  private createLoan(loan: Loan): void {
+    this.loanService.createLoan(loan)
+      .catch(err => {
+        this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
+        return Observable.throw(err); // observable needs to be returned or exception raised
+      })
+      .subscribe(response => {
+        this.loanService.find(response.json().id).then(succes => {
+          if (!this.dataService.borrower.loans) {
+            this.dataService.borrower.loans = [];
+          }
+          this.dataService.borrower.loans.push(succes);
+        });
+        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi');
+      });
   }
 
   private getPageable(): Pageable {

@@ -76,7 +76,7 @@ export class CirculationCheckInComponent implements OnInit {
   checkInDocument(loan: Loan) {
     this.loanService.returnBookLoan(loan.id)
       .then(ret => this.itemService.returnBookItem(loan.item.id)
-        .then(ret => this.toastr.success(`Le document ` + loan.item.record.title.mainTitle + `a bien été retourné`,
+        .then(ret => this.toastr.success(`Le document ${loan.item.record.title.mainTitle} a bien été retourné`,
           'Document retourné'))
           .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour')))
         .catch(err => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour'));
@@ -107,8 +107,6 @@ export class CirculationCheckInComponent implements OnInit {
       if (this.dataService.borrower.loans != null) {
         let selectedLoan;
         let cnt = 0;
-        let loanId;
-        let internalId;
         for (let loan of this.dataService.borrower.loans) {
           if (loan.item.record.identifier.serialNumber == this.serial) {
             selectedLoan = loan;

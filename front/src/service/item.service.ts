@@ -90,7 +90,7 @@ export class ItemService {
   searchItemByInternalId(itemInternalId: number): Observable<Response> {
     let options = new RequestOptions({headers: this.headers});
 
-    return this.http.get(this.itemUrl + '/changeFilter?internalId=' + itemInternalId, options)
+    return this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options)
       .map((r: Response) => r);
   }
 }

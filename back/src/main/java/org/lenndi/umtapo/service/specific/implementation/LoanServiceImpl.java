@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dao.LoanDao;
 import org.lenndi.umtapo.dto.LoanDto;
 import org.lenndi.umtapo.dto.SimpleLoanDto;
+import org.lenndi.umtapo.entity.Borrower;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.mapper.LoanMapper;
 import org.lenndi.umtapo.service.generic.AbstractGenericService;
@@ -53,6 +54,14 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
         this.itemService = itemService;
     }
 
+    @Override
+    @Transactional
+    public Loan save(Loan entity) {
+        Loan loan = super.save(entity);
+
+        return this.saveToIndex(loan);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -63,26 +72,10 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     }
 
     @Override
-    @Transactional
     public Loan saveLoanDtoToLoan(LoanDto loanDto) {
         Loan loan = this.loanMapper.mapLoanDtoToLoan(loanDto);
-        loan = this.save(loan);
 
-        Integer borrowerId = loanDto.getBorrower().getId();
-        BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
-        borrowerDocument.setNbLoans(this.findAllDtoByBorrowerIdAndNotReturned(borrowerId).size());
-
-        if (borrowerDocument.getNbLoans() > borrowerDocument.getQuota()) {
-            borrowerDocument.setTooMuchLoans(true);
-        } else {
-            borrowerDocument.setTooMuchLoans(false);
-        }
-
-        Loan olderLoanToReturn = this.loanDao.findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(borrowerId);
-        borrowerDocument.setOlderReturn(Date.from(olderLoanToReturn.getEnd().toInstant()));
-        this.solrBorrowerService.saveToIndex(borrowerDocument);
-
-        return loan;
+        return this.save(loan);
     }
 
     @Override
@@ -152,7 +145,28 @@ public class LoanServiceImpl extends AbstractGenericService<Loan, Integer> imple
     public LoanDto patchLoan(JsonNode jsonNodeLoan, Loan loan) throws IllegalAccessException {
 
         loanMapper.mergeLoanAndJsonNode(loan, jsonNodeLoan);
+        this.save(loan);
         return loanMapper.mapLoanToLoanDto(loan);
+    }
+
+    private Loan saveToIndex(Loan loan) {
+        Integer borrowerId = loan.getBorrower().getId();
+        BorrowerDocument borrowerDocument = this.solrBorrowerService.findById(borrowerId.toString());
+        borrowerDocument.setNbLoans(this.findAllDtoByBorrowerIdAndNotReturned(borrowerId).size());
+
+        if (borrowerDocument.getNbLoans() > borrowerDocument.getQuota()) {
+            borrowerDocument.setTooMuchLoans(true);
+        } else {
+            borrowerDocument.setTooMuchLoans(false);
+        }
+
+        Loan olderLoanToReturn = this.loanDao.findFirstByBorrowerIdAndReturnedFalseOrderByEndAsc(borrowerId);
+        if (olderLoanToReturn != null) {
+            borrowerDocument.setOlderReturn(Date.from(olderLoanToReturn.getEnd().toInstant()));
+        }
+        this.solrBorrowerService.saveToIndex(borrowerDocument);
+
+        return loan;
     }
 
     private List<LoanDto> mapLoansToLoanDtos(List<Loan> loans) {
