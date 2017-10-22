@@ -4,8 +4,8 @@ export class ItemFilter {
   serialNumber: string;
   serialType: string;
   mainTitle: string;
-  author: string;
-  publisher: string;
+  name: string;
+  editorName: string;
   publicationDate: string;
   borrowed: boolean;
 
@@ -15,8 +15,8 @@ export class ItemFilter {
     this.serialNumber = '';
     this.serialType = '';
     this.mainTitle = '';
-    this.author = '';
-    this.publisher = '';
+    this.name = '';
+    this.editorName = '';
     this.publicationDate = '';
   }
 
@@ -24,7 +24,7 @@ export class ItemFilter {
     let request: string;
 
     request = `complexSearch=${this.complexSearch}&id=${this.id}&serialNumber=${this.serialNumber}`
-      + `&serialType=${this.serialType}&mainTitle=${this.mainTitle}&author=${this.author}&publisher=${this.publisher}`
+      + `&serialType=${this.serialType}&mainTitle=${this.mainTitle}&author=${this.name}&publisher=${this.editorName}`
       + `&publicationDate=${this.publicationDate}`;
     if (this.borrowed) {
       request += `&borrowed=${this.borrowed}`;

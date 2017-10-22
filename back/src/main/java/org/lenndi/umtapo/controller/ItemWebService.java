@@ -100,6 +100,8 @@ public class ItemWebService {
      *
      * @param page            the page
      * @param size            the size
+     * @param sort            the sort
+     * @param order           the order
      * @param complexSearch   the complex search
      * @param serialNumber    the serial number
      * @param serialType      the serial type
@@ -114,6 +116,8 @@ public class ItemWebService {
     @RequestMapping(value = "/items/searchs", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity getItemSearchs(@PathParam("page") Integer page,
                                          @PathParam("size") Integer size,
+                                         @PathParam("sort") String sort,
+                                         @PathParam("order") String order,
                                          @PathParam("complexSearch") Boolean complexSearch,
                                          @PathParam("serialNumber") String serialNumber,
                                          @PathParam("serialType") String serialType,
@@ -125,7 +129,6 @@ public class ItemWebService {
                                          @PathParam("borrowed") Boolean borrowed) {
 
         Page<ItemDto> itemDtos = null;
-        Pageable pageable;
 
         if (page == null) {
             page = 0;
@@ -133,7 +136,17 @@ public class ItemWebService {
         if (size == null) {
             size = DEFAULT_SIZE;
         }
-        pageable = new PageRequest(page, size, new Sort("id"));
+
+        Pageable pageable;
+        if (sort != null) {
+            if (order.equals("DESC")) {
+                pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, sort));
+            } else {
+                pageable = new PageRequest(page, size, new Sort(Sort.Direction.ASC, sort));
+            }
+        } else {
+            pageable = new PageRequest(page, size);
+        }
 
         if (!complexSearch && (serialNumber != null && serialType != null)) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
