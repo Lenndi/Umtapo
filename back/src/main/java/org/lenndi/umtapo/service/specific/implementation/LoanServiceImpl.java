@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dao.LoanDao;
 import org.lenndi.umtapo.dto.LoanDto;
 import org.lenndi.umtapo.dto.SimpleLoanDto;
-import org.lenndi.umtapo.entity.Borrower;
 import org.lenndi.umtapo.entity.Loan;
 import org.lenndi.umtapo.mapper.LoanMapper;
 import org.lenndi.umtapo.service.generic.AbstractGenericService;

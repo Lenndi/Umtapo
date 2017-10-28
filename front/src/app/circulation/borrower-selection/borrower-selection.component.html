@@ -16,8 +16,8 @@
             </div>
             <div class="col-md-5">
               <div class="form-group">
-                <template #customItemTemplate let-model="item" let-index="index">
-                  <h5>{{model.name}} <small class="text-muted">{{model.address.email}}</small></h5>
+                <template #customItemTemplate let-borrower="item" let-index="index">
+                  <span>{{borrower.name}} <small>{{borrower.address.email}}</small></span>
                 </template>
                 <input formControlName="borrowerName"
                        [typeahead]="dataSource"

@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
@@ -148,7 +149,7 @@ public class ItemWebService {
             pageable = new PageRequest(page, size);
         }
 
-        if (!complexSearch && (serialNumber != null && serialType != null)) {
+        if (!complexSearch && (StringUtils.isNotBlank(serialNumber) && StringUtils.isNotBlank(serialType))) {
             itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
         } else if (complexSearch) {
             if (mainTitle == null) {
@@ -168,7 +169,7 @@ public class ItemWebService {
             }
             itemDtos = this.itemService.findAllItemDtoWithFilters(
                     mainTitle, author, publisher, id, publicationDate, borrowed, pageable);
-        } else if (mainTitle != null) {
+        } else if (StringUtils.isNotBlank(mainTitle)) {
             itemDtos = this.itemService.findAllPageableDtoByRecordTitleMainTitle(pageable, mainTitle);
         }
 

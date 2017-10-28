@@ -38,9 +38,9 @@
               <i class="fa fa-book fa-3x text-center" aria-hidden="true"></i>
             </div>
             <div class="col-4">
-              <h4 class="card-title">{{loan.item.record.title.mainTitle}}</h4>
-              <p class="card-text">{{loan.item.record.date.publicationDate}}</p>
-              <p class="card-text">{{loan.item.record.creator.secondName}} {{loan.item.record.creator.name}}</p>
+              <h4 class="card-title">{{loan.item.record.title?.mainTitle}}</h4>
+              <p class="card-text">{{loan.item.record.date?.publicationDate}}</p>
+              <p class="card-text">{{loan.item.record.creator?.secondName}} {{loan.item.record.creator?.name}}</p>
             </div>
             <div class="col-3">
               <label class="lbl">Condition</label>

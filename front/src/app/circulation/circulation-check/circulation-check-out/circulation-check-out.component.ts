@@ -2,9 +2,8 @@ import {Component, ViewChild} from '@angular/core';
 import {ItemService} from '../../../../service/item.service';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Item} from '../../../../entity/item';
-import {BorrowerService} from '../../../../service/borrower.service';
 import {ModalDirective, TypeaheadMatch} from 'ngx-bootstrap';
 import {Loan} from '../../../../entity/loan';
 import {LoanService} from '../../../../service/loan.service';
@@ -59,17 +58,9 @@ export class CirculationCheckOutComponent {
 
     this.dataSourceTitle = Observable
       .create((observer: any) => {
-        // Runs on every search
         observer.next(this.title);
       })
-      .switchMap(mainTitle => {
-          let filter: ItemFilter = new ItemFilter();
-          filter.serialType = 'ISBN';
-          filter.mainTitle = mainTitle;
-
-          this.itemService.findWithFilters(this.getPageable(), filter);
-        })
-      .map(res => this.itemsTitle = res.content as Item[]);
+      .mergeMap(mainTitle => this.getTitlesAsObservable(mainTitle));
   }
 
   public typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
@@ -159,6 +150,14 @@ export class CirculationCheckOutComponent {
         }
       }
     }
+  }
+
+  private getTitlesAsObservable(mainTitle: string): Observable<Item[]> {
+    let filter: ItemFilter = new ItemFilter();
+    filter.mainTitle = mainTitle;
+
+    return this.itemService.findWithFilters(this.getPageable(), filter)
+      .map(response => response.content);
   }
 
   private createLoan(loan: Loan): void {

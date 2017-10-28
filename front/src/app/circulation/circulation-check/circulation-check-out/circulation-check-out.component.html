@@ -64,8 +64,8 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <template #titleItemTemplate let-model="item" let-index="index">
-                <h5>{{model.record.title.mainTitle}} <small class="text-muted">{{model.record.identifier.serialNumber}}</small></h5>
+              <template #titleItemTemplate let-item="item" let-index="index">
+                <span><small>{{item.internalId}}</small> {{item.record.title.mainTitle}}</span>
               </template>
               <label>Titre</label>
               <input [(ngModel)]="title"
@@ -74,8 +74,9 @@
                      (typeaheadOnSelect)="typeaheadOnSelectTitle($event)"
                      typeaheadOptionsLimit="25"
                      [typeaheadItemTemplate]="titleItemTemplate"
-                     typeaheadOptionField="model.record.title.mainTitle"
+                     typeaheadOptionField="..."
                      [typeaheadWaitMs]="300"
+                     typeaheadMinLength="3"
                      name="title"
                      placeholder="Title"
                      class="form-control form-control-sm">
