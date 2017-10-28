@@ -56,6 +56,7 @@
                      typeaheadOptionField="model.record.identifier.serialNumber"
                      [typeaheadWaitMs]="300"
                      name="serial-number"
+                     autocomplete="off"
                      placeholder="serialNumber"
                      class="form-control form-control-sm">
             </div>
@@ -65,20 +66,18 @@
           <div class="col">
             <div class="form-group">
               <template #titleItemTemplate let-item="item" let-index="index">
-                <span><small>{{item.internalId}}</small> {{item.record.title.mainTitle}}</span>
+                <span>{{item.internalId}}: {{item.record.title.mainTitle}}</span>
               </template>
-              <label>Titre</label>
+              <label>Titre<i *ngIf="titleLoading" class="glyphicon glyphicon-refresh ng-hide" style=""></i></label>
               <input [(ngModel)]="title"
                      [typeahead]="dataSourceTitle"
-                     (typeaheadNoResults)="changeTypeaheadNoResultsTitle($event)"
-                     (typeaheadOnSelect)="typeaheadOnSelectTitle($event)"
-                     typeaheadOptionsLimit="25"
                      [typeaheadItemTemplate]="titleItemTemplate"
-                     typeaheadOptionField="..."
                      [typeaheadWaitMs]="300"
                      typeaheadMinLength="3"
+                     typeaheadOptionField="record.title.mainTitle"
+                     autocomplete="off"
                      name="title"
-                     placeholder="Title"
+                     placeholder="Titre"
                      class="form-control form-control-sm">
             </div>
           </div>

@@ -60,34 +60,25 @@ export class CirculationCheckOutComponent {
       .create((observer: any) => {
         observer.next(this.title);
       })
-      .mergeMap(mainTitle => this.getTitlesAsObservable(mainTitle));
+      .switchMap(mainTitle => this.getTitlesAsObservable(mainTitle))
+      .catch(() => this.toastr.error(`Problème de communication avec le serveur`, `Erreur`));
   }
 
-  public typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
+  typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
     this.selectedItem = itemTypeahead.item;
   }
 
-  public typeaheadOnSelectTitle(itemTypeahead: TypeaheadMatch): void {
-    this.selectedItem = itemTypeahead.item;
-  }
-
-  public changeTypeaheadNoResultsTitle(e: boolean): void {
-    if (!this.title) {
-      this.itemsTitle = [];
-    }
-  }
-
-  public changeTypeaheadNoResultsSerialNumber(e: boolean): void {
+  changeTypeaheadNoResultsSerialNumber(e: boolean): void {
     if (!this.serialNumber) {
       this.itemsSerialNumber = [];
     }
   }
 
-  public showChildModal(): void {
+  showChildModal(): void {
     this.childModal.show();
   }
 
-  public hideChildModal(): void {
+  hideChildModal(): void {
     this.childModal.hide();
   }
 
@@ -164,7 +155,7 @@ export class CirculationCheckOutComponent {
     this.loanService.createLoan(loan)
       .catch(err => {
         this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
-        return Observable.throw(err); // observable needs to be returned or exception raised
+        return Observable.throw(err);
       })
       .subscribe(response => {
         this.loanService.find(response.json().id).then(succes => {
