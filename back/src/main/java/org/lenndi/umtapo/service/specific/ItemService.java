@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.service.specific;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.ladutsko.isbn.ISBNException;
 import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.service.generic.GenericService;
@@ -115,8 +116,10 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param serialType   the serial type
      * @param pageable     the pageable
      * @return the page
+     * @throws ISBNException the isbn exception
      */
-    Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable);
+    Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable)
+            throws ISBNException;
 
     /**
      * Find all pageable dto by record titel main title page.

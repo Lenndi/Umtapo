@@ -110,10 +110,10 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             } catch (final ZoomException e) {
-                logger.error(e.getMessage());
+                LOGGER.error(e.getMessage());
                 return this.zoomExceptionHandling(e);
             } catch (final ISBNException e) {
-                logger.error(e.getMessage());
+                LOGGER.error(e.getMessage());
                 return new ResponseEntity<>("Bad ISBN format", HttpStatus.BAD_REQUEST);
             }
         } else if (title != null) {

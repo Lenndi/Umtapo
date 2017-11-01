@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.solr.service;
 
+import com.github.ladutsko.isbn.ISBNException;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
 import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
@@ -79,8 +80,10 @@ public interface SolrRecordService {
      * @param serialType   the serial type
      * @param page         the page
      * @return the page
+     * @throws ISBNException the isbn exception
      */
-    Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page);
+    Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page)
+            throws ISBNException;
 
     /**
      * Full search page.

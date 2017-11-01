@@ -84,13 +84,15 @@ export class ItemService {
           logger.debug('ItemService.findWithFilters', response.json());
           return response.json() as Page<Item>;
         }
-      });
+      })
+      .catch(error => Observable.throw(error));
   }
 
-  searchItemByInternalId(itemInternalId: number): Observable<Response> {
+  searchItemByInternalId(itemInternalId: number): Observable<Item> {
     let options = new RequestOptions({headers: this.headers});
 
     return this.http.get(this.itemUrl + '/search?internalId=' + itemInternalId, options)
-      .map((r: Response) => r);
+      .map(response => response.json() as Item)
+      .catch(error => Observable.throw(error));
   }
 }

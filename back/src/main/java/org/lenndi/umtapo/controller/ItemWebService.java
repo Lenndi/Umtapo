@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.ladutsko.isbn.ISBNException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.ItemDto;
@@ -150,7 +151,12 @@ public class ItemWebService {
         }
 
         if (!complexSearch && (StringUtils.isNotBlank(serialNumber) && StringUtils.isNotBlank(serialType))) {
-            itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
+            try {
+                itemDtos = this.itemService.findBySerialNumberAndSerialType(serialNumber, serialType, pageable);
+            } catch (final ISBNException e) {
+                LOGGER.error(e.getMessage());
+                return new ResponseEntity<>("Bad ISBN format", HttpStatus.BAD_REQUEST);
+            }
         } else if (complexSearch) {
             if (mainTitle == null) {
                 mainTitle = "";

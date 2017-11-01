@@ -1,5 +1,8 @@
 package org.lenndi.umtapo.solr.service.implementation;
 
+import com.github.ladutsko.isbn.ISBN;
+import com.github.ladutsko.isbn.ISBNException;
+import com.github.ladutsko.isbn.ISBNFormat;
 import org.lenndi.umtapo.mapper.RecordMapper;
 import org.lenndi.umtapo.solr.document.RecordDocument;
 import org.lenndi.umtapo.solr.document.bean.record.Identifier;
@@ -109,9 +112,42 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     }
 
     @Override
-    public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page) {
-        Page<RecordDocument> recordDocuments =
-                this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType, page);
+    public Page<Record> searchBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable page)
+            throws ISBNException {
+        Page<RecordDocument> recordDocuments;
+
+        if (serialType.toUpperCase().equals("ISBN")) {
+            if (ISBN.isValid(serialNumber)) {
+                ISBNFormat isbnFormat = new ISBNFormat(ISBNFormat.HYPHEN_GROUP_SEPARATOR);
+
+                if (ISBN.isIsbn13(serialNumber)) {
+                    ISBN isbn = ISBN.parseIsbn(serialNumber);
+                    recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(
+                            isbnFormat.format(isbn.getIsbn13()),
+                            serialType,
+                            page);
+
+                    if (recordDocuments.getTotalElements() == 0) {
+                        recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(
+                                isbnFormat.format(isbn.getIsbn10()),
+                                serialType,
+                                page);
+                    }
+                } else {
+                    recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(
+                            isbnFormat.format(ISBN.normalize(serialNumber)),
+                            serialType,
+                            page);
+                }
+            } else {
+                throw new ISBNException(serialNumber + " is not a valid EAN for ISBN number.");
+            }
+        } else {
+            recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(
+                    serialNumber,
+                    serialType,
+                    page);
+        }
 
         return this.mapRecordDocumentPageToRecordPage(recordDocuments);
     }

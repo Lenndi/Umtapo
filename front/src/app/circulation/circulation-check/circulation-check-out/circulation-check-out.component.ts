@@ -10,7 +10,6 @@ import {LoanService} from '../../../../service/loan.service';
 import {ToastrService} from 'ngx-toastr';
 import {ItemFilter} from '../../../../service/filter/item-filter';
 import {Pageable} from '../../../../util/pageable';
-import {logger} from '../../../../environments/environment';
 
 @Component({
   selector: 'umt-circulation-check-out',
@@ -21,140 +20,162 @@ import {logger} from '../../../../environments/environment';
 })
 export class CirculationCheckOutComponent {
   @ViewChild('childModal') public childModal: ModalDirective;
-  itemsSerialNumber: Item[] = [];
-  itemsTitle: Item[] = [];
   items: Item[] = [];
-  selectedItem: Item;
+  selectedItem: Item = null;
   page: number = 0;
   size: number = 10;
   internalId: number;
   serialNumber: string;
   title: string;
   overQuota: boolean = false;
-  public dataSourceSerialNumber: Observable<Item[]>;
-  public dataSourceTitle: Observable<Item[]>;
+  isItemLoading: boolean = false;
+  isExecutingLoan: boolean = false;
+  dataSource: Observable<Item[]>;
+  lastFocus: string = '';
 
   constructor(private itemService: ItemService,
               private loanService: LoanService,
               public dataService: CirculationDataService,
               public toastr: ToastrService) {
 
-    this.selectedItem = new Item();
-
-    this.dataSourceSerialNumber = Observable
+    this.dataSource = Observable
       .create((observer: any) => {
-        // Runs on every search
-        observer.next(this.serialNumber);
+        if (this.internalId) { observer.next(this.internalId); }
+        if (this.serialNumber) { observer.next(this.serialNumber); }
+        if (this.title) { observer.next(this.title); }
       })
-      .switchMap(serialNumber => {
-          let filter: ItemFilter = new ItemFilter();
-          filter.serialType = 'ISBN';
-          filter.serialNumber = serialNumber;
-
-          this.itemService.findWithFilters(this.getPageable(), filter);
-        })
-      .catch(err => logger.error(err))
-      .map(res => this.itemsSerialNumber = res.content as Item[]);
-
-    this.dataSourceTitle = Observable
-      .create((observer: any) => {
-        observer.next(this.title);
+      .distinctUntilChanged()
+      .switchMap(input => {
+        if (this.internalId) {
+          return this.getItemsByInternalId(input);
+        } else if (this.serialNumber) {
+          return this.getItemsBySerialNumber(input);
+        } else if (this.title) {
+          return this.getItemsByTitle(input);
+        }
       })
-      .switchMap(mainTitle => this.getTitlesAsObservable(mainTitle))
+      .map(items => this.items = items)
       .catch(() => this.toastr.error(`Problème de communication avec le serveur`, `Erreur`));
   }
 
-  typeaheadOnSelectSerialNumber(itemTypeahead: TypeaheadMatch): void {
-    this.selectedItem = itemTypeahead.item;
-  }
-
-  changeTypeaheadNoResultsSerialNumber(e: boolean): void {
-    if (!this.serialNumber) {
-      this.itemsSerialNumber = [];
-    }
-  }
-
-  showChildModal(): void {
+  showOverQuotaModal(): void {
     this.childModal.show();
   }
 
-  hideChildModal(): void {
+  hideOverQuotaModal(): void {
     this.childModal.hide();
   }
 
   borrowOverQuota() {
     this.overQuota = true;
-    this.hideChildModal();
-    this.checkout();
+    this.hideOverQuotaModal();
+    this.onSubmit();
   }
 
-  checkout() {
-    if (this.dataService.borrower.loans != null && this.dataService.borrower.loans.length + 1 >
-      this.dataService.borrower.quota && this.overQuota === false) {
-      this.showChildModal();
+  onSubmit() {
+    this.isExecutingLoan = true;
+    if (this.isOverQuota()) {
+      this.showOverQuotaModal();
     } else {
-      this.overQuota = false;
-      let loan: Loan = new Loan();
-      let item: Item = new Item();
-
-      loan.item = new Item();
-      loan.borrower = new Borrower();
-      loan.returned = false;
-      loan.borrower.id = this.dataService.borrower.id;
-
-      if (this.itemsSerialNumber) {
-        this.items = this.itemsSerialNumber;
-      } else if (this.title) {
-        this.items = this.itemsTitle;
-      }
-      if (this.internalId) {
-        let observable = this.itemService.searchItemByInternalId(this.internalId)
-          .catch(err => {
-            this.toastr.error(`Un problème est survenu le document ne peut être emprunté`, 'Problème');
-            return Observable.throw(err); // observable needs to be returned or exception raised
-          })
-          .map(res => {
-            if (res.status == 204) {
-              this.toastr.warning(`Aucun document ne comporte cet identifiant`, 'Non trouvé');
-              observable.unsubscribe();
-            }
-            item = res.json();
-            loan.item.id = item.id;
-          })
-          .subscribe(() => this.createLoan(loan));
-      } else if (this.selectedItem) {
-        item = this.selectedItem;
-        loan.item.id = item.id;
+      if (this.selectedItem && !this.isItemLoading) {
+        let loan = this.initializeLoan();
+        loan.item.id = this.selectedItem.id;
         this.createLoan(loan);
-      } else if (this.items) {
-        if (this.items.length == 0) {
-          if (this.serialNumber) {
-            this.toastr.warning(`Aucun document n'est lié à cette information`, 'Pas de document!');
-          } else {
-            this.toastr.warning('Vous devez entrer une information pour emprunter un livre.', 'Champs vides!');
-          }
-        } else if (this.items.length > 1) {
-          this.toastr.warning('Plusieurs documents ont ce numéro de série, vous devez en sélectionner un.',
-            'Plusieurs documents existants!');
-        } else if (this.items.length == 1) {
-
-        }
+      } else {
+        this.resolveLoanWithItemArray(1);
       }
     }
   }
 
-  private getTitlesAsObservable(mainTitle: string): Observable<Item[]> {
+  updateIsItemLoading(event: boolean): void {
+    this.isItemLoading = event;
+  }
+
+  setSelectedItem(selectedOption: TypeaheadMatch): void {
+    this.selectedItem = selectedOption.item;
+  }
+
+  resetInputs(inputName: string): void {
+    if (inputName !== this.lastFocus) {
+      this.title = this.internalId = this.serialNumber = null;
+      this.selectedItem = null;
+      this.lastFocus = inputName;
+    }
+  }
+
+  private getItemsByTitle(mainTitle: string): Observable<Item[]> {
     let filter: ItemFilter = new ItemFilter();
     filter.mainTitle = mainTitle;
 
-    return this.itemService.findWithFilters(this.getPageable(), filter)
-      .map(response => response.content);
+    return this.itemService.findWithFilters(new Pageable('mainTitle', this.page, this.size), filter)
+      .map(response => response.content)
+      .catch(error => Observable.throw(error));
+  }
+
+  private getItemsBySerialNumber(serialNumber: string): Observable<Item[]> {
+    let filter: ItemFilter = new ItemFilter();
+    filter.serialType = 'ISBN';
+    filter.serialNumber = serialNumber;
+
+    return this.itemService.findWithFilters(new Pageable('serialNumber', this.page, this.size), filter)
+      .map(response => response.content ? response.content : [])
+      .catch(error => Observable.throw(error));
+  }
+
+  private getItemsByInternalId(internalId: number): Observable<Item[]> {
+    return this.itemService.searchItemByInternalId(internalId)
+      .map(item => item ? [item] : [])
+      .catch(error => Observable.throw(error));
+  }
+
+  private isOverQuota(): boolean {
+    this.overQuota = this.dataService.borrower.loans != null
+      && this.dataService.borrower.loans.length + 1 > this.dataService.borrower.quota
+      && this.overQuota === false;
+
+    return this.overQuota;
+  }
+
+  private resolveLoanWithItemArray(tryNb: number): void {
+    if (this.isItemLoading && tryNb < 10) {
+      setTimeout(this.resolveLoanWithItemArray(tryNb + 1), 300);
+    } else {
+      if (this.items) {
+        if (this.items.length === 0) {
+          this.toastr.warning('Veuillez sélectionner un document', 'Emprunt impossible');
+          this.isExecutingLoan = false;
+        } else if (this.items.length > 1) {
+          this.toastr.warning('Veuillez sélectionner un document parmi ceux proposés', 'Emprunt impossible');
+          this.isExecutingLoan = false;
+        } else if (this.items.length === 1) {
+          let loan = this.initializeLoan();
+          this.selectedItem = this.items[0];
+          loan.item.id = this.selectedItem.id;
+          this.createLoan(loan);
+        }
+      } else {
+        this.toastr.warning('Veuillez sélectionner un document', 'Emprunt impossible');
+        this.isExecutingLoan = false;
+      }
+    }
+  }
+
+  private initializeLoan(): Loan {
+    let loan: Loan = new Loan();
+    loan.item = new Item();
+    loan.borrower = new Borrower();
+    loan.returned = false;
+    loan.borrower.id = this.dataService.borrower.id;
+
+    return loan;
   }
 
   private createLoan(loan: Loan): void {
     this.loanService.createLoan(loan)
       .catch(err => {
-        this.toastr.warning(`Le document a déjà été emprunté`, 'Problème');
+        this.toastr.warning(`Le document a déjà été emprunté`, 'Emprunt');
+        this.isExecutingLoan = false;
+
         return Observable.throw(err);
       })
       .subscribe(response => {
@@ -164,15 +185,8 @@ export class CirculationCheckOutComponent {
           }
           this.dataService.borrower.loans.push(succes);
         });
-        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt réussi');
+        this.toastr.success(`Le document a bien été emprunté`, 'Emprunt');
+        this.isExecutingLoan = false;
       });
-  }
-
-  private getPageable(): Pageable {
-    let pageable: Pageable = new Pageable('mainTitle');
-    pageable.size = this.size;
-    pageable.page = this.page;
-
-    return pageable;
   }
 }
