@@ -31,7 +31,7 @@ export class CirculationCheckOutComponent {
   isItemLoading: boolean = false;
   isExecutingLoan: boolean = false;
   dataSource: Observable<Item[]>;
-  lastFocus: string = '';
+  lastFocus: any;
 
   constructor(private itemService: ItemService,
               private loanService: LoanService,
@@ -73,11 +73,12 @@ export class CirculationCheckOutComponent {
   }
 
   onSubmit() {
+    this.lastFocus.target.blur();
     this.isExecutingLoan = true;
     if (this.isOverQuota()) {
       this.showOverQuotaModal();
     } else {
-      if (this.selectedItem && !this.isItemLoading) {
+      if (this.selectedItem && !this.isItemLoading && this.lastFocus.target.name !== 'serial-number') {
         let loan = this.initializeLoan();
         loan.item.id = this.selectedItem.id;
         this.createLoan(loan);
@@ -95,12 +96,12 @@ export class CirculationCheckOutComponent {
     this.selectedItem = selectedOption.item;
   }
 
-  resetInputs(inputName: string): void {
-    if (inputName !== this.lastFocus) {
+  resetInputs(event): void {
+    if (this.lastFocus && event.target.name !== this.lastFocus.target.name) {
       this.title = this.internalId = this.serialNumber = null;
       this.selectedItem = null;
-      this.lastFocus = inputName;
     }
+    this.lastFocus = event;
   }
 
   private getItemsByTitle(mainTitle: string): Observable<Item[]> {
@@ -138,7 +139,7 @@ export class CirculationCheckOutComponent {
 
   private resolveLoanWithItemArray(tryNb: number): void {
     if (this.isItemLoading && tryNb < 10) {
-      setTimeout(this.resolveLoanWithItemArray(tryNb + 1), 300);
+      setTimeout(() => this.resolveLoanWithItemArray(tryNb + 1), 300);
     } else {
       if (this.items) {
         if (this.items.length === 0) {

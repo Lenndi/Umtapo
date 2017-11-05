@@ -49,7 +49,7 @@
                      class="form-control form-control-sm"
                      placeholder="Identifiant du document"
                      name="internal-id"
-                     (focus)="resetInputs('internalId')">
+                     (focus)="resetInputs($event)">
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
                      name="serial-number"
                      placeholder="Code-barres ou ISBN"
                      class="form-control form-control-sm"
-                     (focus)="resetInputs('isbn')">
+                     (focus)="resetInputs($event)">
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
                      name="title"
                      placeholder="Titre"
                      class="form-control form-control-sm"
-                     (focus)="resetInputs('title')">
+                     (focus)="resetInputs($event)">
             </div>
           </div>
         </div>
