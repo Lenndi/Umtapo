@@ -21,6 +21,7 @@ export class CirculationCheckInComponent implements OnInit {
   conditionEnum: CustomMap;
   internalId: number;
   serial: string;
+  isExecutingLoan: boolean;
 
   constructor(public dataService: CirculationDataService,
               private itemService: ItemService,
@@ -85,13 +86,15 @@ export class CirculationCheckInComponent implements OnInit {
   }
 
   checkInDocument(loan: Loan) {
+    this.isExecutingLoan = true;
     this.loanService.returnBookLoan(loan.id)
       .then(() => this.itemService.returnBookItem(loan.item.id)
         .then(() => this.toastr.success(
             `Le document ${loan.item.record.title.mainTitle} a bien été retourné`,
             'Document retourné'))
-          .catch(() => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour')))
-        .catch(() => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour'));
+        .catch(() => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour')))
+      .catch(() => this.toastr.error(`Une erreur est survenue lors du retour du document`, 'Erreur retour'))
+      .then(() => this.isExecutingLoan = false);
   }
 
   removeLoanById(id: number) {

@@ -188,6 +188,7 @@ export class CirculationCheckOutComponent {
         });
         this.toastr.success(`Le document a bien été emprunté`, 'Emprunt');
         this.isExecutingLoan = false;
+        this.lastFocus.target.focus();
       });
   }
 }
