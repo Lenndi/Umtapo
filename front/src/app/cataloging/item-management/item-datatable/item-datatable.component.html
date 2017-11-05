@@ -24,7 +24,7 @@
       </ng-container>
     </th>
     <th class="umt-pointer" [class.text-primary]="pageable.sort === 'publicationDate'"
-        (click)="changeSort('publicationDate');">Date de publication
+        (click)="changeSort('publicationDate');">Publication
       <ng-container *ngIf="pageable.sort === 'publicationDate'">
         <i class="fa fa-chevron-down" aria-hidden="true" *ngIf="pageable.order === 'ASC'"></i>
         <i class="fa fa-chevron-up" aria-hidden="true" *ngIf="pageable.order === 'DESC'"></i>
@@ -43,7 +43,7 @@
   <tbody>
   <tr>
     <td>
-      <input placeholder="identifiant" class="form-control form-control-sm umt-input-table"
+      <input placeholder="identifiant" class="form-control form-control-sm umt-id-input"
              [(ngModel)]="itemFilter.id" (keyup)="changeFilter()">
     </td>
     <td>
@@ -59,7 +59,7 @@
              [(ngModel)]="itemFilter.editorName" (keyup)="changeFilter()">
     </td>
     <td>
-      <input placeholder="date de publication" class="form-control form-control-sm umt-input-table"
+      <input placeholder="date de publication" class="form-control form-control-sm umt-publication-input"
              [(ngModel)]="itemFilter.publicationDate" (keyup)="changeFilter()">
     </td>
     <td>
