@@ -30,56 +30,6 @@ public class ItemDto {
     private Record record;
 
     /**
-     * Instantiates a new Item dto.
-     */
-    public ItemDto() {
-    }
-
-    /**
-     * Constructor
-     * @param id item id
-     * @param record item's record
-     */
-    public ItemDto(Integer id, Record record) {
-        this.id = id;
-        this.recordId = record.getId();
-        this.record = record;
-    }
-
-    /**
-     * Instantiates a new Item dto.
-     *
-     * @param id            the id
-     * @param type          the type
-     * @param shelfmark     the shelfmark
-     * @param internalId    the internal id
-     * @param purchasePrice the purchase price
-     * @param isLoanable    the loanable
-     * @param loans         the loans
-     * @param condition     the condition
-     * @param currency      the currency
-     * @param library       the library
-     * @param record        the record
-     * @param isBorrowed    the is borrowed
-     */
-    public ItemDto(Integer id, ItemType type, ShelfMark shelfmark, Integer internalId, Float purchasePrice,
-                   Boolean isLoanable, List<LoanDto> loans, Condition condition, String currency, LibraryDto library,
-                   Record record, boolean isBorrowed) {
-        this.id = id;
-        this.type = type;
-        this.shelfmark = shelfmark;
-        this.internalId = internalId;
-        this.purchasePrice = purchasePrice;
-        this.loanable = isLoanable;
-        this.loans = loans;
-        this.condition = condition;
-        this.borrowed = isBorrowed;
-        this.currency = currency;
-        this.library = library;
-        this.record = record;
-    }
-
-    /**
      * Gets id.
      *
      * @return the id

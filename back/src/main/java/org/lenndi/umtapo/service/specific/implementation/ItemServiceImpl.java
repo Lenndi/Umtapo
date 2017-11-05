@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.service.specific.implementation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.ladutsko.isbn.ISBNException;
 import org.lenndi.umtapo.dao.ItemDao;
 import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
@@ -15,6 +16,7 @@ import org.lenndi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -176,7 +178,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     @Override
     public ItemDto findByInternalId(Integer internalId) {
 
-        Item item = itemDao.findByInternalId(internalId);
+        Item item = this.linkRecord(itemDao.findByInternalId(internalId));
         return this.itemMapper.mapItemToItemDto(item);
     }
 
@@ -188,7 +190,8 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable) {
+    public Page<ItemDto> findBySerialNumberAndSerialType(String serialNumber, String serialType, Pageable pageable)
+            throws ISBNException {
 
         List<Integer> itemIds = new ArrayList<>();
         Page<Item> items = null;
@@ -205,6 +208,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             });
 
             if (itemIds.size() > 0) {
+                pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize());
                 items = this.itemDao.findByIdIn(itemIds, pageable);
                 items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
             }
@@ -234,6 +238,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
             });
         });
 
+        pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize());
         Page<Item> items = this.itemDao.findByIdIn(itemIds, pageable);
         items.getContent().forEach(item -> item.setRecord(recordMap.get(item.getRecordId())));
 

@@ -7,11 +7,6 @@
   margin-top: 15px;
 }
 
-md-list-item {
-  border-style: solid;
-  border-width: 1px;
-}
-
 .check-item {
   color: #f44336;
 }
@@ -22,13 +17,12 @@ md-list-item {
 
 .card-text {
   margin-bottom: 0;
-  font-size: 1rem;
   color: gray;
 }
 
 .card-title {
   margin-bottom: 0;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .button-check-in {
@@ -47,6 +41,14 @@ md-list-item {
   margin-bottom: 1em;
 }
 
+.umt-input-txt-sm {
+  font-size: 0.8rem;
+}
+
 .button-check-in i {
   color : #ec971f;
+}
+
+#umt-loan-list-container {
+  overflow-y: auto;
 }
