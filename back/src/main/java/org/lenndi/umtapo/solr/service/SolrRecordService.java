@@ -2,7 +2,6 @@ package org.lenndi.umtapo.solr.service;
 
 import com.github.ladutsko.isbn.ISBNException;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,9 +25,8 @@ public interface SolrRecordService {
      *
      * @param record the record document
      * @return the record
-     * @throws InvalidRecordException the invalid record exception
      */
-    Record save(Record record) throws InvalidRecordException;
+    Record save(Record record);
 
     /**
      * Delete from index int.

@@ -54,6 +54,15 @@ export class LibraryService {
       .catch(error => this.httpLogger.error(error));
   }
 
+  update(library: Library): Promise<Library> {
+    let options = new RequestOptions({headers: this.headers});
+    return this.http
+      .put(`${this.libraryUrl}/partner`, JSON.stringify(library), options)
+      .toPromise()
+      .then(response => response.json() as Library)
+      .catch(error => this.httpLogger.error(error));
+  }
+
   saveExternal(library: Library): Promise<Library> {
     let options = new RequestOptions({headers: this.headers});
     return this.http

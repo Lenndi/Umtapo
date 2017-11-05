@@ -12,6 +12,7 @@ import org.lenndi.umtapo.service.generic.AbstractGenericService;
 import org.lenndi.umtapo.service.specific.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class LibraryServiceImpl extends AbstractGenericService<Library, Integer>
     }
 
     @Override
+    @Transactional
     public LibraryDto createLibrary(LibraryDto libraryDto) {
         libraryDto = this.saveDto(libraryDto);
 

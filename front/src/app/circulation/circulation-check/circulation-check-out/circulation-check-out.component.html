@@ -4,7 +4,7 @@
       <form>
         <div class="row justify-content-between m-header-component m-header-component__container">
           <div class="col flex-first">
-            <h4>Sorties <i *ngIf="isItemLoading || isExecutingLoan" class="fa fa-spinner fa-pulse" aria-hidden="true"></i></h4>
+            <h4>Emprunt <i *ngIf="isItemLoading || isExecutingLoan" class="fa fa-spinner fa-pulse" aria-hidden="true"></i></h4>
           </div>
           <div class="col flex-last">
             <button (click)="onSubmit()" type="submit" class="btn btn-warning float-right" #checkoutBtn>
@@ -25,7 +25,7 @@
                 Le quota maximal est déjà atteint pour cet utilisateur, voulez vous tout de même emprunter le document ?
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="borrowOverQuota()">Emprunté</button>
+                <button type="button" class="btn btn-primary" (click)="borrowOverQuota()">Emprunter</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hideOverQuotaModal()">Annuler</button>
               </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="col">
               <div class="form-group">
                 <label>ISBN</label>
-                <input [(ngModel)]="serialNumber"
+                <input #serialNumberInput [(ngModel)]="serialNumber"
                        [typeahead]="dataSource"
                        [typeaheadItemTemplate]="typeaheadItemTemplate"
                        (typeaheadLoading)="updateIsItemLoading($event)"

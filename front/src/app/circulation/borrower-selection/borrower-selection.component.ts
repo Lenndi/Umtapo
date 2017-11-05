@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Borrower} from '../../../entity/borrower';
@@ -13,7 +13,8 @@ import {ToastrService} from 'ngx-toastr';
   templateUrl: './borrower-selection.component.html',
   styleUrls: ['./borrower-selection.component.scss'],
 })
-export class BorrowerSelectionComponent implements OnInit {
+export class BorrowerSelectionComponent implements OnInit, AfterViewInit {
+  @ViewChild('borrowerIdInput') borrowerIdInput: ElementRef;
   form: FormGroup;
   borrowerId: FormControl;
   borrowerName: FormControl;
@@ -35,7 +36,6 @@ export class BorrowerSelectionComponent implements OnInit {
 
     this.dataSource = Observable
       .create((observer: any) => {
-        // Runs on every search
         observer.next(this.form.value['borrowerName']);
       })
       .mergeMap((contains: string) => this.borrowerService.findByNameOrEmail(this.size, this.page, contains));
@@ -48,7 +48,11 @@ export class BorrowerSelectionComponent implements OnInit {
     });
   }
 
-  public typeaheadOnSelect(borrowerTypeahead: TypeaheadMatch): void {
+  ngAfterViewInit(): void {
+    this.borrowerIdInput.nativeElement.focus();
+  }
+
+  typeaheadOnSelect(borrowerTypeahead: TypeaheadMatch): void {
     this.borrowerService.find(borrowerTypeahead.item.id)
       .then(response => {
         this.selectedBorrower = response;

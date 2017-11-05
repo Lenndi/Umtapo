@@ -33,7 +33,7 @@ export class LoanService {
       .then(response => response.status);
   }
 
-  findAllDtoByBorrowerIdAndReturned(borrowerId: number): Promise<Loan[]> {
+  findAllByBorrowerId(borrowerId: number): Promise<Loan[]> {
     let options = new RequestOptions({headers: this.headers});
     return this.http
       .get(`${this.loanUrl}?borrowerId=${borrowerId}`, options)

@@ -10,7 +10,6 @@ import org.lenndi.umtapo.service.generic.AbstractGenericService;
 import org.lenndi.umtapo.service.specific.ItemService;
 import org.lenndi.umtapo.solr.document.bean.record.Identifier;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.lenndi.umtapo.solr.service.SolrItemService;
 import org.lenndi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
 
     @Override
     @Transactional
-    public Item saveWithRecord(Item item) throws InvalidRecordException {
+    public Item saveWithRecord(Item item) {
         Record record = null;
 
         if (item.getRecord() != null) {
@@ -105,7 +104,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException {
+    public ItemDto saveDto(ItemDto itemDto) {
         Item item = this.itemMapper.mapItemDtoToItem(itemDto);
 
         if (item.getExternalLibrary() != null && item.getExternalLibrary().getId() == null) {
@@ -169,7 +168,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
         return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));

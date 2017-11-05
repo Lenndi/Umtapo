@@ -6,9 +6,9 @@
     <div class="m-circulation-content">
       <h5 class="m-header-component">Configuration de la bibliothèque</h5>
       <div class="card-block">
-        <div class="row">
+        <!--<div class="row">
           <div class="col-10">
-            <label for="library-selection">Sélection de la librairie</label>
+            <label for="library-selection">Sélection de la bibliothèque</label>
             <select id="library-selection" (change)="onChange(libraryValue.selectedIndex)" #libraryValue
                     class=" form-control custom-select">
               <option selected></option>
@@ -21,9 +21,9 @@
             </button>
           </div>
         </div>
-        <hr>
+        <hr>-->
         <div *ngIf="selectedLibrary">
-          <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="row">
               <div class="col">
                 <div class="form-group" [class.has-danger]="libraryName.invalid && libraryName.dirty">
@@ -74,30 +74,6 @@
             </div>
             <div class="row">
               <div class="col">
-                <div class="form-group" [class.has-danger]="firstInternalId.invalid && firstInternalId.dirty">
-                  <label for="item-start-number">Identifiant de départ</label>
-                  <input id="item-start-number" type="number" class="form-control" placeholder="Identifiant de départ"
-                         required
-                         [class.form-control-danger]="firstInternalId.invalid && firstInternalId.dirty"
-                         formControlName="firstInternalId">
-                  <div class="form-control-feedback" *ngIf="firstInternalId.invalid && firstInternalId.dirty">
-                    {{firstInternalIdMsg}}
-                  </div>
-                  <small class="form-text text-muted">
-                    Il s'agit du numéro d'identification à partir duquel les nouveaux items seront enregistrés
-                  </small>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group" [class.has-danger]="shelfMarkNb.invalid && shelfMarkNb.dirty">
-                  <label for="shelfmark-nb">Nombre de champs</label>
-                  <input id="shelfmark-nb" type="number" class="form-control" placeholder="Nombre de champs" required
-                         [class.form-control-danger]="shelfMarkNb.invalid && shelfMarkNb.dirty"
-                         formControlName="shelfMarkNb">
-                  <div class="form-control-feedback" *ngIf="shelfMarkNb.invalid && shelfMarkNb.dirty">
-                    {{shelfMarkNbMsg}}
-                  </div>
-                </div>
                 <div class="form-group" [class.has-danger]="defaultZ3950.invalid && defaultZ3950.dirty">
                   <label for="default-z3950">Source ISBN préférée</label>
                   <select id="default-z3950" class="form-control custom-select" required formControlName="defaultZ3950">
@@ -116,4 +92,5 @@
       </div>
     </div>
   </div>
+</div>
 

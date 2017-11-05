@@ -98,6 +98,23 @@ public class LibraryWebService {
     }
 
     /**
+     * Create a partner library.
+     *
+     * @param libraryDto the library dto
+     * @return the library
+     */
+    @RequestMapping(value = "/libraries/partner",
+            method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<LibraryDto> updatePartnerLibrary(@RequestBody LibraryDto libraryDto) {
+
+        libraryDto = libraryService.saveDto(libraryDto);
+
+        return new ResponseEntity<>(libraryDto, HttpStatus.OK);
+    }
+
+    /**
      * Create an external library.
      *
      * @param libraryDto the library dto
