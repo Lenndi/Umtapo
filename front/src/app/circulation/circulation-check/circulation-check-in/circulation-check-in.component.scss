@@ -7,11 +7,6 @@
   margin-top: 15px;
 }
 
-md-list-item {
-  border-style: solid;
-  border-width: 1px;
-}
-
 .check-item {
   color: #f44336;
 }
@@ -49,4 +44,8 @@ md-list-item {
 
 .button-check-in i {
   color : #ec971f;
+}
+
+#umt-loan-list-container {
+  overflow-y: auto;
 }

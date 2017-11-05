@@ -1,40 +1,38 @@
 <div class="m-circulation">
   <div class="m-circulation-content">
-    <form>
-      <div class="container-fluid">
-        <div class="row justify-content-between m-header-component m-header-component__container">
-          <div class="col flex-first">
-            <h4 class="">Retours</h4>
-          </div>
-          <div class="col flex-last">
-            <button (click)="checkBySerialOrInternalId()" type="submit" class="btn btn-warning float-right">
-              <i class="fa fa-arrow-down" aria-hidden="true"></i>
-            </button>
+    <div class="container-fluid">
+      <div class="row justify-content-between m-header-component m-header-component__container">
+        <div class="col flex-first">
+          <h4 class="">Retours</h4>
+        </div>
+      </div>
+      <div class="row align-items-end">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="serial">ISBN</label>
+            <input [(ngModel)]="serial" id="serial" name="serial" type="text" class="form-control form-control-sm"
+                   placeholder="Serial">
           </div>
         </div>
-        <div class="row align-items-end">
-          <div class="col-4">
-            <div class="form-group">
-              <label for="serial">ISBN</label>
-              <input [(ngModel)]="serial" id="serial" name="serial" type="text" class="form-control form-control-sm"
-                     placeholder="Serial">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="internalId">Identifiant du document</label>
+            <input [(ngModel)]="internalId" id="internalId" name="serial" type="number" class="form-control form-control-sm"
+                   placeholder="Identifiant du document">
+            <div>
             </div>
-          </div>
-          <div class="col-4">
-            <div class="form-group">
-              <label for="internalId">Identifiant du document</label>
-              <input [(ngModel)]="internalId" id="internalId" name="serial" type="number" class="form-control form-control-sm"
-                     placeholder="Identifiant du document">
-              <div>
-              </div>
-            </div>
-          </div>
-          <div class="col flex-last umt-button-return">
-            <button (click)="returnAllBooks()" type="button" class="btn btn-warning float-right">Tout retourner</button>
           </div>
         </div>
-        <div class="list-group">
-          <div *ngFor="let loan of dataService.borrower.loans" class="list-group-item d-flex flex-row align-items-end">
+        <div class="col flex-last umt-button-return">
+          <button (click)="checkBySerialOrInternalId()" type="submit" class="btn btn-warning">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+          <button (click)="returnAllBooks()" type="button" class="btn btn-warning float-right">Tout retourner</button>
+        </div>
+      </div>
+      <div #loanListContainer id="umt-loan-list-container" class="mb-3" (window:resize)="setLoanListHeight()" [style.height.px]="loanListContainerHeight">
+        <div #loanList class="list-group">
+          <div *ngFor="let loan of dataService.borrower.loans; let last = last" class="list-group-item d-flex flex-row align-items-end">
             <div class="p-3 w-10 align-self-center">
               <i class="fa fa-book fa-2x" aria-hidden="true"></i>
             </div>
@@ -62,9 +60,11 @@
                 <i class="fa fa-arrow-down" aria-hidden="true"></i>
               </button>
             </div>
+            <!-- Recharge la taille du container de la liste des emprunts après l'affichage du dernier élément -->
+            {{last ? setLoanListHeight() : ''}}
           </div>
         </div>
+      </div>
     </div>
-    </form>
   </div>
 </div>
