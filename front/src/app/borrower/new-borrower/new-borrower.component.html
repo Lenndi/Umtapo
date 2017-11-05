@@ -1,12 +1,12 @@
 <div class="l-content">
   <h2 class="l-content_title">Usager</h2>
 </div>
-<div id="new-borrower" class="row justify-content-center m-circulation">
+<div id="new-borrower" class="row justify-content-center m-circulation umt-form">
   <div class="col-12">
     <div class="m-circulation-content">
       <div class="m-header-component">
-        <div class="row">
-          <div class="text-left">
+        <div class="d-flex justify-content-between">
+          <div>
             <a class="back-link" routerLink="{{dataService.step - 1}}" *ngIf="dataService.step > 1"
                (click)="saveData()">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -15,13 +15,12 @@
           <div>
             <span>Nouvel usager</span>
           </div>
-          <div class="col-8 text-right">
+          <div>
             <span>{{dataService.step}}/{{dataService.totalStep}}</span>
           </div>
         </div>
       </div>
       <div class="card-block">
-        <h5 class="card-title">{{dataService.title}}</h5>
         <router-outlet (activate)="newBorrowerChild = $event"></router-outlet>
       </div>
     </div>

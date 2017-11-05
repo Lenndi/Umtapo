@@ -1,5 +1,5 @@
 <header class="l-topbar navbar navbar-inverse navbar-fixed-top">
-  <div class="row">
+  <div class="row align-items-center">
     <div class="col-2">
       <div class="o-logo">
         <a href="#" class="o-logo__link">
@@ -9,12 +9,14 @@
     </div>
     <div class="l-topbar_settings navbar-toggler-right">
       <div class="l-topbar_dropdown" dropdown>
-        <button dropdownToggle type="button" class="l-topbar_dropdown_btn btn-sm btn-secondary dropdown-toggle">
-          <i class="fa fa-ellipsis-v fa-2x" aria-hidden="true"></i>
-        </button>
-        <ul *dropdownMenu class="umt-dropdown dropdown-menu dropdown-menu-left" role="menu">
+        <a href="#" dropdownToggle class="dropdown-toggle umt-top-menu-link">
+          <i class="fa fa-ellipsis-v umt-top-icon" aria-hidden="true"></i>
+        </a>
+        <ul *dropdownMenu class="umt-dropdown dropdown-menu dropdown-menu-right" role="menu">
           <li role="menuitem">
-            <a routerLink="/library-configuration" routerLinkActive="text-primary" class="nav-link dropdown-item umt-pointer">Configuration de la librairie</a>
+            <a routerLink="/library-configuration" class="nav-link dropdown-item umt-pointer small">
+              Configuration de la bibliothèque
+            </a>
           </li>
         </ul>
       </div>

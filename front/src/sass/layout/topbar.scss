@@ -22,6 +22,15 @@
   margin-left: 0;
   margin-right: -1px;
 }
+
 .dropdown-toggle::after {
   display:none;
+}
+
+.umt-top-menu-link {
+  padding: 1.5em;
+}
+
+.umt-top-icon {
+  font-size: 1.5em;
 }
