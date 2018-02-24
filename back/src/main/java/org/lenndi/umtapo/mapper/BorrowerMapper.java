@@ -50,7 +50,6 @@ public class BorrowerMapper extends ConfigurableMapper {
 
         mapperFactory.classMap(Borrower.class, BorrowerDocument.class)
                 .fieldMap("birthday", "birthday").converter("dateConverter").add()
-                .field("address.id", "addressId")
                 .field("address.address1", "address1")
                 .field("address.address2", "address2")
                 .field("address.zip", "zip")
@@ -66,7 +65,6 @@ public class BorrowerMapper extends ConfigurableMapper {
                 .fieldMap("birthday", "birthday").converter("dateConverter").add()
                 .fieldMap("subscriptionStart", "subscriptionStart").converter("dateConverter").add()
                 .fieldMap("subscriptionEnd", "subscriptionEnd").converter("dateConverter").add()
-                .field("address.id", "addressId")
                 .field("address.address1", "address1")
                 .field("address.address2", "address2")
                 .field("address.zip", "zip")

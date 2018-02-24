@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.mapper.converter;
 
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
 
@@ -12,12 +13,12 @@ import java.util.Date;
  */
 public class ZonedDateTimeConverter extends BidirectionalConverter<ZonedDateTime, Date> {
     @Override
-    public Date convertTo(ZonedDateTime source, Type<Date> destinationType) {
+    public Date convertTo(ZonedDateTime source, Type<Date> destinationType, MappingContext mappingContext) {
         return Date.from(source.toInstant());
     }
 
     @Override
-    public ZonedDateTime convertFrom(Date source, Type<ZonedDateTime> destinationType) {
+    public ZonedDateTime convertFrom(Date source, Type<ZonedDateTime> destinationType, MappingContext mappingContext) {
         return ZonedDateTime.ofInstant(source.toInstant(), ZoneId.systemDefault());
     }
 }

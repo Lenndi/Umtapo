@@ -1,24 +1,16 @@
 package org.lenndi.umtapo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 /**
  * Item shelfmark.
  */
-@Entity
+@Embeddable
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShelfMark {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    private Integer id;
     private String field1;
     private String field2;
     private String field3;
@@ -27,28 +19,7 @@ public class ShelfMark {
     /**
      * Instantiates a new Shelf mark.
      */
-    public ShelfMark() {
-    }
-
-    /**
-     * Instantiates a new Shelf mark.
-     *
-     * @param field1 the field 1
-     */
-    public ShelfMark(String field1) {
-        this.field1 = field1;
-    }
-
-    /**
-     * Instantiates a new Shelf mark.
-     *
-     * @param field1 the field 1
-     * @param field2 the field 2
-     */
-    public ShelfMark(String field1, String field2) {
-        this.field1 = field1;
-        this.field2 = field2;
-    }
+    public ShelfMark() { }
 
     /**
      * Instantiates a new Shelf mark.
@@ -61,39 +32,6 @@ public class ShelfMark {
         this.field1 = field1;
         this.field2 = field2;
         this.field3 = field3;
-    }
-
-    /**
-     * Instantiates a new Shelf mark.
-     *
-     * @param field1 the field 1
-     * @param field2 the field 2
-     * @param field3 the field 3
-     * @param field4 the field 4
-     */
-    public ShelfMark(String field1, String field2, String field3, String field4) {
-        this.field1 = field1;
-        this.field2 = field2;
-        this.field3 = field3;
-        this.field4 = field4;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     /**

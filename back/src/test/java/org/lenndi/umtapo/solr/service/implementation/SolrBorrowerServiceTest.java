@@ -53,7 +53,6 @@ public class SolrBorrowerServiceTest {
         Assert.assertEquals(savedBorrowerDocument.getComment(), "Un bien bel usager.");
         Assert.assertEquals(savedBorrowerDocument.getBirthday(), Date.from(this.utilCreator.getBirthday().toInstant()));
         Assert.assertEquals(savedBorrowerDocument.getQuota().longValue(), 5);
-        Assert.assertEquals(savedBorrowerDocument.getAddressId(), "3");
         Assert.assertEquals(savedBorrowerDocument.getAddress1(), "3 rue des poules");
         Assert.assertEquals(savedBorrowerDocument.getAddress2(), "Étage 5");
         Assert.assertEquals(savedBorrowerDocument.getZip(), "35000");

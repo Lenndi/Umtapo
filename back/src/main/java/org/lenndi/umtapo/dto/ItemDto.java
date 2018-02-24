@@ -18,6 +18,7 @@ public class ItemDto {
     private ItemType type;
     private ShelfMark shelfmark;
     private Integer internalId;
+    private String externalId;
     private Float purchasePrice;
     private Boolean loanable;
     private Boolean borrowed;
@@ -117,6 +118,24 @@ public class ItemDto {
      */
     public void setInternalId(Integer internalId) {
         this.internalId = internalId;
+    }
+
+    /**
+     * Gets external id.
+     *
+     * @return the external id
+     */
+    public String getExternalId() {
+        return externalId;
+    }
+
+    /**
+     * Sets external id.
+     *
+     * @param externalId the external id
+     */
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     /**

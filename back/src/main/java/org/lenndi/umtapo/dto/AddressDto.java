@@ -3,10 +3,6 @@ package org.lenndi.umtapo.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.lenndi.umtapo.util.JsonViewResolver;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  * Address entity.
  * <p>
@@ -14,9 +10,6 @@ import javax.persistence.Id;
  */
 public class AddressDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
     private String address1;
     private String address2;
     private String zip;
@@ -24,26 +17,6 @@ public class AddressDto {
     private String phone;
     @JsonView(JsonViewResolver.BorrowerSearchView.class)
     private String email;
-
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
 
     /**

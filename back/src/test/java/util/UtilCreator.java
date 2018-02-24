@@ -81,7 +81,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");
@@ -103,7 +102,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");
@@ -125,7 +123,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");
@@ -147,7 +144,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");
@@ -169,7 +165,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");
@@ -191,7 +186,6 @@ public class UtilCreator {
         borrower.setBirthday(birthday);
         borrower.setQuota(5);
         borrower.setEmailOptin(true);
-        address.setId(3);
         address.setAddress1("3 rue des poules");
         address.setAddress2("Étage 5");
         address.setZip("35000");

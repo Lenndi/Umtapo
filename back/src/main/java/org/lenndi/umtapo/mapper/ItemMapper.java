@@ -12,9 +12,17 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
+import org.lenndi.umtapo.entity.Library;
 import org.lenndi.umtapo.enumeration.Condition;
+import org.lenndi.umtapo.enumeration.ItemType;
 import org.lenndi.umtapo.mapper.converter.PriceConverter;
 import org.lenndi.umtapo.solr.document.ItemDocument;
+import org.lenndi.umtapo.solr.document.bean.record.Creator;
+import org.lenndi.umtapo.solr.document.bean.record.Identifier;
+import org.lenndi.umtapo.solr.document.bean.record.Publisher;
+import org.lenndi.umtapo.solr.document.bean.record.Record;
+import org.lenndi.umtapo.solr.document.bean.record.RecordDate;
+import org.lenndi.umtapo.solr.document.bean.record.Title;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -32,7 +40,6 @@ public class ItemMapper extends ConfigurableMapper {
     private static final Logger LOGGER = Logger.getLogger(ItemMapper.class);
 
     private static final MapperFacade MAPPER;
-    private static final MapperFacade DOCUMENT_MAPPER;
     private static final MapperFacade MAPPER_PATCH;
 
     static {
@@ -49,23 +56,6 @@ public class ItemMapper extends ConfigurableMapper {
                 .byDefault()
                 .register();
         MAPPER = mapperFactory.getMapperFacade();
-    }
-
-    static {
-        final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-
-        mapperFactory.classMap(Item.class, ItemDocument.class)
-                .field("record.title.mainTitle", "mainTitle")
-                .field("record.creator.name", "name")
-                .field("record.creator.secondName", "secondName")
-                .field("record.publisher.editorName", "editorName")
-                .field("record.date.publicationDate", "publicationDate")
-                .field("record.identifier.serialNumber", "serialNumber")
-                .field("library.id", "libraryId")
-                .field("externalLibrary.id", "externalLibraryId")
-                .byDefault()
-                .register();
-        DOCUMENT_MAPPER = mapperFactory.getMapperFacade();
     }
 
     static {
@@ -114,9 +104,8 @@ public class ItemMapper extends ConfigurableMapper {
      *
      * @param item     the item
      * @param jsonNode the json node
-     * @throws IllegalAccessException the illegal access exception
      */
-    public void mergeItemAndJsonNode(Item item, JsonNode jsonNode) throws IllegalAccessException {
+    public void mergeItemAndJsonNode(Item item, JsonNode jsonNode) {
         MAPPER_PATCH.map(item, jsonNode);
     }
 
@@ -147,7 +136,30 @@ public class ItemMapper extends ConfigurableMapper {
      * @return the item document
      */
     public ItemDocument mapItemToDocument(Item item) {
-        return  DOCUMENT_MAPPER.map(item, ItemDocument.class);
+        Record record = item.getRecord();
+
+        String externalLibraryId = item.getExternalLibrary() != null
+                ? item.getExternalLibrary().getId().toString()
+                : null;
+
+        ItemDocument document = new ItemDocument();
+        document.setId(item.getId().toString());
+        document.setBorrowed(item.getBorrowed());
+        document.setLoanable(item.getLoanable());
+        document.setCondition(item.getCondition() != null ? item.getCondition().toString() : null);
+        document.setType(item.getType() != null ? item.getType().toString() : "BOOK");
+        document.setExternalLibraryId(externalLibraryId);
+        document.setInternalId(item.getInternalId() != null ? item.getInternalId().toString() : null);
+        document.setExternalId(item.getExternalId());
+        document.setLibraryId(item.getLibrary() != null ? item.getLibrary().getId().toString() : null);
+        document.setMainTitle(record.getTitle().getMainTitle());
+        document.setName(record.getCreator().getName());
+        document.setSecondName(record.getCreator().getSecondName());
+        document.setEditorName(record.getPublisher().getEditorName());
+        document.setPublicationDate(record.getDate().getPublicationDate());
+        document.setSerialNumber(record.getIdentifier().getSerialNumber());
+
+        return document;
     }
 
     /**
@@ -157,6 +169,61 @@ public class ItemMapper extends ConfigurableMapper {
      * @return the item
      */
     public Item mapDocumentToItem(ItemDocument itemDocument) {
-        return DOCUMENT_MAPPER.map(itemDocument, Item.class);
+        Title title = new Title();
+        title.setMainTitle(itemDocument.getMainTitle());
+
+        Creator creator = new Creator();
+        creator.setName(itemDocument.getName());
+        creator.setSecondName(itemDocument.getSecondName());
+
+        Publisher publisher = new Publisher();
+        publisher.setEditorName(itemDocument.getEditorName());
+
+        RecordDate recordDate = new RecordDate();
+        recordDate.setPublicationDate(itemDocument.getPublicationDate());
+
+        Identifier identifier = new Identifier();
+        identifier.setSerialNumber(itemDocument.getSerialNumber());
+
+        Record record = new Record();
+        record.setTitle(title);
+        record.setCreator(creator);
+        record.setPublisher(publisher);
+        record.setDate(recordDate);
+        record.setIdentifier(identifier);
+
+        Library externalLibrary;
+        if (itemDocument.getExternalLibraryId() != null) {
+            externalLibrary = new Library();
+            externalLibrary.setId(Integer.parseInt(itemDocument.getExternalLibraryId()));
+        } else {
+            externalLibrary = null;
+        }
+
+        Library library;
+        if (itemDocument.getLibraryId() != null) {
+            library = new Library();
+            library.setId(Integer.parseInt(itemDocument.getLibraryId()));
+        } else {
+            library = null;
+        }
+
+        Integer internalId = itemDocument.getExternalLibraryId() == null
+                ? Integer.parseInt(itemDocument.getInternalId())
+                : null;
+
+        Item item = new Item();
+        item.setId(Integer.parseInt(itemDocument.getId()));
+        item.setBorrowed(itemDocument.getBorrowed());
+        item.setLoanable(itemDocument.getLoanable());
+        item.setCondition(itemDocument.getCondition() != null ? Condition.valueOf(itemDocument.getCondition()) : null);
+        item.setType(itemDocument.getType() != null ? ItemType.valueOf(itemDocument.getType()) : null);
+        item.setExternalLibrary(externalLibrary);
+        item.setInternalId(internalId);
+        item.setExternalId(itemDocument.getExternalId());
+        item.setLibrary(library);
+        item.setRecord(record);
+
+        return item;
     }
 }

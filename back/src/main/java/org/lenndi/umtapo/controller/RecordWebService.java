@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.yaz4j.exception.ZoomException;
 
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
@@ -109,12 +108,12 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
                 } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
-            } catch (final ZoomException e) {
-                LOGGER.error(e.getMessage());
-                return this.zoomExceptionHandling(e);
             } catch (final ISBNException e) {
                 LOGGER.error(e.getMessage());
                 return new ResponseEntity<>("Bad ISBN format", HttpStatus.BAD_REQUEST);
+            } catch (final Exception e) {
+                LOGGER.error(e.getMessage());
+                return this.zoomExceptionHandling(e);
             }
         } else if (title != null) {
             try {
@@ -133,7 +132,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
                 Page response = new PageImpl<>(recordDocuments, pageable, recordPage.getTotalElements());
 
                 return new ResponseEntity<>(response, HttpStatus.OK);
-            } catch (final ZoomException e) {
+            } catch (final Exception e) {
                 return this.zoomExceptionHandling(e);
             }
         } else {
@@ -143,7 +142,7 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
         }
     }
 
-    private ResponseEntity zoomExceptionHandling(ZoomException e) {
+    private ResponseEntity zoomExceptionHandling(Exception e) {
         LOGGER.fatal(e.getMessage());
 
         return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.SERVICE_UNAVAILABLE);

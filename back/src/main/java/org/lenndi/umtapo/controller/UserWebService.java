@@ -54,7 +54,7 @@ public class UserWebService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
@@ -71,7 +71,7 @@ public class UserWebService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
@@ -90,9 +90,9 @@ public class UserWebService {
             userResult = this.userService.save(user);
         } catch (final SsoIdEqualsPasswordException e) {
             LOGGER.error("SsoIdEqualsPasswordException exception : " + e);
-            return new ResponseEntity(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity(userResult, HttpStatus.OK);
+        return new ResponseEntity<>(userResult, HttpStatus.OK);
     }
 
     /**
@@ -111,9 +111,9 @@ public class UserWebService {
             userResult = this.userService.save(user);
         } catch (final SsoIdEqualsPasswordException e) {
             LOGGER.error("SsoIdEqualsPasswordException exception : " + e);
-            return new ResponseEntity(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ApplicationCodeEnum.LOGIN_AND_PASSWORD_ARE_EQUALS, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity(userResult, HttpStatus.OK);
+        return new ResponseEntity<>(userResult, HttpStatus.OK);
     }
 
     /**

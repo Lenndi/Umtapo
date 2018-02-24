@@ -1,6 +1,7 @@
 package org.lenndi.umtapo.mapper.converter;
 
 import ma.glasnost.orika.CustomConverter;
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.metadata.Type;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
 public class LatenessConverter extends CustomConverter<Date, Boolean> {
 
     @Override
-    public Boolean convert(Date olderReturn, Type<? extends Boolean> destinationType) {
+    public Boolean convert(Date olderReturn, Type<? extends Boolean> type, MappingContext mappingContext) {
         return olderReturn.before(new Date());
     }
 }

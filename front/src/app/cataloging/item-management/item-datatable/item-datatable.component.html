@@ -80,7 +80,7 @@
   </tr>
   <ng-container *ngIf="page">
     <tr *ngFor="let item of page.content">
-      <td scope="row">{{item.internalId}}</td>
+      <td scope="row">{{item.internalId ? item.internalId : item.externalId}}</td>
       <td>{{item.record.title.mainTitle}}</td>
       <td>{{item.record.creator.name}} {{item.record.creator.secondName}}</td>
       <td>{{item.record.publisher.editorName}}</td>
