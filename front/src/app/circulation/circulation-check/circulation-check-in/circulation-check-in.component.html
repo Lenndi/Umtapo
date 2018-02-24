@@ -54,7 +54,9 @@
               <div class="p-2 w-25">
                 <label for="end_date">Retour</label>
                 <input (change)="saveEnd($event.target.value, loan.id)" [value]="loan.end | date:'yyyy-MM-dd'"
-                       id="end_date" type="date" class="form-control form-control-sm umt-input-txt-sm" placeholder="Date de retour" required>
+                       id="end_date" type="date"
+                       [ngClass]="loanIsLate(loan) ? 'text-danger' : ''" class="form-control form-control-sm umt-input-txt-sm"
+                       placeholder="Date de retour" required>
               </div>
               <div class="pb-2 w-5">
                 <button (click)="returnBook(loan)" class="btn btn-warning btn-sm float-right">

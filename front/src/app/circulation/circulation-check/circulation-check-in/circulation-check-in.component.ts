@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Loan} from '../../../../entity/loan';
 import {conditionEnum} from '../../../../enumeration/fr';
@@ -31,8 +31,15 @@ export class CirculationCheckInComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loanService.findAllDtoByBorrowerIdAndReturned(this.dataService.borrower.id)
-      .then(response => this.dataService.borrower.loans = response);
+    this.loanService.findAllByBorrowerId(this.dataService.borrower.id)
+      .then(response => {
+        this.dataService.borrower.loans = response;
+        response.forEach(loan => {
+          if (this.loanIsLate(loan)) {
+            this.toastr.warning(loan.item.record.title.mainTitle, 'Retard', {timeOut: 10000});
+          }
+        });
+      });
   }
 
   setLoanListHeight(): void {
@@ -144,5 +151,9 @@ export class CirculationCheckInComponent implements OnInit {
     } else {
       this.toastr.warning(`Vous n'avez renseigné aucun champ`, 'Champs vides');
     }
+  }
+
+  loanIsLate(loan: Loan): boolean {
+    return new Date(loan.end).getTime() < Date.now();
   }
 }

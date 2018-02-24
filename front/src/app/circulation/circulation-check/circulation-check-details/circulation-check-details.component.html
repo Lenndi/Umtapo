@@ -20,14 +20,14 @@
               <td>{{borrower?.address?.email}}</td>
               <td *ngIf="borrower?.loans === null">0/{{borrower?.quota}}</td>
               <td *ngIf="borrower?.loans !== null">{{borrower?.loans?.length}}/{{borrower?.quota}}</td>
-              <td>{{borrower.subscriptions[borrower.subscriptions.length - 1]?.end | date}}</td>
+              <td>{{borrower.subscriptions[borrower.subscriptions.length - 1]?.end | date:'dd/MM/yyyy'}}</td>
               <td>{{borrower?.comment}}</td>
             </tr>
             </tbody>
           </table>
         </div>
         <div class="col-12 col-md-10 col-xl-2 btn-change">
-          <button (click)="backToCirculationComponent()" type="button" class="btn btn-sm btn-warning">Changer</button>
+          <button (click)="backToCirculationComponent()" type="button" class="btn btn-sm btn-warning">Changer d'usager</button>
         </div>
       </div>
   </div>

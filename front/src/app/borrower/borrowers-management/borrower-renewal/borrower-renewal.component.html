@@ -24,7 +24,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group" [class.has-danger]="contribution.invalid && contribution.dirty">
-                <label for="contribution">Adhésion</label>
+                <label for="contribution">Adhésion ({{libraryService.findLocally().currency}})</label>
                 <input id="contribution" type="number" class="form-control form-control-sm" placeholder="Adhésion"
                        required [class.form-control-danger]="contribution.invalid && contribution.dirty"
                        formControlName="contribution">

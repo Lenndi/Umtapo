@@ -129,7 +129,10 @@ export class InternalInformationsComponent implements OnInit {
           this.variousItemDataService.item = item;
           this.confirmationModal.show();
         })
-        .catch(error => logger.error(error));
+        .catch(error => {
+          this.toastr.error('Impossible de sauvegarder le document', 'Erreur');
+          logger.error('Saving item', error);
+        });
     } else {
       logger.info('Invalid form :', this.itemForm);
 

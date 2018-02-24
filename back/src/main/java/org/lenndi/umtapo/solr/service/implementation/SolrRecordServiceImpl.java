@@ -7,7 +7,6 @@ import org.lenndi.umtapo.mapper.RecordMapper;
 import org.lenndi.umtapo.solr.document.RecordDocument;
 import org.lenndi.umtapo.solr.document.bean.record.Identifier;
 import org.lenndi.umtapo.solr.document.bean.record.Record;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.lenndi.umtapo.solr.repository.SolrRecordRepository;
 import org.lenndi.umtapo.solr.service.SolrRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     }
 
     @Override
-    public Record save(Record record) throws InvalidRecordException {
+    public Record save(Record record) {
         Identifier identifier = record.getIdentifier();
         if (record.getId() == null) {
             if (identifier != null && identifier.getSerialNumber() != null && identifier.getSerialType() != null) {
@@ -66,12 +65,9 @@ public class SolrRecordServiceImpl implements SolrRecordService {
 
                 if (records.size() > 0) {
                     return records.get(0);
-                } else {
-                    record.setId(UUID.randomUUID().toString());
                 }
-            } else {
-                throw new InvalidRecordException("Record must contain serial and serialType");
             }
+            record.setId(UUID.randomUUID().toString());
         }
 
         RecordDocument recordDocument = this.recordMapper.mapRecordToRecordDocument(record);
@@ -89,10 +85,13 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     public List<Record> searchBySerialNumber(String serialNumber, String serialType) {
         List<RecordDocument> recordDocuments;
         List<Record> records = new ArrayList<>();
-        recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType);
-        recordDocuments.forEach(recordDocument ->
-            records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
-        );
+
+        if (serialNumber != null && serialType != null) {
+            recordDocuments = this.recordRepository.findBySerialNumberContainingAndSerialType(serialNumber, serialType);
+            recordDocuments.forEach(recordDocument ->
+                    records.add(this.recordMapper.mapRecordDocumentToRecord(recordDocument))
+            );
+        }
 
         return records;
     }

@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {ItemService} from '../../../../service/item.service';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Borrower} from '../../../../entity/borrower';
@@ -18,8 +18,9 @@ import {Pageable} from '../../../../util/pageable';
   providers: [ItemService]
 
 })
-export class CirculationCheckOutComponent {
-  @ViewChild('childModal') public childModal: ModalDirective;
+export class CirculationCheckOutComponent implements AfterViewInit {
+  @ViewChild('serialNumberInput') serialNumberInput: ElementRef;
+  @ViewChild('overQuotaModal') overQuotaModal: ModalDirective;
   items: Item[] = [];
   selectedItem: Item = null;
   page: number = 0;
@@ -58,12 +59,16 @@ export class CirculationCheckOutComponent {
       .catch(() => this.toastr.error(`Problème de communication avec le serveur`, `Erreur`));
   }
 
+  ngAfterViewInit(): void {
+    this.serialNumberInput.nativeElement.focus();
+  }
+
   showOverQuotaModal(): void {
-    this.childModal.show();
+    this.overQuotaModal.show();
   }
 
   hideOverQuotaModal(): void {
-    this.childModal.hide();
+    this.overQuotaModal.hide();
   }
 
   borrowOverQuota() {
@@ -138,7 +143,11 @@ export class CirculationCheckOutComponent {
   }
 
   private resolveLoanWithItemArray(tryNb: number): void {
-    if (this.isItemLoading && tryNb < 10) {
+    if (this.selectedItem) {
+      let loan = this.initializeLoan();
+      loan.item.id = this.selectedItem.id;
+      this.createLoan(loan);
+    } else if (this.isItemLoading && tryNb < 10) {
       setTimeout(() => this.resolveLoanWithItemArray(tryNb + 1), 300);
     } else {
       if (this.items) {
@@ -146,7 +155,7 @@ export class CirculationCheckOutComponent {
           this.toastr.warning('Veuillez sélectionner un document', 'Emprunt impossible');
           this.isExecutingLoan = false;
         } else if (this.items.length > 1) {
-          this.toastr.warning('Veuillez sélectionner un document parmi ceux proposés', 'Emprunt impossible');
+            this.toastr.warning('Veuillez sélectionner un document parmi ceux proposés', 'Emprunt impossible');
           this.isExecutingLoan = false;
         } else if (this.items.length === 1) {
           let loan = this.initializeLoan();
@@ -188,6 +197,8 @@ export class CirculationCheckOutComponent {
         });
         this.toastr.success(`Le document a bien été emprunté`, 'Emprunt');
         this.isExecutingLoan = false;
+        this.lastFocus.target.blur();
+        this.selectedItem = this.title = this.internalId = this.serialNumber = null;
         this.lastFocus.target.focus();
       });
   }

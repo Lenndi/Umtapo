@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Borrower} from '../../../../entity/borrower';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -17,7 +17,7 @@ import {LibraryService} from '../../../../service/library.service';
   styleUrls: ['./borrower-renewal.component.scss'],
   providers: [SubscriptionService]
 })
-export class BorrowerRenewalComponent {
+export class BorrowerRenewalComponent implements OnDestroy {
 
   @ViewChild('borrowerRenewalModal') public borrowerRenewalModal: ModalDirective;
   renewalForm: FormGroup;
@@ -30,7 +30,7 @@ export class BorrowerRenewalComponent {
   constructor(
     private formBuilder: FormBuilder,
     private subscriptionService: SubscriptionService,
-    private libraryService: LibraryService,
+    public libraryService: LibraryService,
     public dataService: BorrowerDataService,
     public toastr: ToastrService
   ) {
@@ -54,7 +54,7 @@ export class BorrowerRenewalComponent {
 
       this.subscriptionService
         .save(this.subscription)
-        .then(subscription => {
+        .then(() => {
           this.hideModal();
           this.toastr.info(`Nouvel abonnement enregistré`, 'OK');
         })

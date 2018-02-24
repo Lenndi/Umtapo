@@ -34,8 +34,14 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.login)
       .then(() => {
         this.libraryService.findAll()
-          .then(libraries => libraries.length < 1 ?
-            this.router.navigate(['setup']) : this.router.navigate(['circulation']))
+          .then(libraries => {
+            if (libraries.length < 1) {
+              this.router.navigate(['setup']);
+            } else {
+              this.libraryService.saveLocally(libraries[0]);
+              this.router.navigate(['circulation']);
+            }
+          })
           .catch(error => {
             this.toastr.error('Erreur de connexion avec le serveur', 'Connexion refusée');
             logger.error(error);
