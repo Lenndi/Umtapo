@@ -8,6 +8,7 @@ export class Item {
   type: string;
   shelfmark: ShelfMark;
   internalId: number;
+  externalId: string;
   purchasePrice: number;
   loanable: boolean;
   loans: Loan[];

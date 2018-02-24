@@ -17,6 +17,9 @@ public class ItemDocument {
     private String internalId;
 
     @Field
+    private String externalId;
+
+    @Field
     private Boolean loanable;
 
     @Field
@@ -86,6 +89,24 @@ public class ItemDocument {
      */
     public void setInternalId(String internalId) {
         this.internalId = internalId;
+    }
+
+    /**
+     * Gets external id.
+     *
+     * @return the external id
+     */
+    public String getExternalId() {
+        return externalId;
+    }
+
+    /**
+     * Sets external id.
+     *
+     * @param externalId the external id
+     */
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     /**

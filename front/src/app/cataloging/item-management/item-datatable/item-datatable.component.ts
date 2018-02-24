@@ -27,9 +27,7 @@ export class ItemDatatableComponent implements OnInit {
     this.itemFilter.complexSearch = true;
     this.pageable = new Pageable('mainTitle');
 
-    this.updatedItemSubscription = this.dataService.updatedItem$.subscribe(
-      item => this.changeFilter()
-    );
+    this.updatedItemSubscription = this.dataService.updatedItem$.subscribe(() => this.changeFilter());
   }
 
   ngOnInit(): void {

@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.mapper.converter;
 
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
 
@@ -13,12 +14,12 @@ public class PriceConverter extends BidirectionalConverter<Float, Integer> {
     private static final int CENT = 100;
 
     @Override
-    public Integer convertTo(Float price, Type<Integer> destinationType) {
+    public Integer convertTo(Float price, Type<Integer> destinationType, MappingContext mappingContext) {
         return (int) (price * CENT);
     }
 
     @Override
-    public Float convertFrom(Integer price, Type<Float> destinationType) {
+    public Float convertFrom(Integer price, Type<Float> destinationType, MappingContext mappingContext) {
         return (float) price / CENT;
     }
 }

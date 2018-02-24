@@ -198,7 +198,7 @@ public class RecordServiceImpl implements RecordService {
     private ResultSet safeSearch(Query query) throws ZoomException {
         try {
             return this.connection.search(query);
-        } catch (final ZoomException e) {
+        } catch (final Exception e) {
             this.connection.close();
             this.createConnection();
             return this.connection.search(query);

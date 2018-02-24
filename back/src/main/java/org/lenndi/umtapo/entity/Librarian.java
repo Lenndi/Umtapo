@@ -1,10 +1,10 @@
 package org.lenndi.umtapo.entity;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  * Librarian entity.
@@ -20,7 +20,7 @@ public class Librarian {
  private String name;
  private String username;
  private String password;
- @OneToOne
+ @Embedded
  private Address address;
 
     /**

@@ -91,7 +91,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
         }
 
         if (item.getInternalId() == null && item.getExternalLibrary() == null) {
-            Integer previousInternalId = this.itemDao.findTopInternalId();
+            Integer previousInternalId = this.itemDao.findTopInternalId(item.getLibrary());
             item.setInternalId(previousInternalId + 1);
         }
 
@@ -169,7 +169,7 @@ public class ItemServiceImpl extends AbstractGenericService<Item, Integer> imple
     }
 
     @Override
-    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException {
+    public ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException {
 
         itemMapper.mergeItemAndJsonNode(item, jsonNodeItem);
         return this.itemMapper.mapItemToItemDto(this.saveWithRecord(item));

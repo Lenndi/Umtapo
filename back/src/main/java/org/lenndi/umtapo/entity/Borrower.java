@@ -1,12 +1,11 @@
 package org.lenndi.umtapo.entity;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class Borrower {
     private ZonedDateTime birthday;
     private Integer quota;
     private Boolean emailOptin;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Embedded
     private Address address;
     @OneToMany(mappedBy = "borrower")
     private List<Subscription> subscriptions;

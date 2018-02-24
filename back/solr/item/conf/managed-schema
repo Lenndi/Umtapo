@@ -130,7 +130,8 @@
     -->
     <!-- Item -->
     <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
-    <field name="internalId" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="internalId" type="string" indexed="true" stored="true" required="false" multiValued="false"/>
+    <field name="externalId" type="string" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="loanable" type="boolean" indexed="true" stored="true" required="true"/>
     <field name="borrowed" type="boolean" indexed="true" stored="true" required="true"/>
     <field name="condition" type="string" indexed="true" stored="true"/>

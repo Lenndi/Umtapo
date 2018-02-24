@@ -114,9 +114,11 @@ export class InternalInformationsComponent implements OnInit {
       item.currency = this.localLibrary.currency;
       item.library = this.localLibrary;
       item.record = this.dataService.record;
-      if (value.externalLibrary != -1) {
+      if (value.externalLibrary != -1 && value.externalLibrary != '') {
         item.externalLibrary = new Library();
         item.externalLibrary.id = value.externalLibrary;
+        item.externalId = value.internalId;
+        item.internalId = null;
       } else {
         item.externalLibrary = null;
       }
