@@ -28,12 +28,10 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
-import {ExternalItemSaveComponent}
-  from './cataloging/item-registration/item-save/external/external-item-save.component';
+import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
 import {InternalInformationsComponent}
   from './cataloging/item-registration/item-save/internal-informations/internal-informations.component';
-import {ExternalItemDetailsComponent}
-  from './cataloging/item-registration/item-save/external/item-details/external-item-details.component';
+import {ItemDetailsComponent} from './cataloging/item-registration/item-save/item-details/item-details.component';
 import {CirculationCheckComponent} from './circulation/circulation-check/circulation-check.component';
 import {CirculationCheckDetailsComponent}
   from './circulation/circulation-check/circulation-check-details/circulation-check-details.component';
@@ -64,10 +62,6 @@ import { AdministratorSignUpComponent } from './administrator-sign-up/administra
 import {UserService} from '../service/user.service';
 import {ConditionEnum} from '../enumeration/pipe.enum';
 import {LibraryConfigurationComponent} from './library-configuration/library-configuration.component';
-import { ManualItemSaveComponent }
-  from './cataloging/item-registration/item-save/manual/manual-item-save.component';
-import { ManualItemDetailsComponent }
-  from './cataloging/item-registration/item-save/manual/manual-item-details/manual-item-details.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -97,9 +91,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BorrowerInternalComponent,
     BorrowerPersonalComponent,
     CirculationComponent,
-    ExternalItemSaveComponent,
+    ItemSaveComponent,
     InternalInformationsComponent,
-    ExternalItemDetailsComponent,
+    ItemDetailsComponent,
     CirculationCheckComponent,
     CirculationCheckDetailsComponent,
     CirculationCheckInComponent,
@@ -116,9 +110,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ExternalLibraryModalComponent,
     ItemDatatableComponent,
     AdministratorSignUpComponent,
-    LibraryConfigurationComponent,
-    ManualItemSaveComponent,
-    ManualItemDetailsComponent
+    LibraryConfigurationComponent
   ],
   imports: [
     BrowserModule,

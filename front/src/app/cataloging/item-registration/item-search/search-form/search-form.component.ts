@@ -91,7 +91,7 @@ export class SearchFormComponent implements OnInit {
         this.dataService.record = response;
         this.dataService.isSearching = false;
 
-        this.router.navigate(['/cataloging/registration/externalSaving']);
+        this.router.navigate(['/cataloging/registration/save']);
       })
       .catch(error => {
         if (error.status === 404) {
