@@ -98,16 +98,9 @@ public class RecordWebService extends ResponseEntityExceptionHandler {
 
         if (isbn != null) {
             try {
-                org.marc4j.marc.Record record = this.recordService.findByRawISBN(isbn);
-                if (record != null) {
-                    Record recordDocument = this.unimarcToSimpleRecord.transform(record);
-                    recordDocument.getSource().setLibrary(z3950.getName());
-                    recordDocument.getRight().setIsModified(false);
-
-                    return new ResponseEntity<>(recordDocument, HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
+                return this.recordService.findByRawISBN(isbn)
+                    .map(record -> new ResponseEntity<>(record, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
             } catch (final ISBNException e) {
                 LOGGER.error(e.getMessage());
                 return new ResponseEntity<>("Bad ISBN format", HttpStatus.BAD_REQUEST);

@@ -21,6 +21,14 @@ public interface SolrRecordService {
     Record findById(String id);
 
     /**
+     * Find by serial number.
+     *
+     * @param serialNumber the serialNumber
+     * @return the record
+     */
+    Record findBySerialNumber(String serialNumber);
+
+    /**
      * Add to index.
      *
      * @param record the record document

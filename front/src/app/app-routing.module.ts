@@ -12,13 +12,16 @@ import {CirculationCheckComponent} from './circulation/circulation-check/circula
 import {BorrowerSelectionComponent} from './circulation/borrower-selection/borrower-selection.component';
 import {BorrowerInternalComponent} from './borrower/new-borrower/borrower-internal/borrower-internal.component';
 import {BorrowerPersonalComponent} from './borrower/new-borrower/borrower-personal/borrower-personal.component';
-import {ItemSaveComponent} from './cataloging/item-registration/item-save/item-save.component';
+import {ExternalItemSaveComponent}
+  from './cataloging/item-registration/item-save/external/external-item-save.component';
 import {BorrowersManagementComponent} from './borrower/borrowers-management/borrowers-management.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from '../service/auth-guard.service';
 import {ItemManagementComponent} from './cataloging/item-management/item-management.component';
 import {AdministratorSignUpComponent} from './administrator-sign-up/administrator-sign-up.component';
 import {LibraryConfigurationComponent} from './library-configuration/library-configuration.component';
+import {ManualItemSaveComponent}
+  from './cataloging/item-registration/item-save/manual/manual-item-save.component';
 
 const routes: Routes = [
   {
@@ -64,7 +67,8 @@ const routes: Routes = [
             children: [
               {path: '', redirectTo: 'search', pathMatch: 'full'},
               {path: 'search', component: ItemSearchComponent},
-              {path: 'save', component: ItemSaveComponent}
+              {path: 'externalSaving', component: ExternalItemSaveComponent},
+              {path: 'manualSaving', component: ManualItemSaveComponent}
             ]
           },
           {path: 'management', component: ItemManagementComponent}
