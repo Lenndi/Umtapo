@@ -1,5 +1,6 @@
 package org.lenndi.umtapo.marc.transformer.impl;
 
+import com.github.ladutsko.isbn.ISBN;
 import org.lenndi.umtapo.marc.transformer.RecordTransformer;
 import org.lenndi.umtapo.solr.document.bean.record.Contributor;
 import org.lenndi.umtapo.solr.document.bean.record.Coverage;
@@ -299,7 +300,7 @@ public class UnimarcToSimpleRecord implements RecordTransformer<Record> {
 
         dataField = (DataField) record.getVariableField("010");
         if (dataField != null) {
-            identifier.setSerialNumber(dataField.getSubfieldsAsString("a"));
+            identifier.setSerialNumber(ISBN.normalize(dataField.getSubfieldsAsString("a")));
             identifier.setSerialType(Identifier.ISBN);
         } else if (record.getVariableField("011") != null) {
             dataField = (DataField) record.getVariableField("011");

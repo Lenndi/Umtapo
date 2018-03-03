@@ -5,8 +5,10 @@ import com.github.ladutsko.isbn.ISBNException;
 import org.apache.log4j.Logger;
 import org.lenndi.umtapo.entity.configuration.Z3950;
 import org.lenndi.umtapo.marc.Connection;
+import org.lenndi.umtapo.marc.transformer.impl.UnimarcToSimpleRecord;
 import org.lenndi.umtapo.service.configuration.Z3950Service;
 import org.lenndi.umtapo.service.specific.RecordService;
+import org.lenndi.umtapo.solr.service.SolrRecordService;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
@@ -26,6 +28,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * RecordService implementation.
@@ -34,10 +37,8 @@ import java.util.Map;
 public class RecordServiceImpl implements RecordService {
     private static final Logger LOGGER = Logger.getLogger(RecordServiceImpl.class);
 
-    private static final int EAN_SIZE = 13;
-    public static final int ISBN13_SIZE = 13;
-    public static final int ISBN10_SIZE = 10;
-
+    private final SolrRecordService solrRecordService;
+    private final UnimarcToSimpleRecord unimarcToSimpleRecord;
     private Z3950 library;
     private Map<Integer, Z3950> libraries;
     private Connection connection;
@@ -46,33 +47,44 @@ public class RecordServiceImpl implements RecordService {
     /**
      * Instantiates a new Record service.
      *
-     * @param z3950Service the z 3950 service
+     * @param z3950Service          the z 3950 service
+     * @param solrRecordService     the solr record service
+     * @param unimarcToSimpleRecord the unimarc to simple record
      */
     @Autowired
-    public RecordServiceImpl(Z3950Service z3950Service) {
+    public RecordServiceImpl(Z3950Service z3950Service,
+                             SolrRecordService solrRecordService,
+                             UnimarcToSimpleRecord unimarcToSimpleRecord) {
         this.libraries = z3950Service.findAll();
+        this.solrRecordService = solrRecordService;
+        this.unimarcToSimpleRecord = unimarcToSimpleRecord;
     }
 
     @Override
-    public Record findByRawISBN(String rawIsbn) throws ZoomException, ISBNException {
-        Record record;
+    public Optional<org.lenndi.umtapo.solr.document.bean.record.Record> findByRawISBN(String rawIsbn)
+            throws ZoomException, ISBNException {
+        org.lenndi.umtapo.solr.document.bean.record.Record record;
 
         if (ISBN.isValid(rawIsbn)) {
-            if (ISBN.isIsbn13(rawIsbn)) {
-                record = this.findByEAN(ISBN.normalize(rawIsbn));
+            record = this.solrRecordService.findBySerialNumber(ISBN.normalize(rawIsbn));
 
-                if (record == null) {
-                    ISBN isbn = ISBN.parseIsbn(rawIsbn);
-                    record = this.findByISBN(isbn.getIsbn10());
+            if (record == null) {
+                Record unimarcRecord = this.findRecordByIsbnFromLibrary(rawIsbn);
+
+                if (unimarcRecord != null) {
+                    record = this.unimarcToSimpleRecord.transform(unimarcRecord);
+
+                    if (record != null) {
+                        record.getSource().setLibrary(this.library.getName());
+                        record.getRight().setIsModified(false);
+                    }
                 }
-            } else {
-                record = this.findByISBN(ISBN.normalize(rawIsbn));
             }
         } else {
             throw new ISBNException(rawIsbn + " is not a valid ISBN number.");
         }
 
-        return record;
+        return Optional.ofNullable(record);
     }
 
     @Override
@@ -123,6 +135,23 @@ public class RecordServiceImpl implements RecordService {
                 this.connection.close();
             }
         }
+    }
+
+    private Record findRecordByIsbnFromLibrary(String rawIsbn) throws ZoomException, ISBNException {
+        Record record;
+
+        if (ISBN.isIsbn13(rawIsbn)) {
+            record = this.findByEAN(ISBN.normalize(rawIsbn));
+
+            if (record == null) {
+                ISBN isbn = ISBN.parseIsbn(rawIsbn);
+                record = this.findByISBN(isbn.getIsbn10());
+            }
+        } else {
+            record = this.findByISBN(ISBN.normalize(rawIsbn));
+        }
+
+        return record;
     }
 
     /**

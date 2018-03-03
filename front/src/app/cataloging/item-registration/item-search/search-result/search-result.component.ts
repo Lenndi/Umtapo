@@ -20,6 +20,6 @@ export class SearchResultComponent implements OnInit {
   onSelect(record: Record) {
     this.dataService.hasMoreRecords = false;
     this.dataService.record = record;
-    this.router.navigate(['/cataloging/registration/save']);
+    this.router.navigate(['/cataloging/registration/externalSaving']);
   }
 }
