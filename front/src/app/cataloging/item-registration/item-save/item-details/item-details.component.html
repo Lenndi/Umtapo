@@ -1,4 +1,4 @@
-  <div class="card">
+<div class="card">
   <div class="card-block">
     <h5 class="card-title">Description du document</h5>
     <div id="record-details" *ngIf="dataService.record">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-9">
           <ul class="list-unstyled">
-            <li class="text-muted">{{formatterService.formatTitle(dataService.record.title)}}</li>
+            <li class="text-muted">{{formatTitle(dataService.record.title)}}</li>
           </ul>
         </div>
       </div>
@@ -18,9 +18,9 @@
         </div>
         <div class="col-9">
           <ul class="list-unstyled">
-            <li class="text-muted">{{formatterService.formatAuthor(dataService.record.creator)}}</li>
+            <li class="text-muted">{{formatAuthor(dataService.record.creator)}}</li>
             <li class="text-muted" *ngFor="let contributor of dataService.record.contributors">
-              {{formatterService.formatAuthor(contributor)}}
+              {{formatAuthor(contributor)}}
             </li>
           </ul>
         </div>
@@ -31,7 +31,7 @@
         </div>
         <div class="col-9">
           <ul class="list-unstyled">
-            <li class="text-muted">{{formatterService.formatPublication(dataService.record)}}</li>
+            <li class="text-muted">{{formatPublication()}}</li>
           </ul>
         </div>
       </div>
@@ -52,7 +52,7 @@
         </div>
         <div class="col-9">
           <ul class="list-unstyled">
-            <li class="text-muted">{{formatterService.formatPhysicalDescription(dataService.record)}}</li>
+            <li class="text-muted">{{formatPhysicalDescription()}}</li>
             <li class="text-muted">{{dataService.record.description.format}}</li>
             <li class="text-muted">{{dataService.record.description.associatedMaterial}}</li>
           </ul>
@@ -67,7 +67,7 @@
             <li class="text-muted" *ngIf="dataService.record.subject.dewey">
               Dewey: {{dataService.record.subject.dewey}}
             </li>
-            <li class="text-muted">{{formatterService.formatSubjects(dataService.record)}}</li>
+            <li class="text-muted">{{formatSubjects()}}</li>
           </ul>
         </div>
       </div>
@@ -91,7 +91,7 @@
           <ul class="list-unstyled">
             <li class="text-muted">{{dataService.record.language.mainLanguage}}</li>
             <li class="text-muted" *ngIf="dataService.record.language.subtitles.length > 0">
-              Sous-titres : {{formatterService.formatSubtitles(dataService.record)}}
+              Sous-titres : {{formatSubtitles()}}
             </li>
           </ul>
         </div>
@@ -102,7 +102,7 @@
         </div>
         <div class="col-9">
             <ul class="list-unstyled">
-              <li class="text-muted">{{formatterService.formatOrigin(dataService.record)}}</li>
+              <li class="text-muted">{{formatOrigin()}}</li>
               <li class="text-muted">{{dataService.record.source.url}}</li>
             </ul>
         </div>

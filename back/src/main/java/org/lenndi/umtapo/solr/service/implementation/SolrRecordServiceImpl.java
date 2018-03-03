@@ -49,13 +49,6 @@ public class SolrRecordServiceImpl implements SolrRecordService {
     }
 
     @Override
-    public Record findBySerialNumber(String serialNumber) {
-        RecordDocument recordDocument = this.recordRepository.findBySerialNumber(serialNumber);
-
-        return this.recordMapper.mapRecordDocumentToRecord(recordDocument);
-    }
-
-    @Override
     public Record findByItemId(Integer itemId) {
         RecordDocument recordDocument = this.recordRepository.findByItems(itemId.toString());
 
@@ -78,7 +71,6 @@ public class SolrRecordServiceImpl implements SolrRecordService {
         }
 
         RecordDocument recordDocument = this.recordMapper.mapRecordToRecordDocument(record);
-        recordDocument.setSerialNumber(ISBN.normalize(recordDocument.getSerialNumber()));
         recordDocument = this.recordRepository.save(recordDocument);
 
         return this.recordMapper.mapRecordDocumentToRecord(recordDocument);
