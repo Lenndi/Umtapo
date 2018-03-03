@@ -1,0 +1,197 @@
+<div class="card">
+  <div class="card-block">
+    <h5 class="card-title">Description du document</h5>
+    <div id="record-details">
+      <div id="record-isbn" class="row">
+        <div class="col-3">
+          <span>ISBN</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.identifier && !isEditingISBN">
+              {{dataService.record.identifier.serialNumber}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingISBN = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingISBN">
+              <input #isbn  type="text" class="form-control form-control-sm" (keyup.enter)="editISBN(isbn.value)">
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editISBN(isbn.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-title" class="row">
+        <div class="col-3">
+          <span>Titre</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.title && !isEditingTitle">
+              {{formatterService.formatTitle(dataService.record.title)}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingTitle = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingTitle">
+              <input #title  type="text" class="form-control form-control-sm" (keyup.enter)="editTitle(title.value)">
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editTitle(title.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-author" class="row">
+        <div class="col-3">
+          <span>Auteur</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.creator && !isEditingAuthor">
+              {{formatterService.formatAuthor(dataService.record.creator)}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingAuthor = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingAuthor">
+              <input #firstname placeholder="Nom" type="text" class="form-control form-control-sm"(keyup.enter)="editAuthor(firstname.value, lastname.value)">&nbsp;
+              <input #lastname placeholder="Prénom" type="text" class="form-control form-control-sm" (keyup.enter)="editAuthor(firstname.value, lastname.value)">
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editAuthor(firstname.value, lastname.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-publication" class="row">
+        <div class="col-3">
+          <span>Publication</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.publisher && dataService.record.date && !isEditingPublisher">
+              {{formatterService.formatPublication(dataService.record)}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingPublisher = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingPublisher">
+              <input #publisher placeholder="Éditeur" type="text" class="form-control form-control-sm" (keyup.enter)="editPublisher(publisher.value, pubdate.value)">&nbsp;
+              <input #pubdate placeholder="Date de publication" type="text" class="form-control form-control-sm" (keyup.enter)="editPublisher(publisher.value, pubdate.value)">
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editPublisher(publisher.value, pubdate.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-description" class="row">
+        <div class="col-3">
+          <span>Description</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.description && !isEditingDescription">
+              {{dataService.record.description.mainDescription}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingDescription = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingDescription">
+              <textarea #description type="text" class="form-control form-control-sm" (keyup.enter)="editDescription(description.value)"></textarea>
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editDescription(description.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-physical-description" class="row">
+        <div class="col-3">
+          <span>Description matérielle</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.description && !isEditingPhysicalDescription">
+              {{formatterService.formatPhysicalDescription(dataService.record)}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingPhysicalDescription = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingPhysicalDescription">
+              <textarea #physicaldescription type="text" class="form-control form-control-sm" (keyup.enter)="editPhysicalDescription(physicaldescription.value)"></textarea>
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editPhysicalDescription(physicaldescription.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div id="record-subjects" class="row">
+        <div class="col-3">
+          <span>Sujets</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <ul class="list-unstyled">
+              <li class="text-muted" *ngIf="dataService.record && dataService.record.subject && !isEditingSubjects">
+                {{formatterService.formatSubjects(dataService.record)}}
+                <a class="btn btn-sm btn-light" role="button" (click)="isEditingSubjects = true">
+                  <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+                </a>
+              </li>
+              <div class="input-group" *ngIf="isEditingSubjects">
+                <input #subjects placeholder="Séparer les sujets par une virgule" type="text" class="form-control form-control-sm" (keyup.enter)="editSubjects(subjects.value)">
+                <div class="input-group-append">
+                  <a class="btn btn-sm btn-light" role="button" (click)="editSubjects(subjects.value)">
+                    <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </ul>
+          </ul>
+        </div>
+      </div>
+      <div id="record-language" class="row">
+        <div class="col-3">
+          <span>Langue</span>
+        </div>
+        <div class="col-9">
+          <ul class="list-unstyled">
+            <li class="text-muted" *ngIf="dataService.record && dataService.record.language && !isEditingLanguage">
+              {{dataService.record.language.mainLanguage}}
+              <a class="btn btn-sm btn-light" role="button" (click)="isEditingLanguage = true">
+                <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+              </a>
+            </li>
+            <div class="input-group" *ngIf="isEditingLanguage">
+              <input #language type="text" class="form-control form-control-sm" (keyup.enter)="editLanguage(language.value)">
+              <div class="input-group-append">
+                <a class="btn btn-sm btn-light" role="button" (click)="editLanguage(language.value)">
+                  <i class="fa fa-check text-warning" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
