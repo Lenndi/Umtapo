@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.yaz4j.exception.ZoomException;
 
+import java.util.Optional;
+
 /**
  * Service to find bibliographic records.
  */
@@ -27,7 +29,8 @@ public interface RecordService {
      * @throws ZoomException Exception
      * @throws ISBNException Exception
      */
-    Record findByRawISBN(String isbn) throws ZoomException, ISBNException;
+    Optional<org.lenndi.umtapo.solr.document.bean.record.Record> findByRawISBN(String isbn)
+            throws ZoomException, ISBNException;
 
     /**
      * Find record by EAN.
