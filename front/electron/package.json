@@ -1,6 +1,6 @@
 {
   "name": "Umtapo",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "buildVersion": "1",
   "main": "main.js",
   "description": "Umtapo is a simple library management application for small organisations.",
