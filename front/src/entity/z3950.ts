@@ -1,4 +1,4 @@
 export class Z3950 {
-  private id: number;
-  private name: string;
+  id: number;
+  name: string;
 }

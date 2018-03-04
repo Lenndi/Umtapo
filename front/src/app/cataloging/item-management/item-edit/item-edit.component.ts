@@ -41,7 +41,6 @@ export class ItemEditComponent implements OnDestroy {
   externalLibraryForm: FormGroup;
   externalLibraryName: FormControl;
   localLibrary: Library;
-  hasCustomId: boolean;
   isExternalItem: boolean;
   conditionEnum: CustomMap;
   itemSubscription: Subscription;

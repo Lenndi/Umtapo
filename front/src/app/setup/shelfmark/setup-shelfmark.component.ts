@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Library} from '../../../entity/library';
 import {logger} from '../../../environments/environment';
 import {ShelfmarkValidator} from '../../../validator/shelfmark.validator';
@@ -12,8 +12,7 @@ import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'umt-setup-shelfmark',
-  templateUrl: './setup-shelfmark.component.html',
-  styleUrls: ['../setup.component.scss']
+  templateUrl: './setup-shelfmark.component.html'
 })
 export class SetupShelfmarkComponent implements OnInit, Setup {
   form: FormGroup;

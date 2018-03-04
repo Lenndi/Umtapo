@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NewBorrowerDataService} from '../../../../service/data-binding/new-borrower-data.service';
-import {FormControl, Validators, FormGroup, FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ValidationService} from '../../../../validator/validationService';
 import {logger} from 'codelyzer/util/logger';
 import {Address} from '../../../../entity/address';
@@ -29,7 +29,6 @@ export class BorrowerPersonalComponent implements OnInit, NewBorrower {
     public dataService: NewBorrowerDataService,
     private formBuilder: FormBuilder,
     public toastr: ToastrService,
-    public vRef: ViewContainerRef,
     private router: Router
   ) {
     let borrower: Borrower = this.dataService.borrower;

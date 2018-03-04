@@ -7,7 +7,4 @@ import {CirculationDataService} from '../../service/data-binding/circulation-dat
   styleUrls: ['./circulation.component.scss'],
   providers: [CirculationDataService]
 })
-export class CirculationComponent {
-
-  constructor(public circulationDataService: CirculationDataService) { }
-}
+export class CirculationComponent {}

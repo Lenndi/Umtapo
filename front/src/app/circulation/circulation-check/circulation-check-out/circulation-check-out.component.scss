@@ -68,17 +68,15 @@ body > .select2-container.open {
 
 /* Handle up direction Select2 */
 .ui-select-container[theme="select2"].direction-up .ui-select-match {
-  border-radius: 4px; /* FIXME hardcoded value :-/ */
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  /* FIXME hardcoded value :-/ */
+  border-radius: 0 0 4px 4px;
 }
 .ui-select-container[theme="select2"].direction-up .ui-select-dropdown {
-  border-radius: 4px; /* FIXME hardcoded value :-/ */
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  /* FIXME hardcoded value :-/ */
+  border-radius: 4px 4px 0 0;
 
-  border-top-width: 1px;  /* FIXME hardcoded value :-/ */
-  border-top-style: solid;
+  /* FIXME hardcoded value :-/ */
+  border-top: 1px solid;
 
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.25);
 
@@ -152,9 +150,8 @@ body > .select2-container.open {
 }
 
 .input-group > .ui-select-bootstrap > input.ui-select-search.form-control {
-  border-radius: 4px; /* FIXME hardcoded value :-/ */
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  /* FIXME hardcoded value :-/ */
+  border-radius: 4px 0 0 4px;
 }
 .input-group > .ui-select-bootstrap > input.ui-select-search.form-control.direction-up {
   border-radius: 4px !important; /* FIXME hardcoded value :-/ */

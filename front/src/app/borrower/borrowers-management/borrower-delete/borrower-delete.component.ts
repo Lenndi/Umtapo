@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap';
 import {Subscription} from 'rxjs/Subscription';
 import {Borrower} from '../../../../entity/borrower';
@@ -12,7 +12,7 @@ import {ToastrService} from 'ngx-toastr';
   templateUrl: './borrower-delete.component.html',
   styleUrls: ['./borrower-delete.component.scss']
 })
-export class BorrowerDeleteComponent {
+export class BorrowerDeleteComponent implements OnDestroy {
 
   @ViewChild('borrowerDeleteModal') public borrowerDeleteModal: ModalDirective;
   borrowerSubscription: Subscription;

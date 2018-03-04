@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group" [class.has-danger]="libraryName.invalid && libraryName.dirty">
     <label for="library-name">Nom de la bibliothèque</label>
     <input id="library-name" type="text" class="form-control" placeholder="Nom de la bibliothèque" required

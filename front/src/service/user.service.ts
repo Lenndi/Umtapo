@@ -1,13 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
 import {environment} from '../environments/environment';
 import {api} from '../config/api';
 import 'rxjs/add/operator/toPromise';
 import {HttpLoggerService} from './http-logger.service';
-import {Observable} from 'rxjs';
-import {Page} from '../util/page';
-import {BorrowerFilter} from './filter/borrower-filter';
-import {Pageable} from '../util/pageable';
 import {AuthHttp} from 'angular2-jwt';
 import {User} from '../entity/record/user';
 
@@ -22,7 +18,6 @@ export class UserService {
   }
 
   findBySso(ssoId: string): Promise<User> {
-    let uri;
     let options = new RequestOptions({headers: this.headers});
 
     return this.http.get(`${this.userUrl + `/ssoId`}?ssoId=${ssoId}`, options)
@@ -32,7 +27,6 @@ export class UserService {
   }
 
   update(user: User): Promise<User> {
-    let uri;
     let options = new RequestOptions({headers: this.headers});
 
     return this.http.put(`${this.userUrl}`, JSON.stringify(user), options)

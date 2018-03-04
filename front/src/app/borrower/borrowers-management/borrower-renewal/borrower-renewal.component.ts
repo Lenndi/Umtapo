@@ -14,7 +14,6 @@ import {LibraryService} from '../../../../service/library.service';
 @Component({
   selector: 'umt-borrower-renewal',
   templateUrl: './borrower-renewal.component.html',
-  styleUrls: ['./borrower-renewal.component.scss'],
   providers: [SubscriptionService]
 })
 export class BorrowerRenewalComponent implements OnDestroy {

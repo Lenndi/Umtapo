@@ -5,7 +5,6 @@ import {Setup} from './setup.interface';
 @Component({
   selector: 'umt-setup',
   templateUrl: './setup.component.html',
-  styleUrls: ['./setup.component.scss'],
   providers: [SetupDataService]
 })
 export class SetupComponent {

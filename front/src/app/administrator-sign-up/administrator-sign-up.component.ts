@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormBuilder, Validators, FormGroup} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../service/user.service';
 import {User} from '../../entity/record/user';
 import {Router} from '@angular/router';
@@ -57,7 +57,7 @@ export class AdministratorSignUpComponent {
     if (this.form.valid) {
       value.id = this.user.id;
       this.userService.update(value)
-        .then(data => {
+        .then(() => {
           if (this.libraryService.findLocally()) {
             this.router.navigate(['circulation']);
           } else {

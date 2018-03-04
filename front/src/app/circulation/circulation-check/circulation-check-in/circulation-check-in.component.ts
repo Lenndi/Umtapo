@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CirculationDataService} from '../../../../service/data-binding/circulation-data.service';
 import {Loan} from '../../../../entity/loan';
 import {conditionEnum} from '../../../../enumeration/fr';

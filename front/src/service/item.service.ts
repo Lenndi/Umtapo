@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, RequestOptions, Response} from '@angular/http';
+import {Headers, RequestOptions} from '@angular/http';
 import {Item} from '../entity/item';
 import {environment, logger} from '../environments/environment';
 import {api} from '../config/api';

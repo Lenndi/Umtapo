@@ -9,7 +9,6 @@ import {logger} from 'codelyzer/util/logger';
 import {ModalDirective} from 'ngx-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {VariousItemDataService} from '../../../../service/data-binding/various-item-data.service';
-import {Item} from '../../../../entity/item';
 
 @Component({
   selector: 'umt-borrower-edit',
@@ -41,7 +40,6 @@ export class BorrowerEditComponent implements OnDestroy {
       private formBuilder: FormBuilder,
       private borrowerService: BorrowerService,
       public dataService: BorrowerDataService,
-      private itemData: VariousItemDataService,
       public toastr: ToastrService
   ) {
     this.borrowerSubscription = this.dataService.selectedBorrower$.subscribe(

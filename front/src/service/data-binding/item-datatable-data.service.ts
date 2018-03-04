@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Item} from '../../entity/item';
-import {ifTrue} from 'codelyzer/util/function';
 
 @Injectable()
 export class ItemDatatableDataService {

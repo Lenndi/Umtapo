@@ -8,7 +8,6 @@ export class BorrowerDataService {
 
   private selectedBorrowerSource = new Subject<Borrower>();
   private updatedBorrowerSource = new Subject<Borrower>();
-  public action: Action;
   public isEditShown: boolean = false;
   public isDeleteShown: boolean = false;
   public isRenewalShown: boolean = false;

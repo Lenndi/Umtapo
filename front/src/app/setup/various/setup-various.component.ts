@@ -11,7 +11,6 @@ import {ToastrService} from 'ngx-toastr';
 @Component({
   selector: 'umt-setup-various',
   templateUrl: './setup-various.component.html',
-  styleUrls: ['../setup.component.scss'],
   providers: [LibraryService]
 })
 export class SetupVariousComponent implements OnInit, Setup {
@@ -68,7 +67,7 @@ export class SetupVariousComponent implements OnInit, Setup {
     });
   }
 
-  onSubmit(value: any): void {
+  onSubmit(): void {
     if (this.form.valid) {
       this.saveData();
 

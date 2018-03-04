@@ -11,8 +11,7 @@ import {Z3950Service} from '../../service/z3950.service';
 
 @Component({
   selector: 'umt-library-configuration',
-  templateUrl: './library-configuration.component.html',
-  styleUrls: ['./library-configuration.component.scss']
+  templateUrl: './library-configuration.component.html'
 })
 export class LibraryConfigurationComponent implements OnInit {
 

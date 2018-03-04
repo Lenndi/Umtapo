@@ -13,8 +13,7 @@ import {Identifier} from '../../../../../../entity/record/identifier';
 
 @Component({
   selector: 'umt-manual-item-details',
-  templateUrl: './manual-item-details.component.html',
-  styleUrls: ['./manual-item-details.component.scss']
+  templateUrl: './manual-item-details.component.html'
 })
 export class ManualItemDetailsComponent {
 
