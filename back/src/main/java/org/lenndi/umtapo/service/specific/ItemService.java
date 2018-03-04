@@ -5,7 +5,6 @@ import com.github.ladutsko.isbn.ISBNException;
 import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.service.generic.GenericService;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,18 +26,16 @@ public interface ItemService extends GenericService<Item, Integer> {
      *
      * @param item item to persist
      * @return item item
-     * @throws InvalidRecordException the invalid record exception
      */
-    Item saveWithRecord(Item item) throws InvalidRecordException;
+    Item saveWithRecord(Item item);
 
     /**
      * Persist a Item from a ItemDto.
      *
      * @param itemDto the item dto
      * @return item dto
-     * @throws InvalidRecordException invalid record
      */
-    ItemDto saveDto(ItemDto itemDto) throws InvalidRecordException;
+    ItemDto saveDto(ItemDto itemDto);
 
     /**
      * Update dto item dto.
@@ -88,10 +85,8 @@ public interface ItemService extends GenericService<Item, Integer> {
      * @param jsonNodeItem the json node item
      * @param item         the item
      * @return the borrower
-     * @throws InvalidRecordException the invalid record exception
-     * @throws IllegalAccessException the illegal access exception
      */
-    ItemDto patchItem(JsonNode jsonNodeItem, Item item) throws InvalidRecordException, IllegalAccessException;
+    ItemDto patchItem(JsonNode jsonNodeItem, Item item);
 
     /**
      * Find by internal id item dto.

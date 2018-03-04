@@ -174,7 +174,7 @@ public class BorrowerServiceImpl extends AbstractGenericService<Borrower, Intege
     /**
      * {@inheritDoc}
      */
-    public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException {
+    public BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) {
 
         borrowerMapper.mergeItemAndJsonNode(borrower, jsonNodeBorrower);
         return this.mapBorrowerToBorrowerDto(this.save(borrower));

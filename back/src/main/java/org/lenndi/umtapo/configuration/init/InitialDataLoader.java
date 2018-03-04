@@ -82,7 +82,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     }
 
     @Transactional
-    private UserProfile createRoleIfNotFound(String name) {
+    UserProfile createRoleIfNotFound(String name) {
         UserProfile userProfile = userProfileDao.findByType(name);
         if (userProfile == null) {
             userProfile = new UserProfile(name);

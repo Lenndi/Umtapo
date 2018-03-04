@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.lenndi.umtapo.dto.BorrowerDto;
 import org.lenndi.umtapo.entity.Borrower;
 import org.lenndi.umtapo.service.specific.BorrowerService;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -152,13 +151,7 @@ public class BorrowerWebService {
     public ResponseEntity setBorrower(@RequestBody BorrowerDto borrowerDto) {
 
         borrowerDto.setActive(true);
-        try {
-            borrowerDto = this.borrowerService.saveDto(borrowerDto);
-        } catch (final InvalidRecordException e) {
-            LOGGER.fatal(e.getMessage());
-
-            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-        }
+        borrowerDto = this.borrowerService.saveDto(borrowerDto);
 
         return new ResponseEntity<>(borrowerDto, HttpStatus.CREATED);
     }
@@ -180,12 +173,7 @@ public class BorrowerWebService {
         if (borrower == null) {
             return new ResponseEntity<>("This borrower do not exist", HttpStatus.NOT_FOUND);
         } else {
-            try {
-                borrowerService.patchBorrower(jsonNodeBorrower, borrower);
-            } catch (final IllegalAccessException e) {
-                LOGGER.error("JsonPatch Error" + e);
-                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            borrowerService.patchBorrower(jsonNodeBorrower, borrower);
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);

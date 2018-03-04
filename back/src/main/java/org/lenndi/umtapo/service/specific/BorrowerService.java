@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.lenndi.umtapo.dto.BorrowerDto;
 import org.lenndi.umtapo.entity.Borrower;
 import org.lenndi.umtapo.service.generic.GenericService;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,9 +28,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      *
      * @param entity the entity
      * @return borrower dto
-     * @throws InvalidRecordException the invalid record exception
      */
-    BorrowerDto saveDto(BorrowerDto entity) throws InvalidRecordException;
+    BorrowerDto saveDto(BorrowerDto entity);
 
     /**
      * {@inheritDoc}
@@ -105,9 +103,8 @@ public interface BorrowerService extends GenericService<Borrower, Integer> {
      * @param jsonNodeBorrower the json node borrower
      * @param borrower         the borrower
      * @return the borrower
-     * @throws IllegalAccessException the illegal access exception
      */
-    BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower) throws IllegalAccessException;
+    BorrowerDto patchBorrower(JsonNode jsonNodeBorrower, Borrower borrower);
 
     /**
      * Update dto.

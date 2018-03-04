@@ -8,7 +8,6 @@ import org.lenndi.umtapo.dto.ItemDto;
 import org.lenndi.umtapo.entity.Item;
 import org.lenndi.umtapo.enumeration.ApplicationCodeEnum;
 import org.lenndi.umtapo.service.specific.ItemService;
-import org.lenndi.umtapo.solr.exception.InvalidRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -222,13 +221,7 @@ public class ItemWebService {
             itemDto.setBorrowed(false);
         }
 
-        try {
-            itemDto = itemService.saveDto(itemDto);
-        } catch (final InvalidRecordException e) {
-            LOGGER.fatal(e.getMessage());
-
-            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-        }
+        itemDto = itemService.saveDto(itemDto);
 
         return new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
@@ -277,16 +270,7 @@ public class ItemWebService {
                             .ACCEPTED);
                 }
             }
-            try {
-                itemService.patchItem(jsonNodeItem, item);
-            } catch (final IllegalAccessException e) {
-                LOGGER.error("JsonPatch Error" + e);
-                return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
-            } catch (final InvalidRecordException e) {
-                LOGGER.fatal(e.getMessage());
-
-                return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-            }
+            itemService.patchItem(jsonNodeItem, item);
         }
 
         return new ResponseEntity<>(id, HttpStatus.OK);

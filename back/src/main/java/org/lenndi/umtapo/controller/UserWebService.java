@@ -84,7 +84,7 @@ public class UserWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity setUser(@RequestBody User user) {
 
-        User userResult = null;
+        User userResult;
 
         try {
             userResult = this.userService.save(user);
@@ -105,7 +105,7 @@ public class UserWebService {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity updateUser(@RequestBody User user) {
 
-        User userResult = null;
+        User userResult;
 
         try {
             userResult = this.userService.save(user);
