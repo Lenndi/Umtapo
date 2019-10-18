@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-        <solr.version>6.0.1</solr.version>
+        <solr.version>8.2.0</solr.version>
         <jackson.version>2.8.5</jackson.version>
 	</properties>
 
